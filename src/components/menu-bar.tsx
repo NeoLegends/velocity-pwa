@@ -7,6 +7,7 @@ import OverlayMenu from './overlay-menu';
 
 export interface MenuBarProps {
   isLoggedIn: boolean;
+  loginStatusKnown: boolean;
 
   onLoginButtonClick?: React.MouseEventHandler;
 }

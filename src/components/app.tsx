@@ -23,6 +23,7 @@ const Map = makeLazy(() => import('./bike-map'));
 const AppBody: React.SFC<AppBodyProps> = props => {
   const {
     isLoggedIn,
+    loginStatusKnown,
 
     onLoginLogoutButtonClick,
     onLoginStart,
@@ -32,6 +33,7 @@ const AppBody: React.SFC<AppBodyProps> = props => {
     <div className="app">
       <MenuBar
         isLoggedIn={isLoggedIn}
+        loginStatusKnown={loginStatusKnown}
         onLoginButtonClick={onLoginLogoutButtonClick}
       />
 
