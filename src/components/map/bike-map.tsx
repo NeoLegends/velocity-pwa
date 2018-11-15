@@ -15,10 +15,8 @@ import {
 import './bike-map.scss';
 import StationMarker from './station-marker';
 
-interface BikeMapBodyProps extends BikeMapState {
-  onOpenStationPopup: (stationId: number) => void;
-  onRent: (stationId: number) => void;
-  onReserve: (stationId: number) => void;
+interface BikeMapProps {
+  isLoggedIn: boolean;
 }
 
 interface BikeMapState {
@@ -29,7 +27,14 @@ interface BikeMapState {
   stations: Station[];
 }
 
+interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
+  onOpenStationPopup: (stationId: number) => void;
+  onRent: (stationId: number) => void;
+  onReserve: (stationId: number) => void;
+}
+
 const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
+  isLoggedIn,
   stationOpened,
   stations,
 
@@ -56,6 +61,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
             ? stationOpened
             : null
         }
+        isLoggedIn={isLoggedIn}
         station={station}
         onOpenStationPopup={onOpenStationPopup}
         onRent={onRent}
@@ -65,7 +71,10 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   </Map>
 );
 
-class BikeMap extends React.Component<RouteComponentProps, BikeMapState> {
+class BikeMap extends React.Component<
+  RouteComponentProps & BikeMapProps,
+  BikeMapState
+> {
   state = {
     stationOpened: null,
     stations: [],
@@ -80,6 +89,7 @@ class BikeMap extends React.Component<RouteComponentProps, BikeMapState> {
     return (
       <BikeMapBody
         {...this.state}
+        isLoggedIn={this.props.isLoggedIn}
         onOpenStationPopup={this.handleOpenStation}
         onRent={this.handleRent}
         onReserve={this.handleReserve}

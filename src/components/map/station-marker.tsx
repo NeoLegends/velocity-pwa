@@ -14,6 +14,7 @@ interface StationMarkerProps {
     slots: Slots;
     station: StationWithAddress;
   } | null;
+  isLoggedIn: boolean;
   station: Station;
 
   onOpenStationPopup: (stationId: number) => void;
@@ -30,13 +31,15 @@ const stationIcon = icon({
 
 const StationMarker: React.SFC<StationMarkerProps> = ({
   detail,
+  isLoggedIn,
   station,
 
   onOpenStationPopup,
   onRent,
   onReserve,
 }) => {
-  const canRentOrReserveBike = detail && detail.slots.stationSlots.some(s => s.isOccupied);
+  const canRentOrReserveBike =
+    isLoggedIn && detail && detail.slots.stationSlots.some(s => s.isOccupied);
 
   return (
     <Marker
