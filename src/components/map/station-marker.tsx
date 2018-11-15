@@ -55,50 +55,50 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
           <h3>{station.name}</h3>
           <p>{detail && detail.station.address.streetAndHousenumber}</p>
         </div>
-
-        {detail && (
-          <ul className="bike-list">
-            {detail.slots.stationSlots.map(slot => (
-              <li key={slot.stationSlotId} className="bike">
-                <span className="col-25">
-                  Slot {slot.stationSlotPosition}
-                </span>
-
-                <span className="col-50">
-                  {slot.state === 'OPERATIVE'
-                    ? slot.isOccupied
-                      ? "Fahrrad verfügbar"
-                      : "Stellplatz frei"
-                    : "Stellplatz deaktiviert"}
-                </span>
-
-                <span className="col-25">
-                  {slot.pedelecInfo &&
-                    `${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="actions">
-          <button
-            className="btn outline"
-            disabled={!detail}
-            onClick={() => onRent(station.stationId)}
-          >
-            Ausleihen
-          </button>
-
-          <button
-            className="btn outline"
-            disabled={!detail || !detail.slots.stationSlots.some(s => s.isOccupied)}
-            onClick={() => onReserve(station.stationId)}
-          >
-            Reservieren
-          </button>
-        </div>
       </header>
+
+      {detail && (
+        <ul className="bike-list">
+          {detail.slots.stationSlots.map(slot => (
+            <li key={slot.stationSlotId} className="bike">
+              <span className="col-25">
+                Slot {slot.stationSlotPosition}
+              </span>
+
+              <span className="col-50">
+                {slot.state === 'OPERATIVE'
+                  ? slot.isOccupied
+                    ? "Fahrrad verfügbar"
+                    : "Stellplatz frei"
+                  : "Stellplatz deaktiviert"}
+              </span>
+
+              <span className="col-25">
+                {slot.pedelecInfo &&
+                  `${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="actions">
+        <button
+          className="btn outline"
+          disabled={!detail}
+          onClick={() => onRent(station.stationId)}
+        >
+          Ausleihen
+        </button>
+
+        <button
+          className="btn outline"
+          disabled={!detail || !detail.slots.stationSlots.some(s => s.isOccupied)}
+          onClick={() => onReserve(station.stationId)}
+        >
+          Reservieren
+        </button>
+      </div>
     </Popup>
   </Marker>
 );
