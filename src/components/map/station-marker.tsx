@@ -35,79 +35,83 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
   onOpenStationPopup,
   onRent,
   onReserve,
-}) => (
-  <Marker
-    icon={stationIcon}
-    position={[station.locationLatitude, station.locationLongitude]}
-  >
-    <Popup
-      className="station-marker"
-      maxWidth={300}
-      onOpen={() => onOpenStationPopup(station.stationId)}
+}) => {
+  const canRentOrReserveBike = detail && detail.slots.stationSlots.some(s => s.isOccupied);
+
+  return (
+    <Marker
+      icon={stationIcon}
+      position={[station.locationLatitude, station.locationLongitude]}
     >
-      <header>
-        <span
-          className={classNames(
-            'status-indicator',
-            station.state.toLowerCase(),
-          )}
-        />
+      <Popup
+        className="station-marker"
+        maxWidth={300}
+        onOpen={() => onOpenStationPopup(station.stationId)}
+      >
+        <header>
+          <span
+            className={classNames(
+              'status-indicator',
+              station.state.toLowerCase(),
+            )}
+          />
 
-        <div className="meta">
-          <h3>{station.name}</h3>
-          <p>{detail && asHumanReadable(detail.station.address)}</p>
+          <div className="meta">
+            <h3>{station.name}</h3>
+            <p>{detail && asHumanReadable(detail.station.address)}</p>
+          </div>
+        </header>
+
+        {station.note && <div className="note">{station.note}</div>}
+
+        {detail && (
+          <ul className="slot-list">
+            {detail.slots.stationSlots.map(slot => (
+              <li key={slot.stationSlotId} className="slot">
+                <span className="attribute">
+                  Slot {slot.stationSlotPosition}
+                </span>
+
+                <span className="bike-state">
+                  {slot.state === 'OPERATIVE'
+                    ? slot.isOccupied
+                      ? (slot.pedelecInfo && slot.pedelecInfo.availability) === 'AVAILABLE'
+                        ? "Fahrrad verfügbar"
+                        : "In Wartung"
+                      : "Stellplatz frei"
+                    : "Stellplatz deaktiviert"}
+                </span>
+
+                <span className="attribute">
+                  {slot.pedelecInfo &&
+                    `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="actions">
+          <button
+            className="btn outline"
+            disabled={!canRentOrReserveBike}
+            onClick={() => onReserve(station.stationId)}
+          >
+            Reservieren
+          </button>
+
+          <button
+            className="btn outline"
+            disabled={!canRentOrReserveBike}
+            onClick={() => onRent(station.stationId)}
+          >
+            Ausleihen
+          </button>
         </div>
-      </header>
-
-      {station.note && <div className="note">{station.note}</div>}
-
-      {detail && (
-        <ul className="slot-list">
-          {detail.slots.stationSlots.map(slot => (
-            <li key={slot.stationSlotId} className="slot">
-              <span className="attribute">
-                Slot {slot.stationSlotPosition}
-              </span>
-
-              <span className="bike-state">
-                {slot.state === 'OPERATIVE'
-                  ? slot.isOccupied
-                    ? (slot.pedelecInfo && slot.pedelecInfo.availability) === 'AVAILABLE'
-                      ? "Fahrrad verfügbar"
-                      : "In Wartung"
-                    : "Stellplatz frei"
-                  : "Stellplatz deaktiviert"}
-              </span>
-
-              <span className="attribute">
-                {slot.pedelecInfo &&
-                  `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <div className="actions">
-        <button
-          className="btn outline"
-          disabled={!detail || !detail.slots.stationSlots.some(s => s.isOccupied)}
-          onClick={() => onReserve(station.stationId)}
-        >
-          Reservieren
-        </button>
-
-        <button
-          className="btn outline"
-          disabled={!detail}
-          onClick={() => onRent(station.stationId)}
-        >
-          Ausleihen
-        </button>
-      </div>
-    </Popup>
-  </Marker>
-);
+      </Popup>
+    </Marker>
+  );
+};
 
 // tslint:enable
 
