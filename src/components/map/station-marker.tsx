@@ -62,9 +62,9 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
       {station.note && <div className="note">{station.note}</div>}
 
       {detail && (
-        <ul className="bike-list">
+        <ul className="slot-list">
           {detail.slots.stationSlots.map(slot => (
-            <li key={slot.stationSlotId} className="bike">
+            <li key={slot.stationSlotId} className="slot">
               <span className="attribute">
                 Slot {slot.stationSlotPosition}
               </span>
