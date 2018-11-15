@@ -1,3 +1,4 @@
+import { Link } from '@reach/router';
 import classNames from 'classnames';
 import React from 'react';
 import { Popup } from 'react-leaflet';
@@ -84,21 +85,30 @@ const StationPopup: React.SFC<StationPopupProps> = ({
       )}
 
       <div className="actions">
-        <button
-          className="btn outline"
-          disabled={!canRentOrReserveBike}
-          onClick={() => onReserve(station.stationId)}
-        >
-          Reservieren
-        </button>
+        {isLoggedIn
+          ? (
+            <>
+              <button
+                className="btn outline"
+                disabled={!canRentOrReserveBike}
+                onClick={() => onReserve(station.stationId)}
+              >
+                Reservieren
+              </button>
 
-        <button
-          className="btn outline"
-          disabled={!canRentOrReserveBike}
-          onClick={() => onRent(station.stationId)}
-        >
-          Ausleihen
-        </button>
+              <button
+                className="btn outline"
+                disabled={!canRentOrReserveBike}
+                onClick={() => onRent(station.stationId)}
+              >
+                Ausleihen
+              </button>
+            </>)
+          : (
+            <Link to="/login">
+              Anmelden um Fahrrad auszuleihen oder zu reservieren
+            </Link>
+          )}
       </div>
     </Popup>
   );
