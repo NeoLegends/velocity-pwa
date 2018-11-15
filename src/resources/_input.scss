@@ -1,0 +1,12 @@
+@import "./variables";
+
+.input {
+  background-color: $menu-background;
+  display: block;
+
+  padding: 6px 12px;
+}
+
+.input:invalid {
+  border-color: $error-color;
+}

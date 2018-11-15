@@ -10,5 +10,6 @@ export const APP_ALL_STATIONS_URL = `${APP_URL}/stations`;
 
 export const singleStationUrl = (statId: number) => `${APP_ALL_STATIONS_URL}/${statId}`;
 
+export const rentBikeUrl = (statId: number) => `${singleStationUrl(statId)}/rent`;
 export const reserveBikeUrl = (statId: number) => `${singleStationUrl(statId)}/book`;
 export const slotInfoUrl = (statId: number) => `${singleStationUrl(statId)}/slots/full`;

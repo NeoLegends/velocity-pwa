@@ -33,15 +33,7 @@
       padding: 16px;
 
       .input {
-        background-color: $menu-background;
-        display: block;
-
         margin-bottom: 16px;
-        padding: 6px 12px;
-      }
-
-      .input:invalid {
-        border-color: $error-color;
       }
 
       a {

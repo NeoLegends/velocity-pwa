@@ -8,6 +8,7 @@ import {
   getAllStations,
   getSingleStation,
   getSlotInfo,
+  rentBike,
   reserveBike,
   Slots,
   Station,
@@ -32,7 +33,7 @@ interface BikeMapState {
 
 interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onOpenStationPopup: (stationId: number) => void;
-  onRent: (stationId: number) => void;
+  onRent: (pin: string, stationId: number, slotId: number) => void;
   onReserve: (stationId: number) => void;
 }
 
@@ -128,7 +129,10 @@ class BikeMap extends React.Component<
     });
   }
 
-  private handleRent = (stationId: number) => alert(`Rent station ${stationId}.`);
+  private handleRent = async (pin: string, stationId: number, slotId: number) => {
+    await rentBike(pin, stationId, slotId);
+    navigate('/bookings');
+  }
 
   private handleReserve = async (stationId: number) => {
     await reserveBike(stationId);
