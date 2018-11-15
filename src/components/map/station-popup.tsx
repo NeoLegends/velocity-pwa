@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Popup } from 'react-leaflet';
 
-import { Slots, Station, StationWithAddress } from '../../model/stations';
+import { Slot, Slots, Station, StationWithAddress } from '../../model/stations';
 import { asHumanReadable } from '../../util/address';
 
 import './station-popup.scss';
@@ -20,6 +20,25 @@ interface StationPopupProps {
   onRent: (stationId: number) => void;
   onReserve: (stationId: number) => void;
 }
+
+const getSlotState = (slot: Slot) => {
+  if (slot.state !== 'OPERATIVE') {
+    return "Stellplatz deaktiviert";
+  } else if (!slot.isOccupied || !slot.pedelecInfo) {
+    return "Stellplatz frei";
+  }
+
+  switch (slot.pedelecInfo.availability) {
+    case 'AVAILABLE':
+      return "Fahrrad verfügbar";
+    case 'INOPERATIVE':
+      return "In Wartung";
+    case 'RESERVED':
+      return "Reserviert";
+    default:
+      return "Unbekannt";
+  }
+};
 
 // tslint:disable:jsx-no-lambda
 
@@ -66,13 +85,7 @@ const StationPopup: React.SFC<StationPopupProps> = ({
               </span>
 
               <span className="bike-state">
-                {slot.state === 'OPERATIVE'
-                  ? slot.isOccupied
-                    ? (slot.pedelecInfo && slot.pedelecInfo.availability) === 'AVAILABLE'
-                      ? "Fahrrad verfügbar"
-                      : "In Wartung"
-                    : "Stellplatz frei"
-                  : "Stellplatz deaktiviert"}
+                {getSlotState(slot)}
               </span>
 
               <span className="charge-state">
