@@ -58,6 +58,9 @@
 
     padding: 16px;
     margin-bottom: 16px;
+
+    max-height: 30vh;
+    overflow-y: scroll;
   }
 
   .slot-list {
