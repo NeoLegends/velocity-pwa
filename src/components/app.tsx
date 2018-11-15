@@ -20,34 +20,30 @@ interface AppState {
 const Login = makeLazy(() => import('./login'));
 const Map = makeLazy(() => import('./map/bike-map'));
 
-const AppBody: React.SFC<AppBodyProps> = props => {
-  const {
-    isLoggedIn,
-    loginStatusKnown,
+const AppBody: React.SFC<AppBodyProps> = ({
+  isLoggedIn,
+  loginStatusKnown,
 
-    onLoginLogoutButtonClick,
-    onLoginStart,
-  } = props;
+  onLoginLogoutButtonClick,
+  onLoginStart,
+}) => ((
+  <div className="app">
+    <MenuBar
+      isLoggedIn={isLoggedIn}
+      loginStatusKnown={loginStatusKnown}
+      onLoginButtonClick={onLoginLogoutButtonClick}
+    />
 
-  return (
-    <div className="app">
-      <MenuBar
+    <Router>
+      <Login path="/login" onLoginStart={onLoginStart}/>
+      <Map
+        default
+        path="/map"
         isLoggedIn={isLoggedIn}
-        loginStatusKnown={loginStatusKnown}
-        onLoginButtonClick={onLoginLogoutButtonClick}
       />
-
-      <Router>
-        <Login path="/login" onLoginStart={onLoginStart}/>
-        <Map
-          default
-          path="/map"
-          isLoggedIn={isLoggedIn}
-        />
-      </Router>
-    </div>
-  );
-};
+    </Router>
+  </div>
+));
 
 class App extends Component<{}, AppState> {
   state = {
