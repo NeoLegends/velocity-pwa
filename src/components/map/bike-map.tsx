@@ -1,7 +1,8 @@
 import { RouteComponentProps } from '@reach/router';
+import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
-import { Map, TileLayer } from 'react-leaflet';
+import { Map, Marker, TileLayer } from 'react-leaflet';
 
 import {
   getAllStations,
@@ -11,9 +12,10 @@ import {
   Station,
   StationWithAddress,
 } from '../../model/stations';
+import logo from '../../resources/logo.png';
 
 import './bike-map.scss';
-import StationMarker from './station-marker';
+import StationPopup from './station-popup';
 
 interface BikeMapProps {
   isLoggedIn: boolean;
@@ -32,6 +34,11 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onRent: (stationId: number) => void;
   onReserve: (stationId: number) => void;
 }
+
+const stationIcon = icon({
+  iconUrl: logo,
+  iconSize: [25.3, 29.37],
+});
 
 const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   isLoggedIn,
@@ -54,19 +61,24 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
     />
 
     {stations.map(station => (
-      <StationMarker
-        key={station.stationId}
-        detail={
-          stationOpened && stationOpened.station.stationId === station.stationId
-            ? stationOpened
-            : null
-        }
-        isLoggedIn={isLoggedIn}
-        station={station}
-        onOpenStationPopup={onOpenStationPopup}
-        onRent={onRent}
-        onReserve={onReserve}
-      />
+      <Marker
+        icon={stationIcon}
+        position={[station.locationLatitude, station.locationLongitude]}
+      >
+        <StationPopup
+          key={station.stationId}
+          detail={
+            stationOpened && stationOpened.station.stationId === station.stationId
+              ? stationOpened
+              : null
+          }
+          isLoggedIn={isLoggedIn}
+          station={station}
+          onOpenStationPopup={onOpenStationPopup}
+          onRent={onRent}
+          onReserve={onReserve}
+        />
+      </Marker>
     ))}
   </Map>
 );
