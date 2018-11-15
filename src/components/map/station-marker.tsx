@@ -79,7 +79,7 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
 
               <span className="charge-state">
                 {slot.pedelecInfo &&
-                  `${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
+                  `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
               </span>
             </li>
           ))}
