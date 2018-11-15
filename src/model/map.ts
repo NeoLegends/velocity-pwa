@@ -1,5 +1,5 @@
-import { singleStationUrl, APP_ALL_STATIONS_URL } from './urls';
 import { InvalidStatusCodeError } from '.';
+import { singleStationUrl, APP_ALL_STATIONS_URL } from './urls';
 
 export interface Address {
   city: string;
@@ -46,5 +46,5 @@ export const getAllStations = async (): Promise<Station[]> => {
     throw new InvalidStatusCodeError(resp.status, APP_ALL_STATIONS_URL);
   }
 
-  return await resp.json();
+  return resp.json();
 };

@@ -2,8 +2,8 @@ import React from 'react';
 
 import logo from '../resources/logo.png';
 
-import OverlayMenu from './overlay-menu';
 import './menu-bar.scss';
+import OverlayMenu from './overlay-menu';
 
 export interface MenuBarProps {
   isLoggedIn: boolean;

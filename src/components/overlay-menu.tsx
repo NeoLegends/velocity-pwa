@@ -20,14 +20,15 @@ interface OverlayMenuState {
   element: HTMLElement | null;
 }
 
+const calculateClassNames = ({ isCurrent }) => ({
+  className: classNames('menu-entry', { ['active']: isCurrent }),
+});
+
 const MenuEntry: React.SFC<MenuEntryProps> = ({ text, to }) => (
-  <Link
-    to={to}
-    getProps={({ isCurrent }) => ({ className: classNames('menu-entry', { ['active']: isCurrent })})}
-  >
+  <Link to={to} getProps={calculateClassNames}>
     {text}
   </Link>
-)
+);
 
 class OverlayMenu extends React.Component<OverlayMenuProps, OverlayMenuState> {
   state = {

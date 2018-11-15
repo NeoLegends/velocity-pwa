@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 
 // Needs to be `function` because of ambiguity with JSX
+// tslint:disable-next-line
 const MakeLazy = function<T extends React.ComponentType<any>>(
   loader: () => Promise<{ default: T }>,
 ) {

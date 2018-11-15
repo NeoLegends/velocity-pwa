@@ -1,10 +1,10 @@
 import { RouteComponentProps } from '@reach/router';
+import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-import { Station, getAllStations } from '../model/map';
+import { getAllStations, Station } from '../model/map';
 
-import 'leaflet/dist/leaflet.css';
 import './bike-map.scss';
 
 interface BikeMapBodyProps extends BikeMapState {
@@ -24,7 +24,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = props => {
       />
     </Map>
   );
-}
+};
 
 class BikeMap extends React.Component<RouteComponentProps, BikeMapState> {
   state = {

@@ -74,7 +74,7 @@ class App extends Component<{}, AppState> {
   private handleLogin = (email: string, password: string) => {
     login(email, password)
       .then(this.checkLogin);
-  };
+  }
 
   private handleLoginLogoutButton = () => {};
 }

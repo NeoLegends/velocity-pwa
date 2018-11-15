@@ -61,15 +61,15 @@ class Login extends React.Component<LoginProps, LoginState> {
     if (this.props.onLoginStart && email && password) {
       this.props.onLoginStart(email, password);
     }
-  };
+  }
 
   handleEmailChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: ev.target.value });
-  };
+  }
 
   handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: ev.target.value });
-  };
+  }
 }
 
 export default Login;
