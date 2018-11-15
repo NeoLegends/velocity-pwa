@@ -74,14 +74,11 @@
   .bike {
     display: flex;
 
-    .slot-no {
+    .attribute {
       width: 48px;
     }
     .bike-state {
       flex: 1 1 auto;
-    }
-    .charge-state {
-      width: 32px;
     }
   }
 
