@@ -59,6 +59,8 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
         </div>
       </header>
 
+      {station.note && <div className="note">{station.note}</div>}
+
       {detail && (
         <ul className="bike-list">
           {detail.slots.stationSlots.map(slot => (
