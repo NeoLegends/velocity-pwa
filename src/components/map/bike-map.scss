@@ -1,5 +1,5 @@
 @import "../../resources/variables";
 
 .leaflet-container {
-  height: calc(100vh - #{$menu-height});
+  height: 100%;
 }

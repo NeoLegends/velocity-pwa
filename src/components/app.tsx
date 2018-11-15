@@ -34,7 +34,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
       onLoginButtonClick={onLoginLogoutButtonClick}
     />
 
-    <Router>
+    <Router role="main" className="main">
       <Login path="/login" onLoginStart={onLoginStart}/>
       <Map
         default
