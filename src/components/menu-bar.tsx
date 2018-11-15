@@ -23,7 +23,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
 
   render() {
     return (
-      <div className="menu-bar">
+      <header className="menu-bar">
         <img className="logo" src={logo}/>
 
         <div className="flex-grow"/>
@@ -45,7 +45,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           isOpen={this.state.isMenuOpen}
           onRequestMenuClose={this.onRequestMenuClose}
         />
-      </div>
+      </header>
     );
   }
 
