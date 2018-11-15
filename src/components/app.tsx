@@ -36,11 +36,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
 
     <Router role="main" className="main">
       <Login path="/login" onLoginStart={onLoginStart}/>
-      <Map
-        default
-        path="/map"
-        isLoggedIn={isLoggedIn}
-      />
+      <Map path="/" isLoggedIn={isLoggedIn}/>
     </Router>
   </div>
 ));

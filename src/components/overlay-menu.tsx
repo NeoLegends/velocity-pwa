@@ -60,7 +60,7 @@ class OverlayMenu extends React.Component<OverlayMenuProps, OverlayMenuState> {
         onClick={this.props.onRequestMenuClose}
       >
         <div className="inner" role="nav">
-          <MenuEntry text="Karte" to="/map"/>
+          <MenuEntry text="Karte" to="/"/>
           <MenuEntry text="Buchungen" to="/bookings"/>
           <MenuEntry text="Tarif" to="/plan"/>
           <MenuEntry text="Rechnungen" to="/invoices"/>
