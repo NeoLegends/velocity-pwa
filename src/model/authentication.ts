@@ -1,4 +1,4 @@
-import { API_AUTHENTICATION_URL, API_LOGOUT_URL } from './urls';
+import { API_IS_AUTHENTICATED_URL, API_LOGIN_URL, API_LOGOUT_URL } from './urls';
 
 export interface ApiError {
   error: string;
@@ -9,7 +9,7 @@ export interface ApiError {
 }
 
 export const isLoggedIn = async () => {
-  const resp = await fetch(API_AUTHENTICATION_URL);
+  const resp = await fetch(API_IS_AUTHENTICATED_URL);
   return resp.ok ? !!(await resp.text()) : false;
 };
 
@@ -20,7 +20,7 @@ export const login = async (email: string, password: string) => {
   data.append('_spring_security_remember_me', 'true');
   data.append('submit', 'Login');
 
-  const resp = await fetch(API_AUTHENTICATION_URL, {
+  const resp = await fetch(API_LOGIN_URL, {
     body: data,
     method: 'POST',
   });
