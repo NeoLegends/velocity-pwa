@@ -89,18 +89,18 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
       <div className="actions">
         <button
           className="btn outline"
-          disabled={!detail}
-          onClick={() => onRent(station.stationId)}
-        >
-          Ausleihen
-        </button>
-
-        <button
-          className="btn outline"
           disabled={!detail || !detail.slots.stationSlots.some(s => s.isOccupied)}
           onClick={() => onReserve(station.stationId)}
         >
           Reservieren
+        </button>
+
+        <button
+          className="btn outline"
+          disabled={!detail}
+          onClick={() => onRent(station.stationId)}
+        >
+          Ausleihen
         </button>
       </div>
     </Popup>
