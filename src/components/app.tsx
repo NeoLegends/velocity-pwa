@@ -76,6 +76,8 @@ class App extends Component<{}, AppState> {
   private handleLogin = async (email: string, password: string) => {
     await login(email, password);
     await this.checkLogin();
+
+    navigate('/');
   }
 
   private handleLoginLogoutButton = async () => {
