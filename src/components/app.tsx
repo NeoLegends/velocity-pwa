@@ -1,7 +1,7 @@
-import { Router } from '@reach/router';
+import { navigate, Router } from '@reach/router';
 import React, { Component } from 'react';
 
-import { isLoggedIn, login } from '../model/authentication';
+import { isLoggedIn, login, logout } from '../model/authentication';
 import makeLazy from '../util/make-lazy';
 
 import './app.scss';
@@ -51,8 +51,8 @@ class App extends Component<{}, AppState> {
     loginStatusKnown: false,
   };
 
-  componentDidMount() {
-    this.checkLogin();
+  async componentDidMount() {
+    await this.checkLogin();
   }
 
   render() {
@@ -65,20 +65,26 @@ class App extends Component<{}, AppState> {
     );
   }
 
-  private checkLogin() {
-    isLoggedIn()
-      .then(loggedIn => this.setState({
-        isLoggedIn: loggedIn,
-        loginStatusKnown: true,
-      }));
+  private async checkLogin() {
+    const loggedIn = await isLoggedIn();
+    this.setState({
+      isLoggedIn: loggedIn,
+      loginStatusKnown: true,
+    });
   }
 
-  private handleLogin = (email: string, password: string) => {
-    login(email, password)
-      .then(this.checkLogin);
+  private handleLogin = async (email: string, password: string) => {
+    await login(email, password);
+    await this.checkLogin();
   }
 
-  private handleLoginLogoutButton = () => {};
+  private handleLoginLogoutButton = async () => {
+    if (this.state.isLoggedIn) {
+      await logout();
+    } else {
+      navigate('/login');
+    }
+  }
 }
 
 export default App;

@@ -1,4 +1,4 @@
-import { API_AUTHENTICATION_URL } from './urls';
+import { API_AUTHENTICATION_URL, API_LOGOUT_URL } from './urls';
 
 export interface ApiError {
   error: string;
@@ -29,3 +29,5 @@ export const login = async (email: string, password: string) => {
     throw await resp.json();
   }
 };
+
+export const logout = () => fetch(API_LOGOUT_URL).then(() => {});
