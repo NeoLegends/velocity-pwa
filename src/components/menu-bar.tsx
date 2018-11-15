@@ -1,3 +1,4 @@
+import { Link } from '@reach/router';
 import React from 'react';
 
 import logo from '../resources/logo.png';
@@ -24,7 +25,9 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
   render() {
     return (
       <header className="menu-bar">
-        <img className="logo" src={logo}/>
+        <Link to="/">
+          <img className="logo" src={logo}/>
+        </Link>
 
         <div className="flex-grow"/>
 
