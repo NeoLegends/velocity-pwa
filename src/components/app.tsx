@@ -83,6 +83,7 @@ class App extends Component<{}, AppState> {
   private handleLoginLogoutButton = async () => {
     if (this.state.isLoggedIn) {
       await logout();
+      await this.checkLogin();
     } else {
       navigate('/login');
     }
