@@ -68,7 +68,7 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
           <ul className="slot-list">
             {detail.slots.stationSlots.map(slot => (
               <li key={slot.stationSlotId} className="slot">
-                <span className="attribute">
+                <span className="slot-no">
                   Slot {slot.stationSlotPosition}
                 </span>
 
@@ -82,7 +82,7 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
                     : "Stellplatz deaktiviert"}
                 </span>
 
-                <span className="attribute">
+                <span className="charge-state">
                   {slot.pedelecInfo &&
                     `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
                 </span>

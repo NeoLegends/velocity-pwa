@@ -74,11 +74,14 @@
   .slot {
     display: flex;
 
-    .attribute {
+    .slot-no {
       width: 48px;
     }
     .bike-state {
       flex: 1 1 auto;
+    }
+    .charge-state {
+      width: 56px;
     }
   }
 
@@ -89,7 +92,7 @@
 
     padding: 16px;
 
-    &:first-child {
+    .btn:first-child {
       margin-right: 16px;
     }
   }
