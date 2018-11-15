@@ -32,7 +32,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           className="btn outline"
           onClick={this.props.onLoginButtonClick}
         >
-          {this.props.isLoggedIn ? "Anmelden" : "Abmelden"}
+          {this.props.isLoggedIn ? "Abmelden" : "Anmelden"}
         </button>
         <button
           className="btn outline menu"
