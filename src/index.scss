@@ -7,6 +7,13 @@ body {
   color: $text-color;
 }
 
+.col-25 {
+  width: 25%;
+}
+.col-50 {
+  width: 50%;
+}
+
 @import "./resources/a";
 @import "./resources/button";
 @import "./resources/outline";

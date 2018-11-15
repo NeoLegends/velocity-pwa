@@ -1,0 +1,56 @@
+@import "../../resources/variables";
+
+.station-marker {
+  border-radius: 8px;
+  padding: 16px;
+
+  header {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .status-indicator {
+    background-color: #888; // Fallback value
+
+    border-radius: 8px;
+    height: 16px;
+    width: 16px;
+
+    &.operative {
+      background-color: $velocity-green;
+    }
+
+    &.inoperative {
+      background-color: $error-color;
+    }
+  }
+
+  .meta {
+    margin-left: 8px;
+
+    h3 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .bike-list {
+    padding: 16px;
+  }
+
+  .meta, .bike-list {
+    border-bottom: 1px solid $text-color;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 16px;
+  }
+}

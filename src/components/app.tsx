@@ -18,7 +18,7 @@ interface AppState {
 }
 
 const Login = makeLazy(() => import('./login'));
-const Map = makeLazy(() => import('./bike-map'));
+const Map = makeLazy(() => import('./map/bike-map'));
 
 const AppBody: React.SFC<AppBodyProps> = props => {
   const {
