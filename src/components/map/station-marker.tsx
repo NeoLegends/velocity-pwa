@@ -5,6 +5,7 @@ import { Marker, Popup } from 'react-leaflet';
 
 import { Slots, Station, StationWithAddress } from '../../model/stations';
 import logo from '../../resources/logo.png';
+import { asHumanReadable } from '../../util/address';
 
 import './station-marker.scss';
 
@@ -41,6 +42,7 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
   >
     <Popup
       className="station-marker"
+      maxWidth={300}
       onOpen={() => onOpenStationPopup(station.stationId)}
     >
       <header>
@@ -53,7 +55,7 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
 
         <div className="meta">
           <h3>{station.name}</h3>
-          <p>{detail && detail.station.address.streetAndHousenumber}</p>
+          <p>{detail && asHumanReadable(detail.station.address)}</p>
         </div>
       </header>
 
@@ -61,19 +63,21 @@ const StationMarker: React.SFC<StationMarkerProps> = ({
         <ul className="bike-list">
           {detail.slots.stationSlots.map(slot => (
             <li key={slot.stationSlotId} className="bike">
-              <span className="col-25">
+              <span className="slot-no">
                 Slot {slot.stationSlotPosition}
               </span>
 
-              <span className="col-50">
+              <span className="bike-state">
                 {slot.state === 'OPERATIVE'
                   ? slot.isOccupied
-                    ? "Fahrrad verfügbar"
+                    ? (slot.pedelecInfo && slot.pedelecInfo.availability) === 'AVAILABLE'
+                      ? "Fahrrad verfügbar"
+                      : "In Wartung"
                     : "Stellplatz frei"
                   : "Stellplatz deaktiviert"}
               </span>
 
-              <span className="col-25">
+              <span className="charge-state">
                 {slot.pedelecInfo &&
                   `${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
               </span>

@@ -11,7 +11,7 @@ export interface Address {
 }
 
 export interface PedelecInfo {
-  availability: 'AVAILABLE';
+  availability: 'AVAILABLE' | 'INOPERATIVE';
   stateOfCharge: number;
 }
 

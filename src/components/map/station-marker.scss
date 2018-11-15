@@ -1,18 +1,24 @@
 @import "../../resources/variables";
 
 .station-marker {
-  border-radius: 8px;
-  padding: 16px;
+  .leaflet-popup-content {
+    width: auto !important;
+  }
 
   header {
     display: flex;
     align-items: flex-start;
+
+    margin-bottom: 16px;
   }
 
   .status-indicator {
     background-color: #888; // Fallback value
 
+    flex-shrink: 0;
+
     border-radius: 8px;
+    margin-top: 4px;
     height: 16px;
     width: 16px;
 
@@ -30,6 +36,12 @@
 
     h3 {
       font-size: 18px;
+      font-weight: 500;
+
+      max-height: 50px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
       margin: 0;
     }
 
@@ -39,11 +51,28 @@
   }
 
   .bike-list {
-    padding: 16px;
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+
+    max-height: 30vh;
+    overflow-y: scroll;
+    width: 245px;
   }
 
-  .meta, .bike-list {
-    border-bottom: 1px solid $text-color;
+  .bike {
+    display: flex;
+
+    .slot-no {
+      width: 48px;
+    }
+    .bike-state {
+      flex: 1 1 auto;
+    }
+    .charge-state {
+      width: 32px;
+    }
   }
 
   .actions {
@@ -52,5 +81,9 @@
     align-items: center;
 
     padding: 16px;
+
+    &:first-child {
+      margin-right: 16px;
+    }
   }
 }
