@@ -1,0 +1,20 @@
+@import "./variables";
+
+.btn {
+  background-color: $menu-background;
+  cursor: pointer;
+
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  display: inline-block;
+  padding: 6px 12px;
+}
+
+.btn:disabled {
+  background-color: darken($menu-background, 10%);
+  color: lighten($text-color, 20%);
+
+  cursor: default;
+}

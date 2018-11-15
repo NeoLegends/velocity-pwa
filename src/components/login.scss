@@ -1,0 +1,57 @@
+@import "../resources/variables";
+
+.login {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 4px;
+
+  height: 100%;
+  width: 100%;
+
+  .box {
+    background-color: white;
+
+    margin: 64px;
+    max-height: 80vh;
+    max-width: 272px;
+
+    h1 {
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+      margin: 0;
+      padding: 10px 15px;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-flow: column nowrap;
+
+      padding: 16px;
+
+      .input {
+        background-color: $menu-background;
+        display: block;
+
+        margin-bottom: 16px;
+        padding: 6px 12px;
+      }
+
+      .input:invalid {
+        border-color: red;
+      }
+
+      a {
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .btn {
+        align-self: flex-end;
+      }
+    }
+  }
+}

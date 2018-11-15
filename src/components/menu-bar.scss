@@ -1,0 +1,33 @@
+@import "../resources/variables";
+
+.menu-bar {
+  background-color: $menu-background;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  height: $menu-height;
+  width: 100%;
+
+  .logo {
+    height: $menu-height;
+    width: $menu-height;
+
+    flex: 0 0 auto;
+    padding: 4px;
+  }
+
+  .btn {
+    flex: 0 0 auto;
+    margin: 8px;
+
+    &.menu {
+      margin-right: 16px;
+    }
+  }
+
+  .flex-grow {
+    flex: 1 1 auto;
+  }
+}

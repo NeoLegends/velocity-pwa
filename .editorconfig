@@ -1,0 +1,8 @@
+root = true
+
+[*]
+charset = utf-8
+
+[*.{json,scss,ts,tsx}]
+indent_size = 2
+indent_style = space
