@@ -1,4 +1,4 @@
-import { RouteComponentProps } from '@reach/router';
+import { navigate, RouteComponentProps } from '@reach/router';
 import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
@@ -8,6 +8,7 @@ import {
   getAllStations,
   getSingleStation,
   getSlotInfo,
+  reserveBike,
   Slots,
   Station,
   StationWithAddress,
@@ -129,7 +130,10 @@ class BikeMap extends React.Component<
 
   private handleRent = (stationId: number) => alert(`Rent station ${stationId}.`);
 
-  private handleReserve = (stationId: number) => alert(`Reserve station ${stationId}.`);
+  private handleReserve = async (stationId: number) => {
+    await reserveBike(stationId);
+    navigate('/bookings');
+  }
 }
 
 export default BikeMap;

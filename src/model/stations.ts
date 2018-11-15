@@ -1,5 +1,10 @@
 import { InvalidStatusCodeError } from '.';
-import { singleStationUrl, slotInfoUrl, APP_ALL_STATIONS_URL } from './urls';
+import {
+  reserveBikeUrl,
+  singleStationUrl,
+  slotInfoUrl,
+  APP_ALL_STATIONS_URL,
+} from './urls';
 
 export type OperationState = 'OPERATIVE' | 'INOPERATIVE';
 
@@ -13,6 +18,12 @@ export interface Address {
 export interface PedelecInfo {
   availability: 'AVAILABLE' | 'INOPERATIVE' | 'RESERVED';
   stateOfCharge: number;
+}
+
+export interface Reservation {
+  expiryDateTime: string;
+  stationId: number;
+  stationSlotPosition: number;
 }
 
 export interface Slot {
@@ -58,6 +69,17 @@ export const getSingleStation = async (stationId: number): Promise<StationWithAd
 
 export const getSlotInfo = async (stationId: number): Promise<Slots | null> =>
   fetch404ToNull(slotInfoUrl(stationId));
+
+export const reserveBike = async (stationId: number): Promise<Reservation | null> => {
+  const url = reserveBikeUrl(stationId);
+  const resp = await fetch(url, { method: 'post' });
+
+  if (!resp.ok) {
+    throw new InvalidStatusCodeError(resp.status, url);
+  }
+
+  return resp.json();
+};
 
 const fetch404ToNull = async (url: string) => {
   const resp = await fetch(url);

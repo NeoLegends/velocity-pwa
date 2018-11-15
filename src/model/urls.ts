@@ -9,4 +9,6 @@ export const API_LOGOUT_URL = `${API_URL}/logout`;
 export const APP_ALL_STATIONS_URL = `${APP_URL}/stations`;
 
 export const singleStationUrl = (statId: number) => `${APP_ALL_STATIONS_URL}/${statId}`;
+
+export const reserveBikeUrl = (statId: number) => `${singleStationUrl(statId)}/book`;
 export const slotInfoUrl = (statId: number) => `${singleStationUrl(statId)}/slots/full`;
