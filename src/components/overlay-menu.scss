@@ -4,12 +4,14 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  align-items: center;
 
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
 
   opacity: 0;
   pointer-events: none;
@@ -29,7 +31,7 @@
     border-radius: 4px;
     margin: 64px;
     max-height: 80vh;
-    max-width: 272px;
+    width: 272px;
 
     .menu-entry {
       display: block;
