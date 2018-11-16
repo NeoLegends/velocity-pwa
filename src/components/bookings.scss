@@ -26,6 +26,10 @@
 
   .booking {
     flex-shrink: 0;
+
+    .actions {
+      margin-bottom: 16px;
+    }
   }
 
   .transactions {
