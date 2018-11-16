@@ -65,10 +65,10 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
     {stations.map(station => (
       <Marker
         icon={stationIcon}
+        key={station.stationId}
         position={[station.locationLatitude, station.locationLongitude]}
       >
         <StationPopup
-          key={station.stationId}
           detail={
             stationOpened && stationOpened.station.stationId === station.stationId
               ? stationOpened
