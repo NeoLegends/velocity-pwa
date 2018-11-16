@@ -176,7 +176,7 @@ class Bookings extends React.Component<{}, BookingsState> {
 
   private handleLoadTransactions = async ({ startIndex }) => {
     this.setState({ isNextPageLoading: true });
-    const page = startIndex % TRANSACTIONS_PER_PAGE;
+    const page = Math.round(startIndex / TRANSACTIONS_PER_PAGE);
 
     try {
       const transactions = await getTransactions(page);
