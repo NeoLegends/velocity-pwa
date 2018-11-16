@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  proxy:
+    build: ./proxy
+    ports:
+      - 8000:80

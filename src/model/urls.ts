@@ -1,4 +1,6 @@
-const BACKEND_URL = 'https://velocity-pwa.netlify.com/backend';
+const BACKEND_URL = process.env.NODE_ENV === 'production'
+  ? 'https://velocity-pwa.netlify.com/backend'
+  : 'http://localhost:8000/backend';
 const API_URL = `${BACKEND_URL}/api`;
 const APP_URL = `${BACKEND_URL}/app`;
 
