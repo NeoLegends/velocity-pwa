@@ -166,6 +166,7 @@ class Bookings extends React.Component<{}, BookingsState> {
     const [currentBooking, stations] = await Promise.all([
       getCurrentBooking(),
       getAllStations(),
+      this.handleLoadTransactions({ startIndex: 0 }),
     ]);
     this.setState({ currentBooking, stations });
   }
