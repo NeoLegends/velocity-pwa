@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Popup } from 'react-leaflet';
 
-import { Slot, Slots, Station, StationWithAddress } from '../../model/stations';
+import { Slot, Slots, Station, StationWithAddress } from '../../model';
 import { asHumanReadable } from '../../util/address';
 
 import './station-popup.scss';

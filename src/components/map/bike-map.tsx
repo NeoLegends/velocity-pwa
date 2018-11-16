@@ -4,15 +4,13 @@ import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 
+import { Slots, Station, StationWithAddress } from '../../model';
 import {
   getAllStations,
   getSingleStation,
   getSlotInfo,
   rentBike,
   reserveBike,
-  Slots,
-  Station,
-  StationWithAddress,
 } from '../../model/stations';
 import logo from '../../resources/logo.png';
 

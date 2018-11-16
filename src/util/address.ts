@@ -1,4 +1,4 @@
-import { Address } from '../model/stations';
+import { Address } from '../model';
 
 /**
  * Convert the given address struct to a human-readable address with
