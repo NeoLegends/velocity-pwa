@@ -9,7 +9,7 @@ export interface ApiError {
 }
 
 export const isLoggedIn = async () => {
-  const resp = await fetch(API_IS_AUTHENTICATED_URL);
+  const resp = await fetch(API_IS_AUTHENTICATED_URL, { credentials: 'include' });
   return resp.ok ? !!(await resp.text()) : false;
 };
 
@@ -22,6 +22,7 @@ export const login = async (email: string, password: string) => {
 
   const resp = await fetch(API_LOGIN_URL, {
     body: data,
+    credentials: 'include',
     method: 'POST',
   });
 
