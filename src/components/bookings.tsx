@@ -47,7 +47,7 @@ const BookingBox: React.SFC<BookingProps> = ({ booking, stations }) => {
       <div className="wrapper">
         <p>Station: {targetStation ? targetStation.name : 'N/A'}</p>
         <p>Stellplatz: {booking.stationSlotPosition}</p>
-        <p>Reserviert bis: {(new Date(booking.stationSlotPosition)).toLocaleString()}</p>
+        <p>Reserviert bis: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
       </div>
     </div>
   );
