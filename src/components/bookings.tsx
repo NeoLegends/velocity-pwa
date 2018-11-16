@@ -58,10 +58,12 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <div className="transaction outline" style={style}>
-      <p>{transaction.fromStation.name} ➡️ {transaction.toStation.name}</p>
-      <p>{startDate.toLocaleString()} bis {endDate.toLocaleString()}</p>
-      <p>Fahrradnummer: {transaction.pedelecName}</p>
+    <div className="gap" style={style}>
+      <div className="transaction outline">
+        <p>{transaction.fromStation.name} nach {transaction.toStation.name}</p>
+        <p>{startDate.toLocaleString()} bis {endDate.toLocaleString()}</p>
+        <p>Fahrradnummer: {transaction.pedelecName}</p>
+      </div>
     </div>
   );
 };
@@ -83,7 +85,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
 
   const renderRow = ({ index, key, style }) => {
     if (!isRowLoaded({ index })) {
-      return null;
+      return <div key={key} style={style}>Loading...</div>;
     }
 
     return (
@@ -114,7 +116,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
             isRowLoaded={isRowLoaded}
             loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
             minimumBatchSize={20}
-            rowCount={transactions.length}
+            rowCount={Infinity}
           >
             {({ onRowsRendered, registerChild }) => (
               <AutoSizer>
@@ -125,7 +127,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
                     width={width}
                     onRowsRendered={onRowsRendered}
                     rowCount={transactions.length}
-                    rowHeight={128}
+                    rowHeight={138}
                     rowRenderer={renderRow}
                   />
                 )}
@@ -177,7 +179,7 @@ class Bookings extends React.Component<{}, BookingsState> {
 
   private handleLoadTransactions = async ({ startIndex }) => {
     this.setState({ isNextPageLoading: true });
-    const page = Math.round(startIndex / TRANSACTIONS_PER_PAGE);
+    const page = Math.floor(startIndex / TRANSACTIONS_PER_PAGE);
 
     try {
       const transactions = await getTransactions(page);

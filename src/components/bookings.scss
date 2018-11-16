@@ -25,10 +25,29 @@
 
     .wrapper {
       flex: 1;
+      padding-bottom: 0;
     }
+  }
 
-    .transaction {
-      padding: 16px;
+  .gap {
+    padding-bottom: 16px;
+  }
+
+  .transaction {
+    margin-bottom: 16px;
+    padding: 16px;
+
+    p {
+      margin: 0;
+      margin-bottom: 16px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:last-of-type {
+        margin: 0;
+      }
     }
   }
 }
