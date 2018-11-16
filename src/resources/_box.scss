@@ -23,3 +23,13 @@
     padding: 16px;
   }
 }
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .btn:first-child {
+    margin-right: 16px;
+  }
+}
