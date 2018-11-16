@@ -56,10 +56,10 @@ class OverlayMenu extends React.Component<OverlayMenuProps, OverlayMenuState> {
 
     const dom = (
       <div
-        className={classNames('overlay-menu', { ['visible']: this.props.isOpen })}
+        className={classNames('menu-backdrop', { ['visible']: this.props.isOpen })}
         onClick={this.props.onRequestMenuClose}
       >
-        <div className="inner" role="nav">
+        <nav className="menu">
           <MenuEntry text="Karte" to="/"/>
           <MenuEntry text="Buchungen" to="/bookings"/>
           <MenuEntry text="Tarif" to="/plan"/>
@@ -67,7 +67,7 @@ class OverlayMenu extends React.Component<OverlayMenuProps, OverlayMenuState> {
           <MenuEntry text="Persönliche Daten" to="/personal-data"/>
           <MenuEntry text="Support" to="/support"/>
           <MenuEntry text="Impressum" to="/impressum"/>
-        </div>
+        </nav>
       </div>
     );
 
