@@ -37,25 +37,6 @@ interface StationPopupBodyProps extends BaseProps, StationPopupState {
   onReserve: (stationId: number) => void;
 }
 
-const getSlotState = (slot: Slot) => {
-  if (slot.state !== 'OPERATIVE') {
-    return "Stellplatz deaktiviert";
-  } else if (!slot.isOccupied || !slot.pedelecInfo) {
-    return "Stellplatz frei";
-  }
-
-  switch (slot.pedelecInfo.availability) {
-    case 'AVAILABLE':
-      return "Fahrrad verfügbar";
-    case 'INOPERATIVE':
-      return "In Wartung";
-    case 'RESERVED':
-      return "Reserviert";
-    default:
-      return "Unbekannt";
-  }
-};
-
 const PinInputAndRentControls: React.SFC<StationPopupBodyProps> = ({
   pin,
 
@@ -91,6 +72,25 @@ const PinInputAndRentControls: React.SFC<StationPopupBodyProps> = ({
     </div>
   </>
 );
+
+const getSlotState = (slot: Slot) => {
+  if (slot.state !== 'OPERATIVE') {
+    return "Stellplatz deaktiviert";
+  } else if (!slot.isOccupied || !slot.pedelecInfo) {
+    return "Stellplatz frei";
+  }
+
+  switch (slot.pedelecInfo.availability) {
+    case 'AVAILABLE':
+      return "Fahrrad verfügbar";
+    case 'INOPERATIVE':
+      return "In Wartung";
+    case 'RESERVED':
+      return "Reserviert";
+    default:
+      return "Unbekannt";
+  }
+};
 
 // tslint:disable:jsx-no-lambda
 
