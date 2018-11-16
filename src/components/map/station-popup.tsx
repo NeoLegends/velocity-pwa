@@ -18,7 +18,8 @@ interface BaseProps {
 }
 
 interface StationPopupProps extends BaseProps {
-  onOpenStationPopup: (stationId: number) => void;
+  onClose: () => void;
+  onOpen: (stationId: number) => void;
   onRent: (pin: string, stationId: number, slotId: number) => void;
   onReserve: (stationId: number) => void;
 }
@@ -29,7 +30,8 @@ interface StationPopupState {
 }
 
 interface StationPopupBodyProps extends BaseProps, StationPopupState {
-  onOpenStationPopup: (stationId: number) => void;
+  onClose: () => void;
+  onOpen: (stationId: number) => void;
   onPinChange: React.ChangeEventHandler<HTMLInputElement>;
   onRentCancel: React.MouseEventHandler;
   onRentComplete: React.MouseEventHandler;
@@ -167,7 +169,8 @@ const StationPopupBody: React.SFC<StationPopupBodyProps> = props => (
   <Popup
     className="station-popup"
     maxWidth={300}
-    onOpen={() => props.onOpenStationPopup(props.station.stationId)}
+    onClose={props.onClose}
+    onOpen={() => props.onOpen(props.station.stationId)}
   >
     <header>
       <span

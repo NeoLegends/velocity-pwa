@@ -32,6 +32,7 @@ interface BikeMapState {
 }
 
 interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
+  onClosePopup: () => void;
   onOpenStationPopup: (stationId: number) => void;
   onRent: (pin: string, stationId: number, slotId: number) => void;
   onReserve: (stationId: number) => void;
@@ -47,6 +48,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   stationOpened,
   stations,
 
+  onClosePopup,
   onOpenStationPopup,
   onRent,
   onReserve,
@@ -76,7 +78,8 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
           }
           isLoggedIn={isLoggedIn}
           station={station}
-          onOpenStationPopup={onOpenStationPopup}
+          onClose={onClosePopup}
+          onOpen={onOpenStationPopup}
           onRent={onRent}
           onReserve={onReserve}
         />
@@ -104,12 +107,15 @@ class BikeMap extends React.Component<
       <BikeMapBody
         {...this.state}
         isLoggedIn={this.props.isLoggedIn}
+        onClosePopup={this.handleCloseStation}
         onOpenStationPopup={this.handleOpenStation}
         onRent={this.handleRent}
         onReserve={this.handleReserve}
       />
     );
   }
+
+  private handleCloseStation = () => this.setState({ stationOpened: null });
 
   private handleOpenStation = async (stationId: number) => {
     const [detailedStation, slotInfo] = await Promise.all([
