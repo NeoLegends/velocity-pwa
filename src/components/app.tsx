@@ -17,6 +17,7 @@ interface AppState {
   loginStatusKnown: boolean;
 }
 
+const Bookings = makeLazy(() => import('./bookings'));
 const Login = makeLazy(() => import('./login'));
 const Map = makeLazy(() => import('./map/bike-map'));
 
@@ -35,6 +36,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
     />
 
     <Router role="main" className="main">
+      <Bookings path="/bookings"/>
       <Login path="/login" onLoginStart={onLoginStart}/>
       <Map path="/" isLoggedIn={isLoggedIn}/>
     </Router>

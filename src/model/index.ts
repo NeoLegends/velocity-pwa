@@ -5,6 +5,12 @@ export interface Address {
   zip: string;
 }
 
+export interface Booking {
+  expiryDateTime: string;
+  stationId: number;
+  stationSlotPosition: number;
+}
+
 export type OperationState = 'OPERATIVE' | 'INOPERATIVE';
 
 export interface PedelecInfo {
@@ -53,6 +59,18 @@ export interface StationWithAddress extends Station {
 export interface Slots {
   recommendedSlot?: number;
   stationSlots: Slot[];
+}
+
+export interface Transaction {
+  distance: number;
+  endDateTime: string;
+  fees: number;
+  fromStation: StationSimple;
+  lockAvailable: boolean;
+  pedelecName: string;
+  startDateTime: string;
+  toStation: StationSimple;
+  transactionId: number;
 }
 
 export class InvalidStatusCodeError extends Error {

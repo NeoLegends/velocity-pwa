@@ -1,0 +1,22 @@
+.bookings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .box {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .booking {
+    flex-shrink: 0;
+  }
+
+  .transactions {
+    flex: 1;
+
+    .transaction {
+      padding: 16px;
+    }
+  }
+}
