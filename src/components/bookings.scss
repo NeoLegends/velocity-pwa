@@ -15,6 +15,15 @@
     }
   }
 
+  p {
+    margin: 0;
+    margin-bottom: 16px;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+
   .booking {
     flex-shrink: 0;
   }
@@ -39,16 +48,9 @@
     padding: 16px;
 
     p {
-      margin: 0;
-      margin-bottom: 16px;
-
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-
-      &:last-of-type {
-        margin: 0;
-      }
     }
   }
 }
