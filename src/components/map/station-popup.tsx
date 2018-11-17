@@ -13,6 +13,7 @@ interface BaseProps {
     slots: Slots;
     station: StationWithAddress;
   } | null;
+  hasBooking: boolean;
   isLoggedIn: boolean;
   station: Station;
 }
@@ -98,6 +99,7 @@ const getSlotState = (slot: Slot) => {
 
 const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
   detail,
+  hasBooking,
   isLoggedIn,
   station,
 
@@ -106,6 +108,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
 }) => {
   const canRentOrReserveBike =
     isLoggedIn &&
+    !hasBooking &&
     station.state === 'OPERATIVE' &&
     detail &&
     detail.slots.stationSlots.some(s => s.isOccupied);

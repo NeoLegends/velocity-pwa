@@ -12,6 +12,7 @@ import {
   rentBike,
   reserveBike,
 } from '../../model/stations';
+import { getCurrentBooking } from '../../model/transaction';
 import logo from '../../resources/logo.png';
 
 import './bike-map.scss';
@@ -22,6 +23,7 @@ interface BikeMapProps {
 }
 
 interface BikeMapState {
+  hasBooking: boolean;
   stationOpened: {
     slots: Slots;
     station: StationWithAddress;
@@ -42,6 +44,7 @@ const stationIcon = icon({
 });
 
 const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
+  hasBooking,
   isLoggedIn,
   stationOpened,
   stations,
@@ -74,6 +77,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
               ? stationOpened
               : null
           }
+          hasBooking={hasBooking}
           isLoggedIn={isLoggedIn}
           station={station}
           onClose={onClosePopup}
@@ -91,6 +95,7 @@ class BikeMap extends React.Component<
   BikeMapState
 > {
   state = {
+    hasBooking: false,
     stationOpened: null,
     stations: [],
   };
@@ -116,7 +121,8 @@ class BikeMap extends React.Component<
   private handleCloseStation = () => this.setState({ stationOpened: null });
 
   private handleOpenStation = async (stationId: number) => {
-    const [detailedStation, slotInfo] = await Promise.all([
+    const [currentBooking, detailedStation, slotInfo] = await Promise.all([
+      getCurrentBooking(),
       getSingleStation(stationId),
       getSlotInfo(stationId),
     ]);
@@ -126,6 +132,7 @@ class BikeMap extends React.Component<
     }
 
     this.setState({
+      hasBooking: !!currentBooking,
       stationOpened: {
         station: detailedStation,
         slots: slotInfo,
