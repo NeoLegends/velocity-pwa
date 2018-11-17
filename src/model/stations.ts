@@ -5,7 +5,7 @@ import {
   Station,
   StationWithAddress,
 } from '.';
-import { fetch404ToNull, fetchEnsureOk } from './fetch';
+import { fetch404ToNull, fetchJsonEnsureOk } from './fetch';
 import {
   rentBikeUrl,
   reserveBikeUrl,
@@ -15,7 +15,7 @@ import {
 } from './urls';
 
 export const getAllStations = async (): Promise<Station[]> =>
-  fetchEnsureOk(APP_ALL_STATIONS_URL);
+  fetchJsonEnsureOk(APP_ALL_STATIONS_URL);
 
 export const getSingleStation = async (stationId: number): Promise<StationWithAddress | null> =>
   fetch404ToNull(singleStationUrl(stationId));
@@ -28,11 +28,11 @@ export const rentBike = async (
   stationId: number,
   stationSlotId: number,
 ): Promise<Rent> =>
-  fetchEnsureOk(rentBikeUrl(stationId), {
+  fetchJsonEnsureOk(rentBikeUrl(stationId), {
     body: JSON.stringify({ cardPin, stationSlotId }),
     headers: { 'Content-Type': 'application/json' },
     method: 'post',
   });
 
 export const reserveBike = async (stationId: number): Promise<Reservation> =>
-  fetchEnsureOk(reserveBikeUrl(stationId), { method: 'post' });
+  fetchJsonEnsureOk(reserveBikeUrl(stationId), { method: 'post' });

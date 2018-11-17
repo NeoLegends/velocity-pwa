@@ -27,5 +27,8 @@ export const fetchEnsureOk = async (url: string, init?: RequestInit) => {
     throw new InvalidStatusCodeError(resp.status, url);
   }
 
-  return resp.json();
+  return resp;
 };
+
+export const fetchJsonEnsureOk = (url: string, init?: RequestInit) =>
+  fetchEnsureOk(url, init).then(resp => resp.json());

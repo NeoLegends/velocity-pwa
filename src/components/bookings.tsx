@@ -3,8 +3,12 @@ import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
 import { Booking, Station, Transaction } from '../model';
-import { getAllStations } from '../model/stations';
-import { getCurrentBooking, getTransactions } from '../model/transaction';
+import { getAllStations, getSlotInfo, rentBike } from '../model/stations';
+import {
+  cancelCurrentBooking,
+  getCurrentBooking,
+  getTransactions,
+} from '../model/transaction';
 
 import './bookings.scss';
 
@@ -37,7 +41,13 @@ interface TransactionProps {
 
 const TRANSACTIONS_PER_PAGE = 20;
 
-const BookingBox: React.SFC<BookingProps> = ({ booking, stations }) => {
+const BookingBox: React.SFC<BookingProps> = ({
+  booking,
+  stations,
+
+  onCancelReservation,
+  onRentReservation,
+}) => {
   const targetStation = stations.find(stat => stat.stationId === booking.stationId);
 
   return (
@@ -48,6 +58,21 @@ const BookingBox: React.SFC<BookingProps> = ({ booking, stations }) => {
         <p>Station: {targetStation ? targetStation.name : 'N/A'}</p>
         <p>Stellplatz: {booking.stationSlotPosition}</p>
         <p>Reserviert bis: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
+      </div>
+
+      <div className="actions">
+        <button
+          className="btn outline"
+          onClick={onRentReservation}
+        >
+          Ausleihen
+        </button>
+        <button
+          className="btn outline"
+          onClick={onCancelReservation}
+        >
+          Reservierung löschen
+        </button>
       </div>
     </div>
   );
@@ -174,6 +199,7 @@ class Bookings extends React.Component<{}, BookingsState> {
   }
 
   private handleCancelReservation = async () => {
+    await cancelCurrentBooking();
     await this.fetchBookingAndStations();
   }
 
@@ -192,7 +218,35 @@ class Bookings extends React.Component<{}, BookingsState> {
     }
   }
 
-  private handleRentReservation = async () => {};
+  private handleRentReservation = async () => {
+    const currentBooking = (this.state as BookingsState).currentBooking;
+    if (!currentBooking) {
+      throw new Error("Trying to rent, but missing current booking");
+    }
+
+    const station = (this.state as BookingsState).stations
+      .find(stat => stat.stationId === currentBooking.stationId);
+    if (!station) {
+      throw new Error("Trying to rent, but missing station");
+    }
+
+    const slots = await getSlotInfo(station.stationId);
+    if (!slots) {
+      throw new Error("Trying to rent, but missing slot detail");
+    }
+
+    const slot = slots.stationSlots
+      .find(slot => slot.stationSlotPosition === currentBooking.stationSlotPosition);
+    if (!slot) {
+      throw new Error("Trying to rent, but missing slot");
+    }
+
+    await rentBike(
+      null!,
+      currentBooking.stationId,
+      slot.stationSlotId,
+    );
+  }
 }
 
 export default Bookings;
