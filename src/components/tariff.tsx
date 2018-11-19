@@ -87,7 +87,7 @@ const TariffBody: React.FC<TariffBodyProps> = ({
           <ul>
             <li>Info: {tariff.description}</li>
             <li>Laufzeit: {tariff.term} Tage</li>
-            <li>Preis: {tariff.periodicRate},00 Euro</li>
+            <li>Preis: {tariff.periodicRate.toEuro()}</li>
           </ul>
         </div>
 
