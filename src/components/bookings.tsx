@@ -61,7 +61,7 @@ const BookingBox: React.SFC<BookingProps> = ({
       </div>
 
       <div className="actions">
-        {false && (
+        {false && (// TODO: Implement renting bikes from here
           <button
             className="btn outline"
             onClick={onRentReservation}
