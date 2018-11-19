@@ -29,7 +29,13 @@ const Menu: React.FC = () => (
     <MenuEntry text="Rechnungen" to="/invoices"/>
     <MenuEntry text="Persönliche Daten" to="/personal-data"/>
     <MenuEntry text="Support" to="/support"/>
-    <MenuEntry text="Impressum" to="/impressum"/>
+    <a
+      className="menu-entry"
+      href="https://www.velocity-aachen.de/imprint.html"
+      target="_blank"
+    >
+      Impressum
+    </a>
   </nav>
 );
 
