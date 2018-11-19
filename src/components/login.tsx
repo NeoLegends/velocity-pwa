@@ -19,9 +19,15 @@ class Login extends React.Component<LoginProps, LoginState> {
   };
 
   render() {
+    const canLogin = this.state.email && this.state.password;
+
     return (
       <div className="login">
-        <div className="box outline">
+        <form
+          className="box outline"
+          action="#"
+          onSubmit={this.handleFormSubmit}
+        >
           <h2>Login</h2>
 
           <div className="wrapper">
@@ -45,15 +51,21 @@ class Login extends React.Component<LoginProps, LoginState> {
 
             <button
               className="btn outline"
-              disabled={!this.state.email || !this.state.password}
+              disabled={!canLogin}
               onClick={this.handleLoginClicked}
+              type="submit"
             >
               Login
             </button>
           </div>
-        </div>
+        </form>
       </div>
     );
+  }
+
+  handleFormSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    this.handleLoginClicked();
   }
 
   handleLoginClicked = () => {
