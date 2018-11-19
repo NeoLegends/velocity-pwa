@@ -1,15 +1,14 @@
+import { RouteComponentProps } from '@reach/router';
 import React, { Suspense } from 'react';
 
 // Needs to be `function` because of ambiguity with JSX
 // tslint:disable-next-line
-const MakeLazy = function<T extends React.ComponentType<any>>(
-  loader: () => Promise<{ default: T }>,
-) {
-  const Lazy: any = React.lazy(loader);
+const MakeLazy = function<P>(loader: () => Promise<{ default: React.ComponentType<P> }>) {
+  const Lazy = React.lazy(loader);
 
-  const Comp: React.SFC<any> = props => (
+  const Comp: React.SFC<P & RouteComponentProps> = props => (
     <Suspense fallback={<span>Loading...</span>}>
-      <Lazy {...props}/>
+      <Lazy {...(props as any)}/>
     </Suspense>
   );
 
