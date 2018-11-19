@@ -56,8 +56,8 @@ class App extends Component<{}, AppState> {
     loginStatusKnown: false,
   };
 
-  async componentDidMount() {
-    await this.checkLogin();
+  componentDidMount() {
+    this.checkLogin();
   }
 
   render() {
