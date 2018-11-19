@@ -1,6 +1,7 @@
 @import "../resources/variables";
 
 $border-radius: 4px;
+$default-color: #777;
 
 .menu {
   background-color: $menu-background;
@@ -13,7 +14,7 @@ $border-radius: 4px;
     display: block;
     height: 40px;
 
-    color: #555;
+    color: $default-color;
     line-height: 40px;
 
     padding-left: 16px;
@@ -21,8 +22,11 @@ $border-radius: 4px;
     &.active {
       background-color: $velocity-green;
     }
-    &:visited {
-      color: #555;
+    &:visited { // Must come before :hover
+      color: $default-color;
+    }
+    &:hover {
+      color: #333;
     }
 
     &:first-child {
