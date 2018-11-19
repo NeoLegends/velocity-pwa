@@ -8,33 +8,35 @@ $default-color: #777;
   margin: 64px;
   max-height: 80vh;
   width: 272px;
+}
 
-  .menu-entry {
-    display: block;
-    height: 40px;
+.menu-entry {
+  display: block;
+  height: 40px;
 
+  color: $default-color;
+  line-height: 40px;
+
+  padding-left: 16px;
+
+  // Order needs to be maintained here
+  &:visited {
     color: $default-color;
-    line-height: 40px;
+  }
+  &:hover {
+    color: #333;
+  }
+  &.active {
+    background-color: $velocity-green;
+    color: white;
+  }
 
-    padding-left: 16px;
-
-    &.active {
-      background-color: $velocity-green;
-    }
-    &:visited { // Must come before :hover
-      color: $default-color;
-    }
-    &:hover {
-      color: #333;
-    }
-
-    &:first-child {
-      border-top-left-radius: $border-radius;
-      border-top-right-radius: $border-radius;
-    }
-    &:last-child {
-      border-bottom-left-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
+  &:first-child {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+  &:last-child {
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
   }
 }

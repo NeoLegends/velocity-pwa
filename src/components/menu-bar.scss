@@ -23,13 +23,32 @@
   .btn {
     flex: 0 0 auto;
     margin: 8px;
+  }
 
-    &:last-child {
-      margin-right: 16px;
-    }
+  .btn-menu {
+    display: none;
+    margin-right: 16px;
+  }
+
+  .menu-entry {
+    height: 100%;
+
+    line-height: $menu-height;
+
+    padding: 0 16px;
   }
 
   .flex-grow {
     flex: 1 1 auto;
+  }
+
+  @media (max-width: 890px) {
+    .btn-menu {
+      display: block;
+    }
+
+    .menu-entry {
+      display: none;
+    }
   }
 }

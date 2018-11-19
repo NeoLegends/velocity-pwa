@@ -21,8 +21,8 @@ const MenuEntry: React.SFC<MenuEntryProps> = ({ text, to }) => (
   </Link>
 );
 
-const Menu: React.FC = () => (
-  <nav className="menu">
+export const MenuEntries: React.FC = () => (
+  <>
     <MenuEntry text="Karte" to="/"/>
     <MenuEntry text="Buchungen" to="/bookings"/>
     <MenuEntry text="Tarif" to="/tariff"/>
@@ -36,6 +36,12 @@ const Menu: React.FC = () => (
     >
       Impressum
     </a>
+  </>
+);
+
+const Menu: React.FC = () => (
+  <nav className="menu">
+    <MenuEntries/>
   </nav>
 );
 

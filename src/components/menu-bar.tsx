@@ -3,7 +3,7 @@ import React from 'react';
 
 import { LOGO_URL } from '../resources/logo';
 
-import OverlayMenu from './menu';
+import OverlayMenu, { MenuEntries } from './menu';
 import './menu-bar.scss';
 
 export interface MenuBarProps {
@@ -29,6 +29,8 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           <img className="logo" src={LOGO_URL}/>
         </Link>
 
+        <MenuEntries/>
+
         <div className="flex-grow"/>
 
         <button
@@ -38,7 +40,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           {this.props.isLoggedIn ? "Abmelden" : "Anmelden"}
         </button>
         <button
-          className="btn outline"
+          className="btn outline btn-menu"
           onClick={this.onMenuButtonClicked}
         >
           Menü
