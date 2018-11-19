@@ -11,6 +11,13 @@ export interface Booking {
   stationSlotPosition: number;
 }
 
+export interface Invoice {
+  month: number;
+  sum: number;
+  url: string;
+  year: number;
+}
+
 export type OperationState = 'OPERATIVE' | 'INOPERATIVE';
 
 export interface PedelecInfo {

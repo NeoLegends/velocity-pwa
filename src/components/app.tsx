@@ -21,6 +21,7 @@ interface AppState {
 }
 
 const Bookings = needsLogin(makeLazy(() => import('./bookings')));
+const Invoices = needsLogin(makeLazy(() => import('./invoices')));
 const Map = makeLazy(() => import('./map/bike-map'));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
@@ -44,6 +45,11 @@ const AppBody: React.SFC<AppBodyProps> = ({
 
       <Bookings
         path="/bookings"
+        isLoggedIn={isLoggedIn}
+        onLoginStart={onLoginStartWithoutRedirect}
+      />
+      <Invoices
+        path="/invoices"
         isLoggedIn={isLoggedIn}
         onLoginStart={onLoginStartWithoutRedirect}
       />
