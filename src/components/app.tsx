@@ -12,6 +12,7 @@ import MenuBar from './menu-bar';
 interface AppBodyProps extends AppState {
   onLoginLogoutButtonClick?: React.MouseEventHandler;
   onLoginStart?: (email: string, password: string) => void;
+  onLoginStartWithoutRedirect?: (email: string, password: string) => void;
 }
 
 interface AppState {
@@ -28,6 +29,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
 
   onLoginLogoutButtonClick,
   onLoginStart,
+  onLoginStartWithoutRedirect,
 }) => ((
   <div className="app">
     <MenuBar
@@ -40,7 +42,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
       <Bookings
         path="/bookings"
         isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStart}
+        onLoginStart={onLoginStartWithoutRedirect}
       />
       <Login path="/login" onLoginStart={onLoginStart}/>
       <Map path="/" isLoggedIn={isLoggedIn}/>
@@ -63,7 +65,8 @@ class App extends Component<{}, AppState> {
       <AppBody
         {...this.state}
         onLoginLogoutButtonClick={this.handleLoginLogoutButton}
-        onLoginStart={this.handleLogin}
+        onLoginStart={this.handleLoginWithRedirect}
+        onLoginStartWithoutRedirect={this.handleLogin}
       />
     );
   }
@@ -79,6 +82,10 @@ class App extends Component<{}, AppState> {
   private handleLogin = async (email: string, password: string) => {
     await login(email, password);
     await this.checkLogin();
+  }
+
+  private handleLoginWithRedirect = async (email: string, password: string) => {
+    await this.handleLogin(email, password);
 
     navigate('/');
   }
