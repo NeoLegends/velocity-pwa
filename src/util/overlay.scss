@@ -1,6 +1,6 @@
 @import "../resources/variables";
 
-.menu-backdrop {
+.backdrop {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -24,30 +24,5 @@
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
-  }
-
-  .menu {
-    background-color: $menu-background;
-    border-radius: 4px;
-    margin: 64px;
-    max-height: 80vh;
-    width: 272px;
-  }
-
-  .menu-entry {
-    display: block;
-    height: 40px;
-
-    color: #555;
-    line-height: 40px;
-
-    padding-left: 16px;
-
-    &.active {
-      background-color: $velocity-green;
-    }
-    &:visited {
-      color: #555;
-    }
   }
 }

@@ -3,8 +3,8 @@ import React from 'react';
 
 import logo from '../resources/logo.png';
 
+import OverlayMenu from './menu';
 import './menu-bar.scss';
-import OverlayMenu from './overlay-menu';
 
 export interface MenuBarProps {
   isLoggedIn: boolean;
@@ -38,7 +38,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           {this.props.isLoggedIn ? "Abmelden" : "Anmelden"}
         </button>
         <button
-          className="btn outline menu"
+          className="btn outline"
           onClick={this.onMenuButtonClicked}
         >
           Menü
@@ -46,7 +46,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
 
         <OverlayMenu
           isOpen={this.state.isMenuOpen}
-          onRequestMenuClose={this.onRequestMenuClose}
+          onRequestClose={this.onRequestMenuClose}
         />
       </header>
     );

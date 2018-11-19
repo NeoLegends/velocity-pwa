@@ -24,7 +24,7 @@
     flex: 0 0 auto;
     margin: 8px;
 
-    &.menu {
+    &:last-child {
       margin-right: 16px;
     }
   }
