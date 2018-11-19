@@ -125,7 +125,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
   };
 
   return (
-    <div className="bookings">
+    <div className="bookings box-list">
       {currentBooking && (
         <BookingBox
           booking={currentBooking}
