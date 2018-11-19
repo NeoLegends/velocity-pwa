@@ -1,7 +1,7 @@
 import { Link } from '@reach/router';
 import React from 'react';
 
-import logo from '../resources/logo.png';
+import { LOGO_URL } from '../resources/logo';
 
 import OverlayMenu from './menu';
 import './menu-bar.scss';
@@ -26,7 +26,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
     return (
       <header className="menu-bar">
         <Link to="/">
-          <img className="logo" src={logo}/>
+          <img className="logo" src={LOGO_URL}/>
         </Link>
 
         <div className="flex-grow"/>

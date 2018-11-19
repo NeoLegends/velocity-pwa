@@ -13,7 +13,7 @@ import {
   reserveBike,
 } from '../../model/stations';
 import { getCurrentBooking } from '../../model/transaction';
-import logo from '../../resources/logo.png';
+import { LOGO_URL } from '../../resources/logo';
 
 import './bike-map.scss';
 import StationPopup from './station-popup';
@@ -39,7 +39,7 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
 }
 
 const stationIcon = icon({
-  iconUrl: logo,
+  iconUrl: LOGO_URL,
   iconSize: [25.3, 29.37],
 });
 
