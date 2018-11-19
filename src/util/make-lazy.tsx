@@ -6,13 +6,13 @@ import React, { Suspense } from 'react';
 const MakeLazy = function<P>(loader: () => Promise<{ default: React.ComponentType<P> }>) {
   const Lazy = React.lazy(loader);
 
-  const Comp: React.SFC<P & RouteComponentProps> = props => (
+  const LazyWrapper: React.SFC<P & RouteComponentProps> = props => (
     <Suspense fallback={<span>Loading...</span>}>
       <Lazy {...(props as any)}/>
     </Suspense>
   );
 
-  return Comp;
+  return LazyWrapper;
 };
 
 export default MakeLazy;

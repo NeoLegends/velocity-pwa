@@ -16,7 +16,7 @@ interface OverlayMenuState {
 
 // tslint:disable-next-line
 const hoc = function<P>(Comp: React.ComponentType<P>) {
-  return class extends React.Component<OverlayMenuProps & P, OverlayMenuState> {
+  return class Overlay extends React.Component<OverlayMenuProps & P, OverlayMenuState> {
     state = {
       element: null,
     };
