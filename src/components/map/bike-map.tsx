@@ -60,7 +60,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
     maxZoom={18}
   >
     <TileLayer
-      attribution={'&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
+      attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
       detectRetina={true}
       url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
     />
