@@ -2,7 +2,9 @@ import { navigate, Router } from '@reach/router';
 import React, { Component } from 'react';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
+import Login from '../util/lazy-login';
 import makeLazy from '../util/make-lazy';
+import needsLogin from '../util/needs-login';
 
 import './app.scss';
 import MenuBar from './menu-bar';
@@ -17,8 +19,7 @@ interface AppState {
   loginStatusKnown: boolean;
 }
 
-const Bookings = makeLazy(() => import('./bookings'));
-const Login = makeLazy(() => import('./login'));
+const Bookings = needsLogin(makeLazy(() => import('./bookings')));
 const Map = makeLazy(() => import('./map/bike-map'));
 
 const AppBody: React.SFC<AppBodyProps> = ({
@@ -36,7 +37,11 @@ const AppBody: React.SFC<AppBodyProps> = ({
     />
 
     <Router role="main" className="main">
-      <Bookings path="/bookings"/>
+      <Bookings
+        path="/bookings"
+        isLoggedIn={isLoggedIn}
+        onLoginStart={onLoginStart}
+      />
       <Login path="/login" onLoginStart={onLoginStart}/>
       <Map path="/" isLoggedIn={isLoggedIn}/>
     </Router>
