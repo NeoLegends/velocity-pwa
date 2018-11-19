@@ -25,7 +25,7 @@ const Menu: React.FC = () => (
   <nav className="menu">
     <MenuEntry text="Karte" to="/"/>
     <MenuEntry text="Buchungen" to="/bookings"/>
-    <MenuEntry text="Tarif" to="/plan"/>
+    <MenuEntry text="Tarif" to="/tariff"/>
     <MenuEntry text="Rechnungen" to="/invoices"/>
     <MenuEntry text="Persönliche Daten" to="/personal-data"/>
     <MenuEntry text="Support" to="/support"/>

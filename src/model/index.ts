@@ -61,6 +61,14 @@ export interface Slots {
   stationSlots: Slot[];
 }
 
+export interface Tariff {
+  description: string;
+  name: string;
+  periodicRate: number;
+  tariffId: number;
+  term: number;
+}
+
 export interface Transaction {
   distance: number;
   endDateTime: string;
@@ -71,6 +79,13 @@ export interface Transaction {
   startDateTime: string;
   toStation: StationSimple;
   transactionId: number;
+}
+
+export interface UserTariff {
+  automaticRenewal: boolean;
+  expiryDateTime: string;
+  name: string;
+  tariffId: number;
 }
 
 export class InvalidStatusCodeError extends Error {

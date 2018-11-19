@@ -22,6 +22,7 @@ interface AppState {
 
 const Bookings = needsLogin(makeLazy(() => import('./bookings')));
 const Map = makeLazy(() => import('./map/bike-map'));
+const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
 const AppBody: React.SFC<AppBodyProps> = ({
   isLoggedIn,
@@ -39,13 +40,19 @@ const AppBody: React.SFC<AppBodyProps> = ({
     />
 
     <Router role="main" className="main">
+      <Map path="/" isLoggedIn={isLoggedIn}/>
+
       <Bookings
         path="/bookings"
         isLoggedIn={isLoggedIn}
         onLoginStart={onLoginStartWithoutRedirect}
       />
       <Login path="/login" onLoginStart={onLoginStart}/>
-      <Map path="/" isLoggedIn={isLoggedIn}/>
+      <Tariff
+        path="/tariff"
+        isLoggedIn={isLoggedIn}
+        onLoginStart={onLoginStartWithoutRedirect}
+      />
     </Router>
   </div>
 ));

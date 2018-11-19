@@ -1,0 +1,13 @@
+@import "../resources/variables";
+
+.tariff {
+  ul {
+    margin: 0;
+    padding-inline-start: 20px;
+  }
+
+  li {
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+}
