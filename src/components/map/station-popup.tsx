@@ -115,7 +115,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
 
   return (
     <>
-      {station.note && <div className="note">{station.note}</div>}
+      {station.note && <div className="note danger">{station.note}</div>}
 
       {detail && (
         <ul className="slot-list">
