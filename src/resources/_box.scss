@@ -3,7 +3,7 @@
 .box {
   background-color: white;
 
-  border-radius: 4px;
+  border-radius: $border-radius;
 
   margin: 64px;
   width: 300px;
@@ -11,7 +11,11 @@
   h2 {
     background-color: #f5f5f5;
     border-bottom: 1px solid #ddd;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+
     font-size: 14px;
+
     margin: 0;
     padding: 10px 15px;
   }
