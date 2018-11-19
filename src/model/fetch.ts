@@ -1,21 +1,24 @@
 import { InvalidStatusCodeError } from '.';
 
-export const fetch404ToNull = async (url: string, init?: RequestInit) => {
+const fetchStatusToNull = (nullStatus: number) => async (url: string, init?: RequestInit) => {
   const resp = await fetch(url, {
     ...init,
     credentials: 'include',
   });
 
+  if (resp.status === nullStatus) {
+    return null;
+  }
   if (!resp.ok) {
-    if (resp.status === 404) {
-      return null;
-    }
-
     throw new InvalidStatusCodeError(resp.status, url);
   }
 
   return resp.json();
 };
+
+export const fetch204ToNull = fetchStatusToNull(204);
+
+export const fetch404ToNull = fetchStatusToNull(404);
 
 export const fetchEnsureOk = async (url: string, init?: RequestInit) => {
   const resp = await fetch(url, {
