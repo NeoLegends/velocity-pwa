@@ -80,7 +80,7 @@ const TariffBody: React.FC<TariffBodyProps> = ({
     )}
 
     {tariffs.map(tariff => (
-      <div className="box">
+      <div key={tariff.tariffId} className="box">
         <h2>Tarif {tariff.name}</h2>
 
         <div className="wrapper">
