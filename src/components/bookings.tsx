@@ -61,12 +61,14 @@ const BookingBox: React.SFC<BookingProps> = ({
       </div>
 
       <div className="actions">
-        <button
-          className="btn outline"
-          onClick={onRentReservation}
-        >
-          Ausleihen
-        </button>
+        {false && (
+          <button
+            className="btn outline"
+            onClick={onRentReservation}
+          >
+            Ausleihen
+          </button>
+        )}
         <button
           className="btn outline"
           onClick={onCancelReservation}
