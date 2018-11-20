@@ -43,12 +43,10 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
               <td>E-Mail</td>
               <td>{customer.login}</td>
             </tr>
-            {customer.phonenumber && (
-              <tr>
-                <td>Tel. Nummer</td>
-                <td>{customer.phonenumber}</td>
-              </tr>
-            )}
+            <tr>
+              <td>Tel. Nummer</td>
+              <td>{customer.phonenumber || "Nicht gesetzt"}</td>
+            </tr>
           </tbody>
         </table>
       </div>
