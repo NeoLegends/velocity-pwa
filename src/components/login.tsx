@@ -46,7 +46,12 @@ class Login extends React.Component<LoginProps, LoginState> {
               value={this.state.password}
             />
 
-            <a href="https://velocity-aachen.de/reg/">Jetzt registrieren</a>
+            <a
+              href="https://velocity-aachen.de/reg/"
+              target="_blank"
+            >
+              Jetzt registrieren
+            </a>
             <Link to="/forgot-password">Passwort vergessen?</Link>
           </div>
 
