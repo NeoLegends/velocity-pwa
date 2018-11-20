@@ -12,7 +12,7 @@ import {
   rentBike,
   reserveBike,
 } from '../../model/stations';
-import { getCurrentBooking } from '../../model/transaction';
+import { hasCurrentBooking } from '../../model/transaction';
 import { LOGO_URL } from '../../resources/logo';
 
 import './bike-map.scss';
@@ -121,8 +121,8 @@ class BikeMap extends React.Component<
   private handleCloseStation = () => this.setState({ stationOpened: null });
 
   private handleOpenStation = async (stationId: number) => {
-    const [currentBooking, detailedStation, slotInfo] = await Promise.all([
-      getCurrentBooking(),
+    const [hasBooking, detailedStation, slotInfo] = await Promise.all([
+      hasCurrentBooking(),
       getSingleStation(stationId),
       getSlotInfo(stationId),
     ]);
@@ -132,7 +132,7 @@ class BikeMap extends React.Component<
     }
 
     this.setState({
-      hasBooking: !!currentBooking,
+      hasBooking,
       stationOpened: {
         station: detailedStation,
         slots: slotInfo,

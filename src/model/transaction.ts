@@ -1,4 +1,4 @@
-import { Booking, Transaction } from '.';
+import { Booking, InvalidStatusCodeError, Transaction } from '.';
 import { fetch204ToNull, fetchEnsureOk, fetchJsonEnsureOk } from './fetch';
 import { transactionsUrl, APP_CURRENT_BOOKING_URL } from './urls';
 
@@ -11,3 +11,16 @@ export const getCurrentBooking = (): Promise<Booking | null> =>
 
 export const getTransactions = (page: number): Promise<Transaction[]> =>
   fetchJsonEnsureOk(transactionsUrl(page));
+
+export const hasCurrentBooking = async () => {
+  try {
+    return !!(await getCurrentBooking());
+  } catch (err) {
+    // Not signed in
+    if ((err as InvalidStatusCodeError).statusCode === 401) {
+      return false;
+    }
+
+    throw err;
+  }
+};
