@@ -5,10 +5,28 @@ export interface Address {
   zip: string;
 }
 
+export interface BankDetails {
+  bankName: string;
+  bic: string;
+  iban: string;
+}
+
 export interface Booking {
   expiryDateTime: string;
   stationId: number;
   stationSlotPosition: number;
+}
+
+export interface Customer {
+  address: Address;
+  birthday: string;
+  customerId: string;
+  firstname: string;
+  isActivated: boolean;
+  isPinLocked: boolean;
+  lastname: string;
+  login: string;
+  phonenumber: string | null;
 }
 
 export interface Invoice {
@@ -34,6 +52,14 @@ export interface Reservation {
   expiryDateTime: string;
   stationId: number;
   stationSlotPosition: number;
+}
+
+export interface SepaMandate extends BankDetails {
+  address: Address;
+  date: string;
+  firstname: string;
+  lastname: string;
+  reference: string;
 }
 
 export interface Slot {

@@ -1,4 +1,4 @@
-import { Link } from '@reach/router';
+import { Link, LinkGetProps } from '@reach/router';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -11,8 +11,11 @@ interface MenuEntryProps {
   to: string;
 }
 
-const calculateClassNames = ({ isCurrent }) => ({
-  className: classNames('menu-entry', { ['active']: isCurrent }),
+const calculateClassNames = ({ href, isCurrent, isPartiallyCurrent }: LinkGetProps) => ({
+  className: classNames('menu-entry', {
+    // Don't show root route as always active
+    ['active']: href === '/' ? isCurrent : isPartiallyCurrent,
+  }),
 });
 
 const MenuEntry: React.SFC<MenuEntryProps> = ({ text, to }) => (
@@ -27,7 +30,7 @@ export const MenuEntries: React.FC = () => (
     <MenuEntry text="Buchungen" to="/bookings"/>
     <MenuEntry text="Tarif" to="/tariff"/>
     <MenuEntry text="Rechnungen" to="/invoices"/>
-    <MenuEntry text="Persönliche Daten" to="/personal-data"/>
+    <MenuEntry text="Persönliche Daten" to="/customer"/>
     <MenuEntry text="Support" to="/support"/>
     <a
       className="menu-entry"

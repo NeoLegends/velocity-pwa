@@ -1,0 +1,23 @@
+.change-bank-details {
+  h3 {
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-top: 16px
+    }
+  }
+
+  p {
+    margin: 0;
+    margin-top: 16px;
+  }
+
+  label {
+    margin-top: 12px;
+
+    .input {
+      display: inline;
+      margin-right: 16px;
+    }
+  }
+}

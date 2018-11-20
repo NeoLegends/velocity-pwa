@@ -1,0 +1,24 @@
+@import "../../resources/variables";
+
+.customer-info {
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  thead {
+    border-bottom: 1px solid #ddd;
+
+    td {
+      text-align: center;
+    }
+  }
+
+  td {
+    padding: 5px 10px;
+  }
+
+  .change-tel p {
+    margin: 0;
+  }
+}
