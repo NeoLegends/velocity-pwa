@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-// Format a number as euro currency.
+/** Format a number as euro currency. */
 Number.prototype.toEuro = function() {
   return this.toLocaleString(undefined, {
     currency: 'EUR',
