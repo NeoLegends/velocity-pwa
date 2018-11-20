@@ -48,7 +48,9 @@ class Login extends React.Component<LoginProps, LoginState> {
 
             <a href="https://velocity-aachen.de/reg/">Jetzt registrieren</a>
             <Link to="/forgot-password">Passwort vergessen?</Link>
+          </div>
 
+          <div className="actions">
             <button
               className="btn outline"
               disabled={!canLogin}
