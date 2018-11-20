@@ -122,7 +122,7 @@ export interface UserTariff {
 }
 
 export class InvalidStatusCodeError extends Error {
-  constructor(public code: number, public url: string) {
-    super(`Received invalid status code ${code} while fetching '${url}'.`);
+  constructor(public statusCode: number, public url: string) {
+    super(`Received invalid status code ${statusCode} while fetching '${url}'.`);
   }
 }
