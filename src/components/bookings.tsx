@@ -135,7 +135,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
         />
       )}
 
-      <div className="box outline transactions">
+      <div className="box transactions">
         <h2>Vergangene Fahrten</h2>
 
         <div className="wrapper">
