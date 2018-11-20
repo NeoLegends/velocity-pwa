@@ -3,8 +3,8 @@
   "name": "Velocity",
   "icons": [
     {
-      "src": "https://velocity-aachen.de/assets/images/logo-pin3x-128x148.png",
-      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "src": "https://www.velocity-aachen.de/menu/res/android-icon.png",
+      "sizes": "152x152 128x128 64x64 32x32 24x24 16x16",
       "type": "image/png"
     }
   ],
