@@ -1,13 +1,15 @@
+@import "../resources//variables";
+
 .app {
   background-color: #bbb;
+  height: 100vh;
 
   display: flex;
   flex-flow: column nowrap;
 
-  height: 100vh;
-
   .main {
     flex: 1;
+    margin-top: $menu-height;
     overflow: scroll;
   }
 }
