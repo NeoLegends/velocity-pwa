@@ -45,4 +45,4 @@ const Menu: React.FC = () => (
   </nav>
 );
 
-export default withOverlay(Menu);
+export default Menu;

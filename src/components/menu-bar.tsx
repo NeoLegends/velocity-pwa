@@ -2,8 +2,9 @@ import { Link } from '@reach/router';
 import React from 'react';
 
 import { LOGO_URL } from '../resources/logo';
+import Overlay from '../util/overlay';
 
-import OverlayMenu, { MenuEntries } from './menu';
+import Menu, { MenuEntries } from './menu';
 import './menu-bar.scss';
 
 export interface MenuBarProps {
@@ -46,10 +47,12 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           Menü
         </button>
 
-        <OverlayMenu
+        <Overlay
           isOpen={this.state.isMenuOpen}
           onRequestClose={this.onRequestMenuClose}
-        />
+        >
+          <Menu/>
+        </Overlay>
       </header>
     );
   }
