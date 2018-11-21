@@ -24,6 +24,10 @@
   .btn {
     flex: 0 0 auto;
     margin: 8px;
+
+    &.transparent {
+      margin: 0;
+    }
   }
 
   .btn-menu {

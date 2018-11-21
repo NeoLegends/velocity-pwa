@@ -2,6 +2,7 @@ import { Link, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { Customer, SepaMandate } from '../../model';
+import { LanguageContext } from '../../util/language';
 
 interface CustomerBodyProps {
   customer: Customer;
@@ -12,115 +13,119 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
   customer,
   sepaMandate,
 }) => (
-  <>
-    <div className="box personal">
-      <h2>Persönliche Daten</h2>
+  <LanguageContext.Consumer>
+    {({ PARTICULARS }) => (
+      <>
+        <div className="box personal">
+          <h2>{PARTICULARS.HEADING}</h2>
 
-      <div className="wrapper">
-        <table>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>{customer.firstname} {customer.lastname}</td>
-            </tr>
-            <tr>
-              <td>Straße</td>
-              <td>{customer.address.streetAndHousenumber}</td>
-            </tr>
-            <tr>
-              <td>PLZ</td>
-              <td>{customer.address.zip}</td>
-            </tr>
-            <tr>
-              <td>Stadt</td>
-              <td>{customer.address.city}</td>
-            </tr>
-            <tr>
-              <td>Land</td>
-              <td>{customer.address.country}</td>
-            </tr>
-            <tr>
-              <td>E-Mail</td>
-              <td>{customer.login}</td>
-            </tr>
-            <tr>
-              <td>Tel. Nummer</td>
-              <td>{customer.phonenumber || "Nicht gesetzt"}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          <div className="wrapper">
+            <table>
+              <tbody>
+                <tr>
+                  <td>{PARTICULARS.TABLE.NAME}</td>
+                  <td>{customer.firstname} {customer.lastname}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.STREET}</td>
+                  <td>{customer.address.streetAndHousenumber}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.ZIP}</td>
+                  <td>{customer.address.zip}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.CITY}</td>
+                  <td>{customer.address.city}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.COUNTRY}</td>
+                  <td>{customer.address.country}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.LOGIN}</td>
+                  <td>{customer.login}</td>
+                </tr>
+                <tr>
+                  <td>{PARTICULARS.TABLE.PHONE}</td>
+                  <td>{customer.phonenumber || "N/A"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      <div className="actions">
-        <Link
-          className="btn outline"
-          to="change-address"
-        >
-          Anschrift ändern
-        </Link>
+          <div className="actions">
+            <Link
+              className="btn outline"
+              to="change-address"
+            >
+              {PARTICULARS.TABLE.CHANGE_ADDRESS}
+            </Link>
 
-        <Link
-          className="btn outline"
-          to="change-pin"
-        >
-          PIN ändern
-        </Link>
+            <Link
+              className="btn outline"
+              to="change-pin"
+            >
+              {PARTICULARS.PANEL.PIN}
+            </Link>
 
-        <Link
-          className="btn outline"
-          to="change-password"
-        >
-          Passwort ändern
-        </Link>
+            <Link
+              className="btn outline"
+              to="change-password"
+            >
+              {PARTICULARS.PANEL.PASSWORD}
+            </Link>
 
-        <Link
-          className="btn outline"
-          to="change-tel"
-        >
-          Telefonnummer {customer.phonenumber ? "ändern" : "eintragen"}
-        </Link>
-      </div>
-    </div>
+            <Link
+              className="btn outline"
+              to="change-tel"
+            >
+              {PARTICULARS.TABLE.CHANGE_PHONE}
+            </Link>
+          </div>
+        </div>
 
-    <div className="box banking">
-      <h2>Bankdaten</h2>
+        <div className="box banking">
+          <h2>Bankdaten</h2>
 
-      <div className="wrapper">
-        <table>
-          <tbody>
-            <tr>
-              <td>Kontoinhaber</td>
-              <td>{sepaMandate.firstname} {sepaMandate.lastname}</td>
-            </tr>
-            <tr>
-              <td>IBAN</td>
-              <td>{sepaMandate.iban}</td>
-            </tr>
-            <tr>
-              <td>Bank</td>
-              <td>{sepaMandate.bankName} | {sepaMandate.bic}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          <div className="wrapper">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Kontoinhaber</td>
+                  <td>{sepaMandate.firstname} {sepaMandate.lastname}</td>
+                </tr>
+                <tr>
+                  <td>IBAN</td>
+                  <td>{sepaMandate.iban}</td>
+                </tr>
+                <tr>
+                  <td>Bank</td>
+                  <td>{sepaMandate.bankName} | {sepaMandate.bic}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      <div className="actions">
-        <Link
-          className="btn outline"
-          to="change-bank-details"
-        >
-          Bankdaten ändern
-        </Link>
+          <div className="actions">
+            <Link
+              className="btn outline"
+              to="change-bank-details"
+            >
+              {PARTICULARS.PANEL.BANK_ACC}
+            </Link>
 
-        <Link
-          className="btn outline"
-          to="sepa-mandate"
-        >
-          SEPA-Mandat abrufen
-        </Link>
-      </div>
-    </div>
-  </>
+            <Link
+              className="btn outline"
+              to="sepa-mandate"
+            >
+              {PARTICULARS.PANEL.SEPA}
+            </Link>
+          </div>
+        </div>
+      </>
+    )}
+  </LanguageContext.Consumer>
 );
 
 export default Overview;

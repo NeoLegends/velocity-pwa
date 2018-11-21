@@ -1,0 +1,455 @@
+{
+  "STATE": {
+    "ACTIVE": "active",
+    "IDLE": "disabled"
+  },
+  "MONTH": {
+    "JAN": "January",
+    "FEB": "February",
+    "MAR": "March",
+    "APR": "April",
+    "MAY": "May",
+    "JUNE": "June",
+    "JULY": "July",
+    "AUG": "August",
+    "SEPT": "September",
+    "OCT": "October",
+    "NOV": "November",
+    "DEC": "December"
+  },
+  "PASSWORD_RESET": {
+    "TITLE": "Reset your password",
+    "EMAIL": "Enter your email",
+    "PASSWORD": "New password",
+    "PASSWORD_REPEAT": "Repeat your new password",
+    "BUTTON": {
+      "RESET": "Update",
+      "REDIRECT": "Request a new link"
+    },
+    "ALERT": {
+      "STATUS": "This link is not available any more.",
+      "RESET": {
+        "SUCCESS": "Your password has been changed successfully. Please log in with your new one.",
+        "ERROR": "Sorry. There went something wrong. Please try again later."
+      }
+    },
+    "HINT": {
+      "CHARSIZE": "At least eight characters (max. number 20)",
+      "LOWERCASE": "One or more lower case letters (a, b, c, ...)",
+      "UPPERCASE": "One or more upper case letters (A, B, C, ...)",
+      "NUMBERS": "One or more numbers (1,2,3,...)",
+      "SPECIAL_CHARS": "Valid special characters: ! # $ % & ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | }"
+    },
+    "ERROR": {
+      "REQUIREMENTS_NOT_MEET": "Password does not meet our requirements",
+      "NOT_EQUAL": "Does not equal previous entry"
+    }
+  },
+  "PASSWORD_REMEMBER": {
+    "TITLE": "Request new password",
+    "EMAIL": "Enter your email",
+    "BUTTON": "Send",
+    "HYPERLINK": "Forgot your password?",
+    "ALERT": {
+      "SUCCESS": "We just send you an email. Please follow the link attached to that email and choose a new password afterwards.",
+      "ERROR": "Sorry. There went something wrong. Please try again later."
+    }
+  },
+  "NAVIGATION": {
+    "KARTE": "Map",
+    "BUCHUNGEN": "Bookings",
+    "ABONNEMENT": "Subscription",
+    "RECHNUNGEN": "Invoices",
+    "ACCOUNT": "Account",
+    "SIGN_OUT_BTN": "Sign out",
+    "SIGN_IN_BTN": "Sign in",
+    "SUPPORT": "Support"
+  },
+  "LOGIN": {
+    "REGISTRIEREN": "Create an account",
+    "EMAIL": "Enter your email",
+    "PASSWORT": "Password",
+    "ALERT": {
+      "WRONG_USERDATA": "Unknown credentials",
+      "NO_SERVER_RESPONSE": "Sorry. At the moment you cannot login to our service. Please try again later.",
+      "LOGOUT_SUCCESS": "Sign out has been successful",
+      "LOGOUT_ERR": "Sorry, but the system failed to sign you out correctly. Please try again later."
+    },
+    "NOTE": "Note: The customer control panel is still in development mode. Some features might not work correctly and the correctness of the data displayed cannot be guaranteed."
+  },
+  "MAP": {
+    "LOAD": {
+      "STATIONEN": "Load stations"
+    },
+    "ALERT": {
+      "ALREADY_BOOKED": "You already booked one bicycle",
+      "NO_PEDELEC_AVAILABLE": "There is currently no e-bike available at this station.",
+      "STATION_LOAD": "Sorry. We could not load the stations",
+      "STATION_DETAILS": "Sorry. We have been unable to load station details."
+    },
+    "POPUP": {
+      "STATES": {
+        "DEACTIVATED": "Disabled slot",
+        "OCCUPIED": "E-bike available",
+        "NOT_OCCUPIED": "Empty slot",
+        "MAINTENANCE": "In maintenance",
+        "RESERVED": "Booked"
+      },
+      "ADDRESS": {
+        "ERROR": "Address N/A"
+      },
+      "REQUIRE_SIGN_IN": {
+        "LINK": "Sign in",
+        "TEXT": " to book or rent a bicycle."
+      },
+      "BUTTON": {
+        "BOOK": "Book",
+        "RENT": "Rent"
+      },
+      "RENT_DIALOG": {
+        "DESCRIPTION": {
+          "PART1": "Take your bicycle from slot",
+          "PART2": ""
+        },
+        "ERROR": {
+          "REQUIRED": "Please enter your PIN",
+          "PATTERN": "4 digits required"
+        },
+        "BUTTON": {
+          "ACCEPT": "Confirm",
+          "CANCEL": "Cancel",
+          "SELECT": "Select"
+        },
+        "ALERT": {
+          "DEFAULT_ERR": "Sorry. Unfortunately it is not possible to rent a bike at the moment. Please try again later.",
+          "SLOT_LOCKED": "You have already booked a bike",
+          "INVALID_PIN": "Incorrect PIN",
+          "DEFAULT_SUCCESS": "You can now take your bike."
+        }
+      },
+      "CHANGE_BIKE":{
+        "BUTTON":{
+          "SELECT": "Select",
+          "CANCEL": "Cancel"
+        }
+      }
+    },
+    "SEARCH": {
+      "PLACEHOLDER": "Search station..."
+    }
+  },
+  "BUCHUNGEN": {
+    "ALERT": {
+      "LOAD_CURR_BOOKING_ERR": "Sorry, your current booking could not be loaded.",
+      "REFRESH_TRANSACTION_HISTORY": "Failed to refresh trip history"
+    },
+    "RESERVIERUNG": {
+      "TITEL": "Active reservation",
+      "STATION": "Station",
+      "SLOT": "Slot",
+      "ZEIT": "Booked until",
+      "BUTTON": "Cancel reservation",
+      "STATION_TEXT": "Currently no reservations",
+      "UHR": "h"
+    },
+    "HISTORIE": {
+      "GESAMT": "Total",
+      "TITEL": "History",
+      "BUTTON": "Display charts",
+      "UNTERTITEL": "Overview",
+      "UNTERTITEL_EXT": "all",
+      "ANZAHL": "Number of transactions",
+      "KOSTEN": "Total costs",
+      "SEARCH_BAR": "Search station by name ...",
+      "STATION_PANEL": {
+        "STATION": {
+          "FROM": "From",
+          "TO": "to"
+        },
+        "TIME": {
+          "ON": "From",
+          "AT": "",
+          "UNTIL": "until",
+          "UNIT": "h"
+        },
+        "PRICE": "Travel costs",
+        "NO_TRANS_AVAILABLE": "No further transactions available"
+      }
+    }
+  },
+  "TARIFF": {
+    "MODAL": {
+      "AUTO_RENEWAL": {
+        "TITLE": "Automatic renewal",
+        "INFO": "Do you want to alter the automatic renewal?",
+        "DEAKTIVIEREN": "Disable",
+        "AKTIVIEREN": "Enable",
+        "ABBRECHEN": "Cancel"
+      },
+      "ORDER_OPTION": {
+        "INFO": "Please confirm the booking of the following tariff:",
+        "ABBRECHEN": "Cancel",
+        "CONFIRM": "Book now"
+      }
+    },
+    "ALERT": {
+      "CHANGE_TARIFF_SUCCESS": "Tariff booked successfully.",
+      "CHANGE_TARIFF_FAIL": "Tariff could not be booked.",
+      "LOAD_TARIFF_FAIL": "Sorry, but we were not able to load information about your current tariff",
+      "LOAD_TARIFFS_FAIL": "Sorry, but we were not able to load the list of tariffs",
+      "NOTE_NOT_CHANGEABLE": "Changing a tariff is only possible when currently no other tariff is booked. To change the tariff, first disable automatic renewal. After the current tariff has expired you are able to choose a new tariff.",
+      "ALTER_RENEWAL_FAIL": "Sorry, but we were not able to update your account."
+    },
+    "CURRENT": {
+      "TITLE": "Tariff",
+      "NAME": "Current tariff",
+      "CHANGE": "Change tariff",
+      "EXPIRY": "Date of expiration",
+      "RENEWAL": "Automatic renewal is",
+      "RENEWAL_BTN": "alter"
+    },
+    "ALL": {
+      "TITLE": "Tariff options",
+      "INFO": "Info",
+      "DURATION": "Duration",
+      "PREIS": "Costs",
+      "TAGE": "days",
+      "BUCHEN": "Book"
+    }
+  },
+  "BILL": {
+    "HEADLINE": "Invoices",
+    "HEAD": {
+      "JAHR": "Year",
+      "MONAT": "Month",
+      "SUM": "Sum"
+    },
+    "ALERT": {
+      "NO_INVOICES": "There are no invoices available.",
+      "FETCH_INVOICE_FAILURE": "Sorry, but we were not able to load your invoices."
+    }
+  },
+  "PARTICULARS": {
+    "MODAL": {
+      "ADDRESS": {
+        "TITLE": "Change address",
+        "TEXT": "Here you can change your address.",
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Cancel"
+        },
+        "INPUT":{
+          "STREET_AND_HOUSENUMBER": "Street and No.",
+          "ZIP": "ZIP",
+          "CITY": "City"
+        },
+        "ALERT": {
+          "REQ_FAIL": "Sorry, currently it is not possible to update your bank account.",
+          "REQ_SUC": "Your bank account has successfully been updated."
+        },
+        "ZIP_PATTERN_ERR": "Only digits (min. 4, max. 6)"
+      },
+      "PIN": {
+        "TITLE": "Pin reset",
+        "PASSWORD": "Password",
+        "PIN": "0000",
+        "DESCRIPTION_PIN": "Enter new PIN",
+        "DESCRIPTION_PW": "Enter your password",
+        "PIN_PATTERN_ERR": "4 digits required",
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Close"
+        },
+        "ALERT": {
+          "SUCCESS": "You successfully changed your PIN",
+          "ERROR": {
+            "NOT_AUTHENTICATED": "Incorrect password",
+            "GENERAL": "Sorry. There went something wrong. Please try again later."
+          }
+        }
+      },
+      "PHONE": {
+        "TITLE": "Change phone number",
+        "PLACEHOLDER": "+49 012355512",
+        "DESCRIPTION_USAGE": "We use your phone number to contact you in case we need more information regarding invoices or support cases.",
+        "DESCRIPTION_PHONE": "Enter phone number",
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Close"
+        },
+        "ALERT": {
+          "SUCCESS": "You successfully changed your phone number",
+          "ERROR": {
+            "GENERAL": "Sorry. There went something wrong. Please try again later."
+          }
+        }
+      },
+      "PW": {
+        "TITLE": "Reset password",
+        "TEXT": "You will receive an email including a hyperlink. Please follow this link to reset your password.",
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Close"
+        },
+        "ALERT": {
+          "SUCCESS": "You successfully received an email",
+          "ERROR": "Sorry. There went something wrong. Please try again later."
+        }
+      },
+      "BANK_ACC": {
+        "TITLE": "Change bank account",
+        "TEXT": "Here you can change your IBAN, BIC and the name of your bank",
+        "INPUT": {
+          "IBAN": "IBAN",
+          "BIC": "BIC",
+          "BANK_NAME": "Name of bank"
+        },
+        "SEPA": {
+          "SUBTITLE": "SEPA direct debit mandate",
+          "MANDATE": {
+            "ERROR": "Please confirm SEPA debit note in order to proceed.",
+            "ADDRESS": {
+              "NAME": "Velocity Aachen GmbH",
+              "STREET": "Kockerellstraße 19",
+              "ZIP_CITY": "52062 Aachen",
+              "ID_NR": "Originator's Identification Number: DE27ZZZ00001598043"
+            },
+            "SECTION_1": "By signing this mandate form, you authorise Velocity Aachen GmbH to send instructions to your bank to debit your account and your bank to debit your account in accordance with the instructions from Velocity Aachen GmbH.",
+            "SECTION_2": "As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimend within 8 weeks starting from the date on which your account was debited.",
+            "SECTION_3": "Your rights regarding this mandate are explained in a statement you can obtain from your bank."
+          }
+        },
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Cancel"
+        },
+        "ALERT": {
+          "REQ_FAIL": "Sorry, currently it is not possible to update your bank account.",
+          "REQ_SUC": "Your bank account has successfully been updated."
+        },
+        "BIC_PATTERN_ERR": "Only caps and digits"
+      }
+    },
+    "HEADING": "Particulars",
+    "DESCRIPTION": "Here you can find your personal data as well as the opportunity to change your current password and PIN. Please notice that updating your personal data is not possible online.",
+    "TABLE": {
+      "SUBHEADING": "Overview",
+      "NAME": "Name",
+      "STREET": "Street",
+      "ZIP": "ZIP",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "LOGIN": "Email",
+      "PHONE": "Phone number",
+      "CHANGE_ADDRESS": "Change address",
+      "CHANGE_PHONE": "Change phone"
+    },
+    "PANEL": {
+      "SUBHEADING": "Password and PIN",
+      "PASSWORD": "Change password",
+      "PIN": "Change PIN",
+      "RESETPIN": "Reset PIN",
+      "SEPA": "Request SEPA mandate",
+      "TOOLTIP": {
+          "PASSWORD": "We will send you a link to change your password.",
+          "PIN": "Your PIN has been blocked due to security concerns. Please select a new one."
+      },
+      "BANK_ACC": "Change bank account"
+    }
+  },
+  "SEPA": {
+    "SUBTITLE": "SEPA direct debit mandate",
+    "MANDATE": {
+      "ADDRESS": {
+        "NAME": "Velocity Aachen GmbH",
+        "STREET": "Kockerellstraße 19",
+        "ZIP_CITY": "52062 Aachen",
+        "ID_NR": "Originator's Identification Number: DE27ZZZ00001598043"
+      },
+      "MANDATE_REF": "Mandate Reference",
+      "NOTE": "Note",
+      "DATE": "Date of establishment",
+      "SECTION_1": "By signing this mandate form, you authorise Velocity Aachen GmbH to send instructions to your bank to debit your account and your bank to debit your account in accordance with the instructions from Velocity Aachen GmbH.",
+      "SECTION_2": "As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimend within 8 weeks starting from the date on which your account was debited."
+    }
+  },
+  "SUPPORT": {
+    "ERROR_REPORT": {
+      "TITLE": "Error report",
+      "STATION": {
+        "STATION_NAME": "Name of the station",
+        "DEFECT": "Defect",
+        "NOTES": "Note"
+      },
+      "BIKE": {
+        "BIKE_ID": "Bike number",
+        "DEFECT": "Defect"
+      },
+      "ERROR_MESSAGES": {
+        "STATION": {
+          "TERMINAL": "Terminal out of order",
+          "SCREEN": "Faulty screen",
+          "SOILED": "Soiled station",
+          "SLOT": "A slot does not open/close properly",
+          "MISC": "Other"
+        },
+        "BIKE": {
+          "TIRE": "Flat or damaged tire",
+          "TRACTION": "No traction",
+          "SOILED": "Soiled pedelec",
+          "BELL": "Faulty bell",
+          "BRAKE": "Faulty break",
+          "LIGHT": "Faulty ligth",
+          "MISC": "Other"
+        }
+      },
+      "ALERT": {
+        "SUCCESS": "Thank you. Your report has successfully be sent.",
+        "ERROR": {
+          "MISSING_DATA": "Please enter a both station name and a defect",
+          "DEFAULT": "Sorry, your error report could not be submitted. Please try again later."
+        }
+      }
+    },
+    "FEEDBACK": {
+      "TITLE": "Feedback",
+      "FORM": {
+        "SUBJECT": "Subject",
+        "CONTENT": "Note"
+      },
+      "ALERT": {
+        "SUCCESS": "Thank you for your feedback",
+        "ERROR": {
+          "MISSING_DATA": "Please enter both a subject and a note",
+          "DEFAULT": "Sorry, your feedback could not be submitted. Please try again later"
+        }
+      }
+    },
+    "BUTTON": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "PRIVACY": {
+    "BUTTON": "Privacy Policy",
+    "SECTION_1": {
+      "HEADING": "Privacy Policy",
+      "CONTENT": "The protection of your privacy is important. At this point we would like to inform you about the privacy policy at Velocity Aachen GmbH. We apply high security standards in order to protect your data from unauthorized access. Surely, we follow the clauses of the Datenschutzgesetz (BDGS) as well as of the Telemediengesetz (TMG)."
+    },
+    "SECTION_2": {
+      "HEADING": "Personal Data",
+      "CONTENT": "It is necessary to gather and store personal data to meet the agreements in the contract between you and Velocity Aachen GmbH. We store name, gender, age and address to identify you as a customer internally. Furthermore, are you creating a password and a PIN and providing your email address. We are storing this data to be able to get in touch with you and because it is essential for using the bike sharing system. On demand, we will inform you in more detail about the personal data stored in our system."
+    },
+    "SECTION_3": {
+      "HEADING": "Payment Service Provider",
+      "CONTENT": "Information about your bank account, the requested amount and the corresponding invoice ID are transmitted to our payment service provider for each settlement."
+    },
+    "SECTION_4": {
+      "HEADING": "Trip Information",
+      "CONTENT": "Station information including a timestamp of the start and the end of each completed trip are stored. We need these information for the monthly settlement. Besides, by storing these information you can check your personal trip history online in our customer control panel. In case you find some discrepancies, please do not hesitate to contact our customer support."
+    },
+    "SECTION_5": {
+      "HEADING": "Customer Control Panel",
+      "CONTENT": "We are using cookies in our customer control panel to enable authentication of customers at our service. That’s the only use case of cookies."
+    }
+  }
+}

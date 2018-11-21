@@ -1,3 +1,5 @@
+import { LanguageIdentifier } from '../util/language';
+
 import { Tariff, UserTariff } from '.';
 import { fetch204ToNull, fetchEnsureOk, fetchJsonEnsureOk } from './fetch';
 import { tariffsUrl, APP_CURRENT_TARIFF_URL, APP_TOGGLE_TARIFF_RENEWAL_URL } from './urls';
@@ -16,5 +18,5 @@ export const deactivateAutoRenewal = () =>
 export const getCurrentTariff = (): Promise<UserTariff | null> =>
   fetch204ToNull(APP_CURRENT_TARIFF_URL);
 
-export const getTariffs = (lang: 'de' | 'en'): Promise<Tariff[]> =>
+export const getTariffs = (lang: LanguageIdentifier): Promise<Tariff[]> =>
   fetchJsonEnsureOk(tariffsUrl(lang));

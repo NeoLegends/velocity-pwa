@@ -1,0 +1,456 @@
+{
+  "STATE": {
+    "ACTIVE": "aktiviert",
+    "IDLE": "deaktiviert"
+  },
+  "MONTH": {
+    "JAN": "Januar",
+    "FEB": "Februar",
+    "MAR": "März",
+    "APR": "April",
+    "MAY": "Mai",
+    "JUNE": "Juni",
+    "JULY": "Juli",
+    "AUG": "August",
+    "SEPT": "September",
+    "OCT": "Oktober",
+    "NOV": "November",
+    "DEC": "Dezember"
+  },
+  "PASSWORD_RESET": {
+    "TITLE": "Passwort zurücksetzen",
+    "EMAIL": "E-Mail-Adresse",
+    "PASSWORD": "Neues Passwort",
+    "PASSWORD_REPEAT": "Neues Passwort wiederholen",
+    "BUTTON": {
+      "RESET": "Ändern",
+      "REDIRECT": "Link erneut anfordern"
+    },
+    "ALERT": {
+      "STATUS": "Der von Ihnen angeforderte Link ist bereits verfallen.",
+      "RESET": {
+        "SUCCESS": "Ihr Passwort wurde erfolgreich geändert. Bitte loggen Sie sich mit dem neuen Passwort ein.",
+        "ERROR": "Ups! Gerade können wir Ihr Passwort nicht aktualisieren. Bitte versuchen Sie es später erneut."
+      }
+    },
+    "HINT": {
+      "CHARSIZE": "Mindestens 8 Zeichen (max. 20)",
+      "LOWERCASE": "Mindestens einen Kleinbuchstaben",
+      "UPPERCASE": "Mindestens einen Großbuchstaben",
+      "NUMBERS": "Mindestens eine Zahl",
+      "UMLAUT": "Keine Umlaute verwenden (ä, ü, ö)",
+      "SPECIAL_CHARS": "Akzeptierte Sonderzeichen: ! # $ % & ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | }"
+    },
+    "ERROR": {
+      "REQUIREMENTS_NOT_MEET": "Das Passwort genügt nicht den Anforderungen",
+      "NOT_EQUAL": "Passwörter stimmen nicht überein"
+    }
+  },
+  "PASSWORD_REMEMBER": {
+    "TITLE": "Neues Passwort anfordern",
+    "EMAIL": "E-Mail-Adresse",
+    "BUTTON": "Senden",
+    "HYPERLINK": "Passwort vergessen?",
+    "ALERT": {
+      "SUCCESS": "Soeben haben Sie eine E-Mail von uns erhalten. Klicken Sie auf den Link in der E-Mail und setzen Sie ein neues Passwort.",
+      "ERROR": "Ups! Da ist etwas schief gelaufen. Leider konnten wir Ihnen keine E-Mail zum Zurücksetzen des Passworts zuschicken. Bitte versuchen Sie es später erneut."
+    }
+  },
+  "NAVIGATION": {
+    "KARTE": "Karte",
+    "BUCHUNGEN": "Buchungen",
+    "ABONNEMENT": "Tarif",
+    "RECHNUNGEN": "Rechnungen",
+    "ACCOUNT": "Persönliche Daten",
+    "SIGN_OUT_BTN": "Abmelden",
+    "SIGN_IN_BTN": "Anmelden",
+    "SUPPORT": "Support"
+  },
+  "LOGIN": {
+    "REGISTRIEREN": "Jetzt registrieren",
+    "EMAIL": "E-Mail-Adresse",
+    "PASSWORT": "Passwort",
+    "ALERT": {
+      "WRONG_USERDATA": "Benutzername oder Passwort wurde falsch eingegeben",
+      "NO_SERVER_RESPONSE": "Zur Zeit können Sie sich leider nicht anmelden. Bitte versuchen Sie es später erneut.",
+      "LOGOUT_SUCCESS": "Sie haben sich erfolgreich abgemeldet",
+      "LOGOUT_ERR": "Entschuldigung, der Logout Vorgang ist fehlgeschlagen. Bitte versuchen Sie es später erneut."
+    },
+    "NOTE": "Hinweis: Das Kundencenter ist noch in der Entwicklung. Es können noch nicht alle Funktionen genutzt werden. Die Richtigkeit der Informationen können wir noch nicht gewährleisten."
+  },
+  "MAP": {
+    "LOAD": {
+      "STATIONEN": "Lade Stationen"
+    },
+    "ALERT": {
+      "ALREADY_BOOKED": "Reservierung liegt bereits vor",
+      "NO_PEDELEC_AVAILABLE": "Es steht kein freies Pedelec zur Verfügung",
+      "STATION_LOAD": "Entschuldigung! Die Stationen konnten nicht geladen werden",
+      "STATION_DETAILS": "Entschuldigung! Die Detailinfos der Station konnten nicht geladen werden"
+    },
+    "POPUP": {
+      "STATES": {
+        "DEACTIVATED": "Stellplatz deaktiviert",
+        "OCCUPIED": "Fahrrad verfügbar",
+        "NOT_OCCUPIED": "Stellplatz frei",
+        "MAINTENANCE": "In Wartung",
+        "RESERVED": "Reserviert"
+      },
+      "ADDRESS": {
+        "ERROR": "Adresse nicht verfügbar"
+      },
+      "REQUIRE_SIGN_IN": {
+        "LINK": "Anmelden",
+        "TEXT": ", um ein Fahrrad zu entleihen oder zu reservieren."
+      },
+      "BUTTON": {
+        "BOOK": "Reservieren",
+        "RENT": "Ausleihen"
+      },
+      "RENT_DIALOG": {
+        "DESCRIPTION": {
+          "PART1": "Rad an Slot",
+          "PART2": "ausleihen"
+        },
+        "ERROR": {
+          "REQUIRED": "Bitte geben Sie Ihre PIN ein",
+          "PATTERN": "Ihre PIN hat genau 4 Ziffern"
+        },
+        "BUTTON": {
+          "ACCEPT": "Bestätigen",
+          "CANCEL": "Abbrechen",
+          "SELECT": "Auswählen"
+        },
+        "ALERT": {
+          "DEFAULT_ERR": "Entschuldigung, leider ist eine Ausleihe zur Zeit nicht möglich.",
+          "SLOT_LOCKED": "Sie haben bereits ein Fahrrad entliehen.",
+          "INVALID_PIN": "Die angegebene PIN ist inkorrekt.",
+          "DEFAULT_SUCCESS": "Sie können Ihr Fahrrad jetzt entnehmen"
+        }
+      },
+      "CHANGE_BIKE": {
+        "BUTTON": {
+          "SELECT": "Auswählen",
+          "CANCEL": "Abbrechen"
+        }
+      }
+    },
+    "SEARCH": {
+      "PLACEHOLDER": "Station suchen..."
+    }
+  },
+  "BUCHUNGEN": {
+    "ALERT": {
+      "LOAD_CURR_BOOKING_ERR": "Entschuldigung. Aufgrund eines internen Fehlers konnte Ihre aktuelle Buchung nicht geladen werden.",
+      "REFRESH_TRANSACTION_HISTORY": "Fahrthistorie konnte nicht aktualisiert werden"
+    },
+    "RESERVIERUNG": {
+      "TITEL": "Aktuelle Reservierung",
+      "STATION": "Station",
+      "SLOT": "Stellplatz",
+      "ZEIT": "Reserviert bis",
+      "BUTTON": "Reservierung löschen",
+      "STATION_TEXT": "Keine Reservierung vorhanden",
+      "UHR": " Uhr"
+    },
+    "HISTORIE": {
+      "GESAMT": "Gesamt",
+      "TITEL": "Vergangene Fahrten",
+      "BUTTON": "Diagramme einblenden",
+      "UNTERTITEL": "Übersicht",
+      "UNTERTITEL_EXT": "gesamt",
+      "ANZAHL": "Anzahl der Fahrten",
+      "KOSTEN": "Kosten gesamt",
+      "SEARCH_BAR": "Station nach Namen suchen ...",
+      "STATION_PANEL": {
+        "STATION": {
+          "FROM": "Von",
+          "TO": "nach"
+        },
+        "TIME": {
+          "ON": "Vom",
+          "AT": "um",
+          "UNTIL": "bis",
+          "UNIT": " Uhr"
+        },
+        "PRICE": "Fahrtkosten",
+        "NO_TRANS_AVAILABLE": "Keine (weiteren) Fahrten vorhanden"
+      }
+    }
+  },
+  "TARIFF": {
+    "MODAL": {
+      "AUTO_RENEWAL": {
+        "TITLE": "Tarif automatisch verlängern",
+        "INFO": "Möchten Sie die automatische Verlängerung Ihres Tarifs ändern?",
+        "DEAKTIVIEREN": "Deaktivieren",
+        "AKTIVIEREN": "Aktivieren",
+        "ABBRECHEN": "Abbrechen"
+      },
+      "ORDER_OPTION": {
+        "INFO": "Bitte bestätigen Sie die Buchung des folgenden Tarifs:",
+        "ABBRECHEN": "Abbrechen",
+        "CONFIRM": "Jetzt buchen"
+      }
+    },
+    "ALERT": {
+      "CHANGE_TARIFF_SUCCESS": "Der Tarif wurde erfolgreich aktualisiert.",
+      "CHANGE_TARIFF_FAIL": "Der Tarif konnte nicht geändert werden.",
+      "LOAD_TARIFF_FAIL": "Entschuldigung, die Informationen zu Ihrem aktuellen Tarif konnten nicht geladen werden",
+      "LOAD_TARIFFS_FAIL": "Entschuldigung, die Tarifübersicht konnte nicht geladen werden",
+      "NOTE_NOT_CHANGEABLE": "Eine Tarifänderung ist nicht möglich, solange ein Tarif gebucht ist. Um den Tarif zu wechseln, deaktivieren Sie zunächst die automatische Verlängerung. Nach Ablauf Ihres aktuellen Tarifs haben Sie die Möglichkeit, einen neuen Tarif zu buchen.",
+      "ALTER_RENEWAL_FAIL": "Die Einstellung zur automatischen Verlängerung konnte nicht gespeichert werden."
+    },
+    "CURRENT": {
+      "TITLE": "Ihr Konto",
+      "NAME": "Aktueller Tarif",
+      "CHANGE": "Tarif wechseln",
+      "EXPIRY": "Läuft aus zum",
+      "RENEWAL": "Automatische Verlängerung ist",
+      "RENEWAL_BTN": "ändern"
+    },
+    "ALL": {
+      "TITLE": "Tarifübersicht",
+      "INFO": "Info",
+      "DURATION": "Laufzeit",
+      "PREIS": "Preis",
+      "TAGE": "Tage",
+      "BUCHEN": "Buchen"
+    }
+  },
+  "BILL": {
+    "HEADLINE": "Rechnungen",
+    "HEAD": {
+      "JAHR": "Jahr",
+      "MONAT": "Monat",
+      "SUM": "Summe"
+    },
+    "ALERT": {
+      "NO_INVOICES": "Es liegen noch keine Rechnungen für Sie vor.",
+      "FETCH_INVOICE_FAILURE": "Entschuldigung, leider konnten Ihre Rechnungen nicht geladen werden."
+    }
+  },
+  "PARTICULARS": {
+    "MODAL": {
+      "ADDRESS": {
+        "TITLE": "Adressdaten ändern",
+        "TEXT": "Hier haben Sie die Möglichkeit Ihre Anschrift zu aktualisieren.",
+        "BUTTON": {
+          "SUBMIT": "Speichern",
+          "CANCEL": "Abbrechen"
+        },
+        "INPUT": {
+          "STREET_AND_HOUSENUMBER": "Straße und Hausnr.",
+          "ZIP": "PLZ",
+          "CITY": "Stadt"
+        },
+        "ALERT": {
+          "REQ_FAIL": "Entschuldigung, zur Zeit können die Daten nicht gespeichert werden.",
+          "REQ_SUC": "Ihre Adresse wurde erfolgreich aktualisiert"
+        },
+        "ZIP_PATTERN_ERR": "Nur Zwiffern erlaubt (mind. 4, max. 6)"
+      },
+      "PIN": {
+        "TITLE": "PIN zurücksetzen",
+        "PASSWORD": "Passwort",
+        "PIN": "0000",
+        "DESCRIPTION_PIN": "Neue PIN eingeben",
+        "DESCRIPTION_PW": "Passwort eingeben",
+        "PIN_PATTERN_ERR": "Die PIN muss genau 4 Ziffern haben",
+        "BUTTON": {
+          "SUBMIT": "Absenden",
+          "CANCEL": "Schließen"
+        },
+        "ALERT": {
+          "SUCCESS": "Sie haben erfolgreich Ihre PIN geändert",
+          "ERROR": {
+            "NOT_AUTHENTICATED": "Das Passwort ist ungültig",
+            "GENERAL": "Etwas ist schief gelaufen. Bitte versuchen Sie es später erneut."
+          }
+        }
+      },
+      "PHONE": {
+        "TITLE": "Tel. Nummer ändern",
+        "PLACEHOLDER": "+49 012355512",
+        "DESCRIPTION_USAGE": "Wir verwenden Ihre Telefonnummer um Sie bei Rückfragen zu Rechnungen oder Supportfragen kontaktieren zu könnnen.",
+        "DESCRIPTION_PHONE": "Telefonnummer eingeben",
+        "BUTTON": {
+          "SUBMIT": "Absenden",
+          "CANCEL": "Schließen"
+        },
+        "ALERT": {
+          "SUCCESS": "Sie haben erfolgreich Ihre Telefonnummer geändert",
+          "ERROR": {
+            "GENERAL": "Etwas ist schief gelaufen. Bitte versuchen Sie es später erneut."
+          }
+        }
+      },
+      "PW": {
+        "TITLE": "Passwort zurücksetzen",
+        "TEXT": "Wir senden Ihnen einen Link per E-Mail zu, über den sie Ihr Passwort zurücksetzen können.",
+        "BUTTON": {
+          "SUBMIT": "Absenden",
+          "CANCEL": "Schließen"
+        },
+        "ALERT": {
+          "SUCCESS": "E-Mail wurde erfolgreich versendet.",
+          "ERROR": "Ups! Da ist etwas schief gelaufen. Leider konnten wir Ihnen keine E-Mail zum Zurücksetzen des Passworts zuschicken. Bitte versuchen Sie es später erneut."
+        }
+      },
+      "BANK_ACC": {
+        "TITLE": "Bankdaten ändern",
+        "TEXT": "Hier haben Sie die Möglichkeit, IBAN, BIC sowie den Namen Ihrer Bank zu aktualisieren.",
+        "INPUT": {
+          "IBAN": "IBAN",
+          "BIC": "BIC",
+          "BANK_NAME": "Name der Bank"
+        },
+        "SEPA": {
+          "SUBTITLE": "SEPA-Lastschriftmandat",
+          "MANDATE": {
+            "ERROR": "Bitte erteilen Sie zum Fortfahren das SEPA-Lastschriftmandat.",
+            "ADDRESS": {
+              "NAME": "Velocity Aachen GmbH",
+              "STREET": "Kockerellstraße 19",
+              "ZIP_CITY": "52062 Aachen",
+              "ID_NR": "Gläubiger-Identifikationsnummer: DE27ZZZ00001598043"
+            },
+            "SECTION_1": "Ich ermächtige Velocity Aachen GmbH, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von Velocity Aachen GmbH auf mein Konto gezogenen Lastschriften einzulösen.",
+            "SECTION_2": "Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.",
+            "SECTION_3": "Desweiteren nehme ich zur Kenntnis, dass mir die Mandatsreferenznummer gesondert, mit Erhalt der ersten Rechnung, zugestellt wird."
+          }
+        },
+        "BUTTON": {
+          "SUBMIT": "Speichern",
+          "CANCEL": "Abbrechen"
+        },
+        "ALERT": {
+          "REQ_FAIL": "Entschuldigung, zur Zeit können die Daten nicht gespeichert werden.",
+          "REQ_SUC": "Ihre Bankdaten wurden erfolgreich aktualisiert"
+        },
+        "BIC_PATTERN_ERR": "Nur Großbuchstaben und Ziffern erlaubt"
+      }
+    },
+    "HEADING": "Persönliche Daten",
+    "DESCRIPTION": "Hier können Sie Ihre persönlichen Daten einsehen sowie PIN und Passwort ändern. Eine Änderung der persönlichen Daten ist online nicht möglich.",
+    "TABLE": {
+      "SUBHEADING": "Übersicht",
+      "NAME": "Name",
+      "STREET": "Straße",
+      "ZIP": "PLZ",
+      "CITY": "Stadt",
+      "COUNTRY": "Land",
+      "LOGIN": "E-Mail",
+      "PHONE": "Tel. Nummer",
+      "CHANGE_ADDRESS": "Adresse ändern",
+      "CHANGE_PHONE": "Tel. Nummer ändern"
+    },
+    "PANEL": {
+      "SUBHEADING": "Passwort und PIN",
+      "PASSWORD": "Passwort ändern",
+      "PIN": "PIN ändern",
+      "RESETPIN": "PIN zurücksetzen",
+      "SEPA": "Sepa Mandat abrufen",
+      "TOOLTIP": {
+        "PASSWORD": "Wir senden Ihnen einen Link zum Ändern des Passworts zu.",
+        "PIN": "Ihre PIN wurde aus Sicherheitsgründen gesperrt. Bitte wählen Sie eine neue PIN."
+    },
+      "BANK_ACC": "Bankdaten ändern"
+    }
+  },
+  "SEPA": {
+    "SUBTITLE": "SEPA-Lastschriftmandat",
+    "MANDATE": {
+      "ADDRESS": {
+        "NAME": "Velocity Aachen GmbH",
+        "STREET": "Kockerellstraße 19",
+        "ZIP_CITY": "52062 Aachen",
+        "ID_NR": "Gläubiger-Identifikationsnummer: DE27ZZZ00001598043"
+      },
+      "MANDATE_REF": "Mandatesreferenz",
+      "NOTE": "Hinweis",
+      "DATE": "Datum der Erstellung",
+      "SECTION_1": "Ich ermächtige Velocity Aachen GmbH, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von Velocity Aachen GmbH auf mein Konto gezogenen Lastschriften einzulösen.",
+      "SECTION_2": "Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen."
+    }
+  },
+  "SUPPORT": {
+    "ERROR_REPORT": {
+      "TITLE": "Ausfallbericht",
+      "STATION": {
+        "STATION_NAME": "Stationsname",
+        "DEFECT": "Defekt",
+        "NOTES": "Bemerkungen"
+      },
+      "BIKE": {
+        "BIKE_ID": "Fahrradnummer",
+        "DEFECT": "Defekt"
+      },
+      "ERROR_MESSAGES": {
+        "STATION": {
+          "TERMINAL": "Terminal nicht bedienbar",
+          "SCREEN": "Bildschirm zeigt schwarzes Bild",
+          "SOILED": "Station verschmutzt",
+          "SLOT": "Einer der Slots schließt oder öffnet nicht",
+          "MISC": "Sonstiges"
+        },
+        "BIKE": {
+          "TIRE": "Reifen platt oder beschädigt",
+          "TRACTION": "Keine Tretunterstützung vorhanden",
+          "SOILED": "Pedelec verschmutzt",
+          "BELL": "Klingel defekt",
+          "BRAKE": "Bremse defekt",
+          "LIGHT": "Licht defekt",
+          "MISC": "Sonstiges"
+        }
+      },
+      "ALERT": {
+        "SUCCESS": "Vielen Dank. Ihr Bericht wurde erfolgreich versendet.",
+        "ERROR": {
+          "MISSING_DATA": "Bitte geben Sie sowohl den Stationsnamen als auch den Schaden an.",
+          "DEFAULT": "Zur Zeit können keine Fehlerberichte angenommen werden. Bitte versuchen Sie es später noch einmal."
+        }
+      }
+    },
+    "FEEDBACK": {
+      "TITLE": "Feedback",
+      "FORM": {
+        "SUBJECT": "Betreff",
+        "CONTENT": "Nachricht"
+      },
+      "ALERT": {
+        "SUCCESS": "Vielen Dank für Ihre Rückmeldung",
+        "ERROR": {
+          "MISSING_DATA": "Bitte geben Sie sowohl einen Betreff als auch eine Nachricht an.",
+          "DEFAULT": "Leider konnte die Nachricht nicht versendet werden. Bitte versuchen Sie es später noch einmal."
+        }
+      }
+    },
+    "BUTTON": {
+      "SUBMIT": "Absenden"
+    }
+  },
+  "PRIVACY": {
+    "BUTTON": "Datenschutz",
+    "SECTION_1": {
+      "HEADING": "Datenschutzerklärung",
+      "CONTENT": "Die Sicherheit Ihrer Daten ist uns wichtig. An dieser Stelle möchten wir Sie über den Datenschutz bei Velocity Aachen GmbH informieren. Wir wenden hohe Sicherheitsstandards an, um Ihre persönlichen Daten vor unbefugten Zugriffen zu schützen. Selbstverständlich befolgen wir die gesetzlichen Bestimmungen des Datenschutzgesetzes (BDSG) und des Telemediengesetzes (TMG)."
+    },
+    "SECTION_2": {
+      "HEADING": "Personenbezogene Daten",
+      "CONTENT": "Für die Erfüllung mit Ihnen geschlossener Verträge, werden personenbezogene Daten erhoben und gespeichert. Darunter fallen Name, Geschlecht, Alter und Anschrift, die für Ihre Identifikation als Kunde bei uns erforderlich sind. Außerdem erstellen Sie ein Passwort, legen eine PIN fest und geben Ihre E-Mail Adresse an. Diese Daten speichern wir, da sie zur Nutzung des Bikesharing Systems und für die Kommunikation zwischen Ihnen und uns nötig sind. Auf schriftliche Anfrage informieren wir Sie gern über die zu Ihrer Person gespeicherten Daten."
+    },
+    "SECTION_3": {
+      "HEADING": "Zahlungsdienstleister",
+      "CONTENT": "Zur Verarbeitung unserer Zahlungen werden Ihre Bankdaten, der anfallende Zahlbetrag sowie die Rechnungsnummer an unsere Bank weitergegeben."
+    },
+    "SECTION_4": {
+      "HEADING": "Fahrtinformationen",
+      "CONTENT": "Für jede getätigte Fahrt speichern wir den Start- und Endzeitpunkt sowie die Start- und Endstation. Zum einen benötigen wir diese Informationen für die Erstellung der monatlichen Abrechnung, zum anderen können Sie auf diese Weise Ihre Fahrthistorie im Kundenmenü jederzeit einsehen und überprüfen."
+    },
+    "SECTION_5": {
+      "HEADING": "Kundenmenü",
+      "CONTENT": "Im Kundenmenü verwenden wir Cookies, um die Authentifizierung Ihrer Person zu ermöglichen. Anderweitig werden Cookies im Kundenmenü nicht genutzt."
+    }
+  }
+}

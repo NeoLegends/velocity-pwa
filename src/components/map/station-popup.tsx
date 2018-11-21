@@ -5,6 +5,7 @@ import { Popup } from 'react-leaflet';
 
 import { Slot, Slots, Station, StationWithAddress } from '../../model';
 import { asHumanReadable } from '../../util/address';
+import { LanguageContext, LanguageType } from '../../util/language';
 
 import './station-popup.scss';
 
@@ -47,51 +48,56 @@ const PinInputAndRentControls: React.SFC<StationPopupBodyProps> = ({
   onRentCancel,
   onRentComplete,
 }) => (
-  <>
-    <div className="pin-entry">
-      <input
-        className="input outline"
-        onChange={onPinChange}
-        placeholder="PIN"
-        type="tel"
-      />
-    </div>
+  <LanguageContext.Consumer>
+    {({ MAP }) => (
+      <>
+        <div className="pin-entry">
+          <input
+            className="input outline"
+            onChange={onPinChange}
+            placeholder="PIN"
+            type="tel"
+          />
+        </div>
 
-    <div className="actions">
-      <button
-        className="btn outline"
-        onClick={onRentCancel}
-      >
-        Abbrechen
-      </button>
+        <div className="actions">
+          <button
+            className="btn outline"
+            onClick={onRentCancel}
+          >
+            {MAP.POPUP.RENT_DIALOG.BUTTON.CANCEL}
+          </button>
 
-      <button
-        className="btn outline"
-        disabled={!pin}
-        onClick={onRentComplete}
-      >
-        Ausleihen
-      </button>
-    </div>
-  </>
+          <button
+            className="btn outline"
+            disabled={!pin}
+            onClick={onRentComplete}
+          >
+            {MAP.POPUP.BUTTON.RENT}
+          </button>
+        </div>
+      </>
+    )}
+  </LanguageContext.Consumer>
 );
 
-const getSlotState = (slot: Slot) => {
+const getSlotState = ({ MAP }: LanguageType, slot: Slot) => {
+  const states = MAP.POPUP.STATES;
   if (slot.state !== 'OPERATIVE') {
-    return "Stellplatz deaktiviert";
+    return states.DEACTIVATED;
   } else if (!slot.isOccupied || !slot.pedelecInfo) {
-    return "Stellplatz frei";
+    return states.NOT_OCCUPIED;
   }
 
   switch (slot.pedelecInfo.availability) {
     case 'AVAILABLE':
-      return "Fahrrad verfügbar";
+      return states.OCCUPIED;
     case 'INOPERATIVE':
-      return "In Wartung";
+      return states.MAINTENANCE;
     case 'RESERVED':
-      return "Reserviert";
+      return states.RESERVED;
     default:
-      return "Unbekannt";
+      return "N/A";
   }
 };
 
@@ -114,57 +120,61 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
     detail.slots.stationSlots.some(s => s.isOccupied);
 
   return (
-    <>
-      {station.note && <div className="note danger">{station.note}</div>}
+    <LanguageContext.Consumer>
+      {lang => (
+        <>
+          {station.note && <div className="note danger">{station.note}</div>}
 
-      {detail && (
-        <ul className="slot-list">
-          {detail.slots.stationSlots.map(slot => (
-            <li key={slot.stationSlotId} className="slot">
-              <span className="slot-no">
-                Slot {slot.stationSlotPosition}
-              </span>
+          {detail && (
+            <ul className="slot-list">
+              {detail.slots.stationSlots.map(slot => (
+                <li key={slot.stationSlotId} className="slot">
+                  <span className="slot-no">
+                    Slot {slot.stationSlotPosition}
+                  </span>
 
-              <span className="bike-state">
-                {getSlotState(slot)}
-              </span>
+                  <span className="bike-state">
+                    {getSlotState(lang, slot)}
+                  </span>
 
-              <span className="charge-state">
-                {slot.pedelecInfo &&
-                  `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <div className="actions">
-        {isLoggedIn
-          ? (
-            <>
-              <button
-                className="btn outline"
-                disabled={!canRentOrReserveBike}
-                onClick={() => onReserve(station.stationId)}
-              >
-                Reservieren
-              </button>
-
-              <button
-                className="btn outline"
-                disabled={!canRentOrReserveBike}
-                onClick={() => onRentStart(station.stationId)}
-              >
-                Ausleihen
-              </button>
-            </>
-          ) : (
-            <Link to="/login">
-              Anmelden um Fahrrad auszuleihen oder zu reservieren
-            </Link>
+                  <span className="charge-state">
+                    {slot.pedelecInfo &&
+                      `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
+                  </span>
+                </li>
+              ))}
+            </ul>
           )}
-      </div>
-    </>
+
+          <div className="actions">
+            {isLoggedIn
+              ? (
+                <>
+                  <button
+                    className="btn outline"
+                    disabled={!canRentOrReserveBike}
+                    onClick={() => onReserve(station.stationId)}
+                  >
+                    {lang.MAP.POPUP.BUTTON.BOOK}
+                  </button>
+
+                  <button
+                    className="btn outline"
+                    disabled={!canRentOrReserveBike}
+                    onClick={() => onRentStart(station.stationId)}
+                  >
+                    {lang.MAP.POPUP.BUTTON.RENT}
+                  </button>
+                </>
+              ) : (
+                <Link to="/login">
+                  {lang.MAP.POPUP.REQUIRE_SIGN_IN.LINK}{lang.MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+                </Link>
+              )}
+          </div>
+        </>
+      )}
+    </LanguageContext.Consumer>
   );
 };
 

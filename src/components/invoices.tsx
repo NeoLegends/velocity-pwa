@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Invoice } from '../model';
 import { getAllInvoices } from '../model/invoices';
+import { LanguageContext } from '../util/language';
 
 import './invoices.scss';
 
@@ -10,47 +11,51 @@ interface InvoicesState {
 }
 
 const InvoicesBody: React.FC<InvoicesState> = ({ invoices }) => (
-  <div className="invoices box-list">
-    {!invoices.length && (
-      <div className="note info">
-        Es liegen noch keine Rechnungen für Sie vor.
-      </div>
-    )}
+  <LanguageContext.Consumer>
+    {({ BILL }) => (
+      <div className="invoices box-list">
+        {!invoices.length && (
+          <div className="note info">
+            {BILL.ALERT.NO_INVOICES}
+          </div>
+        )}
 
-    {invoices.length && (
-      <div className="box">
-        <h2>Rechnungen</h2>
+        {invoices.length && (
+          <div className="box">
+            <h2>{BILL.HEADLINE}</h2>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Jahr</th>
-              <th>Monat</th>
-              <th>Summe</th>
-              <th>Download</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoices.map(inv => {
-              const urlParts = inv.url.split('/');
-              const invName = urlParts[urlParts.length - 1];
-
-              return (
-                <tr key={inv.url}>
-                  <td>{inv.year}</td>
-                  <td>{inv.month}</td>
-                  <td>{inv.sum.toEuro()}</td>
-                  <td>
-                    <a href={inv.url} target="_blank">{invName}</a>
-                  </td>
+            <table>
+              <thead>
+                <tr>
+                  <th>{BILL.HEAD.JAHR}</th>
+                  <th>{BILL.HEAD.MONAT}</th>
+                  <th>{BILL.HEAD.SUM}</th>
+                  <th>Download</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {invoices.map(inv => {
+                  const urlParts = inv.url.split('/');
+                  const invName = urlParts[urlParts.length - 1];
+
+                  return (
+                    <tr key={inv.url}>
+                      <td>{inv.year}</td>
+                      <td>{inv.month}</td>
+                      <td>{inv.sum.toEuro()}</td>
+                      <td>
+                        <a href={inv.url} target="_blank">{invName}</a>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     )}
-  </div>
+  </LanguageContext.Consumer>
 );
 
 class Invoices extends React.Component<{}, InvoicesState> {

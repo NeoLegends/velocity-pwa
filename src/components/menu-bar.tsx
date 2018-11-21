@@ -2,6 +2,7 @@ import { Link } from '@reach/router';
 import React from 'react';
 
 import { LOGO_URL } from '../resources/logo';
+import { LanguageContext, LanguageIdentifier } from '../util/language';
 import Overlay from '../util/overlay';
 
 import Menu, { MenuEntries } from './menu';
@@ -11,6 +12,7 @@ export interface MenuBarProps {
   isLoggedIn: boolean;
   loginStatusKnown: boolean;
 
+  onChangeLanguage?: (lang: LanguageIdentifier) => void;
   onLoginButtonClick?: React.MouseEventHandler;
 }
 
@@ -19,6 +21,9 @@ interface MenuBarState {
 }
 
 class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     isMenuOpen: false,
   };
@@ -35,10 +40,25 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
         <div className="flex-grow"/>
 
         <button
+          className="btn transparent"
+          onClick={this.handleClickDe}
+        >
+          DE
+        </button>
+        <button
+          className="btn transparent"
+          onClick={this.handleClickEn}
+        >
+          EN
+        </button>
+
+        <button
           className="btn outline"
           onClick={this.props.onLoginButtonClick}
         >
-          {this.props.isLoggedIn ? "Abmelden" : "Anmelden"}
+          {this.props.isLoggedIn
+            ? this.context.NAVIGATION.SIGN_OUT_BTN
+            : this.context.NAVIGATION.SIGN_IN_BTN}
         </button>
         <button
           className="btn outline btn-menu"
@@ -60,6 +80,16 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
   onMenuButtonClicked = () => this.setState({ isMenuOpen: true });
 
   onRequestMenuClose = () => this.setState({ isMenuOpen: false });
+
+  private handleClickDe = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    this.props.onChangeLanguage && this.props.onChangeLanguage('de');
+  }
+
+  private handleClickEn = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    this.props.onChangeLanguage && this.props.onChangeLanguage('en');
+  }
 }
 
 export default MenuBar;

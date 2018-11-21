@@ -1,6 +1,8 @@
 import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
+import { LanguageContext } from '../../util/language';
+
 interface ChangePinProps {
   onCancel: React.MouseEventHandler;
   onChangePin: (newPin: string, password: string) => void;
@@ -12,6 +14,9 @@ interface ChangePinState {
 }
 
 class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, ChangePinState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     password: '',
     pin: '',
@@ -22,12 +27,12 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
 
     return (
       <form className="change-pin box" onSubmit={this.handleSubmit}>
-        <h2>PIN ändern</h2>
+        <h2>{this.context.PARTICULARS.MODAL.PIN.TITLE}</h2>
 
         <div className="wrapper">
           <input
             className="input outline"
-            placeholder="Neue vierstellige PIN"
+            placeholder={this.context.PARTICULARS.MODAL.PIN.DESCRIPTION_PIN}
             type="tel"
             onChange={this.handlePinChange}
             value={this.state.pin}
@@ -35,7 +40,7 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
 
           <input
             className="input outline"
-            placeholder="Passwort zur Verifikation"
+            placeholder={this.context.PARTICULARS.MODAL.PIN.DESCRIPTION_PW}
             type="password"
             onChange={this.handlePasswordChange}
             value={this.state.password}
@@ -48,14 +53,14 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
             className="btn outline"
             disabled={!canSubmit}
           >
-            PIN ändern
+            {this.context.PARTICULARS.MODAL.PIN.BUTTON.SUBMIT}
           </button>
 
           <button
             className="btn outline"
             onClick={this.props.onCancel}
           >
-            Abbrechen
+            {this.context.PARTICULARS.MODAL.PIN.BUTTON.CANCEL}
           </button>
         </div>
       </form>

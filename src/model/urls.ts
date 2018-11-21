@@ -1,3 +1,5 @@
+import { LanguageIdentifier } from '../util/language';
+
 import { SupportType } from '.';
 
 const BACKEND_URL = process.env.NODE_ENV === 'production'
@@ -29,5 +31,5 @@ export const feedbackUrl = (type: SupportType) => `${APP_SUPPORT_URL}/${type}`;
 export const rentBikeUrl = (statId: number) => `${singleStationUrl(statId)}/rent`;
 export const reserveBikeUrl = (statId: number) => `${singleStationUrl(statId)}/book`;
 export const slotInfoUrl = (statId: number) => `${singleStationUrl(statId)}/slots/full`;
-export const tariffsUrl = (lang: 'de' | 'en') => `${APP_URL}/tariffs?lang=${lang}`;
+export const tariffsUrl = (lang: LanguageIdentifier) => `${APP_URL}/tariffs?lang=${lang}`;
 export const transactionsUrl = (page: number) => `${APP_URL}/transactions?page=${page}`;

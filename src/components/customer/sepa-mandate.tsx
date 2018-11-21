@@ -2,6 +2,7 @@ import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { SepaMandate } from '../../model';
+import { LanguageContext } from '../../util/language';
 
 interface SepaMandateProps {
   mandate: SepaMandate;
@@ -14,51 +15,42 @@ const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
 
   onCancel,
 }) => (
-  <div className="change-pw box">
-    <h2>SEPA-Lastschriftmandat</h2>
+  <LanguageContext.Consumer>
+    {({ SEPA }) => (
+      <div className="change-pw box">
+        <h2>{SEPA.SUBTITLE}</h2>
 
-    <div className="wrapper">
-      <p>Referenz: {mandate.reference}</p>
-      <p>
-        Velocity Aachen GmbH<br/>
-        Kockerellstraße 19<br/>
-        52062 Aachen<br/>
-        Gläubiger-Identifikationsnummer: DE27ZZZ00001598043
-      </p>
-      <p>
-        Ich ermächtige Velocity Aachen GmbH, Zahlungen von meinem Konto
-        mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut
-        an, die von Velocity Aachen GmbH auf mein Konto gezogenen Lastschriften
-        einzulösen.
-      </p>
-      <p>
-        Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum,
-        die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit
-        meinem Kreditinstitut vereinbarten Bedingungen.
-      </p>
-      <p>
-        Desweiteren nehme ich zur Kenntnis, dass mir die Mandatsreferenznummer
-        gesondert, mit Erhalt der ersten Rechnung, zugestellt wird.
-      </p>
+        <div className="wrapper">
+          <p>{SEPA.MANDATE.MANDATE_REF}: {mandate.reference}</p>
+          <p>
+            {SEPA.MANDATE.ADDRESS.NAME}<br/>
+            {SEPA.MANDATE.ADDRESS.STREET}<br/>
+            {SEPA.MANDATE.ADDRESS.ZIP_CITY}<br/>
+            {SEPA.MANDATE.ADDRESS.ID_NR}
+          </p>
+          <p>{SEPA.MANDATE.SECTION_1}</p>
+          <p>{SEPA.MANDATE.SECTION_2}</p>
 
-      <p>
-        {mandate.firstname} {mandate.lastname}<br/>
-        {mandate.address.streetAndHousenumber}<br/>
-        {mandate.address.zip} {mandate.address.city}<br/>
-        {mandate.iban}<br/>
-        {mandate.bankName} | {mandate.bic}
-      </p>
-    </div>
+          <p>
+            {mandate.firstname} {mandate.lastname}<br/>
+            {mandate.address.streetAndHousenumber}<br/>
+            {mandate.address.zip} {mandate.address.city}<br/>
+            {mandate.iban}<br/>
+            {mandate.bankName} | {mandate.bic}
+          </p>
+        </div>
 
-    <div className="actions">
-      <button
-        className="btn outline"
-        onClick={onCancel}
-      >
-        Zurück
-      </button>
-    </div>
-  </div>
+        <div className="actions">
+          <button
+            className="btn outline"
+            onClick={onCancel}
+          >
+            Zurück
+          </button>
+        </div>
+      </div>
+    )}
+  </LanguageContext.Consumer>
 );
 
 export default SepaMandateBody;

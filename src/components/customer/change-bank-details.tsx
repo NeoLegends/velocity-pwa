@@ -3,6 +3,7 @@ import { isValidIBAN } from 'ibantools';
 import React from 'react';
 
 import { BankDetails } from '../../model';
+import { LanguageContext } from '../../util/language';
 
 import './change-bank-details.scss';
 
@@ -40,86 +41,82 @@ const ChangeBankDetailsBody: React.FC<ChangeBankDetailsBodyProps> = ({
   onMandateChange,
   onSubmit,
 }) => (
-  <form className="change-bank-details box" onSubmit={onSubmit}>
-    <h2>Bankdaten ändern</h2>
+  <LanguageContext.Consumer>
+    {({ PARTICULARS }) => (
+      <form className="change-bank-details box" onSubmit={onSubmit}>
+        <h2>{PARTICULARS.MODAL.BANK_ACC.TITLE}</h2>
 
-    <div className="wrapper">
-      <h3>Bankdaten</h3>
+        <div className="wrapper">
+          <h3>
+            {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME},
+            {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN},
+            {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC},
+          </h3>
 
-      <input
-        className="input outline"
-        placeholder="IBAN"
-        type="text"
-        onChange={onIbanChange}
-        value={iban}
-      />
-      <input
-        className="input outline"
-        placeholder="Name der Bank"
-        type="text"
-        onChange={onBankNameChange}
-        value={bankName}
-      />
-      <input
-        className="input outline"
-        placeholder="BIC"
-        type="text"
-        onChange={onBicChange}
-        value={bic}
-      />
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}
+            type="text"
+            onChange={onIbanChange}
+            value={iban}
+          />
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME}
+            type="text"
+            onChange={onBankNameChange}
+            value={bankName}
+          />
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
+            type="text"
+            onChange={onBicChange}
+            value={bic}
+          />
 
-      <h3>SEPA-Mandat</h3>
+          <h3>{PARTICULARS.MODAL.BANK_ACC.SEPA.SUBTITLE}</h3>
 
-      <p>
-        Velocity Aachen GmbH<br/>
-        Kockerellstraße 19<br/>
-        52062 Aachen<br/>
-        Gläubiger-Identifikationsnummer: DE27ZZZ00001598043
-      </p>
-      <p>
-        Ich ermächtige Velocity Aachen GmbH, Zahlungen von meinem Konto
-        mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut
-        an, die von Velocity Aachen GmbH auf mein Konto gezogenen Lastschriften
-        einzulösen.
-      </p>
-      <p>
-        Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum,
-        die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit
-        meinem Kreditinstitut vereinbarten Bedingungen.
-      </p>
-      <p>
-        Desweiteren nehme ich zur Kenntnis, dass mir die Mandatsreferenznummer gesondert,
-        mit Erhalt der ersten Rechnung, zugestellt wird.
-      </p>
+          <p>
+            {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.NAME}<br/>
+            {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.STREET}<br/>
+            {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.ZIP_CITY}<br/>
+            {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.ID_NR}
+          </p>
+          <p>{PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.SECTION_1}</p>
+          <p>{PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.SECTION_2}</p>
+          <p>{PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.SECTION_3}</p>
 
-      <label>
-        <input
-          className="input"
-          type="checkbox"
-          checked={mandateChecked}
-          onChange={onMandateChange}
-        />
-        <span>Akzeptieren</span>
-      </label>
-    </div>
+          <label>
+            <input
+              className="input"
+              type="checkbox"
+              checked={mandateChecked}
+              onChange={onMandateChange}
+            />
+            <span>Akzeptieren</span>
+          </label>
+        </div>
 
-    <div className="actions">
-      <button
-        type="submit"
-        className="btn outline"
-        disabled={!canSubmit}
-      >
-        Bankdaten ändern
-      </button>
+        <div className="actions">
+          <button
+            type="submit"
+            className="btn outline"
+            disabled={!canSubmit}
+          >
+            {PARTICULARS.MODAL.BANK_ACC.BUTTON.SUBMIT}
+          </button>
 
-      <button
-        className="btn outline"
-        onClick={onCancel}
-      >
-        Abbrechen
-      </button>
-    </div>
-  </form>
+          <button
+            className="btn outline"
+            onClick={onCancel}
+          >
+            {PARTICULARS.MODAL.BANK_ACC.BUTTON.CANCEL}
+          </button>
+        </div>
+      </form>
+    )}
+  </LanguageContext.Consumer>
 );
 
 class ChangeBankDetails extends React.Component<

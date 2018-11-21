@@ -2,6 +2,13 @@ import { navigate, Router } from '@reach/router';
 import React, { Component } from 'react';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
+import {
+  LanguageContext,
+  LanguageIdentifier,
+  LanguageType,
+} from '../util/language';
+import de from '../util/language/de.json';
+import en from '../util/language/en.json';
 import Login from '../util/lazy-login';
 import makeLazy from '../util/make-lazy';
 import needsLogin from '../util/needs-login';
@@ -11,10 +18,13 @@ import MenuBar from './menu-bar';
 
 interface AppState {
   isLoggedIn: boolean;
+  language: LanguageType;
+  languageId: LanguageIdentifier;
   loginStatusKnown: boolean;
 }
 
 interface AppBodyProps extends AppState {
+  onChangeLanguage: (lang: LanguageIdentifier) => void;
   onLoginLogoutButtonClick?: React.MouseEventHandler;
   onLoginStart?: (email: string, password: string) => void;
   onLoginStartWithoutRedirect?: (email: string, password: string) => void;
@@ -27,61 +37,75 @@ const Map = makeLazy(() => import('./map/bike-map'));
 const Support = needsLogin(makeLazy(() => import('./support')));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
+const LOCALSTORAGE_LANGUAGE_KEY = 'velcity/lang';
+
 const AppBody: React.SFC<AppBodyProps> = ({
   isLoggedIn,
+  language,
+  languageId,
   loginStatusKnown,
 
+  onChangeLanguage,
   onLoginLogoutButtonClick,
   onLoginStart,
   onLoginStartWithoutRedirect,
 }) => ((
-  <div className="app">
-    <MenuBar
-      isLoggedIn={isLoggedIn}
-      loginStatusKnown={loginStatusKnown}
-      onLoginButtonClick={onLoginLogoutButtonClick}
-    />
+  <LanguageContext.Provider value={language}>
+    <div className="app">
+      <MenuBar
+        isLoggedIn={isLoggedIn}
+        loginStatusKnown={loginStatusKnown}
+        onChangeLanguage={onChangeLanguage}
+        onLoginButtonClick={onLoginLogoutButtonClick}
+      />
 
-    <Router role="main" className="main">
-      <Map path="/" isLoggedIn={isLoggedIn}/>
+      <Router role="main" className="main">
+        <Map path="/" isLoggedIn={isLoggedIn}/>
 
-      <Bookings
-        path="/bookings"
-        isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStartWithoutRedirect}
-      />
-      <Customer
-        path="/customer/*"
-        isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStartWithoutRedirect}
-      />
-      <Invoices
-        path="/invoices"
-        isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStartWithoutRedirect}
-      />
-      <Login path="/login" onLoginStart={onLoginStart}/>
-      <Support
-        path="/support"
-        isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStartWithoutRedirect}
-      />
-      <Tariff
-        path="/tariff"
-        isLoggedIn={isLoggedIn}
-        onLoginStart={onLoginStartWithoutRedirect}
-      />
-    </Router>
-  </div>
+        <Bookings
+          path="/bookings"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={onLoginStartWithoutRedirect}
+        />
+        <Customer
+          path="/customer/*"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={onLoginStartWithoutRedirect}
+        />
+        <Invoices
+          path="/invoices"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={onLoginStartWithoutRedirect}
+        />
+        <Login path="/login" onLoginStart={onLoginStart}/>
+        <Support
+          path="/support"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={onLoginStartWithoutRedirect}
+        />
+        <Tariff
+          path="/tariff"
+          isLoggedIn={isLoggedIn}
+          languageId={languageId}
+          onLoginStart={onLoginStartWithoutRedirect}
+        />
+      </Router>
+    </div>
+  </LanguageContext.Provider>
 ));
 
 class App extends Component<{}, AppState> {
   state = {
     isLoggedIn: false,
+    language: de,
+    languageId: 'de' as LanguageIdentifier,
     loginStatusKnown: false,
   };
 
   componentDidMount() {
+    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) || 'de';
+    this.handleChangeLanguage(lang as LanguageIdentifier);
+
     this.checkLogin();
   }
 
@@ -89,6 +113,7 @@ class App extends Component<{}, AppState> {
     return (
       <AppBody
         {...this.state}
+        onChangeLanguage={this.handleChangeLanguage}
         onLoginLogoutButtonClick={this.handleLoginLogoutButton}
         onLoginStart={this.handleLoginWithRedirect}
         onLoginStartWithoutRedirect={this.handleLogin}
@@ -102,6 +127,14 @@ class App extends Component<{}, AppState> {
       isLoggedIn: loggedIn,
       loginStatusKnown: true,
     });
+  }
+
+  private handleChangeLanguage = (lang: LanguageIdentifier) => {
+    this.setState({
+      language: lang === 'de' ? de : (en as LanguageType),
+      languageId: lang,
+    });
+    localStorage.setItem(LOCALSTORAGE_LANGUAGE_KEY, lang);
   }
 
   private handleLogin = async (email: string, password: string) => {

@@ -1,6 +1,8 @@
 import { Link } from '@reach/router';
 import React from 'react';
 
+import { LanguageContext } from '../util/language';
+
 import './login.scss';
 
 export interface LoginProps {
@@ -13,6 +15,9 @@ interface LoginState {
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     email: '',
     password: '',
@@ -50,9 +55,11 @@ class Login extends React.Component<LoginProps, LoginState> {
               href="https://velocity-aachen.de/reg/"
               target="_blank"
             >
-              Jetzt registrieren
+              {this.context.LOGIN.REGISTRIEREN}
             </a>
-            <Link to="/forgot-password">Passwort vergessen?</Link>
+            <Link to="/forgot-password">
+              {this.context.PASSWORD_REMEMBER.HYPERLINK}
+            </Link>
           </div>
 
           <div className="actions">

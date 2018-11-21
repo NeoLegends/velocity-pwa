@@ -7,6 +7,7 @@ import {
   submitPedelecError,
   submitStationError,
 } from '../model/support';
+import { LanguageContext } from '../util/language';
 
 import './support.scss';
 
@@ -38,23 +39,6 @@ interface SupportBodyProps extends SupportState {
   onSubmitProblemReport: React.FormEventHandler;
 }
 
-const bikeDefectCategories = {
-  TIRE: "Reifen platt oder beschädigt",
-  TRACTION: "Keine Tretunterstützung vorhanden",
-  SOILED: "Pedelec verschmutzt",
-  BELL: "Klingel defekt",
-  BRAKE: "Bremse defekt",
-  LIGHT: "Licht defekt",
-  MISC: "Sonstiges",
-};
-const stationDefectCategories = {
-  TERMINAL: "Terminal nicht bedienbar",
-  SCREEN: "Bildschirm zeigt schwarzes Bild",
-  SOILED: "Station verschmutzt",
-  SLOT: "Einer der Slots schließt oder öffnet nicht",
-  MISC: "Sonstiges",
-};
-
 const SupportBody: React.FC<SupportBodyProps> = ({
   canSubmitFeedback,
   canSubmitProblemReport,
@@ -80,125 +64,133 @@ const SupportBody: React.FC<SupportBodyProps> = ({
   onSubmitFeedback,
   onSubmitProblemReport,
 }) => (
-  <div className="support box-list">
-    <form className="box" onSubmit={onSubmitFeedback}>
-      <h2>Feedback</h2>
+  <LanguageContext.Consumer>
+    {({ SUPPORT }) => (
+      <div className="support box-list">
+        <form className="box" onSubmit={onSubmitFeedback}>
+          <h2>{SUPPORT.FEEDBACK.TITLE}</h2>
 
-      <div className="wrapper">
-        <input
-          className="input outline"
-          placeholder="Betreff"
-          value={feedbackHeading}
-          onChange={onChangeFeedbackHeading}
-        />
-        <textarea
-          className="input outline"
-          placeholder="Nachricht"
-          value={feedbackMessage}
-          onChange={onChangeFeedbackMessage}
-        />
-      </div>
-
-      <div className="actions">
-        <button
-          className="btn outline"
-          disabled={!canSubmitFeedback}
-          type="submit"
-        >
-          Absenden
-        </button>
-      </div>
-    </form>
-
-    <form className="box" onSubmit={onSubmitProblemReport}>
-      <h2>Ausfallbericht</h2>
-
-      <div className="wrapper">
-        <div className="defect-type">
-          <label>
+          <div className="wrapper">
             <input
-              className="input"
-              type="radio"
-              name="defect-type"
-              value="bike"
-              checked={defectType === 'pedelec'}
-              onChange={onChangeDefectType}
+              className="input outline"
+              placeholder={SUPPORT.FEEDBACK.FORM.SUBJECT}
+              value={feedbackHeading}
+              onChange={onChangeFeedbackHeading}
             />
-            <span>Fahrrad</span>
-          </label>
-
-          <label>
-            <input
-              className="input"
-              type="radio"
-              name="defect-type"
-              value="station"
-              checked={defectType === 'station'}
-              onChange={onChangeDefectType}
+            <textarea
+              className="input outline"
+              placeholder={SUPPORT.FEEDBACK.FORM.CONTENT}
+              value={feedbackMessage}
+              onChange={onChangeFeedbackMessage}
             />
-            <span>Station</span>
-          </label>
-        </div>
+          </div>
 
-        {defectType === 'pedelec' ? (
-          <input
-            className="input outline"
-            type="number"
-            placeholder="Fahrradnummer"
-            value={defectBikeNumber}
-            onChange={onChangeDefectBikeNumber}
-          />
-        ) : (
-          <select
-            className="input outline"
-            value={defectStation}
-            onChange={onChangeDefectStation}
-          >
-            <option value="" disabled hidden>Station wählen...</option>
-            {stations.map(stat => (
-              <option key={stat.stationId} value={stat.stationId}>
-                {stat.name}
-              </option>
-            ))}
-          </select>
-        )}
+          <div className="actions">
+            <button
+              className="btn outline"
+              disabled={!canSubmitFeedback}
+              type="submit"
+            >
+              {SUPPORT.BUTTON.SUBMIT}
+            </button>
+          </div>
+        </form>
 
-        <select
-          className="input outline"
-          value={defectCategory}
-          onChange={onChangeDefectCategory}
-        >
-          <option value="" disabled hidden>Defekt wählen...</option>
-          {defectType === 'pedelec' ? (
-            Object.keys(bikeDefectCategories).map(k => (
-              <option key={`bike-${k}`} value={k}>{bikeDefectCategories[k]}</option>
-            ))
-          ) : (
-            Object.keys(stationDefectCategories).map(k => (
-              <option key={`station-${k}`} value={k}>{stationDefectCategories[k]}</option>
-            ))
-          )}
-        </select>
+        <form className="box" onSubmit={onSubmitProblemReport}>
+          <h2>{SUPPORT.ERROR_REPORT.TITLE}</h2>
 
-        <textarea
-          className="input outline"
-          placeholder="Bericht"
-          value={defectMessage}
-          onChange={onChangeDefectMessage}
-        />
+          <div className="wrapper">
+            <div className="defect-type">
+              <label>
+                <input
+                  className="input"
+                  type="radio"
+                  name="defect-type"
+                  value="bike"
+                  checked={defectType === 'pedelec'}
+                  onChange={onChangeDefectType}
+                />
+                <span>Fahrrad</span>
+              </label>
+
+              <label>
+                <input
+                  className="input"
+                  type="radio"
+                  name="defect-type"
+                  value="station"
+                  checked={defectType === 'station'}
+                  onChange={onChangeDefectType}
+                />
+                <span>Station</span>
+              </label>
+            </div>
+
+            {defectType === 'pedelec' ? (
+              <input
+                className="input outline"
+                type="number"
+                placeholder={SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}
+                value={defectBikeNumber}
+                onChange={onChangeDefectBikeNumber}
+              />
+            ) : (
+              <select
+                className="input outline"
+                value={defectStation}
+                onChange={onChangeDefectStation}
+              >
+                <option value="" disabled hidden>{SUPPORT.ERROR_REPORT.STATION.STATION_NAME}...</option>
+                {stations.map(stat => (
+                  <option key={stat.stationId} value={stat.stationId}>
+                    {stat.name}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            <select
+              className="input outline"
+              value={defectCategory}
+              onChange={onChangeDefectCategory}
+            >
+              <option value="" disabled hidden>{SUPPORT.ERROR_REPORT.STATION.DEFECT}...</option>
+              {defectType === 'pedelec' ? (
+                Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
+                  <option key={`bike-${k}`} value={k}>
+                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
+                  </option>
+                ))
+              ) : (
+                Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(k => (
+                  <option key={`station-${k}`} value={k}>
+                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
+                  </option>
+                ))
+              )}
+            </select>
+
+            <textarea
+              className="input outline"
+              placeholder={SUPPORT.ERROR_REPORT.STATION.NOTES}
+              value={defectMessage}
+              onChange={onChangeDefectMessage}
+            />
+          </div>
+
+          <div className="actions">
+            <button
+              className="btn outline"
+              disabled={!canSubmitProblemReport}
+              type="submit"
+            >
+              {SUPPORT.BUTTON.SUBMIT}
+            </button>
+          </div>
+        </form>
       </div>
-
-      <div className="actions">
-        <button
-          className="btn outline"
-          disabled={!canSubmitProblemReport}
-          type="submit"
-        >
-          Absenden
-        </button>
-      </div>
-    </form>
-  </div>
+    )}
+  </LanguageContext.Consumer>
 );
 
 class Support extends React.Component<{}, SupportState> {

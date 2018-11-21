@@ -9,6 +9,7 @@ import {
   getCurrentBooking,
   getTransactions,
 } from '../model/transaction';
+import { LanguageContext } from '../util/language';
 
 import './bookings.scss';
 
@@ -51,32 +52,36 @@ const BookingBox: React.SFC<BookingProps> = ({
   const targetStation = stations.find(stat => stat.stationId === booking.stationId);
 
   return (
-    <div className="box outline booking">
-      <h2>Aktuelle Reservierung</h2>
+    <LanguageContext.Consumer>
+      {({ BUCHUNGEN, MAP }) => (
+        <div className="box outline booking">
+          <h2>{BUCHUNGEN.RESERVIERUNG.TITEL}</h2>
 
-      <div className="wrapper">
-        <p>Station: {targetStation ? targetStation.name : 'N/A'}</p>
-        <p>Stellplatz: {booking.stationSlotPosition}</p>
-        <p>Reserviert bis: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
-      </div>
+          <div className="wrapper">
+            <p>{BUCHUNGEN.RESERVIERUNG.STATION}: {targetStation ? targetStation.name : 'N/A'}</p>
+            <p>{BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}</p>
+            <p>{BUCHUNGEN.RESERVIERUNG.ZEIT}: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
+          </div>
 
-      <div className="actions">
-        {false && (// TODO: Implement renting bikes from here
-          <button
-            className="btn outline"
-            onClick={onRentReservation}
-          >
-            Ausleihen
-          </button>
-        )}
-        <button
-          className="btn outline"
-          onClick={onCancelReservation}
-        >
-          Reservierung löschen
-        </button>
-      </div>
-    </div>
+          <div className="actions">
+            {false && (// TODO: Implement renting bikes from here
+              <button
+                className="btn outline"
+                onClick={onRentReservation}
+              >
+                {MAP.POPUP.BUTTON.BOOK}
+              </button>
+            )}
+            <button
+              className="btn outline"
+              onClick={onCancelReservation}
+            >
+              {BUCHUNGEN.RESERVIERUNG.BUTTON}
+            </button>
+          </div>
+        </div>
+      )}
+    </LanguageContext.Consumer>
   );
 };
 
@@ -85,13 +90,19 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <div className="gap" style={style}>
-      <div className="transaction outline">
-        <p>{transaction.fromStation.name} nach {transaction.toStation.name}</p>
-        <p>{startDate.toLocaleString()} bis {endDate.toLocaleString()}</p>
-        <p>Fahrradnummer: {transaction.pedelecName}</p>
-      </div>
-    </div>
+    <LanguageContext.Consumer>
+      {({ BUCHUNGEN, SUPPORT }) => (
+        <div className="gap" style={style}>
+          <div className="transaction outline">
+            <p>
+              {transaction.fromStation.name} {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO} {transaction.toStation.name}
+            </p>
+            <p>{startDate.toLocaleString()} {BUCHUNGEN.HISTORIE.STATION_PANEL.TIME.UNTIL} {endDate.toLocaleString()}</p>
+            <p>{SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName}</p>
+          </div>
+        </div>
+      )}
+    </LanguageContext.Consumer>
   );
 };
 
@@ -125,45 +136,49 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
   };
 
   return (
-    <div className="bookings box-list">
-      {currentBooking && (
-        <BookingBox
-          booking={currentBooking}
-          stations={stations}
-          onCancelReservation={onCancelReservation}
-          onRentReservation={onRentReservation}
-        />
-      )}
+    <LanguageContext.Consumer>
+      {({ BUCHUNGEN }) => (
+        <div className="bookings box-list">
+          {currentBooking && (
+            <BookingBox
+              booking={currentBooking}
+              stations={stations}
+              onCancelReservation={onCancelReservation}
+              onRentReservation={onRentReservation}
+            />
+          )}
 
-      <div className="box transactions">
-        <h2>Vergangene Fahrten</h2>
+          <div className="box transactions">
+            <h2>{BUCHUNGEN.HISTORIE.TITEL}</h2>
 
-        <div className="wrapper">
-          <InfiniteLoader
-            isRowLoaded={isRowLoaded}
-            loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
-            minimumBatchSize={20}
-            rowCount={Infinity}
-          >
-            {({ onRowsRendered, registerChild }) => (
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    ref={registerChild}
-                    height={height}
-                    width={width}
-                    onRowsRendered={onRowsRendered}
-                    rowCount={transactions.length}
-                    rowHeight={138}
-                    rowRenderer={renderRow}
-                  />
+            <div className="wrapper">
+              <InfiniteLoader
+                isRowLoaded={isRowLoaded}
+                loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
+                minimumBatchSize={20}
+                rowCount={Infinity}
+              >
+                {({ onRowsRendered, registerChild }) => (
+                  <AutoSizer>
+                    {({ height, width }) => (
+                      <List
+                        ref={registerChild}
+                        height={height}
+                        width={width}
+                        onRowsRendered={onRowsRendered}
+                        rowCount={transactions.length}
+                        rowHeight={138}
+                        rowRenderer={renderRow}
+                      />
+                    )}
+                  </AutoSizer>
                 )}
-              </AutoSizer>
-            )}
-          </InfiniteLoader>
+              </InfiniteLoader>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </LanguageContext.Consumer>
   );
 };
 

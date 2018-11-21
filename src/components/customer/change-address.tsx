@@ -3,6 +3,7 @@ import countries from 'country-info-list/countries.json';
 import React from 'react';
 
 import { Address } from '../../model';
+import { LanguageContext } from '../../util/language';
 
 interface ChangeAddressProps {
   onCancel: React.MouseEventHandler;
@@ -52,60 +53,64 @@ const ChangeAddressBody: React.FC<ChangeAddressBodyProps> = ({
   onSubmit,
   onZipChange,
 }) => (
-  <form className="change-address box" onSubmit={onSubmit}>
-    <h2>Anschrift ändern</h2>
+  <LanguageContext.Consumer>
+    {({ PARTICULARS }) => (
+      <form className="change-address box" onSubmit={onSubmit}>
+        <h2>{PARTICULARS.MODAL.ADDRESS.TITLE}</h2>
 
-    <div className="wrapper">
-      <input
-        className="input outline"
-        placeholder="Straße und Hausnummer"
-        type="text"
-        onChange={onStreetChange}
-        value={streetAndHousenumber}
-      />
-      <input
-        className="input outline"
-        placeholder="Postleitzahl"
-        type="text"
-        onChange={onZipChange}
-        value={zip}
-      />
-      <input
-        className="input outline"
-        placeholder="Stadt"
-        type="text"
-        onChange={onCityChange}
-        value={city}
-      />
+        <div className="wrapper">
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.STREET_AND_HOUSENUMBER}
+            type="text"
+            onChange={onStreetChange}
+            value={streetAndHousenumber}
+          />
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.ZIP}
+            type="text"
+            onChange={onZipChange}
+            value={zip}
+          />
+          <input
+            className="input outline"
+            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.CITY}
+            type="text"
+            onChange={onCityChange}
+            value={city}
+          />
 
-      <select
-        className="input outline"
-        onChange={onCountryChange}
-        value={country}
-      >
-        <option value="">-</option>
-        <option value="DEU">Germany</option>
-        {countryList}
-      </select>
-    </div>
+          <select
+            className="input outline"
+            onChange={onCountryChange}
+            value={country}
+          >
+            <option value="">-</option>
+            <option value="DEU">Germany</option>
+            {countryList}
+          </select>
+        </div>
 
-    <div className="actions">
-      <button
-        type="submit"
-        className="btn outline"
-        disabled={!canSubmit}
-      >
-        Anschrift ändern
-      </button>
+        <div className="actions">
+          <button
+            type="submit"
+            className="btn outline"
+            disabled={!canSubmit}
+          >
+            {PARTICULARS.MODAL.ADDRESS.BUTTON.SUBMIT}
+          </button>
 
-      <button
-        className="btn outline"
-        onClick={onCancel}
-      >
-        Abbrechen
-      </button>
-    </div>
-  </form>
+          <button
+            className="btn outline"
+            onClick={onCancel}
+          >
+            {PARTICULARS.MODAL.ADDRESS.BUTTON.CANCEL}
+          </button>
+        </div>
+      </form>
+    )}
+  </LanguageContext.Consumer>
 );
 
 class ChangeAddress extends React.Component<

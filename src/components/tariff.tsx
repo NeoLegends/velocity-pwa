@@ -8,8 +8,13 @@ import {
   getCurrentTariff,
   getTariffs,
 } from '../model/tariff';
+import { LanguageContext, LanguageIdentifier } from '../util/language';
 
 import './tariff.scss';
+
+interface TariffProps {
+  languageId: LanguageIdentifier;
+}
 
 interface TariffState {
   tariffs: Tariff[];
@@ -33,86 +38,89 @@ const TariffBody: React.FC<TariffBodyProps> = ({
   onBookTariff,
   onToggleAutomaticRenewal,
 }) => (
-  <div className="tariff box-list">
-    {userTariff && (
-      <div className="box">
-        <h2>Ihr Konto</h2>
+  <LanguageContext.Consumer>
+    {({ STATE, TARIFF }) => (
+      <div className="tariff box-list">
+        {userTariff && (
+          <div className="box">
+            <h2>{TARIFF.CURRENT.TITLE}</h2>
 
-        <div className="wrapper">
-          <ul>
-            <li>Aktueller Tarif: {userTariff.name}</li>
-            {userTariff.expiryDateTime && (
-              <li>
-                Läuft aus zum {(new Date(userTariff.expiryDateTime)).toLocaleDateString()}
-              </li>
-            )}
-            <li>
-              Info: {tariffs.find(t => t.tariffId === userTariff!.tariffId)!.description}
-            </li>
-            <li>
-              Automatische Verlängerung {userTariff.automaticRenewal
-                ? "aktiviert"
-                : "deaktiviert"}
-            </li>
-          </ul>
-        </div>
+            <div className="wrapper">
+              <ul>
+                <li>{TARIFF.CURRENT.NAME}: {userTariff.name}</li>
+                {userTariff.expiryDateTime && (
+                  <li>
+                    {TARIFF.CURRENT.EXPIRY} {(new Date(userTariff.expiryDateTime)).toLocaleDateString()}
+                  </li>
+                )}
+                <li>
+                  {TARIFF.ALL.INFO}: {tariffs.find(t => t.tariffId === userTariff!.tariffId)!.description}
+                </li>
+                <li>
+                  {TARIFF.CURRENT.RENEWAL} {userTariff.automaticRenewal ? STATE.ACTIVE : STATE.IDLE}
+                </li>
+              </ul>
+            </div>
 
-        <div className="actions">
-          <button
-            className="btn outline"
-            onClick={onToggleAutomaticRenewal}
-          >
-            Automatische Verlängerung {userTariff.automaticRenewal
-              ? "deaktivieren"
-              : "aktivieren"}
-          </button>
-        </div>
-      </div>
-    )}
-
-    {!hasDefaultTariff && (
-      <div className="note info">
-        Eine Tarifänderung ist nicht möglich, solange ein Tarif gebucht ist.
-        Um den Tarif zu wechseln, deaktivieren Sie zunächst die automatische
-        Verlängerung. Nach Ablauf Ihres aktuellen Tarifs haben Sie die Möglichkeit,
-        einen neuen Tarif zu buchen.
-      </div>
-    )}
-
-    {tariffs.map(tariff => (
-      <div key={tariff.tariffId} className="box">
-        <h2>Tarif {tariff.name}</h2>
-
-        <div className="wrapper">
-          <ul>
-            <li>Info: {tariff.description}</li>
-            <li>Laufzeit: {tariff.term} Tage</li>
-            <li>Preis: {tariff.periodicRate.toEuro()}</li>
-          </ul>
-        </div>
-
-        {hasDefaultTariff && (
-          <div className="actions">
-            <button
-              className="btn outline"
-              onClick={() => onBookTariff(tariff.tariffId)}
-            >
-              {tariff.name} buchen
-            </button>
+            <div className="actions">
+              <button
+                className="btn outline"
+                onClick={onToggleAutomaticRenewal}
+              >
+                Automatische Verlängerung {userTariff.automaticRenewal
+                  ? "deaktivieren"
+                  : "aktivieren"}
+              </button>
+            </div>
           </div>
         )}
+
+        {!hasDefaultTariff && (
+          <div className="note info">
+            {TARIFF.ALERT.NOTE_NOT_CHANGEABLE}
+          </div>
+        )}
+
+        {tariffs.map(tariff => (
+          <div key={tariff.tariffId} className="box">
+            <h2>{tariff.name}</h2>
+
+            <div className="wrapper">
+              <ul>
+                <li>{TARIFF.ALL.INFO}: {tariff.description}</li>
+                <li>{TARIFF.ALL.DURATION}: {tariff.term} Tage</li>
+                <li>{TARIFF.ALL.PREIS}: {tariff.periodicRate.toEuro()}</li>
+              </ul>
+            </div>
+
+            {hasDefaultTariff && (
+              <div className="actions">
+                <button
+                  className="btn outline"
+                  onClick={() => onBookTariff(tariff.tariffId)}
+                >
+                  {tariff.name} {TARIFF.ALL.BUCHEN}
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
+    )}
+  </LanguageContext.Consumer>
 );
 
-class TariffView extends React.Component<{}, TariffState> {
+class TariffView extends React.Component<TariffProps, TariffState> {
   state = {
     tariffs: [],
     userTariff: null,
   };
 
   componentDidMount() {
+    this.fetchUserData();
+  }
+
+  componentDidUpdate() {
     this.fetchUserData();
   }
 
@@ -133,7 +141,7 @@ class TariffView extends React.Component<{}, TariffState> {
 
   private async fetchUserData() {
     const [tariffs, userTariff] = await Promise.all([
-      getTariffs('de'),
+      getTariffs(this.props.languageId),
       getCurrentTariff(),
     ]);
 

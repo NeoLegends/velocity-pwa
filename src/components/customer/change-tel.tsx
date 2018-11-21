@@ -1,6 +1,8 @@
 import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
+import { LanguageContext } from '../../util/language';
+
 interface ChangeTelProps {
   onCancel: React.MouseEventHandler;
   onChangeTel: (newTel: string) => void;
@@ -11,6 +13,9 @@ interface ChangeTelState {
 }
 
 class ChangeTel extends React.Component<ChangeTelProps & RouteComponentProps, ChangeTelState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     tel: '',
   };
@@ -20,17 +25,16 @@ class ChangeTel extends React.Component<ChangeTelProps & RouteComponentProps, Ch
 
     return (
       <form className="change-tel box" onSubmit={this.handleSubmit}>
-        <h2>Telefonnummer ändern</h2>
+        <h2>{this.context.PARTICULARS.MODAL.PHONE.TITLE}</h2>
 
         <div className="wrapper">
           <p>
-            Wir verwenden Ihre Telefonnummer um Sie bei Rückfragen zu Rechnungen
-            oder Supportfragen kontaktieren zu könnnen.
+            {this.context.PARTICULARS.MODAL.PHONE.DESCRIPTION_USAGE}
           </p>
 
           <input
             className="input outline"
-            placeholder="Telefonnummer"
+            placeholder={this.context.PARTICULARS.MODAL.PHONE.DESCRIPTION_PHONE}
             type="tel"
             onChange={this.handleTelChange}
             value={this.state.tel}
@@ -43,14 +47,14 @@ class ChangeTel extends React.Component<ChangeTelProps & RouteComponentProps, Ch
             className="btn outline"
             disabled={!canSubmit}
           >
-            Telefonnummer ändern
+            {this.context.PARTICULARS.MODAL.PHONE.BUTTON.SUBMIT}
           </button>
 
           <button
             className="btn outline"
             onClick={this.props.onCancel}
           >
-            Abbrechen
+            {this.context.PARTICULARS.MODAL.PHONE.BUTTON.CANCEL}
           </button>
         </div>
       </form>
