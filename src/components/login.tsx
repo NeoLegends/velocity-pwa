@@ -77,23 +77,23 @@ class Login extends React.Component<LoginProps, LoginState> {
     );
   }
 
-  handleFormSubmit = (ev: React.FormEvent) => {
+  private handleFormSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
     this.handleLoginClicked();
   }
 
-  handleLoginClicked = () => {
+  private handleLoginClicked = () => {
     const { email, password } = this.state;
     if (this.props.onLoginStart && email && password) {
       this.props.onLoginStart(email, password);
     }
   }
 
-  handleEmailChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  private handleEmailChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: ev.target.value });
   }
 
-  handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  private handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: ev.target.value });
   }
 }

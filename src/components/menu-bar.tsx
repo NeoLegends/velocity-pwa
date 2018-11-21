@@ -41,13 +41,13 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
 
         <button
           className="btn transparent"
-          onClick={this.handleClickDe}
+          onClick={this.handleClickDeLanguageButton}
         >
           DE
         </button>
         <button
           className="btn transparent"
-          onClick={this.handleClickEn}
+          onClick={this.handleClickEnLanguageButton}
         >
           EN
         </button>
@@ -62,14 +62,14 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
         </button>
         <button
           className="btn outline btn-menu"
-          onClick={this.onMenuButtonClicked}
+          onClick={this.handleClickMenuButton}
         >
           Menü
         </button>
 
         <Overlay
           isOpen={this.state.isMenuOpen}
-          onRequestClose={this.onRequestMenuClose}
+          onRequestClose={this.handleRequestMenuClose}
         >
           <Menu/>
         </Overlay>
@@ -77,19 +77,19 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
     );
   }
 
-  onMenuButtonClicked = () => this.setState({ isMenuOpen: true });
+  private handleClickMenuButton = () => this.setState({ isMenuOpen: true });
 
-  onRequestMenuClose = () => this.setState({ isMenuOpen: false });
-
-  private handleClickDe = (ev: React.MouseEvent) => {
+  private handleClickDeLanguageButton = (ev: React.MouseEvent) => {
     ev.preventDefault();
     this.props.onChangeLanguage && this.props.onChangeLanguage('de');
   }
 
-  private handleClickEn = (ev: React.MouseEvent) => {
+  private handleClickEnLanguageButton = (ev: React.MouseEvent) => {
     ev.preventDefault();
     this.props.onChangeLanguage && this.props.onChangeLanguage('en');
   }
+
+  private handleRequestMenuClose = () => this.setState({ isMenuOpen: false });
 }
 
 export default MenuBar;
