@@ -71,6 +71,11 @@ export interface Slot {
   stationSlotPosition: number;
 }
 
+export interface Slots {
+  recommendedSlot?: number;
+  stationSlots: Slot[];
+}
+
 export interface Station extends StationSimple {
   locationLatitude: number;
   locationLongitude: number;
@@ -87,11 +92,6 @@ export interface StationSimple {
 
 export interface StationWithAddress extends Station {
   address: Address;
-}
-
-export interface Slots {
-  recommendedSlot?: number;
-  stationSlots: Slot[];
 }
 
 export interface Tariff {
