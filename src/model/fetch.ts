@@ -35,3 +35,10 @@ export const fetchEnsureOk = async (url: string, init?: RequestInit) => {
 
 export const fetchJsonEnsureOk = (url: string, init?: RequestInit) =>
   fetchEnsureOk(url, init).then(resp => resp.json());
+
+export const postJsonEnsureOk = (url: string, body?: unknown, method: string = 'post') =>
+  fetchEnsureOk(url, {
+    body: body ? JSON.stringify(body) : undefined,
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    method,
+  });

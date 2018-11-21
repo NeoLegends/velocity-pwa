@@ -5,7 +5,7 @@ import {
   Station,
   StationWithAddress,
 } from '.';
-import { fetch404ToNull, fetchJsonEnsureOk } from './fetch';
+import { fetch404ToNull, fetchJsonEnsureOk, postJsonEnsureOk } from './fetch';
 import {
   rentBikeUrl,
   reserveBikeUrl,
@@ -28,11 +28,9 @@ export const rentBike = async (
   stationId: number,
   stationSlotId: number,
 ): Promise<Rent> =>
-  fetchJsonEnsureOk(rentBikeUrl(stationId), {
-    body: JSON.stringify({ cardPin, stationSlotId }),
-    headers: { 'Content-Type': 'application/json' },
-    method: 'post',
-  });
+  postJsonEnsureOk(rentBikeUrl(stationId), { cardPin, stationSlotId })
+    .then(resp => resp.json());
 
 export const reserveBike = async (stationId: number): Promise<Reservation> =>
-  fetchJsonEnsureOk(reserveBikeUrl(stationId), { method: 'post' });
+  postJsonEnsureOk(reserveBikeUrl(stationId))
+    .then(resp => resp.json());
