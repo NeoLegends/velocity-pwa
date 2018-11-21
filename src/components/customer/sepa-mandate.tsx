@@ -9,7 +9,7 @@ interface SepaMandateProps {
   onCancel: React.MouseEventHandler;
 }
 
-const SepaMandate: React.FC<SepaMandateProps & RouteComponentProps> = ({
+const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
   mandate,
 
   onCancel,
@@ -61,4 +61,4 @@ const SepaMandate: React.FC<SepaMandateProps & RouteComponentProps> = ({
   </div>
 );
 
-export default SepaMandate;
+export default SepaMandateBody;
