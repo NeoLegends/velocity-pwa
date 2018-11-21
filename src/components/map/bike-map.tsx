@@ -38,6 +38,7 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onReserve: (stationId: number) => void;
 }
 
+const aachenLatLng: [number, number] = [50.77403035497566, 6.084194183349609];
 const stationIcon = icon({
   iconUrl: LOGO_URL,
   iconSize: [25.3, 29.37],
@@ -55,7 +56,7 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   onReserve,
 }) => (
   <Map
-    center={[50.77403035497566, 6.084194183349609]}
+    center={aachenLatLng}
     zoom={14}
     maxZoom={18}
   >
