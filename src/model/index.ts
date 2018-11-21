@@ -94,6 +94,8 @@ export interface StationWithAddress extends Station {
   address: Address;
 }
 
+export type SupportType = 'feedback' | 'station' | 'pedelec';
+
 export interface Tariff {
   description: string;
   name: string;

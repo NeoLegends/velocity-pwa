@@ -1,3 +1,5 @@
+import { SupportType } from '.';
+
 const BACKEND_URL = process.env.NODE_ENV === 'production'
   ? 'https://velocity-pwa.netlify.com/backend'
   : 'http://localhost:8000/backend';
@@ -17,11 +19,13 @@ export const APP_CHANGE_TEL_URL = `${APP_CUSTOMER_URL}/phone`;
 export const APP_PASSWORD_RESET_REQUEST_URL = `${APP_CUSTOMER_URL}/passwordreset-request`;
 export const APP_CURRENT_TARIFF_URL = `${APP_CUSTOMER_URL}/tariff`;
 export const APP_INVOICES_URL = `${APP_CUSTOMER_URL}/invoices?view=SUMMARY`;
+export const APP_SUPPORT_URL = `${APP_URL}/support`;
 export const APP_TOGGLE_TARIFF_RENEWAL_URL = `${APP_CURRENT_TARIFF_URL}/auto-renewal`;
 export const APP_SEPA_MANDATE_URL = `${APP_CUSTOMER_URL}/bankaccount/sepa`;
 
 export const singleStationUrl = (statId: number) => `${APP_ALL_STATIONS_URL}/${statId}`;
 
+export const feedbackUrl = (type: SupportType) => `${APP_SUPPORT_URL}/${type}`;
 export const rentBikeUrl = (statId: number) => `${singleStationUrl(statId)}/rent`;
 export const reserveBikeUrl = (statId: number) => `${singleStationUrl(statId)}/book`;
 export const slotInfoUrl = (statId: number) => `${singleStationUrl(statId)}/slots/full`;

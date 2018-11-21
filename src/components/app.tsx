@@ -24,6 +24,7 @@ const Bookings = needsLogin(makeLazy(() => import('./bookings')));
 const Customer = needsLogin(makeLazy(() => import('./customer/customer')));
 const Invoices = needsLogin(makeLazy(() => import('./invoices')));
 const Map = makeLazy(() => import('./map/bike-map'));
+const Support = needsLogin(makeLazy(() => import('./support')));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
 const AppBody: React.SFC<AppBodyProps> = ({
@@ -60,6 +61,11 @@ const AppBody: React.SFC<AppBodyProps> = ({
         onLoginStart={onLoginStartWithoutRedirect}
       />
       <Login path="/login" onLoginStart={onLoginStart}/>
+      <Support
+        path="/support"
+        isLoggedIn={isLoggedIn}
+        onLoginStart={onLoginStartWithoutRedirect}
+      />
       <Tariff
         path="/tariff"
         isLoggedIn={isLoggedIn}
