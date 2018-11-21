@@ -16,7 +16,7 @@ interface ChangeAddressState {
   zip: string;
 }
 
-interface BodyProps extends ChangeAddressState {
+interface ChangeAddressBodyProps extends ChangeAddressState {
   canSubmit: boolean;
 
   onCancel: React.MouseEventHandler;
@@ -38,7 +38,7 @@ const alpha3ToCountryName: Record<string, string> = countries.reduce((acc, c) =>
   return acc;
 }, {});
 
-const Body: React.FC<BodyProps> = ({
+const ChangeAddressBody: React.FC<ChangeAddressBodyProps> = ({
   canSubmit,
   city,
   country,
@@ -128,7 +128,7 @@ class ChangeAddress extends React.Component<
     );
 
     return (
-      <Body
+      <ChangeAddressBody
         {...this.state}
         canSubmit={canSubmit}
         onCancel={this.props.onCancel}

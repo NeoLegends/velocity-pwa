@@ -11,16 +11,16 @@ import {
 
 import './tariff.scss';
 
+interface TariffState {
+  tariffs: Tariff[];
+  userTariff: UserTariff | null;
+}
+
 interface TariffBodyProps extends TariffState {
   hasDefaultTariff: boolean;
 
   onBookTariff: (tariffId: number) => void;
   onToggleAutomaticRenewal: React.MouseEventHandler;
-}
-
-interface TariffState {
-  tariffs: Tariff[];
-  userTariff: UserTariff | null;
 }
 
 // tslint:disable:jsx-no-lambda

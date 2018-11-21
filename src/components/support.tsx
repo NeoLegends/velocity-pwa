@@ -21,7 +21,7 @@ interface SupportState {
   stations: Station[];
 }
 
-interface BodyProps extends SupportState {
+interface SupportBodyProps extends SupportState {
   canSubmitFeedback: boolean;
   canSubmitProblemReport: boolean;
 
@@ -55,7 +55,7 @@ const stationDefectCategories = {
   MISC: "Sonstiges",
 };
 
-const Body: React.FC<BodyProps> = ({
+const SupportBody: React.FC<SupportBodyProps> = ({
   canSubmitFeedback,
   canSubmitProblemReport,
 
@@ -230,7 +230,7 @@ class Support extends React.Component<{}, SupportState> {
     );
 
     return (
-      <Body
+      <SupportBody
         {...this.state}
         canSubmitFeedback={canSubmitFeedback}
         canSubmitProblemReport={canSubmitProblemReport}

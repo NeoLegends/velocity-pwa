@@ -15,7 +15,7 @@ interface ChangeBankDetailsState extends BankDetails {
   mandateChecked: boolean;
 }
 
-interface BodyProps extends ChangeBankDetailsState {
+interface ChangeBankDetailsBodyProps extends ChangeBankDetailsState {
   canSubmit: boolean;
 
   onCancel: React.MouseEventHandler;
@@ -26,7 +26,7 @@ interface BodyProps extends ChangeBankDetailsState {
   onSubmit: React.FormEventHandler;
 }
 
-const Body: React.FC<BodyProps> = ({
+const ChangeBankDetailsBody: React.FC<ChangeBankDetailsBodyProps> = ({
   canSubmit,
   bankName,
   bic,
@@ -142,7 +142,7 @@ class ChangeBankDetails extends React.Component<
     );
 
     return (
-      <Body
+      <ChangeBankDetailsBody
         {...this.state}
         canSubmit={canSubmit}
         onCancel={this.props.onCancel}

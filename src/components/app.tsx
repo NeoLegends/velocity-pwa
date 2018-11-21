@@ -9,15 +9,15 @@ import needsLogin from '../util/needs-login';
 import './app.scss';
 import MenuBar from './menu-bar';
 
+interface AppState {
+  isLoggedIn: boolean;
+  loginStatusKnown: boolean;
+}
+
 interface AppBodyProps extends AppState {
   onLoginLogoutButtonClick?: React.MouseEventHandler;
   onLoginStart?: (email: string, password: string) => void;
   onLoginStartWithoutRedirect?: (email: string, password: string) => void;
-}
-
-interface AppState {
-  isLoggedIn: boolean;
-  loginStatusKnown: boolean;
 }
 
 const Bookings = needsLogin(makeLazy(() => import('./bookings')));
