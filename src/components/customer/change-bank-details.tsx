@@ -99,8 +99,7 @@ const Body: React.FC<BodyProps> = ({
           checked={mandateChecked}
           onChange={onMandateChange}
         />
-
-        Akzeptieren
+        <span>Akzeptieren</span>
       </label>
     </div>
 

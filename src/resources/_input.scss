@@ -10,3 +10,16 @@
 .input:invalid {
   border-color: $error-color;
 }
+
+label {
+  margin-right: 16px;
+
+  .input {
+    display: inline-block;
+    margin-right: 12px;
+  }
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
