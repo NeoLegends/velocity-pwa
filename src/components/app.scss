@@ -10,5 +10,6 @@
     flex: 1;
     margin-top: $menu-height;
     overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
