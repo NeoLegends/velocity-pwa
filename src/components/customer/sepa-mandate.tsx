@@ -3,13 +3,13 @@ import React from 'react';
 
 import { SepaMandate } from '../../model';
 
-interface ChangePasswordProps {
+interface SepaMandateProps {
   mandate: SepaMandate;
 
   onCancel: React.MouseEventHandler;
 }
 
-const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
+const SepaMandate: React.FC<SepaMandateProps & RouteComponentProps> = ({
   mandate,
 
   onCancel,
@@ -61,4 +61,4 @@ const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
   </div>
 );
 
-export default ChangePassword;
+export default SepaMandate;
