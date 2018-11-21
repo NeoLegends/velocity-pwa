@@ -18,6 +18,8 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
   };
 
   render() {
+    const canSubmit = this.state.password && /[0-9]{4}/.test(this.state.pin);
+
     return (
       <form className="change-pin box" onSubmit={this.handleSubmit}>
         <h2>PIN ändern</h2>
@@ -44,7 +46,7 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
           <button
             type="submit"
             className="btn outline"
-            disabled={!this.canSubmit()}
+            disabled={!canSubmit}
           >
             PIN ändern
           </button>
@@ -58,10 +60,6 @@ class ChangePin extends React.Component<ChangePinProps & RouteComponentProps, Ch
         </div>
       </form>
     );
-  }
-
-  private canSubmit() {
-    return Boolean(this.state.password && /[0-9]{4}/.test(this.state.pin));
   }
 
   private handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
