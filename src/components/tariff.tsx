@@ -28,6 +28,8 @@ interface TariffBodyProps extends TariffState {
   onToggleAutomaticRenewal: React.MouseEventHandler;
 }
 
+const DEFAULT_TARIFF_ID = 5;
+
 // tslint:disable:jsx-no-lambda
 
 const TariffBody: React.FC<TariffBodyProps> = ({
@@ -93,7 +95,7 @@ const TariffBody: React.FC<TariffBodyProps> = ({
               </ul>
             </div>
 
-            {hasDefaultTariff && (
+            {hasDefaultTariff && tariff.tariffId !== DEFAULT_TARIFF_ID && (
               <div className="actions">
                 <button
                   className="btn outline"
@@ -126,7 +128,7 @@ class TariffView extends React.Component<TariffProps, TariffState> {
 
   render() {
     const userTariff = this.state.userTariff as UserTariff | null;
-    const hasDefaultTariff = Boolean(userTariff && userTariff.tariffId === 5);
+    const hasDefaultTariff = Boolean(userTariff && userTariff.tariffId === DEFAULT_TARIFF_ID);
 
     return (
       <TariffBody
