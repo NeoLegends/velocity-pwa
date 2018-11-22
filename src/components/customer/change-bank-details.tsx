@@ -48,9 +48,9 @@ const ChangeBankDetailsBody: React.FC<ChangeBankDetailsBodyProps> = ({
 
         <div className="wrapper">
           <h3>
-            {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME},
-            {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN},
-            {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC},
+            {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}, {
+              PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} & {
+              PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
           </h3>
 
           <input
