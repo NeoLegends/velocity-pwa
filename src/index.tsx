@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11.js';
+
 import 'modern-normalize/modern-normalize.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
