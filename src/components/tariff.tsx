@@ -89,7 +89,7 @@ const TariffBody: React.FC<TariffBodyProps> = ({
             </div>
           )}
 
-          {!hasDefaultTariff && (
+          {userTariff && !hasDefaultTariff && (
             <div className="note info">
               {TARIFF.ALERT.NOTE_NOT_CHANGEABLE}
             </div>
