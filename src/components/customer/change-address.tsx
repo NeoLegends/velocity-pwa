@@ -3,7 +3,7 @@ import countries from 'country-info-list/countries.json';
 import React from 'react';
 
 import { Address } from '../../model';
-import { LanguageContext } from '../../util/language';
+import { LanguageContext, LanguageIdContext } from '../../util/language';
 
 interface ChangeAddressProps {
   onCancel: React.MouseEventHandler;
@@ -28,9 +28,14 @@ interface ChangeAddressBodyProps extends ChangeAddressState {
   onZipChange: React.ChangeEventHandler;
 }
 
-const countryList = countries.map(c => (
+const countryListEnglish = countries.map(c => (
   <option key={c.alpha3Code} value={c.alpha3Code}>
     {c.name}
+  </option>
+));
+const countryListGerman = countries.map(c => (
+  <option key={c.alpha3Code} value={c.alpha3Code}>
+    {c.translations.de || c.name}
   </option>
 ));
 
@@ -55,60 +60,66 @@ const ChangeAddressBody: React.FC<ChangeAddressBodyProps> = ({
 }) => (
   <LanguageContext.Consumer>
     {({ PARTICULARS }) => (
-      <form className="change-address box" onSubmit={onSubmit}>
-        <h2>{PARTICULARS.MODAL.ADDRESS.TITLE}</h2>
+      <LanguageIdContext.Consumer>
+        {langId => (
+          <form className="change-address box" onSubmit={onSubmit}>
+            <h2>{PARTICULARS.MODAL.ADDRESS.TITLE}</h2>
 
-        <div className="wrapper">
-          <input
-            className="input outline"
-            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.STREET_AND_HOUSENUMBER}
-            type="text"
-            onChange={onStreetChange}
-            value={streetAndHousenumber}
-          />
-          <input
-            className="input outline"
-            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.ZIP}
-            type="text"
-            onChange={onZipChange}
-            value={zip}
-          />
-          <input
-            className="input outline"
-            placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.CITY}
-            type="text"
-            onChange={onCityChange}
-            value={city}
-          />
+            <div className="wrapper">
+              <input
+                className="input outline"
+                placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.STREET_AND_HOUSENUMBER}
+                type="text"
+                onChange={onStreetChange}
+                value={streetAndHousenumber}
+              />
+              <input
+                className="input outline"
+                placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.ZIP}
+                type="text"
+                onChange={onZipChange}
+                value={zip}
+              />
+              <input
+                className="input outline"
+                placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.CITY}
+                type="text"
+                onChange={onCityChange}
+                value={city}
+              />
 
-          <select
-            className="input outline"
-            onChange={onCountryChange}
-            value={country}
-          >
-            <option value="">-</option>
-            <option value="DEU">Germany</option>
-            {countryList}
-          </select>
-        </div>
+              <select
+                className="input outline"
+                onChange={onCountryChange}
+                value={country}
+              >
+                <option value="">-</option>
+                <option value="DEU">
+                  {langId === 'de' ? "Deutschland" : "Germany"}
+                </option>
+                {langId === 'de' ? countryListGerman : countryListEnglish}
+              </select>
+            </div>
 
-        <div className="actions">
-          <button
-            type="submit"
-            className="btn outline"
-            disabled={!canSubmit}
-          >
-            {PARTICULARS.MODAL.ADDRESS.BUTTON.SUBMIT}
-          </button>
+            <div className="actions">
+              <button
+                type="submit"
+                className="btn outline"
+                disabled={!canSubmit}
+              >
+                {PARTICULARS.MODAL.ADDRESS.BUTTON.SUBMIT}
+              </button>
 
-          <button
-            className="btn outline"
-            onClick={onCancel}
-          >
-            {PARTICULARS.MODAL.ADDRESS.BUTTON.CANCEL}
-          </button>
-        </div>
-      </form>
+              <button
+                className="btn outline"
+                onClick={onCancel}
+              >
+                {PARTICULARS.MODAL.ADDRESS.BUTTON.CANCEL}
+              </button>
+            </div>
+          </form>
+        )}
+      </LanguageIdContext.Consumer>
     )}
   </LanguageContext.Consumer>
 );

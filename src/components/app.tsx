@@ -5,6 +5,7 @@ import { isLoggedIn, login, logout } from '../model/authentication';
 import {
   LanguageContext,
   LanguageIdentifier,
+  LanguageIdContext,
   LanguageType,
 } from '../util/language';
 import de from '../util/language/de.json';
@@ -51,46 +52,48 @@ const AppBody: React.SFC<AppBodyProps> = ({
   onLoginStartWithoutRedirect,
 }) => ((
   <LanguageContext.Provider value={language}>
-    <div className="app">
-      <MenuBar
-        isLoggedIn={isLoggedIn}
-        loginStatusKnown={loginStatusKnown}
-        onChangeLanguage={onChangeLanguage}
-        onLoginButtonClick={onLoginLogoutButtonClick}
-      />
+    <LanguageIdContext.Provider value={languageId}>
+      <div className="app">
+        <MenuBar
+          isLoggedIn={isLoggedIn}
+          loginStatusKnown={loginStatusKnown}
+          onChangeLanguage={onChangeLanguage}
+          onLoginButtonClick={onLoginLogoutButtonClick}
+        />
 
-      <Router role="main" className="main">
-        <Map path="/" isLoggedIn={isLoggedIn}/>
+        <Router role="main" className="main">
+          <Map path="/" isLoggedIn={isLoggedIn}/>
 
-        <Bookings
-          path="/bookings"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={onLoginStartWithoutRedirect}
-        />
-        <Customer
-          path="/customer/*"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={onLoginStartWithoutRedirect}
-        />
-        <Invoices
-          path="/invoices"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={onLoginStartWithoutRedirect}
-        />
-        <Login path="/login" onLoginStart={onLoginStart}/>
-        <Support
-          path="/support"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={onLoginStartWithoutRedirect}
-        />
-        <Tariff
-          path="/tariff"
-          isLoggedIn={isLoggedIn}
-          languageId={languageId}
-          onLoginStart={onLoginStartWithoutRedirect}
-        />
-      </Router>
-    </div>
+          <Bookings
+            path="/bookings"
+            isLoggedIn={isLoggedIn}
+            onLoginStart={onLoginStartWithoutRedirect}
+          />
+          <Customer
+            path="/customer/*"
+            isLoggedIn={isLoggedIn}
+            onLoginStart={onLoginStartWithoutRedirect}
+          />
+          <Invoices
+            path="/invoices"
+            isLoggedIn={isLoggedIn}
+            onLoginStart={onLoginStartWithoutRedirect}
+          />
+          <Login path="/login" onLoginStart={onLoginStart}/>
+          <Support
+            path="/support"
+            isLoggedIn={isLoggedIn}
+            onLoginStart={onLoginStartWithoutRedirect}
+          />
+          <Tariff
+            path="/tariff"
+            isLoggedIn={isLoggedIn}
+            languageId={languageId}
+            onLoginStart={onLoginStartWithoutRedirect}
+          />
+        </Router>
+      </div>
+    </LanguageIdContext.Provider>
   </LanguageContext.Provider>
 ));
 

@@ -6,3 +6,4 @@ export type LanguageType = typeof de;
 export type LanguageIdentifier = 'de' | 'en';
 
 export const LanguageContext = React.createContext(de);
+export const LanguageIdContext = React.createContext<LanguageIdentifier>('de');
