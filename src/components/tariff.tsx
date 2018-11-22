@@ -113,7 +113,7 @@ const TariffBody: React.FC<TariffBodyProps> = ({
                     className="btn outline"
                     onClick={() => onBookTariff(tariff.tariffId)}
                   >
-                    {tariff.name} {TARIFF.ALL.BUCHEN}
+                    {TARIFF.ALL.BUCHEN}
                   </button>
                 </div>
               )}
