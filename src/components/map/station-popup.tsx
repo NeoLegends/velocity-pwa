@@ -112,12 +112,13 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
   onRentStart,
   onReserve,
 }) => {
-  const canRentOrReserveBike =
+  const canRentBike =
     isLoggedIn &&
     !hasBooking &&
     station.state === 'OPERATIVE' &&
     detail &&
     detail.slots.stationSlots.some(s => s.isOccupied);
+  const canBookBike = canRentBike && !hasBooking;
 
   return (
     <LanguageContext.Consumer>
@@ -152,7 +153,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
                 <>
                   <button
                     className="btn outline"
-                    disabled={!canRentOrReserveBike}
+                    disabled={!canBookBike}
                     onClick={() => onReserve(station.stationId)}
                   >
                     {lang.MAP.POPUP.BUTTON.BOOK}
@@ -160,7 +161,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
 
                   <button
                     className="btn outline"
-                    disabled={!canRentOrReserveBike}
+                    disabled={!canRentBike}
                     onClick={() => onRentStart(station.stationId)}
                   >
                     {lang.MAP.POPUP.BUTTON.RENT}
