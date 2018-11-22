@@ -59,8 +59,6 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
     center={aachenLatLng}
     zoom={14}
     maxZoom={18}
-    zoomDelta={1}
-    zoomSnap={0}
   >
     <TileLayer
       attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
