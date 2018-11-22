@@ -19,11 +19,11 @@ const LazySpinner = (
 const MakeLazy = function<P>(loader: () => Promise<{ default: React.ComponentType<P> }>) {
   const Lazy = React.lazy(loader);
 
-  const LazyWrapper: React.SFC<P & RouteComponentProps> = props => (
+  const LazyWrapper = React.forwardRef((props: P & RouteComponentProps, ref) => (
     <Suspense fallback={LazySpinner}>
-      <Lazy {...(props as any)}/>
+      <Lazy ref={ref} {...(props as any)}/>
     </Suspense>
-  );
+  ));
 
   return LazyWrapper;
 };
