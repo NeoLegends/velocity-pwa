@@ -58,22 +58,26 @@ const TariffBody: React.FC<TariffBodyProps> = ({
                 <li>
                   {TARIFF.ALL.INFO}: {tariffs.find(t => t.tariffId === userTariff!.tariffId)!.description}
                 </li>
-                <li>
-                  {TARIFF.CURRENT.RENEWAL} {userTariff.automaticRenewal ? STATE.ACTIVE : STATE.IDLE}
-                </li>
+                {!hasDefaultTariff && (
+                  <li>
+                    {TARIFF.CURRENT.RENEWAL} {userTariff.automaticRenewal ? STATE.ACTIVE : STATE.IDLE}
+                  </li>
+                )}
               </ul>
             </div>
 
-            <div className="actions">
-              <button
-                className="btn outline"
-                onClick={onToggleAutomaticRenewal}
-              >
-                Automatische Verlängerung {userTariff.automaticRenewal
-                  ? "deaktivieren"
-                  : "aktivieren"}
-              </button>
-            </div>
+            {!hasDefaultTariff && (
+              <div className="actions">
+                <button
+                  className="btn outline"
+                  onClick={onToggleAutomaticRenewal}
+                >
+                  Automatische Verlängerung {userTariff.automaticRenewal
+                    ? "deaktivieren"
+                    : "aktivieren"}
+                </button>
+              </div>
+            )}
           </div>
         )}
 
