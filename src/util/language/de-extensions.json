@@ -1,0 +1,22 @@
+{
+  "tariff": {
+    "ACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung aktivieren",
+    "DEACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung deaktivieren"
+  },
+  "customer": {
+    "ACCEPT": "Akzeptieren",
+    "BANK_DETAILS": {
+      "ACCOUNT_OWNER": "Kontoinhaber",
+      "BANK": "Bank",
+      "BANK_DETAILS": "Bankdaten"
+    },
+    "SEPA_MANDATE": {
+      "GO_BACK": "Zurück"
+    }
+  },
+  "menu": "Menü",
+  "sw": {
+    "NOW_AVAILABLE_OFFLINE": "Velocity ist jetzt auch offline verfügbar.",
+    "UPDATE_AVAILABLE": "Es ist ein Update verfügbar. Bitte schließe alle geöffneten Velocity-Tabs und öffne die Seite erneut, um das Update anzuwenden."
+  }
+}

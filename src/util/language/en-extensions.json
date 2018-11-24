@@ -1,0 +1,22 @@
+{
+  "tariff": {
+    "ACTIVATE_AUTOMATIC_RENEWAL": "Activate automatic renewal",
+    "DEACTIVATE_AUTOMATIC_RENEWAL": "Deactivate automatic renewal"
+  },
+  "customer": {
+    "ACCEPT": "Accept",
+    "BANK_DETAILS": {
+      "ACCOUNT_OWNER": "Account owner",
+      "BANK": "Bank",
+      "BANK_DETAILS": "Bank details"
+    },
+    "SEPA_MANDATE": {
+      "GO_BACK": "Back"
+    }
+  },
+  "menu": "Menu",
+  "sw": {
+    "NOW_AVAILABLE_OFFLINE": "Velocity now available offline.",
+    "UPDATE_AVAILABLE": "There is an update available. Please close and reopen all open Velocity browser tabs to apply it."
+  }
+}
