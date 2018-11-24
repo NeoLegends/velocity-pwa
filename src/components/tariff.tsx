@@ -50,7 +50,7 @@ const TariffOverview: React.FC<TariffBodyProps> = ({
 
   return (
     <LanguageContext.Consumer>
-      {({ STATE, TARIFF }) => (
+      {({ tariff, STATE, TARIFF }) => (
         <div className="tariff box-list">
           {userTariff && (
             <div className="box">
@@ -83,9 +83,9 @@ const TariffOverview: React.FC<TariffBodyProps> = ({
                     className="btn outline"
                     onClick={onToggleAutomaticRenewal}
                   >
-                    Automatische Verlängerung {userTariff.automaticRenewal
-                      ? "deaktivieren"
-                      : "aktivieren"}
+                    {userTariff.automaticRenewal
+                      ? tariff.DEACTIVATE_AUTOMATIC_RENEWAL
+                      : tariff.ACTIVATE_AUTOMATIC_RENEWAL}
                   </button>
                 </div>
               )}

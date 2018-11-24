@@ -65,7 +65,7 @@ const SupportBody: React.FC<SupportBodyProps> = ({
   onSubmitProblemReport,
 }) => (
   <LanguageContext.Consumer>
-    {({ SUPPORT }) => (
+    {({ BUCHUNGEN, SUPPORT }) => (
       <div className="support box-list">
         <form className="box" onSubmit={onSubmitFeedback}>
           <h2>{SUPPORT.FEEDBACK.TITLE}</h2>
@@ -110,7 +110,7 @@ const SupportBody: React.FC<SupportBodyProps> = ({
                   checked={defectType === 'pedelec'}
                   onChange={onChangeDefectType}
                 />
-                <span>Fahrrad</span>
+                <span>Pedelec</span>
               </label>
 
               <label>
@@ -122,7 +122,7 @@ const SupportBody: React.FC<SupportBodyProps> = ({
                   checked={defectType === 'station'}
                   onChange={onChangeDefectType}
                 />
-                <span>Station</span>
+                <span>{BUCHUNGEN.RESERVIERUNG.STATION}</span>
               </label>
             </div>
 

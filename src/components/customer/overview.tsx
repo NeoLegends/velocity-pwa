@@ -14,7 +14,7 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
   sepaMandate,
 }) => (
   <LanguageContext.Consumer>
-    {({ PARTICULARS }) => (
+    {({ customer: cust, PARTICULARS }) => (
       <>
         <div className="box personal">
           <h2>{PARTICULARS.HEADING}</h2>
@@ -86,21 +86,24 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
         </div>
 
         <div className="box banking">
-          <h2>Bankdaten</h2>
+          <h2>{cust.BANK_DETAILS.BANK_DETAILS}</h2>
 
           <div className="wrapper">
             <table>
               <tbody>
                 <tr>
-                  <td>Kontoinhaber</td>
+                  <td>{cust.BANK_DETAILS.ACCOUNT_OWNER}</td>
                   <td>{sepaMandate.firstname} {sepaMandate.lastname}</td>
                 </tr>
                 <tr>
-                  <td>IBAN</td>
+                  <td>{PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}</td>
                   <td>{sepaMandate.iban}</td>
                 </tr>
                 <tr>
-                  <td>Bank</td>
+                  <td>
+                    {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} & {
+                      PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
+                  </td>
                   <td>{sepaMandate.bankName} | {sepaMandate.bic}</td>
                 </tr>
               </tbody>

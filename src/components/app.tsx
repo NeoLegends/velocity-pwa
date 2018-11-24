@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
 import {
+  de,
+  en,
   LanguageContext,
   LanguageIdentifier,
   LanguageIdContext,
   LanguageType,
 } from '../util/language';
-import de from '../util/language/de.json';
-import en from '../util/language/en.json';
 import Login from '../util/lazy-login';
 import makeLazy from '../util/make-lazy';
 import needsLogin from '../util/needs-login';
@@ -134,7 +134,7 @@ class App extends Component<{}, AppState> {
 
   private handleChangeLanguage = (lang: LanguageIdentifier) => {
     this.setState({
-      language: lang === 'de' ? de : (en as LanguageType),
+      language: (lang === 'de' ? de : en) as LanguageType,
       languageId: lang,
     });
     localStorage.setItem(LOCALSTORAGE_LANGUAGE_KEY, lang);

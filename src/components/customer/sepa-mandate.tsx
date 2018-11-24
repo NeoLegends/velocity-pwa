@@ -16,7 +16,7 @@ const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
   onCancel,
 }) => (
   <LanguageContext.Consumer>
-    {({ SEPA }) => (
+    {({ customer, SEPA }) => (
       <div className="change-pw box">
         <h2>{SEPA.SUBTITLE}</h2>
 
@@ -45,7 +45,7 @@ const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
             className="btn outline"
             onClick={onCancel}
           >
-            Zurück
+            {customer.SEPA_MANDATE.GO_BACK}
           </button>
         </div>
       </div>

@@ -64,7 +64,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
           className="btn outline btn-menu"
           onClick={this.handleClickMenuButton}
         >
-          Menü
+          {this.context.menu}
         </button>
 
         <Overlay

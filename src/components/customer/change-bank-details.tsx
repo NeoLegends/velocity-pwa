@@ -42,7 +42,7 @@ const ChangeBankDetailsBody: React.FC<ChangeBankDetailsBodyProps> = ({
   onSubmit,
 }) => (
   <LanguageContext.Consumer>
-    {({ PARTICULARS }) => (
+    {({ customer, PARTICULARS }) => (
       <form className="change-bank-details box" onSubmit={onSubmit}>
         <h2>{PARTICULARS.MODAL.BANK_ACC.TITLE}</h2>
 
@@ -94,7 +94,7 @@ const ChangeBankDetailsBody: React.FC<ChangeBankDetailsBodyProps> = ({
               checked={mandateChecked}
               onChange={onMandateChange}
             />
-            <span>Akzeptieren</span>
+            <span>{customer.ACCEPT}</span>
           </label>
         </div>
 
