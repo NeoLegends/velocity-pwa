@@ -17,6 +17,7 @@ interface TariffProps {
 }
 
 interface TariffState {
+  currentlyBookingTariff: number | null;
   tariffs: Tariff[];
   userTariff: UserTariff | null;
 }
@@ -25,6 +26,8 @@ interface TariffBodyProps extends TariffState {
   hasDefaultTariff: boolean;
 
   onBookTariff: (tariffId: number) => void;
+  onCancelBookingProcess: React.MouseEventHandler;
+  onConfirmBooking: React.MouseEventHandler;
   onToggleAutomaticRenewal: React.MouseEventHandler;
 }
 
@@ -32,7 +35,7 @@ const DEFAULT_TARIFF_ID = 5;
 
 // tslint:disable:jsx-no-lambda
 
-const TariffBody: React.FC<TariffBodyProps> = ({
+const TariffOverview: React.FC<TariffBodyProps> = ({
   hasDefaultTariff,
   tariffs,
   userTariff,
@@ -125,8 +128,58 @@ const TariffBody: React.FC<TariffBodyProps> = ({
   );
 };
 
+// tslint:enable
+
+const TariffBookingConfirmation: React.FC<TariffBodyProps> = ({
+  currentlyBookingTariff,
+  tariffs,
+
+  onCancelBookingProcess,
+  onConfirmBooking,
+}) => {
+  const tariff = tariffs.find(t => t.tariffId === currentlyBookingTariff)!;
+
+  return (
+    <LanguageContext.Consumer>
+      {({ TARIFF }) => (
+        <div className="tariff box-list">
+          <div className="box">
+            <h2>{tariff.name}</h2>
+
+            <div className="wrapper">
+              {TARIFF.MODAL.ORDER_OPTION.INFO} {tariff.name}
+            </div>
+
+            <div className="actions">
+              <button
+                className="btn outline"
+                onClick={onConfirmBooking}
+              >
+                {TARIFF.MODAL.ORDER_OPTION.CONFIRM}
+              </button>
+
+              <button
+                className="btn outline"
+                onClick={onCancelBookingProcess}
+              >
+                {TARIFF.MODAL.ORDER_OPTION.ABBRECHEN}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </LanguageContext.Consumer>
+  );
+};
+
+const TariffBody: React.FC<TariffBodyProps> = props =>
+  (props.currentlyBookingTariff !== null)
+    ? <TariffBookingConfirmation {...props}/>
+    : <TariffOverview {...props}/>;
+
 class TariffView extends React.Component<TariffProps, TariffState> {
   state = {
+    currentlyBookingTariff: null,
     tariffs: [],
     userTariff: null,
   };
@@ -148,8 +201,10 @@ class TariffView extends React.Component<TariffProps, TariffState> {
         {...this.state}
         {...this.props}
         hasDefaultTariff={hasDefaultTariff}
-        onBookTariff={this.onBookTariff}
-        onToggleAutomaticRenewal={this.onToggleAutomaticRenewal}
+        onBookTariff={this.handleBookTariff}
+        onCancelBookingProcess={this.handleCancelBookingProcess}
+        onConfirmBooking={this.handleConfirmBooking}
+        onToggleAutomaticRenewal={this.handleToggleAutomaticRenewal}
       />
     );
   }
@@ -163,12 +218,23 @@ class TariffView extends React.Component<TariffProps, TariffState> {
     this.setState({ tariffs, userTariff });
   }
 
-  private onBookTariff = async (tariffId: number) => {
-    await bookTariff(tariffId);
+  private handleBookTariff = (tariffId: number) =>
+    this.setState({ currentlyBookingTariff: tariffId })
+
+  private handleCancelBookingProcess = () =>
+    this.setState({ currentlyBookingTariff: null })
+
+  private handleConfirmBooking = async () => {
+    if (!this.state.currentlyBookingTariff) {
+      console.error("Missing tariff to book.");
+      return;
+    }
+
+    await bookTariff(this.state.currentlyBookingTariff!);
     await this.fetchUserData();
   }
 
-  private onToggleAutomaticRenewal = async () => {
+  private handleToggleAutomaticRenewal = async () => {
     const userTariff = this.state.userTariff as UserTariff | null;
     if (!userTariff) {
       return;
