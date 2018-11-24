@@ -28,9 +28,9 @@ interface AppState {
 
 interface AppBodyProps extends AppState {
   onChangeLanguage: (lang: LanguageIdentifier) => void;
-  onLoginLogoutButtonClick?: React.MouseEventHandler;
-  onLoginStart?: (email: string, password: string) => void;
-  onLoginStartWithoutRedirect?: (email: string, password: string) => void;
+  onLoginLogoutButtonClick: React.MouseEventHandler;
+  onLoginStart: (email: string, password: string) => void;
+  onLoginStartWithoutRedirect: (email: string, password: string) => void;
 }
 
 const Bookings = needsLogin(makeLazy(() => import('./bookings')));
