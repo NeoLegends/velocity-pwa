@@ -1,5 +1,5 @@
 @import "~react-toastify/scss/main.scss";
-@import "../resources/variables";
+@import "../resources/scss/variables";
 
 .app {
   height: 100vh;
@@ -15,6 +15,6 @@
   }
 
   .velocity-toast {
-    
+
   }
 }

@@ -1,4 +1,4 @@
-@import "./resources/variables";
+@import "./resources/scss/variables";
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -8,14 +8,14 @@ body {
   color: $text-color;
 }
 
-@import "./resources/a";
-@import "./resources/box";
-@import "./resources/box-list";
-@import "./resources/button";
-@import "./resources/div";
-@import "./resources/input";
-@import "./resources/note";
-@import "./resources/outline";
-@import "./resources/p";
-@import "./resources/select";
-@import "./resources/textarea";
+@import "./resources/scss/a";
+@import "./resources/scss/box";
+@import "./resources/scss/box-list";
+@import "./resources/scss/button";
+@import "./resources/scss/div";
+@import "./resources/scss/input";
+@import "./resources/scss/note";
+@import "./resources/scss/outline";
+@import "./resources/scss/p";
+@import "./resources/scss/select";
+@import "./resources/scss/textarea";
