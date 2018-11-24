@@ -38,7 +38,7 @@ const Map = makeLazy(() => import('./map/bike-map'));
 const Support = needsLogin(makeLazy(() => import('./support')));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
-const LOCALSTORAGE_LANGUAGE_KEY = 'velcity/lang';
+const LOCALSTORAGE_LANGUAGE_KEY = 'velocity/lang';
 
 const AppBody: React.SFC<AppBodyProps> = ({
   isLoggedIn,
@@ -106,9 +106,7 @@ class App extends Component<{}, AppState> {
   };
 
   componentDidMount() {
-    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) || 'de';
-    this.handleChangeLanguage(lang as LanguageIdentifier);
-
+    this.checkLanguage();
     this.checkLogin();
   }
 
@@ -124,6 +122,11 @@ class App extends Component<{}, AppState> {
     );
   }
 
+  private checkLanguage() {
+    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) || 'de';
+    this.handleChangeLanguage(lang as LanguageIdentifier);
+  }
+
   private async checkLogin() {
     const loggedIn = await isLoggedIn();
     this.setState({
@@ -134,7 +137,7 @@ class App extends Component<{}, AppState> {
 
   private handleChangeLanguage = (lang: LanguageIdentifier) => {
     this.setState({
-      language: (lang === 'de' ? de : en) as LanguageType,
+      language: (lang === 'en' ? en : de) as LanguageType,
       languageId: lang,
     });
     localStorage.setItem(LOCALSTORAGE_LANGUAGE_KEY, lang);
