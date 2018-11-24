@@ -1,6 +1,6 @@
 import { navigate, Router } from '@reach/router';
 import React, { Component } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, Slide, ToastContainer } from 'react-toastify';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
 import {
@@ -56,7 +56,12 @@ const AppBody: React.SFC<AppBodyProps> = ({
   <LanguageContext.Provider value={language}>
     <LanguageIdContext.Provider value={languageId}>
       <div className="app">
-        <ToastContainer toastClassName="velocity-toast"/>
+        <ToastContainer
+          position="bottom-center"
+          progressClassName="toast-progress"
+          toastClassName="toast outline"
+          transition={Slide}
+        />
 
         <MenuBar
           isLoggedIn={isLoggedIn}

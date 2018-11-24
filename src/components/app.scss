@@ -13,8 +13,12 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
   }
+}
 
-  .velocity-toast {
+.toast {
+  color: $text-color;
 
+  .toast-progress {
+    background: #333;
   }
 }
