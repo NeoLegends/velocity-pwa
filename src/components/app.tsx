@@ -178,13 +178,9 @@ class App extends Component<{}, AppState> {
     }
   }
 
-  private handleSwInstallation = (reg: ServiceWorkerRegistration) => {
-    toast("Velocity is now available offline.");
-  }
+  private handleSwInstallation = () => toast(this.state.language.sw.NOW_AVAILABLE_OFFLINE);
 
-  private handleSwUpdate = (reg: ServiceWorkerRegistration) => {
-    toast("There is an update available. Please close and reopen all tabs to apply it.");
-  }
+  private handleSwUpdate = () => toast(this.state.language.sw.UPDATE_AVAILABLE);
 }
 
 export default App;
