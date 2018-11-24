@@ -1,4 +1,5 @@
-@import "../resources//variables";
+@import "~react-toastify/scss/main.scss";
+@import "../resources/variables";
 
 .app {
   height: 100vh;
@@ -11,5 +12,9 @@
     margin-top: $menu-height;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .velocity-toast {
+    
   }
 }

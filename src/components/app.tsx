@@ -1,7 +1,9 @@
 import { navigate, Router } from '@reach/router';
 import React, { Component } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
+import * as serviceWorker from '../serviceWorker';
 import {
   de,
   en,
@@ -54,6 +56,8 @@ const AppBody: React.SFC<AppBodyProps> = ({
   <LanguageContext.Provider value={language}>
     <LanguageIdContext.Provider value={languageId}>
       <div className="app">
+        <ToastContainer toastClassName="velocity-toast"/>
+
         <MenuBar
           isLoggedIn={isLoggedIn}
           loginStatusKnown={loginStatusKnown}
@@ -108,6 +112,7 @@ class App extends Component<{}, AppState> {
   componentDidMount() {
     this.checkLanguage();
     this.checkLogin();
+    this.configureServiceWorker();
   }
 
   render() {
@@ -133,6 +138,16 @@ class App extends Component<{}, AppState> {
       isLoggedIn: loggedIn,
       loginStatusKnown: true,
     });
+  }
+
+  private configureServiceWorker() {
+    const swConfig = {
+      onSuccess: this.handleSwInstallation,
+      onUpdate: this.handleSwUpdate,
+    };
+    process.env.NODE_ENV === 'production'
+      ? serviceWorker.register(swConfig)
+      : serviceWorker.unregister();
   }
 
   private handleChangeLanguage = (lang: LanguageIdentifier) => {
@@ -161,6 +176,14 @@ class App extends Component<{}, AppState> {
     } else {
       navigate('/login');
     }
+  }
+
+  private handleSwInstallation = (reg: ServiceWorkerRegistration) => {
+    toast("Velocity is now available offline.");
+  }
+
+  private handleSwUpdate = (reg: ServiceWorkerRegistration) => {
+    toast("There is an update available. Please close and reopen all tabs to apply it.");
   }
 }
 
