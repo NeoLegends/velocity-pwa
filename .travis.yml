@@ -1,0 +1,5 @@
+language: node
+
+script:
+  - yarn build
+  - yarn test
