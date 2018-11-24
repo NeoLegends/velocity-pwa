@@ -1,7 +1,7 @@
 import { Link } from '@reach/router';
 import React from 'react';
 
-import { LOGO_URL } from '../resources/logo';
+import logo from '../resources/logo.png';
 import { LanguageContext, LanguageIdentifier } from '../util/language';
 import Overlay from '../util/overlay';
 
@@ -32,7 +32,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
     return (
       <header className="menu-bar">
         <Link to="/">
-          <img className="logo" src={LOGO_URL}/>
+          <img className="logo" src={logo}/>
         </Link>
 
         <MenuEntries/>

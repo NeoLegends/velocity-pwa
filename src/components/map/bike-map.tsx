@@ -13,7 +13,7 @@ import {
   reserveBike,
 } from '../../model/stations';
 import { hasCurrentBooking } from '../../model/transaction';
-import { LOGO_URL } from '../../resources/logo';
+import logo from '../../resources/logo.png';
 
 import './bike-map.scss';
 import StationPopup from './station-popup';
@@ -40,7 +40,7 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
 
 const aachenLatLng: [number, number] = [50.77403035497566, 6.084194183349609];
 const stationIcon = icon({
-  iconUrl: LOGO_URL,
+  iconUrl: logo,
   iconSize: [25.3, 29.37],
 });
 
