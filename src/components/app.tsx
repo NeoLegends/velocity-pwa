@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 
 import { isLoggedIn, login, logout } from '../model/authentication';
-import * as serviceWorker from '../serviceWorker';
 import {
   de,
   en,
@@ -11,7 +10,8 @@ import {
   LanguageIdentifier,
   LanguageIdContext,
   LanguageType,
-} from '../util/language';
+} from '../resources/language';
+import * as serviceWorker from '../serviceWorker';
 import Login from '../util/lazy-login';
 import makeLazy from '../util/make-lazy';
 import needsLogin from '../util/needs-login';

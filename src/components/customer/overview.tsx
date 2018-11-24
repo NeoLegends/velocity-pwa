@@ -2,7 +2,7 @@ import { Link, RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { Customer, SepaMandate } from '../../model';
-import { LanguageContext } from '../../util/language';
+import { LanguageContext } from '../../resources/language';
 
 interface CustomerBodyProps {
   customer: Customer;

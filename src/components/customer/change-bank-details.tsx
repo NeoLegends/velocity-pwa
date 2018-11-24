@@ -3,7 +3,7 @@ import { isValidIBAN } from 'ibantools';
 import React from 'react';
 
 import { BankDetails } from '../../model';
-import { LanguageContext } from '../../util/language';
+import { LanguageContext } from '../../resources/language';
 
 import './change-bank-details.scss';
 

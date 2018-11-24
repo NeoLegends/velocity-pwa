@@ -68,7 +68,7 @@
   "rulesDirectory": [],
   "linterOptions": {
     "exclude": [
-      "src/util/language/*.json"
+      "src/resources/language/*.json"
     ]
   }
 }

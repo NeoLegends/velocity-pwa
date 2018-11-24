@@ -1,7 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { LanguageContext } from '../../util/language';
+import { LanguageContext } from '../../resources/language';
 
 interface ChangePinProps {
   onCancel: React.MouseEventHandler;

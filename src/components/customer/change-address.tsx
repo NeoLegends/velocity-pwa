@@ -3,7 +3,7 @@ import countries from 'country-info-list/countries.json';
 import React from 'react';
 
 import { Address } from '../../model';
-import { LanguageContext, LanguageIdContext } from '../../util/language';
+import { LanguageContext, LanguageIdContext } from '../../resources/language';
 
 interface ChangeAddressProps {
   onCancel: React.MouseEventHandler;

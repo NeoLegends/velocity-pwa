@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Invoice } from '../model';
 import { getAllInvoices } from '../model/invoices';
-import { LanguageContext } from '../util/language';
+import { LanguageContext } from '../resources/language';
 
 import './invoices.scss';
 

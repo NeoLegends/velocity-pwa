@@ -2,7 +2,7 @@ import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
 import { SepaMandate } from '../../model';
-import { LanguageContext } from '../../util/language';
+import { LanguageContext } from '../../resources/language';
 
 interface SepaMandateProps {
   mandate: SepaMandate;

@@ -8,7 +8,7 @@ import {
   getCurrentTariff,
   getTariffs,
 } from '../model/tariff';
-import { LanguageContext, LanguageIdentifier } from '../util/language';
+import { LanguageContext, LanguageIdentifier } from '../resources/language';
 
 import './tariff.scss';
 

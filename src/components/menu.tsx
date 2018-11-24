@@ -2,7 +2,7 @@ import { Link, LinkGetProps } from '@reach/router';
 import classNames from 'classnames';
 import React from 'react';
 
-import { LanguageContext } from '../util/language';
+import { LanguageContext } from '../resources/language';
 
 import './menu.scss';
 

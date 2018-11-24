@@ -9,7 +9,7 @@ import {
   getCurrentBooking,
   getTransactions,
 } from '../model/transaction';
-import { LanguageContext } from '../util/language';
+import { LanguageContext } from '../resources/language';
 
 import './bookings.scss';
 

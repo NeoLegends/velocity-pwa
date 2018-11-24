@@ -4,8 +4,8 @@ import React from 'react';
 import { Popup } from 'react-leaflet';
 
 import { Slot, Slots, Station, StationWithAddress } from '../../model';
+import { LanguageContext, LanguageType } from '../../resources/language';
 import { asHumanReadable } from '../../util/address';
-import { LanguageContext, LanguageType } from '../../util/language';
 
 import './station-popup.scss';
 

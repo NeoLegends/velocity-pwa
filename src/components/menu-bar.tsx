@@ -1,8 +1,8 @@
 import { Link } from '@reach/router';
 import React from 'react';
 
+import { LanguageContext, LanguageIdentifier } from '../resources/language';
 import logo from '../resources/logo.png';
-import { LanguageContext, LanguageIdentifier } from '../util/language';
 import Overlay from '../util/overlay';
 
 import Menu, { MenuEntries } from './menu';

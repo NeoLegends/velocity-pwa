@@ -1,7 +1,7 @@
 import { Link } from '@reach/router';
 import React from 'react';
 
-import { LanguageContext } from '../util/language';
+import { LanguageContext } from '../resources/language';
 
 import './login.scss';
 

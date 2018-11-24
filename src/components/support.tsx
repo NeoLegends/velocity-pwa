@@ -7,7 +7,7 @@ import {
   submitPedelecError,
   submitStationError,
 } from '../model/support';
-import { LanguageContext } from '../util/language';
+import { LanguageContext } from '../resources/language';
 
 import './support.scss';
 

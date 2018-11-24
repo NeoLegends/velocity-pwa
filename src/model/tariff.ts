@@ -1,4 +1,4 @@
-import { LanguageIdentifier } from '../util/language';
+import { LanguageIdentifier } from '../resources/language';
 
 import { Tariff, UserTariff } from '.';
 import {
