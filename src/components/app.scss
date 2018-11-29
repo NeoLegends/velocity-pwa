@@ -21,4 +21,14 @@
   .toast-progress {
     background: #333;
   }
+
+  &.Toastify__toast--error {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+
+    .toast-progress {
+      background: white;
+    }
+  }
 }
