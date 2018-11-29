@@ -5,28 +5,7 @@ import german from './de.json';
 import englishExt from './en-extensions.json';
 import english from './en.json';
 
-export interface CustomTranslations {
-  tariff: {
-    ACTIVATE_AUTOMATIC_RENEWAL: string;
-    DEACTIVATE_AUTOMATIC_RENEWAL: string;
-  };
-  customer: {
-    ACCEPT: string;
-    BANK_DETAILS: {
-      ACCOUNT_OWNER: string;
-      BANK: string;
-      BANK_DETAILS: string;
-    }
-    SEPA_MANDATE: {
-      GO_BACK: string;
-    }
-  };
-  menu: string;
-  sw: {
-    NOW_AVAILABLE_OFFLINE: string;
-    UPDATE_AVAILABLE: string;
-  };
-}
+export type CustomTranslations = typeof germanExt & typeof englishExt;
 
 export const de: typeof german & CustomTranslations = {
   ...german,
