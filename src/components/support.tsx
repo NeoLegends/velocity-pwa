@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { Station, SupportType } from '../model';
 import { getAllStations } from '../model/stations';
@@ -194,6 +195,9 @@ const SupportBody: React.FC<SupportBodyProps> = ({
 );
 
 class Support extends React.Component<{}, SupportState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     defectBikeNumber: '',
     defectCategory: '',
@@ -240,10 +244,17 @@ class Support extends React.Component<{}, SupportState> {
   }
 
   private async fetchStations() {
-    const stations = await getAllStations();
-    this.setState({
-      stations: stations.sort((a, b) => a.name.localeCompare(b.name)),
-    });
+    try {
+      const stations = await getAllStations();
+      this.setState({
+        stations: stations.sort((a, b) => a.name.localeCompare(b.name)),
+      });
+    } catch (err) {
+      toast(
+        this.context.MAP.ALERT.STATION_LOAD,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleChangeFeedbackHeading = (ev: React.ChangeEvent<HTMLInputElement>) =>
@@ -270,7 +281,19 @@ class Support extends React.Component<{}, SupportState> {
   private handleSubmitFeedback = async (ev: React.FormEvent) => {
     ev.preventDefault();
 
-    await submitFeedback(this.state.feedbackHeading, this.state.feedbackMessage);
+    try {
+      await submitFeedback(this.state.feedbackHeading, this.state.feedbackMessage);
+
+      toast(
+        this.context.SUPPORT.FEEDBACK.ALERT.SUCCESS,
+        { type: 'success' },
+      );
+    } catch (err) {
+      toast(
+        this.context.SUPPORT.FEEDBACK.ALERT.ERROR,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleSubmitProblemReport = async (ev: React.FormEvent) => {
@@ -283,9 +306,21 @@ class Support extends React.Component<{}, SupportState> {
       defectStation,
     } = this.state;
 
-    await (this.state.defectType === 'pedelec'
-      ? submitPedelecError(defectMessage, defectCategory, Number(defectBikeNumber))
-      : submitStationError(defectMessage, defectCategory, Number(defectStation)));
+    try {
+      await (this.state.defectType === 'pedelec'
+        ? submitPedelecError(defectMessage, defectCategory, Number(defectBikeNumber))
+        : submitStationError(defectMessage, defectCategory, Number(defectStation)));
+
+      toast(
+        this.context.SUPPORT.ERROR_REPORT.ALERT.SUCCESS,
+        { type: 'success' },
+      );
+    } catch (err) {
+      toast(
+        this.context.SUPPORT.ERROR_REPORT.ALERT.ERROR,
+        { type: 'error' },
+      );
+    }
   }
 }
 

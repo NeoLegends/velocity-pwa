@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { Invoice } from '../model';
 import { getAllInvoices } from '../model/invoices';
@@ -59,6 +60,9 @@ const InvoicesBody: React.FC<InvoicesState> = ({ invoices }) => (
 );
 
 class Invoices extends React.Component<{}, InvoicesState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     invoices: [],
   };
@@ -72,8 +76,15 @@ class Invoices extends React.Component<{}, InvoicesState> {
   }
 
   private async fetchInvoices() {
-    const invoices = await getAllInvoices();
-    this.setState({ invoices });
+    try {
+      const invoices = await getAllInvoices();
+      this.setState({ invoices });
+    } catch (err) {
+      toast(
+        this.context.BILL.ALERT.FETCH_INVOICE_FAILURE,
+        { type: 'error' },
+      );
+    }
   }
 }
 

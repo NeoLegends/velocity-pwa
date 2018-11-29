@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
@@ -183,6 +184,9 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
 };
 
 class Bookings extends React.Component<{}, BookingsState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     currentBooking: null,
     hasNextPage: true,
@@ -207,12 +211,19 @@ class Bookings extends React.Component<{}, BookingsState> {
   }
 
   private async fetchBookingAndStations() {
-    const [currentBooking, stations] = await Promise.all([
-      getCurrentBooking(),
-      getAllStations(),
-      this.handleLoadTransactions({ startIndex: 0 }),
-    ]);
-    this.setState({ currentBooking, stations });
+    try {
+      const [currentBooking, stations] = await Promise.all([
+        getCurrentBooking(),
+        getAllStations(),
+        this.handleLoadTransactions({ startIndex: 0 }),
+      ]);
+      this.setState({ currentBooking, stations });
+    } catch (err) {
+      toast(
+        this.context.BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleCancelReservation = async () => {

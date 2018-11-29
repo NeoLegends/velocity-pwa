@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { Tariff, UserTariff } from '../model';
 import {
@@ -13,7 +14,7 @@ import { LanguageContext, LanguageIdentifier } from '../resources/language';
 import './tariff.scss';
 
 interface TariffProps {
-  languageId: LanguageIdentifier;
+  languageId: LanguageIdentifier; // passed via props to be notified about changes
 }
 
 interface TariffState {
@@ -178,6 +179,9 @@ const TariffBody: React.FC<TariffBodyProps> = props =>
     : <TariffOverview {...props}/>;
 
 class TariffView extends React.Component<TariffProps, TariffState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     currentlyBookingTariff: null,
     tariffs: [],
@@ -210,12 +214,19 @@ class TariffView extends React.Component<TariffProps, TariffState> {
   }
 
   private async fetchUserData() {
-    const [tariffs, userTariff] = await Promise.all([
-      getTariffs(this.props.languageId),
-      getCurrentTariff(),
-    ]);
+    try {
+      const [tariffs, userTariff] = await Promise.all([
+        getTariffs(this.props.languageId),
+        getCurrentTariff(),
+      ]);
 
-    this.setState({ tariffs, userTariff });
+      this.setState({ tariffs, userTariff });
+    } catch (err) {
+      toast(
+        this.context.TARIFF.ALERT.LOAD_TARIFF_FAIL,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleBookTariff = (tariffId: number) =>
@@ -230,8 +241,20 @@ class TariffView extends React.Component<TariffProps, TariffState> {
       return;
     }
 
-    await bookTariff(this.state.currentlyBookingTariff!);
-    await this.fetchUserData();
+    try {
+      await bookTariff(this.state.currentlyBookingTariff!);
+      await this.fetchUserData();
+
+      toast(
+        this.context.TARIFF.ALERT.CHANGE_TARIFF_SUCCESS,
+        { type: 'success' },
+      );
+    } catch (err) {
+      toast(
+        this.context.TARIFF.ALERT.CHANGE_TARIFF_FAIL,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleToggleAutomaticRenewal = async () => {
@@ -240,10 +263,17 @@ class TariffView extends React.Component<TariffProps, TariffState> {
       return;
     }
 
-    await (userTariff.automaticRenewal
-      ? deactivateAutoRenewal()
-      : activateAutoRenewal());
-    await this.fetchUserData();
+    try {
+      await (userTariff.automaticRenewal
+        ? deactivateAutoRenewal()
+        : activateAutoRenewal());
+      await this.fetchUserData();
+    } catch (err) {
+      toast(
+        this.context.TARIFF.ALERT.ALTER_RENEWAL_FAIL,
+        { type: 'error' },
+      );
+    }
   }
 }
 

@@ -108,6 +108,9 @@ const AppBody: React.SFC<AppBodyProps> = ({
 ));
 
 class App extends Component<{}, AppState> {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     isLoggedIn: false,
     language: de,
@@ -168,8 +171,15 @@ class App extends Component<{}, AppState> {
   }
 
   private handleLogin = async (email: string, password: string) => {
-    await login(email, password);
-    await this.checkLogin();
+    try {
+      await login(email, password);
+      await this.checkLogin();
+    } catch (err) {
+      toast(
+        this.context.LOGIN.ALERT.NO_SERVER_RESPONSE,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleLoginWithRedirect = async (email: string, password: string) => {
@@ -179,17 +189,26 @@ class App extends Component<{}, AppState> {
   }
 
   private handleLoginLogoutButton = async () => {
-    if (this.state.isLoggedIn) {
+    if (!this.state.isLoggedIn) {
+      return navigate('/login');
+    }
+
+    try {
       await logout();
       await this.checkLogin();
-    } else {
-      navigate('/login');
+    } catch (err) {
+      toast(
+        this.context.LOGIN.ALERT.LOGOUT_ERR,
+        { type: 'error' },
+      );
     }
   }
 
-  private handleSwInstallation = () => toast(this.state.language.sw.NOW_AVAILABLE_OFFLINE);
+  private handleSwInstallation = () =>
+    toast(this.state.language.sw.NOW_AVAILABLE_OFFLINE)
 
-  private handleSwUpdate = () => toast(this.state.language.sw.UPDATE_AVAILABLE);
+  private handleSwUpdate = () =>
+    toast(this.state.language.sw.UPDATE_AVAILABLE)
 }
 
 export default App;

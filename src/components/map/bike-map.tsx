@@ -3,6 +3,7 @@ import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
+import { toast } from 'react-toastify';
 
 import { Slots, Station, StationWithAddress } from '../../model';
 import {
@@ -13,6 +14,7 @@ import {
   reserveBike,
 } from '../../model/stations';
 import { hasCurrentBooking } from '../../model/transaction';
+import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
 
 import './bike-map.scss';
@@ -104,6 +106,9 @@ class BikeMap extends React.Component<
   RouteComponentProps & BikeMapProps,
   BikeMapState
 > {
+  static contextType = LanguageContext;
+
+  context!: React.ContextType<typeof LanguageContext>;
   state = {
     hasBooking: false,
     initialMapLocation: aachenLatLng,
@@ -114,8 +119,7 @@ class BikeMap extends React.Component<
 
   componentDidMount() {
     this.loadPreviousMapViewport();
-    getAllStations()
-      .then(stations => this.setState({ stations }));
+    this.loadStations();
   }
 
   render() {
@@ -145,31 +149,57 @@ class BikeMap extends React.Component<
     });
   }
 
+  private async loadStations() {
+    try {
+      const stations = await getAllStations();
+      this.setState({ stations });
+    } catch (err) {
+      toast(
+        this.context.MAP.ALERT.STATION_LOAD,
+        { type: 'error' },
+      );
+    }
+  }
+
   private handleCloseStation = () => this.setState({ stationOpened: null });
 
   private handleOpenStation = async (stationId: number) => {
-    const [hasBooking, detailedStation, slotInfo] = await Promise.all([
-      hasCurrentBooking(),
-      getSingleStation(stationId),
-      getSlotInfo(stationId),
-    ]);
+    try {
+      const [hasBooking, detailedStation, slotInfo] = await Promise.all([
+        hasCurrentBooking(),
+        getSingleStation(stationId),
+        getSlotInfo(stationId),
+      ]);
 
-    if (!detailedStation || !slotInfo) {
-      throw new Error(`Failed fetching station ${stationId}.`);
+      if (!detailedStation || !slotInfo) {
+        throw new Error(`Failed fetching station ${stationId}.`);
+      }
+
+      this.setState({
+        hasBooking,
+        stationOpened: {
+          station: detailedStation,
+          slots: slotInfo,
+        },
+      });
+    } catch (err) {
+      toast(
+        this.context.MAP.ALERT.STATION_DETAILS,
+        { type: 'error' },
+      );
     }
-
-    this.setState({
-      hasBooking,
-      stationOpened: {
-        station: detailedStation,
-        slots: slotInfo,
-      },
-    });
   }
 
   private handleRent = async (pin: string, stationId: number, slotId: number) => {
-    await rentBike(pin, stationId, slotId);
-    navigate('/bookings');
+    try {
+      await rentBike(pin, stationId, slotId);
+      navigate('/bookings');
+    } catch (err) {
+      toast(
+        this.context.MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR,
+        { type: 'error' },
+      );
+    }
   }
 
   private handleReserve = async (stationId: number) => {
