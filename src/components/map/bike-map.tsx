@@ -24,6 +24,8 @@ interface BikeMapProps {
 
 interface BikeMapState {
   hasBooking: boolean;
+  initialMapLocation: [number, number];
+  initialMapZoom: number;
   stationOpened: {
     slots: Slots;
     station: StationWithAddress;
@@ -36,7 +38,10 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onOpenStationPopup: (stationId: number) => void;
   onRent: (pin: string, stationId: number, slotId: number) => void;
   onReserve: (stationId: number) => void;
+  onViewportChange: (viewport: { center: [number, number], zoom: number }) => void;
 }
+
+const SESSIONSTORAGE_VIEWPORT_KEY = 'velocity/viewport';
 
 const aachenLatLng: [number, number] = [50.77403035497566, 6.084194183349609];
 const stationIcon = icon({
@@ -46,6 +51,8 @@ const stationIcon = icon({
 
 const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   hasBooking,
+  initialMapLocation,
+  initialMapZoom,
   isLoggedIn,
   stationOpened,
   stations,
@@ -54,11 +61,13 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   onOpenStationPopup,
   onRent,
   onReserve,
+  onViewportChange,
 }) => (
   <Map
-    center={aachenLatLng}
-    zoom={14}
+    center={initialMapLocation}
+    zoom={initialMapZoom}
     maxZoom={18}
+    onViewportChanged={onViewportChange}
   >
     <TileLayer
       attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
@@ -97,11 +106,14 @@ class BikeMap extends React.Component<
 > {
   state = {
     hasBooking: false,
+    initialMapLocation: aachenLatLng,
+    initialMapZoom: 14,
     stationOpened: null,
     stations: [],
   };
 
   componentDidMount() {
+    this.loadPreviousMapViewport();
     getAllStations()
       .then(stations => this.setState({ stations }));
   }
@@ -115,8 +127,22 @@ class BikeMap extends React.Component<
         onOpenStationPopup={this.handleOpenStation}
         onRent={this.handleRent}
         onReserve={this.handleReserve}
+        onViewportChange={this.handleViewportChange}
       />
     );
+  }
+
+  private loadPreviousMapViewport() {
+    const viewport = sessionStorage.getItem(SESSIONSTORAGE_VIEWPORT_KEY);
+    if (!viewport) {
+      return;
+    }
+
+    const { center, zoom } = JSON.parse(viewport);
+    this.setState({
+      initialMapLocation: center,
+      initialMapZoom: zoom,
+    });
   }
 
   private handleCloseStation = () => this.setState({ stationOpened: null });
@@ -149,6 +175,10 @@ class BikeMap extends React.Component<
   private handleReserve = async (stationId: number) => {
     await reserveBike(stationId);
     navigate('/bookings');
+  }
+
+  private handleViewportChange = viewport => {
+    sessionStorage.setItem(SESSIONSTORAGE_VIEWPORT_KEY, JSON.stringify(viewport));
   }
 }
 
