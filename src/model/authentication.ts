@@ -1,3 +1,4 @@
+import { fetchWithRetry } from './fetch';
 import { API_IS_AUTHENTICATED_URL, API_LOGIN_URL, API_LOGOUT_URL } from './urls';
 
 export interface ApiError {
@@ -9,7 +10,7 @@ export interface ApiError {
 }
 
 export const isLoggedIn = async () => {
-  const resp = await fetch(API_IS_AUTHENTICATED_URL, { credentials: 'include' });
+  const resp = await fetchWithRetry(API_IS_AUTHENTICATED_URL, { credentials: 'include' });
   return resp.ok ? !!(await resp.text()) : false;
 };
 
@@ -20,7 +21,7 @@ export const login = async (email: string, password: string) => {
   data.append('_spring_security_remember_me', 'true');
   data.append('submit', 'Login');
 
-  const resp = await fetch(API_LOGIN_URL, {
+  const resp = await fetchWithRetry(API_LOGIN_URL, {
     body: data,
     credentials: 'include',
     method: 'POST',
@@ -31,4 +32,4 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-export const logout = () => fetch(API_LOGOUT_URL).then(() => {});
+export const logout = () => fetchWithRetry(API_LOGOUT_URL).then(() => {});
