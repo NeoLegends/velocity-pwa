@@ -114,7 +114,6 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
 }) => {
   const canRentBike =
     isLoggedIn &&
-    !hasBooking &&
     station.state === 'OPERATIVE' &&
     detail &&
     detail.slots.stationSlots.some(s => s.isOccupied);
