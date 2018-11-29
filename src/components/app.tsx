@@ -207,8 +207,12 @@ class App extends Component<{}, AppState> {
   private handleSwInstallation = () =>
     toast(this.state.language.sw.NOW_AVAILABLE_OFFLINE)
 
-  private handleSwUpdate = () =>
-    toast(this.state.language.sw.UPDATE_AVAILABLE)
+  private handleSwUpdate = () => {
+    toast(
+      this.state.language.sw.UPDATE_AVAILABLE,
+      { autoClose: false },
+    );
+  }
 }
 
 export default App;
