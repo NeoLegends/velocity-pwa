@@ -43,3 +43,5 @@ export type LanguageType = typeof de & typeof en;
 
 export const LanguageContext = React.createContext<LanguageType>(de);
 export const LanguageIdContext = React.createContext<LanguageIdentifier>('de');
+
+export const supportsLanguage = (langId: string) => langId === 'de' || langId === 'en';

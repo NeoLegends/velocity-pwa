@@ -6,6 +6,7 @@ import { isLoggedIn, login, logout } from '../model/authentication';
 import {
   de,
   en,
+  supportsLanguage,
   LanguageContext,
   LanguageIdentifier,
   LanguageIdContext,
@@ -133,7 +134,10 @@ class App extends Component<{}, AppState> {
   }
 
   private checkLanguage() {
-    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) || 'de';
+    const navigatorLanguage = navigator.language.split('-')[0].trim();
+    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) ||
+      (supportsLanguage(navigatorLanguage) ? navigatorLanguage : 'de');
+
     this.handleChangeLanguage(lang as LanguageIdentifier);
   }
 
