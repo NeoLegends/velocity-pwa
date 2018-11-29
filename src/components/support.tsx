@@ -107,7 +107,7 @@ const SupportBody: React.FC<SupportBodyProps> = ({
                   className="input"
                   type="radio"
                   name="defect-type"
-                  value="bike"
+                  value="pedelec"
                   checked={defectType === 'pedelec'}
                   onChange={onChangeDefectType}
                 />
