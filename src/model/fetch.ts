@@ -2,7 +2,11 @@ import { InvalidStatusCodeError } from '.';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-export const fetchWithRetry = async (url: string, init?: RequestInit, maxRetry: number = 5) => {
+export const fetchWithRetry = async (
+  url: string,
+  init?: RequestInit,
+  maxRetry: number = 5,
+) => {
   if (maxRetry < 1) {
     throw new Error("maxRetry must be > 0");
   }
@@ -21,21 +25,22 @@ export const fetchWithRetry = async (url: string, init?: RequestInit, maxRetry: 
   throw err;
 };
 
-const fetchStatusToNull = (nullStatus: number) => async (url: string, init?: RequestInit) => {
-  const resp = await fetchWithRetry(url, {
-    ...init,
-    credentials: 'include',
-  });
+const fetchStatusToNull = (nullStatus: number) =>
+  async (url: string, init?: RequestInit) => {
+    const resp = await fetchWithRetry(url, {
+      ...init,
+      credentials: 'include',
+    });
 
-  if (resp.status === nullStatus) {
-    return null;
-  }
-  if (!resp.ok) {
-    throw new InvalidStatusCodeError(resp.status, url);
-  }
+    if (resp.status === nullStatus) {
+      return null;
+    }
+    if (!resp.ok) {
+      throw new InvalidStatusCodeError(resp.status, url);
+    }
 
-  return resp.json();
-};
+    return resp.json();
+  };
 
 export const fetch204ToNull = fetchStatusToNull(204);
 
@@ -57,7 +62,11 @@ export const fetchEnsureOk = async (url: string, init?: RequestInit) => {
 export const fetchJsonEnsureOk = (url: string, init?: RequestInit) =>
   fetchEnsureOk(url, init).then(resp => resp.json());
 
-export const postJsonEnsureOk = (url: string, body?: unknown, method: string = 'post') =>
+export const postJsonEnsureOk = (
+  url: string,
+  body?: unknown,
+  method: string = 'post',
+) =>
   fetchEnsureOk(url, {
     body: body ? JSON.stringify(body) : undefined,
     headers: body ? { 'Content-Type': 'application/json' } : undefined,
