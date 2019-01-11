@@ -33,11 +33,18 @@ const countryListEnglish = countries.map(c => (
     {c.name}
   </option>
 ));
-const countryListGerman = countries.map(c => (
-  <option key={c.alpha3Code} value={c.alpha3Code}>
-    {c.translations.de || c.name}
-  </option>
-));
+const countryListGerman = countries
+  // Sort by german name
+  .sort((a, b) => {
+    const aName = a.translations.de || a.name;
+    const bName = b.translations.de || b.name;
+    return aName.localeCompare(bName);
+  })
+  .map(c => (
+    <option key={c.alpha3Code} value={c.alpha3Code}>
+      {c.translations.de || c.name}
+    </option>
+  ));
 
 const alpha3ToCountryName: Record<string, string> = countries.reduce((acc, c) => {
   acc[c.alpha3Code] = c.name;
