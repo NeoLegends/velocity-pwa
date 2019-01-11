@@ -43,7 +43,7 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onViewportChange: (viewport: { center: [number, number], zoom: number }) => void;
 }
 
-const SESSIONSTORAGE_VIEWPORT_KEY = 'velocity/viewport';
+const STORAGE_VIEWPORT_KEY = 'velocity/viewport';
 
 const aachenLatLng: [number, number] = [50.77403035497566, 6.084194183349609];
 const stationIcon = icon({
@@ -108,6 +108,11 @@ class BikeMap extends React.Component<
 > {
   static contextType = LanguageContext;
 
+  private static storage: Storage =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+      ? localStorage
+      : sessionStorage;
+
   context!: React.ContextType<typeof LanguageContext>;
   state = {
     hasBooking: false,
@@ -137,7 +142,7 @@ class BikeMap extends React.Component<
   }
 
   private loadPreviousMapViewport() {
-    const viewport = sessionStorage.getItem(SESSIONSTORAGE_VIEWPORT_KEY);
+    const viewport = BikeMap.storage.getItem(STORAGE_VIEWPORT_KEY);
     if (!viewport) {
       return;
     }
@@ -208,7 +213,7 @@ class BikeMap extends React.Component<
   }
 
   private handleViewportChange = viewport => {
-    sessionStorage.setItem(SESSIONSTORAGE_VIEWPORT_KEY, JSON.stringify(viewport));
+    BikeMap.storage.setItem(STORAGE_VIEWPORT_KEY, JSON.stringify(viewport));
   }
 }
 
