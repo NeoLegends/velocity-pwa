@@ -127,22 +127,28 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
 
           {detail && (
             <ul className="slot-list">
-              {detail.slots.stationSlots.map(slot => (
-                <li key={slot.stationSlotId} className="slot">
-                  <span className="slot-no">
-                    Slot {slot.stationSlotPosition}
-                  </span>
+              {detail.slots.stationSlots.map(slot => {
+                const isBikePotentiallyRentable = slot.state === 'OPERATIVE' &&
+                  (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE');
 
-                  <span className="bike-state">
-                    {getSlotState(lang, slot)}
-                  </span>
+                return (
+                  <li key={slot.stationSlotId} className="slot">
+                    <span className="slot-no">
+                      Slot {slot.stationSlotPosition}
+                    </span>
 
-                  <span className="charge-state">
-                    {slot.pedelecInfo &&
-                      `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`}
-                  </span>
-                </li>
-              ))}
+                    <span className="bike-state">
+                      {getSlotState(lang, slot)}
+                    </span>
+
+                    <span className="charge-state">
+                      {isBikePotentiallyRentable && slot.pedelecInfo && (
+                        `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           )}
 
