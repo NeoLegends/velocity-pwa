@@ -17,7 +17,9 @@ const LazySpinner = (
 
 // Needs to be `function` because of ambiguity with JSX
 // tslint:disable-next-line
-const MakeLazy = function<P>(loader: () => Promise<{ default: React.ComponentType<P> }>) {
+const MakeLazy = function<P>(
+  loader: () => Promise<{ default: React.ComponentType<P> }>,
+) {
   const loaderWithFallback = () => loader().catch(err => {
     console.error("Chunk import failed:", err);
     return ({ default: LazyLoadFailed as unknown as React.ComponentType<P> });
