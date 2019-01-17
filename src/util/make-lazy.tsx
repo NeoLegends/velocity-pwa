@@ -1,6 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import React, { Suspense } from 'react';
 
+import LazyLoadFailed from './lazy-load-failed';
 import './make-lazy.scss';
 
 const LazySpinner = (
@@ -17,7 +18,11 @@ const LazySpinner = (
 // Needs to be `function` because of ambiguity with JSX
 // tslint:disable-next-line
 const MakeLazy = function<P>(loader: () => Promise<{ default: React.ComponentType<P> }>) {
-  const Lazy = React.lazy(loader);
+  const loaderWithFallback = () => loader().catch(() => ({
+    default: LazyLoadFailed as unknown as React.ComponentType<P>,
+  }));
+
+  const Lazy = React.lazy(loaderWithFallback);
 
   const LazyWrapper = React.forwardRef((props: P & RouteComponentProps, ref) => (
     <Suspense fallback={LazySpinner}>

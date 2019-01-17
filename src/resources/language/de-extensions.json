@@ -17,6 +17,10 @@
   "menu": "Menü",
   "sw": {
     "NOW_AVAILABLE_OFFLINE": "Velocity ist jetzt auch offline verfügbar.",
-    "UPDATE_AVAILABLE": "Es ist ein Update verfügbar. Bitte schließe alle geöffneten Velocity-Tabs und öffne die Seite erneut, um das Update anzuwenden."
+    "UPDATE_AVAILABLE": "Es ist ein Update verfügbar. Bitte schließe alle geöffneten Velocity-Tabs und öffne die Seite erneut, um das Update anzuwenden.",
+    "LOAD_FAILED": {
+      "TITLE": "Fehler beim Seitenaufbau",
+      "BODY": "Es ist ein Fehler beim Aufbauen der Seite aufgetreten. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut."
+    }
   }
 }

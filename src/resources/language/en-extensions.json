@@ -17,6 +17,10 @@
   "menu": "Menu",
   "sw": {
     "NOW_AVAILABLE_OFFLINE": "Velocity now available offline.",
-    "UPDATE_AVAILABLE": "There is an update available. Please close and reopen all open Velocity browser tabs to apply it."
+    "UPDATE_AVAILABLE": "There is an update available. Please close and reopen all open Velocity browser tabs to apply it.",
+    "LOAD_FAILED": {
+      "TITLE": "Error while loading page",
+      "BODY": "An error occured while loading the page. Please close all opened Velocity tabs and reopen the website."
+    }
   }
 }

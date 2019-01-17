@@ -1,0 +1,12 @@
+@import "../resources/scss/variables";
+
+.lazy-load-failed {
+  background-color: $menu-background;
+  border-radius: $border-radius;
+  max-height: 80vh;
+  padding: 8px;
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
