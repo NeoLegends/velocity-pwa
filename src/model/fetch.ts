@@ -18,7 +18,7 @@ export const fetchWithRetry = async (
       return await fetch(url, init);
     } catch (e) {
       err = e;
-      await delay(i * 500);
+      await delay(isFinite(i) ? i * 500 : 500);
     }
   }
 
