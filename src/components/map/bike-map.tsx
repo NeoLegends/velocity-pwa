@@ -43,6 +43,7 @@ interface BikeMapBodyProps extends BikeMapProps, BikeMapState {
   onViewportChange: (viewport: { center: [number, number], zoom: number }) => void;
 }
 
+const LOCALSTORAGE_STATIONS_KEY = 'velocity/stations';
 const STORAGE_VIEWPORT_KEY = 'velocity/viewport';
 
 const aachenLatLng: [number, number] = [50.77403035497566, 6.084194183349609];
@@ -156,8 +157,15 @@ class BikeMap extends React.Component<
 
   private async loadStations() {
     try {
+      const lsStations = localStorage.getItem(LOCALSTORAGE_STATIONS_KEY);
+      if (lsStations) {
+        this.setState({ stations: JSON.parse(lsStations) });
+      }
+
       const stations = await getAllStations();
       this.setState({ stations });
+
+      localStorage.setItem(LOCALSTORAGE_STATIONS_KEY, JSON.stringify(stations));
     } catch (err) {
       toast(
         this.context.MAP.ALERT.STATION_LOAD,
