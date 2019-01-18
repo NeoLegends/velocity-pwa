@@ -1,7 +1,6 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
-import 'react-virtualized/styles.css';
 
 import { Booking, Station, Transaction } from '../model';
 import { getAllStations, getSlotInfo, rentBike } from '../model/stations';
