@@ -1,3 +1,5 @@
+import moment from 'moment';
+import 'moment/locale/de';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
@@ -85,6 +87,13 @@ const BookingBox: React.SFC<BookingProps> = ({
   );
 };
 
+const startDateFormattingOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+};
+
 const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
@@ -94,11 +103,26 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
       {({ BUCHUNGEN, SUPPORT }) => (
         <div className="gap" style={style}>
           <div className="transaction outline">
-            <p>
-              {transaction.fromStation.name} {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO} {transaction.toStation.name}
+            <p className="oneline">
+              {startDate.toLocaleDateString(
+                undefined,
+                startDateFormattingOptions,
+              )}
             </p>
-            <p>{startDate.toLocaleString()} {BUCHUNGEN.HISTORIE.STATION_PANEL.TIME.UNTIL} {endDate.toLocaleString()}</p>
-            <p>{SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName}</p>
+            <p className="sentence">
+              {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
+              {' '}
+              {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
+              {' '}
+              {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
+              {' '}
+              {transaction.toStation.name.replace(/\s/g, '\u00A0')}
+              {' '}
+              {moment(endDate).from(startDate, false)}
+            </p>
+            <p className="oneline">
+              {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName.replace('_N', '')}
+            </p>
           </div>
         </div>
       )}
@@ -167,7 +191,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
                         width={width}
                         onRowsRendered={onRowsRendered}
                         rowCount={transactions.length}
-                        rowHeight={138}
+                        rowHeight={154}
                         rowRenderer={renderRow}
                       />
                     )}

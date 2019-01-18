@@ -32,9 +32,12 @@
     padding: 16px;
 
     p {
-      overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+
+      &.oneline {
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
   }
 }
