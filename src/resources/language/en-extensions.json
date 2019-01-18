@@ -1,8 +1,4 @@
 {
-  "tariff": {
-    "ACTIVATE_AUTOMATIC_RENEWAL": "Activate automatic renewal",
-    "DEACTIVATE_AUTOMATIC_RENEWAL": "Deactivate automatic renewal"
-  },
   "customer": {
     "ACCEPT": "Accept",
     "BANK_DETAILS": {
@@ -22,5 +18,9 @@
       "TITLE": "Error while loading page",
       "BODY": "An error occured while loading the page. Please close all opened Velocity tabs and reopen the website."
     }
+  },
+  "tariff": {
+    "ACTIVATE_AUTOMATIC_RENEWAL": "Activate automatic renewal",
+    "DEACTIVATE_AUTOMATIC_RENEWAL": "Deactivate automatic renewal"
   }
 }

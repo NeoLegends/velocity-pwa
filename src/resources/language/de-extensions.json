@@ -1,8 +1,4 @@
 {
-  "tariff": {
-    "ACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung aktivieren",
-    "DEACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung deaktivieren"
-  },
   "customer": {
     "ACCEPT": "Akzeptieren",
     "BANK_DETAILS": {
@@ -22,5 +18,9 @@
       "TITLE": "Fehler beim Seitenaufbau",
       "BODY": "Es ist ein Fehler beim Aufbauen der Seite aufgetreten. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut."
     }
+  },
+  "tariff": {
+    "ACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung aktivieren",
+    "DEACTIVATE_AUTOMATIC_RENEWAL": "Automatische Verlängerung deaktivieren"
   }
 }
