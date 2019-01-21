@@ -192,10 +192,6 @@ class TariffView extends React.Component<TariffProps, TariffState> {
     this.fetchUserData();
   }
 
-  componentDidUpdate() {
-    this.fetchUserData();
-  }
-
   render() {
     const userTariff = this.state.userTariff as UserTariff | null;
     const hasDefaultTariff = Boolean(userTariff && userTariff.tariffId === DEFAULT_TARIFF_ID);
