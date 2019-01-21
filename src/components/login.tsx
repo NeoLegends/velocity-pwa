@@ -13,25 +13,30 @@ interface LoginState {
   email: string;
   password: string;
 }
+interface BodyProps extends LoginState {
+  canLogin: boolean;
 
-class Login extends React.Component<LoginProps, LoginState> {
-  static contextType = LanguageContext;
+  onEmailChange: React.ChangeEventHandler<HTMLInputElement>;
+  onPasswordChange: React.ChangeEventHandler<HTMLInputElement>;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+}
 
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    email: '',
-    password: '',
-  };
+const LoginBody: React.FC<BodyProps> = ({
+  canLogin,
+  email,
+  password,
 
-  render() {
-    const canLogin = this.state.email && this.state.password;
-
-    return (
+  onEmailChange,
+  onPasswordChange,
+  onSubmit,
+}) => (
+  <LanguageContext.Consumer>
+    {({ LOGIN, PASSWORD_REMEMBER }) => (
       <div className="login">
         <form
           className="box outline"
           action="#"
-          onSubmit={this.handleFormSubmit}
+          onSubmit={onSubmit}
         >
           <h2>Login</h2>
 
@@ -40,25 +45,25 @@ class Login extends React.Component<LoginProps, LoginState> {
               className="input outline"
               type="email"
               placeholder="E-Mail"
-              onChange={this.handleEmailChange}
-              value={this.state.email}
+              onChange={onEmailChange}
+              value={email}
             />
             <input
               className="input outline"
               type="password"
               placeholder="Password"
-              onChange={this.handlePasswordChange}
-              value={this.state.password}
+              onChange={onPasswordChange}
+              value={password}
             />
 
             <a
               href="https://velocity-aachen.de/reg/"
               target="_blank"
             >
-              {this.context.LOGIN.REGISTRIEREN}
+              {LOGIN.REGISTRIEREN}
             </a>
             <Link to="/forgot-password">
-              {this.context.PASSWORD_REMEMBER.HYPERLINK}
+              {PASSWORD_REMEMBER.HYPERLINK}
             </Link>
           </div>
 
@@ -66,7 +71,6 @@ class Login extends React.Component<LoginProps, LoginState> {
             <button
               className="btn outline"
               disabled={!canLogin}
-              onClick={this.handleLoginClicked}
               type="submit"
             >
               Login
@@ -74,15 +78,33 @@ class Login extends React.Component<LoginProps, LoginState> {
           </div>
         </form>
       </div>
+    )}
+  </LanguageContext.Consumer>
+);
+
+class Login extends React.Component<LoginProps, LoginState> {
+  state = {
+    email: '',
+    password: '',
+  };
+
+  render() {
+    const canLogin = Boolean(this.state.email && this.state.password);
+
+    return (
+      <LoginBody
+        {...this.state}
+        canLogin={canLogin}
+        onEmailChange={this.handleEmailChange}
+        onPasswordChange={this.handlePasswordChange}
+        onSubmit={this.handleFormSubmit}
+      />
     );
   }
 
   private handleFormSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
-    this.handleLoginClicked();
-  }
 
-  private handleLoginClicked = () => {
     const { email, password } = this.state;
     if (this.props.onLoginStart && email && password) {
       this.props.onLoginStart(email, password);
