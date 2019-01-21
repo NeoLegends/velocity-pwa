@@ -19,17 +19,28 @@ export interface MenuBarProps {
 interface MenuBarState {
   isMenuOpen: boolean;
 }
+interface MenuBarBodyProps extends MenuBarState {
+  isLoggedIn: boolean;
 
-class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
-  static contextType = LanguageContext;
+  onClickDeLanguageButton: React.MouseEventHandler;
+  onClickEnLanguageButton: React.MouseEventHandler;
+  onClickLoginButton?: React.MouseEventHandler;
+  onClickMenuButton: React.MouseEventHandler;
+  onRequestMenuClose: React.MouseEventHandler;
+}
 
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    isMenuOpen: false,
-  };
+const MenuBarBody: React.FC<MenuBarBodyProps> = ({
+  isLoggedIn,
+  isMenuOpen,
 
-  render() {
-    return (
+  onClickDeLanguageButton,
+  onClickEnLanguageButton,
+  onClickLoginButton,
+  onClickMenuButton,
+  onRequestMenuClose,
+}) => (
+  <LanguageContext.Consumer>
+    {({ menu, NAVIGATION }) => (
       <header className="menu-bar">
         <Link to="/">
           <img className="logo" src={logo}/>
@@ -41,39 +52,57 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
 
         <button
           className="btn transparent"
-          onClick={this.handleClickDeLanguageButton}
+          onClick={onClickDeLanguageButton}
         >
           DE
         </button>
         <button
           className="btn transparent"
-          onClick={this.handleClickEnLanguageButton}
+          onClick={onClickEnLanguageButton}
         >
           EN
         </button>
 
         <button
           className="btn outline"
-          onClick={this.props.onLoginButtonClick}
+          onClick={onClickLoginButton}
         >
-          {this.props.isLoggedIn
-            ? this.context.NAVIGATION.SIGN_OUT_BTN
-            : this.context.NAVIGATION.SIGN_IN_BTN}
+          {isLoggedIn
+            ? NAVIGATION.SIGN_OUT_BTN
+            : NAVIGATION.SIGN_IN_BTN}
         </button>
         <button
           className="btn outline btn-menu"
-          onClick={this.handleClickMenuButton}
+          onClick={onClickMenuButton}
         >
-          {this.context.menu}
+          {menu}
         </button>
 
         <Overlay
-          isOpen={this.state.isMenuOpen}
-          onRequestClose={this.handleRequestMenuClose}
+          isOpen={isMenuOpen}
+          onRequestClose={onRequestMenuClose}
         >
           <Menu/>
         </Overlay>
       </header>
+    )}
+  </LanguageContext.Consumer>
+);
+
+class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
+  state = { isMenuOpen: false };
+
+  render() {
+    return (
+      <MenuBarBody
+        {...this.state}
+        isLoggedIn={this.props.isLoggedIn}
+        onClickDeLanguageButton={this.handleClickDeLanguageButton}
+        onClickEnLanguageButton={this.handleClickEnLanguageButton}
+        onClickLoginButton={this.props.onLoginButtonClick}
+        onClickMenuButton={this.handleClickMenuButton}
+        onRequestMenuClose={this.handleRequestMenuClose}
+      />
     );
   }
 
