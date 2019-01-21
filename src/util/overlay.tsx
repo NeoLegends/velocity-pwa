@@ -38,7 +38,7 @@ class Overlay extends React.Component<OverlayMenuProps, OverlayMenuState> {
       return null;
     }
 
-    const { isOpen, onRequestClose, ...rest } = this.props as any;
+    const { isOpen, onRequestClose } = this.props as any;
     const dom = (
       <div
         className={classNames('backdrop', isOpen && 'visible')}
