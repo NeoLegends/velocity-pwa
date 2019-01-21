@@ -102,6 +102,14 @@ const AppBody: React.SFC<AppBodyProps> = ({
             onLoginStart={onLoginStartWithoutRedirect}
           />
         </Router>
+
+        <a
+          className="unofficial"
+          href="https://github.com/NeoLegends/velocity-pwa"
+          target="_blank"
+        >
+          Unofficial version
+        </a>
       </div>
     </LanguageIdContext.Provider>
   </LanguageContext.Provider>

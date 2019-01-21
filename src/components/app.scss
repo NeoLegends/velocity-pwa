@@ -13,6 +13,19 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
   }
+
+  .unofficial {
+    background: rgba(255, 255, 255, .7);
+    border-radius: $border-radius;
+    color: grey;
+
+    padding: 8px;
+    position: fixed;
+    bottom: 8px;
+    left: 8px;
+
+    z-index: 1000;
+  }
 }
 
 .toast {
