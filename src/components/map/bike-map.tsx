@@ -69,12 +69,13 @@ const BikeMapBody: React.SFC<BikeMapBodyProps> = ({
   <Map
     center={initialMapLocation}
     zoom={initialMapZoom}
-    maxZoom={18}
+    maxZoom={17}
     onViewportChanged={onViewportChange}
   >
     <TileLayer
       attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
       detectRetina={true}
+      maxZoom={18}
       url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
     />
 
