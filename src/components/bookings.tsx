@@ -11,7 +11,7 @@ import {
   getCurrentBooking,
   getTransactions,
 } from '../model/transaction';
-import { LanguageContext } from '../resources/language';
+import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './bookings.scss';
 
@@ -99,34 +99,40 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <LanguageContext.Consumer>
-      {({ BUCHUNGEN, SUPPORT }) => (
-        <div className="gap" style={style}>
-          <div className="transaction outline">
-            <p className="oneline">
-              {startDate.toLocaleDateString(
-                undefined,
-                startDateFormattingOptions,
-              )}
-            </p>
-            <p className="sentence">
-              {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
-              {' '}
-              {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
-              {' '}
-              {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
-              {' '}
-              {transaction.toStation.name.replace(/\s/g, '\u00A0')}
-              {' '}
-              {moment(endDate).from(startDate, false)}
-            </p>
-            <p className="oneline">
-              {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName.replace(/\_[nN]/g, '')}
-            </p>
-          </div>
-        </div>
+    <LanguageIdContext.Consumer>
+      {language => (
+        <LanguageContext.Consumer>
+          {({ BUCHUNGEN, SUPPORT }) => (
+            <div className="gap" style={style}>
+              <div className="transaction outline">
+                <p className="oneline">
+                  {startDate.toLocaleDateString(
+                    undefined,
+                    startDateFormattingOptions,
+                  )}
+                </p>
+                <p className="sentence">
+                  {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
+                  {' '}
+                  {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
+                  {' '}
+                  {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
+                  {' '}
+                  {transaction.toStation.name.replace(/\s/g, '\u00A0')}
+                  {' '}
+                  {moment(endDate, undefined, language).from(startDate, false)}
+                </p>
+                <p className="oneline">
+                  {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:
+                  {' '}
+                  {transaction.pedelecName.replace(/\_[nN]/g, '')}
+                </p>
+              </div>
+            </div>
+          )}
+        </LanguageContext.Consumer>
       )}
-    </LanguageContext.Consumer>
+    </LanguageIdContext.Consumer>
   );
 };
 
