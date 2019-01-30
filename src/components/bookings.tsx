@@ -121,7 +121,7 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
               {moment(endDate).from(startDate, false)}
             </p>
             <p className="oneline">
-              {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName.replace('_N', '')}
+              {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}: {transaction.pedelecName.replace(/\_[nN]/g, '')}
             </p>
           </div>
         </div>
