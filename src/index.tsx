@@ -1,3 +1,5 @@
+// tslint:disable:ordered-imports
+
 import 'react-app-polyfill/ie11.js';
 
 import 'modern-normalize/modern-normalize.css';
