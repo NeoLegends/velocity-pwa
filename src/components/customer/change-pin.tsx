@@ -86,7 +86,8 @@ class ChangePin extends React.Component<
   };
 
   render() {
-    const canSubmit = Boolean(this.state.password && /[0-9]{4}/.test(this.state.pin));
+    const canSubmit =
+      Boolean(this.state.password && /[0-9]{4}/.test(this.state.pin));
 
     return (
       <ChangePinBody
