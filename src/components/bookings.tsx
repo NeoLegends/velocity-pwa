@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 
 import { Booking, Station, Transaction } from '../model';
-import { getAllStations, getSlotInfo, rentBike } from '../model/stations';
+import { getAllStations, getSavedCardPin, getSlotInfo, rentBike } from '../model/stations';
 import {
   cancelCurrentBooking,
   getCurrentBooking,
@@ -16,6 +16,7 @@ import { LanguageContext, LanguageIdContext } from '../resources/language';
 import './bookings.scss';
 
 interface BookingsState {
+  cardPin: string | null;
   currentBooking: Booking | null;
   hasNextPage: boolean;
   isNextPageLoading: boolean;
@@ -31,6 +32,7 @@ interface BookingsBodyProps extends BookingsState {
 
 interface BookingProps {
   booking: Booking;
+  canRentReservation: boolean;
   stations: Station[];
 
   onCancelReservation: React.MouseEventHandler;
@@ -46,6 +48,7 @@ const TRANSACTIONS_PER_PAGE = 20;
 
 const BookingBox: React.SFC<BookingProps> = ({
   booking,
+  canRentReservation,
   stations,
 
   onCancelReservation,
@@ -66,19 +69,19 @@ const BookingBox: React.SFC<BookingProps> = ({
           </div>
 
           <div className="actions">
-            {false && (// TODO: Implement renting bikes from here
-              <button
-                className="btn outline"
-                onClick={onRentReservation}
-              >
-                {MAP.POPUP.BUTTON.BOOK}
-              </button>
-            )}
             <button
               className="btn outline"
               onClick={onCancelReservation}
             >
               {BUCHUNGEN.RESERVIERUNG.BUTTON}
+            </button>
+
+            <button
+              className="btn outline"
+              disabled={!canRentReservation}
+              onClick={onRentReservation}
+            >
+              {MAP.POPUP.BUTTON.RENT}
             </button>
           </div>
         </div>
@@ -139,6 +142,7 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
 const noop = () => Promise.resolve();
 
 const BookingsBody: React.SFC<BookingsBodyProps> = ({
+  cardPin,
   currentBooking,
   hasNextPage,
   isNextPageLoading,
@@ -172,6 +176,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
           {currentBooking && (
             <BookingBox
               booking={currentBooking}
+              canRentReservation={Boolean(cardPin)}
               stations={stations}
               onCancelReservation={onCancelReservation}
               onRentReservation={onRentReservation}
@@ -217,6 +222,7 @@ class Bookings extends React.Component<{}, BookingsState> {
 
   context!: React.ContextType<typeof LanguageContext>;
   state = {
+    cardPin: null,
     currentBooking: null,
     hasNextPage: true,
     isNextPageLoading: false,
@@ -246,7 +252,12 @@ class Bookings extends React.Component<{}, BookingsState> {
         getAllStations(),
         this.handleLoadTransactions({ startIndex: 0 }),
       ]);
-      this.setState({ currentBooking, stations });
+
+      this.setState({
+        cardPin: getSavedCardPin(),
+        currentBooking,
+        stations,
+      });
     } catch (err) {
       toast(
         this.context.BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR,
@@ -270,39 +281,59 @@ class Bookings extends React.Component<{}, BookingsState> {
         hasNextPage: transactions.length >= TRANSACTIONS_PER_PAGE,
         transactions: [...state.transactions, ...transactions],
       }));
+    } catch (err) {
+      toast(
+        this.context.BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY,
+        { type: 'error' },
+      );
     } finally {
       this.setState({ isNextPageLoading: false });
     }
   }
 
   private handleRentReservation = async () => {
-    const currentBooking = (this.state as BookingsState).currentBooking;
-    if (!currentBooking) {
-      throw new Error("Trying to rent, but missing current booking");
-    }
+    try {
+      const { cardPin, currentBooking, stations } = this.state as BookingsState;
+      if (!cardPin) {
+        throw new Error("Trying to rent, but missing card pin.");
+      }
+      if (!currentBooking) {
+        throw new Error("Trying to rent, but missing current booking.");
+      }
 
-    const station = (this.state as BookingsState).stations
-      .find(stat => stat.stationId === currentBooking.stationId);
-    if (!station) {
-      throw new Error("Trying to rent, but missing station");
-    }
+      const station = stations.find(
+        stat => stat.stationId === currentBooking.stationId,
+      );
+      if (!station) {
+        throw new Error("Trying to rent, but missing station.");
+      }
 
-    const slots = await getSlotInfo(station.stationId);
-    if (!slots) {
-      throw new Error("Trying to rent, but missing slot detail");
-    }
+      const slots = await getSlotInfo(station.stationId);
+      if (!slots) {
+        throw new Error("Trying to rent, but missing slot detail.");
+      }
 
-    const slot = slots.stationSlots
-      .find(slot => slot.stationSlotPosition === currentBooking.stationSlotPosition);
-    if (!slot) {
-      throw new Error("Trying to rent, but missing slot");
-    }
+      const slot = slots.stationSlots.find(
+        slot => slot.stationSlotPosition === currentBooking.stationSlotPosition,
+      );
+      if (!slot) {
+        throw new Error("Trying to rent, but missing slot.");
+      }
 
-    await rentBike(
-      null!,
-      currentBooking.stationId,
-      slot.stationSlotId,
-    );
+      await rentBike(
+        cardPin,
+        currentBooking.stationId,
+        slot.stationSlotId,
+      );
+      await this.fetchBookingAndStations();
+    } catch (err) {
+      console.error(err);
+
+      toast(
+        this.context.MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR,
+        { type: 'error' },
+      );
+    }
   }
 }
 
