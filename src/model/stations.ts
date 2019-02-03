@@ -14,8 +14,15 @@ import {
   APP_ALL_STATIONS_URL,
 } from './urls';
 
+const PIN_LS_KEY = 'velocity/card-pin';
+
 export const getAllStations = (): Promise<Station[]> =>
   fetchJsonEnsureOk(APP_ALL_STATIONS_URL);
+
+export const getSavedCardPin = () => {
+  const lsItem = localStorage.getItem(PIN_LS_KEY);
+  return lsItem ? lsItem : null;
+};
 
 export const getSingleStation = (stationId: number): Promise<StationWithAddress | null> =>
   fetch404ToNull(singleStationUrl(stationId));
@@ -23,13 +30,16 @@ export const getSingleStation = (stationId: number): Promise<StationWithAddress 
 export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
   fetch404ToNull(slotInfoUrl(stationId));
 
-export const rentBike = (
+export const rentBike = async (
   cardPin: string,
   stationId: number,
   stationSlotId: number,
-): Promise<Rent> =>
-  postJsonEnsureOk(rentBikeUrl(stationId), { cardPin, stationSlotId })
+): Promise<Rent> => {
+  localStorage.setItem(PIN_LS_KEY, cardPin);
+
+  return postJsonEnsureOk(rentBikeUrl(stationId), { cardPin, stationSlotId })
     .then(resp => resp.json());
+};
 
 export const reserveBike = (stationId: number): Promise<Reservation> =>
   postJsonEnsureOk(reserveBikeUrl(stationId))
