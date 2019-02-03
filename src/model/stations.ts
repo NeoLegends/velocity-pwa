@@ -14,16 +14,16 @@ import {
   APP_ALL_STATIONS_URL,
 } from './urls';
 
-export const getAllStations = async (): Promise<Station[]> =>
+export const getAllStations = (): Promise<Station[]> =>
   fetchJsonEnsureOk(APP_ALL_STATIONS_URL);
 
-export const getSingleStation = async (stationId: number): Promise<StationWithAddress | null> =>
+export const getSingleStation = (stationId: number): Promise<StationWithAddress | null> =>
   fetch404ToNull(singleStationUrl(stationId));
 
-export const getSlotInfo = async (stationId: number): Promise<Slots | null> =>
+export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
   fetch404ToNull(slotInfoUrl(stationId));
 
-export const rentBike = async (
+export const rentBike = (
   cardPin: string,
   stationId: number,
   stationSlotId: number,
@@ -31,6 +31,6 @@ export const rentBike = async (
   postJsonEnsureOk(rentBikeUrl(stationId), { cardPin, stationSlotId })
     .then(resp => resp.json());
 
-export const reserveBike = async (stationId: number): Promise<Reservation> =>
+export const reserveBike = (stationId: number): Promise<Reservation> =>
   postJsonEnsureOk(reserveBikeUrl(stationId))
     .then(resp => resp.json());
