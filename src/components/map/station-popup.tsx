@@ -213,7 +213,7 @@ const StationPopupBody: React.SFC<StationPopupBodyProps> = props => (
 
 // tslint:enable
 
-class StationPopup extends React.Component<StationPopupProps> {
+class StationPopup extends React.Component<StationPopupProps, StationPopupState> {
   state = {
     pin: '',
     rentingStationId: null,
