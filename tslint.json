@@ -16,6 +16,7 @@
     ],
     "jsx-no-multiline-js": false,
     "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
     "max-classes-per-file": [
       true,
       5,
