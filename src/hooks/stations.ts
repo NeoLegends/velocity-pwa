@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useDebugValue, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Station } from '../model';
@@ -8,6 +8,8 @@ import { LanguageContext } from '../resources/language';
 export const useStations = () => {
   const { MAP } = useContext(LanguageContext);
   const [stations, setStations] = useState<Station[]>([]);
+
+  useDebugValue(stations);
 
   useEffect(() => {
     getAllStations()
