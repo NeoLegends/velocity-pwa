@@ -18,7 +18,7 @@ const calculateClassNames = ({ href, isCurrent, isPartiallyCurrent }: LinkGetPro
   }),
 });
 
-const MenuEntry: React.SFC<MenuEntryProps> = ({ text, to }) => (
+const MenuEntry: React.FC<MenuEntryProps> = ({ text, to }) => (
   <Link to={to} getProps={calculateClassNames}>
     {text}
   </Link>
