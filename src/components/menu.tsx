@@ -1,6 +1,6 @@
 import { Link, LinkGetProps } from '@reach/router';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { LanguageContext } from '../resources/language';
 
@@ -24,27 +24,27 @@ const MenuEntry: React.SFC<MenuEntryProps> = ({ text, to }) => (
   </Link>
 );
 
-export const MenuEntries: React.FC = () => (
-  <LanguageContext.Consumer>
-    {({ NAVIGATION }) => (
-      <>
-        <MenuEntry text={NAVIGATION.KARTE} to="/"/>
-        <MenuEntry text={NAVIGATION.BUCHUNGEN} to="/bookings"/>
-        <MenuEntry text={NAVIGATION.ABONNEMENT} to="/tariff"/>
-        <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices"/>
-        <MenuEntry text={NAVIGATION.ACCOUNT} to="/customer"/>
-        <MenuEntry text={NAVIGATION.SUPPORT} to="/support"/>
-        <a
-          className="menu-entry"
-          href="https://www.velocity-aachen.de/imprint.html"
-          target="_blank"
-        >
-          Impressum
-        </a>
-      </>
-    )}
-  </LanguageContext.Consumer>
-);
+export const MenuEntries: React.FC = () => {
+  const { NAVIGATION } = useContext(LanguageContext);
+
+  return (
+    <>
+      <MenuEntry text={NAVIGATION.KARTE} to="/"/>
+      <MenuEntry text={NAVIGATION.BUCHUNGEN} to="/bookings"/>
+      <MenuEntry text={NAVIGATION.ABONNEMENT} to="/tariff"/>
+      <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices"/>
+      <MenuEntry text={NAVIGATION.ACCOUNT} to="/customer"/>
+      <MenuEntry text={NAVIGATION.SUPPORT} to="/support"/>
+      <a
+        className="menu-entry"
+        href="https://www.velocity-aachen.de/imprint.html"
+        target="_blank"
+      >
+        Impressum
+      </a>
+    </>
+  );
+};
 
 const Menu: React.FC = () => (
   <nav className="menu">
