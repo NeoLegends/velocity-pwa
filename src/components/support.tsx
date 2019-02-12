@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useStations } from '../hooks/stations';
-import { SupportType } from '../model';
+import { DeviceSupportType } from '../model';
 import {
   submitFeedback,
   submitPedelecError,
@@ -27,9 +27,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
   const [defectCategory, setDefectCategory] = useState('');
   const [defectMessage, setDefectMessage] = useState('');
   const [defectStation, setDefectStation] = useState('');
-  const [defectType, setDefectType] = useState<Exclude<SupportType, 'feedback'>>(
-    'pedelec',
-  );
+  const [defectType, setDefectType] = useState<DeviceSupportType>('pedelec');
 
   const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
