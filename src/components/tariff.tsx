@@ -1,42 +1,43 @@
-import React from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { useTariffs, useUserTariff } from '../hooks/tariff';
 import { Tariff, UserTariff } from '../model';
 import {
   activateAutoRenewal,
   bookTariff,
   deactivateAutoRenewal,
-  getCurrentTariff,
-  getTariffs,
 } from '../model/tariff';
-import { LanguageContext, LanguageIdentifier } from '../resources/language';
+import { LanguageContext } from '../resources/language';
 
 import './tariff.scss';
 
 interface TariffProps {
-  languageId: LanguageIdentifier; // passed via props to be notified about changes
+  className?: string;
 }
 
-interface TariffState {
-  currentlyBookingTariff: number | null;
+interface TariffOverviewProps extends TariffProps {
+  hasDefaultTariff: boolean;
   tariffs: Tariff[];
   userTariff: UserTariff | null;
-}
-
-interface TariffBodyProps extends TariffState {
-  hasDefaultTariff: boolean;
 
   onBookTariff: (tariffId: number) => void;
+  onToggleAutomaticRenewal: React.MouseEventHandler;
+}
+interface TariffConfirmationProps extends TariffProps {
+  currentlyBookingTariff: Tariff;
+
   onCancelBookingProcess: React.MouseEventHandler;
   onConfirmBooking: React.MouseEventHandler;
-  onToggleAutomaticRenewal: React.MouseEventHandler;
 }
 
 const DEFAULT_TARIFF_ID = 5;
 
 // tslint:disable:jsx-no-lambda
 
-const TariffOverview: React.FC<TariffBodyProps> = ({
+const TariffOverview: React.FC<TariffOverviewProps> = ({
+  className,
   hasDefaultTariff,
   tariffs,
   userTariff,
@@ -44,218 +45,168 @@ const TariffOverview: React.FC<TariffBodyProps> = ({
   onBookTariff,
   onToggleAutomaticRenewal,
 }) => {
+  const { tariff, STATE, TARIFF } = useContext(LanguageContext);
+
   const tariffExpiry = userTariff && userTariff.expiryDateTime &&
     (new Date(userTariff.expiryDateTime)).toLocaleDateString();
   const tariffInfo = userTariff &&
     tariffs.find(t => t.tariffId === userTariff.tariffId)!.description;
 
   return (
-    <LanguageContext.Consumer>
-      {({ tariff, STATE, TARIFF }) => (
-        <div className="tariff box-list">
-          {userTariff && (
-            <div className="box">
-              <h2>{TARIFF.CURRENT.TITLE}</h2>
+    <div className={classNames('tariff box-list', className)}>
+      {userTariff && (
+        <div className="box">
+          <h2>{TARIFF.CURRENT.TITLE}</h2>
 
-              <div className="wrapper">
-                <ul>
-                  <li>{TARIFF.CURRENT.NAME}: {userTariff.name}</li>
-                  {userTariff.expiryDateTime && (
-                    <li>
-                      {TARIFF.CURRENT.EXPIRY} {tariffExpiry}
-                    </li>
-                  )}
-                  <li>
-                    {TARIFF.ALL.INFO}: {tariffInfo}
-                  </li>
-                  {!hasDefaultTariff && (
-                    <li>
-                      {TARIFF.CURRENT.RENEWAL} {userTariff.automaticRenewal
-                        ? STATE.ACTIVE
-                        : STATE.IDLE}
-                    </li>
-                  )}
-                </ul>
-              </div>
-
+          <div className="wrapper">
+            <ul>
+              <li>{TARIFF.CURRENT.NAME}: {userTariff.name}</li>
+              {userTariff.expiryDateTime && (
+                <li>
+                  {TARIFF.CURRENT.EXPIRY} {tariffExpiry}
+                </li>
+              )}
+              <li>
+                {TARIFF.ALL.INFO}: {tariffInfo}
+              </li>
               {!hasDefaultTariff && (
-                <div className="actions">
-                  <button
-                    className="btn outline"
-                    onClick={onToggleAutomaticRenewal}
-                  >
-                    {userTariff.automaticRenewal
-                      ? tariff.DEACTIVATE_AUTOMATIC_RENEWAL
-                      : tariff.ACTIVATE_AUTOMATIC_RENEWAL}
-                  </button>
-                </div>
+                <li>
+                  {TARIFF.CURRENT.RENEWAL} {userTariff.automaticRenewal
+                    ? STATE.ACTIVE
+                    : STATE.IDLE}
+                </li>
               )}
+            </ul>
+          </div>
+
+          {!hasDefaultTariff && (
+            <div className="actions">
+              <button
+                className="btn outline"
+                onClick={onToggleAutomaticRenewal}
+              >
+                {userTariff.automaticRenewal
+                  ? tariff.DEACTIVATE_AUTOMATIC_RENEWAL
+                  : tariff.ACTIVATE_AUTOMATIC_RENEWAL}
+              </button>
             </div>
           )}
-
-          {userTariff && !hasDefaultTariff && (
-            <div className="note info">
-              {TARIFF.ALERT.NOTE_NOT_CHANGEABLE}
-            </div>
-          )}
-
-          {tariffs.map(tariff => (
-            <div key={tariff.tariffId} className="box">
-              <h2>{tariff.name}</h2>
-
-              <div className="wrapper">
-                <ul>
-                  <li>{TARIFF.ALL.INFO}: {tariff.description}</li>
-                  <li>{TARIFF.ALL.DURATION}: {tariff.term} {TARIFF.ALL.TAGE}</li>
-                  <li>{TARIFF.ALL.PREIS}: {tariff.periodicRate.toEuro()}</li>
-                </ul>
-              </div>
-
-              {hasDefaultTariff && tariff.tariffId !== DEFAULT_TARIFF_ID && (
-                <div className="actions">
-                  <button
-                    className="btn outline"
-                    onClick={() => onBookTariff(tariff.tariffId)}
-                  >
-                    {TARIFF.ALL.BUCHEN}
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
         </div>
       )}
-    </LanguageContext.Consumer>
+
+      {userTariff && !hasDefaultTariff && (
+        <div className="note info">
+          {TARIFF.ALERT.NOTE_NOT_CHANGEABLE}
+        </div>
+      )}
+
+      {tariffs.map(tariff => (
+        <div key={tariff.tariffId} className="box">
+          <h2>{tariff.name}</h2>
+
+          <div className="wrapper">
+            <ul>
+              <li>{TARIFF.ALL.INFO}: {tariff.description}</li>
+              <li>{TARIFF.ALL.DURATION}: {tariff.term} {TARIFF.ALL.TAGE}</li>
+              <li>{TARIFF.ALL.PREIS}: {tariff.periodicRate.toEuro()}</li>
+            </ul>
+          </div>
+
+          {hasDefaultTariff && tariff.tariffId !== DEFAULT_TARIFF_ID && (
+            <div className="actions">
+              <button
+                className="btn outline"
+                onClick={() => onBookTariff(tariff.tariffId)}
+              >
+                {TARIFF.ALL.BUCHEN}
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
 
 // tslint:enable
 
-const TariffBookingConfirmation: React.FC<TariffBodyProps> = ({
+const TariffBookingConfirmation: React.FC<TariffConfirmationProps> = ({
+  className,
   currentlyBookingTariff,
-  tariffs,
 
   onCancelBookingProcess,
   onConfirmBooking,
 }) => {
-  const tariff = tariffs.find(t => t.tariffId === currentlyBookingTariff)!;
+  const { TARIFF } = useContext(LanguageContext);
 
   return (
-    <LanguageContext.Consumer>
-      {({ TARIFF }) => (
-        <div className="tariff box-list">
-          <div className="box">
-            <h2>{tariff.name}</h2>
+    <div className={classNames('tariff box-list', className)}>
+      <div className="box">
+        <h2>{currentlyBookingTariff.name}</h2>
 
-            <div className="wrapper">
-              {TARIFF.MODAL.ORDER_OPTION.INFO} {tariff.name}
-            </div>
-
-            <div className="actions">
-              <button
-                className="btn outline"
-                onClick={onConfirmBooking}
-              >
-                {TARIFF.MODAL.ORDER_OPTION.CONFIRM}
-              </button>
-
-              <button
-                className="btn outline"
-                onClick={onCancelBookingProcess}
-              >
-                {TARIFF.MODAL.ORDER_OPTION.ABBRECHEN}
-              </button>
-            </div>
-          </div>
+        <div className="wrapper">
+          {TARIFF.MODAL.ORDER_OPTION.INFO} {currentlyBookingTariff.name}
         </div>
-      )}
-    </LanguageContext.Consumer>
+
+        <div className="actions">
+          <button
+            className="btn outline"
+            onClick={onConfirmBooking}
+          >
+            {TARIFF.MODAL.ORDER_OPTION.CONFIRM}
+          </button>
+
+          <button
+            className="btn outline"
+            onClick={onCancelBookingProcess}
+          >
+            {TARIFF.MODAL.ORDER_OPTION.ABBRECHEN}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
-const TariffBody: React.FC<TariffBodyProps> = props =>
-  (props.currentlyBookingTariff !== null)
-    ? <TariffBookingConfirmation {...props}/>
-    : <TariffOverview {...props}/>;
+const TariffView: React.FC<TariffProps> = props => {
+  const tariffs = useTariffs();
+  const [userTariff, reloadTariff] = useUserTariff();
+  const [tariffToBook, setTariffToBok] = useState<Tariff | null>(null);
 
-class TariffView extends React.Component<TariffProps, TariffState> {
-  static contextType = LanguageContext;
+  const { TARIFF } = useContext(LanguageContext);
 
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    currentlyBookingTariff: null,
-    tariffs: [],
-    userTariff: null,
+  const handleBookTariff = (tariffId: number) => {
+    const tariff = tariffs.find(t => t.tariffId === tariffId);
+    setTariffToBok(tariff!);
   };
 
-  componentDidMount() {
-    this.fetchUserData();
-  }
-
-  render() {
-    const userTariff = this.state.userTariff as UserTariff | null;
-    const hasDefaultTariff = Boolean(userTariff && userTariff.tariffId === DEFAULT_TARIFF_ID);
-
-    return (
-      <TariffBody
-        {...this.state}
-        {...this.props}
-        hasDefaultTariff={hasDefaultTariff}
-        onBookTariff={this.handleBookTariff}
-        onCancelBookingProcess={this.handleCancelBookingProcess}
-        onConfirmBooking={this.handleConfirmBooking}
-        onToggleAutomaticRenewal={this.handleToggleAutomaticRenewal}
-      />
-    );
-  }
-
-  private async fetchUserData() {
-    try {
-      const [tariffs, userTariff] = await Promise.all([
-        getTariffs(this.props.languageId),
-        getCurrentTariff(),
-      ]);
-
-      this.setState({ tariffs, userTariff });
-    } catch (err) {
-      toast(
-        this.context.TARIFF.ALERT.LOAD_TARIFF_FAIL,
-        { type: 'error' },
-      );
-    }
-  }
-
-  private handleBookTariff = (tariffId: number) =>
-    this.setState({ currentlyBookingTariff: tariffId })
-
-  private handleCancelBookingProcess = () =>
-    this.setState({ currentlyBookingTariff: null })
-
-  private handleConfirmBooking = async () => {
-    if (!this.state.currentlyBookingTariff) {
+  const handleConfirmBooking = async () => {
+    if (!tariffToBook) {
       console.error("Missing tariff to book.");
       return;
     }
 
     try {
-      await bookTariff(this.state.currentlyBookingTariff!);
-      await this.fetchUserData();
-
-      toast(
-        this.context.TARIFF.ALERT.CHANGE_TARIFF_SUCCESS,
-        { type: 'success' },
-      );
+      await bookTariff(tariffToBook.tariffId);
     } catch (err) {
-      toast(
-        this.context.TARIFF.ALERT.CHANGE_TARIFF_FAIL,
+      console.error("Error while changing tariff:", err);
+      return toast(
+        TARIFF.ALERT.CHANGE_TARIFF_FAIL,
         { type: 'error' },
       );
     }
-  }
 
-  private handleToggleAutomaticRenewal = async () => {
-    const userTariff = this.state.userTariff as UserTariff | null;
+    reloadTariff();
+
+    toast(
+      TARIFF.ALERT.CHANGE_TARIFF_SUCCESS,
+      { type: 'success' },
+    );
+  };
+
+  const handleToggleAutoRenewal = async () => {
     if (!userTariff) {
+      console.error("Cannot toggle renewal without user tariff.");
       return;
     }
 
@@ -263,14 +214,37 @@ class TariffView extends React.Component<TariffProps, TariffState> {
       await (userTariff.automaticRenewal
         ? deactivateAutoRenewal()
         : activateAutoRenewal());
-      await this.fetchUserData();
     } catch (err) {
-      toast(
-        this.context.TARIFF.ALERT.ALTER_RENEWAL_FAIL,
+      return toast(
+        TARIFF.ALERT.ALTER_RENEWAL_FAIL,
         { type: 'error' },
       );
     }
-  }
-}
+
+    reloadTariff();
+  };
+
+  const hasDefaultTariff = Boolean(
+    userTariff && userTariff.tariffId === DEFAULT_TARIFF_ID,
+  );
+
+  return (tariffToBook !== null) ? (
+    <TariffBookingConfirmation
+      {...props}
+      currentlyBookingTariff={tariffToBook}
+      onCancelBookingProcess={() => setTariffToBok(null)}
+      onConfirmBooking={handleConfirmBooking}
+    />
+  ) : (
+    <TariffOverview
+      {...props}
+      hasDefaultTariff={hasDefaultTariff}
+      tariffs={tariffs}
+      userTariff={userTariff}
+      onBookTariff={handleBookTariff}
+      onToggleAutomaticRenewal={handleToggleAutoRenewal}
+    />
+  );
+};
 
 export default TariffView;

@@ -98,7 +98,6 @@ const AppBody: React.SFC<AppBodyProps> = ({
           <Tariff
             path="/tariff"
             isLoggedIn={isLoggedIn}
-            languageId={languageId}
             onLoginStart={onLoginStartWithoutRedirect}
           />
         </Router>
