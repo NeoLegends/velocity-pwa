@@ -22,7 +22,7 @@ export const useTariffs = () => {
           { type: 'error' },
         );
       });
-  }, [TARIFF, languageId]);
+  }, [languageId]);
 
   return tariffs;
 };
@@ -44,7 +44,7 @@ export const useUserTariff = () => {
       });
   };
 
-  useEffect(loadUserTariff, [TARIFF]);
+  useEffect(loadUserTariff, []);
 
   return [userTariff, loadUserTariff] as [UserTariff | null, () => void];
 };

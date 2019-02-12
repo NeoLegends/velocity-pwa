@@ -21,7 +21,7 @@ export const useInvoices = () => {
           { type: 'error' },
         );
       });
-  }, [BILL]);
+  }, []);
 
   return invoices;
 };
