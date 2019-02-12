@@ -18,6 +18,7 @@ export interface MenuBarProps {
 
 const MenuBar: React.FC<MenuBarProps> = ({
   isLoggedIn,
+  loginStatusKnown,
 
   onChangeLanguage,
   onLoginButtonClick,
@@ -52,9 +53,11 @@ const MenuBar: React.FC<MenuBarProps> = ({
         className="btn outline"
         onClick={onLoginButtonClick}
       >
-        {isLoggedIn
-          ? NAVIGATION.SIGN_OUT_BTN
-          : NAVIGATION.SIGN_IN_BTN}
+        {loginStatusKnown
+          ? isLoggedIn
+            ? NAVIGATION.SIGN_OUT_BTN
+            : NAVIGATION.SIGN_IN_BTN
+          : '...'}
       </button>
       <button
         className="btn outline btn-menu"
