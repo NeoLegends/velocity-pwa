@@ -1,123 +1,77 @@
 import { Link } from '@reach/router';
-import React from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
 
 import { LanguageContext } from '../resources/language';
 
 import './login.scss';
 
 export interface LoginProps {
+  className?: string;
+
   onLoginStart?: (email: string, password: string) => void;
 }
 
-interface LoginState {
-  email: string;
-  password: string;
-}
-interface BodyProps extends LoginState {
-  canLogin: boolean;
+const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
+  const { LOGIN, PASSWORD_REMEMBER } = useContext(LanguageContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  onEmailChange: React.ChangeEventHandler<HTMLInputElement>;
-  onPasswordChange: React.ChangeEventHandler<HTMLInputElement>;
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
-}
+  const canLogin = Boolean(email && password);
 
-const LoginBody: React.FC<BodyProps> = ({
-  canLogin,
-  email,
-  password,
-
-  onEmailChange,
-  onPasswordChange,
-  onSubmit,
-}) => (
-  <LanguageContext.Consumer>
-    {({ LOGIN, PASSWORD_REMEMBER }) => (
-      <div className="login">
-        <form
-          className="box outline"
-          action="#"
-          onSubmit={onSubmit}
-        >
-          <h2>Login</h2>
-
-          <div className="wrapper">
-            <input
-              className="input outline"
-              type="email"
-              placeholder="E-Mail"
-              onChange={onEmailChange}
-              value={email}
-            />
-            <input
-              className="input outline"
-              type="password"
-              placeholder="Password"
-              onChange={onPasswordChange}
-              value={password}
-            />
-
-            <a
-              href="https://velocity-aachen.de/reg/"
-              target="_blank"
-            >
-              {LOGIN.REGISTRIEREN}
-            </a>
-            <Link to="/forgot-password">
-              {PASSWORD_REMEMBER.HYPERLINK}
-            </Link>
-          </div>
-
-          <div className="actions">
-            <button
-              className="btn outline"
-              disabled={!canLogin}
-              type="submit"
-            >
-              Login
-            </button>
-          </div>
-        </form>
-      </div>
-    )}
-  </LanguageContext.Consumer>
-);
-
-class Login extends React.Component<LoginProps, LoginState> {
-  state = {
-    email: '',
-    password: '',
+  const handleLogin = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    onLoginStart && canLogin && onLoginStart(email, password);
   };
 
-  render() {
-    const canLogin = Boolean(this.state.email && this.state.password);
+  return (
+    <div className={classNames('login', className)}>
+      <form
+        className="box outline"
+        action="#"
+        onSubmit={handleLogin}
+      >
+        <h2>Login</h2>
 
-    return (
-      <LoginBody
-        {...this.state}
-        canLogin={canLogin}
-        onEmailChange={this.handleEmailChange}
-        onPasswordChange={this.handlePasswordChange}
-        onSubmit={this.handleFormSubmit}
-      />
-    );
-  }
+        <div className="wrapper">
+          <input
+            className="input outline"
+            type="email"
+            placeholder="E-Mail"
+            onChange={ev => setEmail(ev.target.value)}
+            value={email}
+          />
+          <input
+            className="input outline"
+            type="password"
+            placeholder="Password"
+            onChange={ev => setPassword(ev.target.value)}
+            value={password}
+          />
 
-  private handleFormSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
+          <a
+            href="https://velocity-aachen.de/reg/"
+            target="_blank"
+          >
+            {LOGIN.REGISTRIEREN}
+          </a>
+          <Link to="/forgot-password">
+            {PASSWORD_REMEMBER.HYPERLINK}
+          </Link>
+        </div>
 
-    const { email, password } = this.state;
-    if (this.props.onLoginStart && email && password) {
-      this.props.onLoginStart(email, password);
-    }
-  }
-
-  private handleEmailChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: ev.target.value });
-  }
-
-  private handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ password: ev.target.value });
-  }
-}
+        <div className="actions">
+          <button
+            className="btn outline"
+            disabled={!canLogin}
+            type="submit"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default Login;
