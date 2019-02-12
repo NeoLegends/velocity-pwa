@@ -1,8 +1,9 @@
-import React from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Station, SupportType } from '../model';
-import { getAllStations } from '../model/stations';
+import { useStations } from '../hooks/stations';
+import { SupportType } from '../model';
 import {
   submitFeedback,
   submitPedelecError,
@@ -12,316 +13,201 @@ import { LanguageContext } from '../resources/language';
 
 import './support.scss';
 
-interface SupportState {
-  defectBikeNumber: string;
-  defectCategory: string;
-  defectMessage: string;
-  defectStation: string;
-  defectType: Exclude<SupportType, 'feedback'>;
-  feedbackHeading: string;
-  feedbackMessage: string;
-  stations: Station[];
+interface SupportProps {
+  className?: string;
 }
 
-interface SupportBodyProps extends SupportState {
-  canSubmitFeedback: boolean;
-  canSubmitProblemReport: boolean;
+const Support: React.FC<SupportProps> = ({ className }) => {
+  const stations = useStations();
 
-  onChangeDefectBikeNumber: React.ChangeEventHandler<HTMLInputElement>;
-  onChangeDefectCategory: React.ChangeEventHandler<HTMLSelectElement>;
-  onChangeDefectMessage: React.ChangeEventHandler<HTMLTextAreaElement>;
-  onChangeDefectStation: React.ChangeEventHandler<HTMLSelectElement>;
-  onChangeDefectType: React.ChangeEventHandler<HTMLInputElement>;
+  const [feedbackHeading, setFeedbackHeading] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState('');
 
-  onChangeFeedbackHeading: React.ChangeEventHandler<HTMLInputElement>;
-  onChangeFeedbackMessage: React.ChangeEventHandler<HTMLTextAreaElement>;
+  const [defectBikeNumber, setDefectBikeNumber] = useState('');
+  const [defectCategory, setDefectCategory] = useState('');
+  const [defectMessage, setDefectMessage] = useState('');
+  const [defectStation, setDefectStation] = useState('');
+  const [defectType, setDefectType] = useState<Exclude<SupportType, 'feedback'>>(
+    'pedelec',
+  );
 
-  onSubmitFeedback: React.FormEventHandler;
-  onSubmitProblemReport: React.FormEventHandler;
-}
+  const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
-const SupportBody: React.FC<SupportBodyProps> = ({
-  canSubmitFeedback,
-  canSubmitProblemReport,
+  const canSubmitFeedback = Boolean(feedbackHeading && feedbackMessage);
+  const canSubmitProblemReport = Boolean(
+    defectMessage &&
+    (defectType === 'pedelec'
+      ? !isNaN(defectBikeNumber as unknown as number)
+      : !isNaN(defectStation as unknown as number)),
+  );
 
-  defectBikeNumber,
-  defectCategory,
-  defectMessage,
-  defectStation,
-  defectType,
-  feedbackHeading,
-  feedbackMessage,
-  stations,
-
-  onChangeFeedbackHeading,
-  onChangeFeedbackMessage,
-
-  onChangeDefectBikeNumber,
-  onChangeDefectCategory,
-  onChangeDefectMessage,
-  onChangeDefectStation,
-  onChangeDefectType,
-
-  onSubmitFeedback,
-  onSubmitProblemReport,
-}) => (
-  <LanguageContext.Consumer>
-    {({ BUCHUNGEN, SUPPORT }) => (
-      <div className="support box-list">
-        <form className="box" onSubmit={onSubmitFeedback}>
-          <h2>{SUPPORT.FEEDBACK.TITLE}</h2>
-
-          <div className="wrapper">
-            <input
-              className="input outline"
-              placeholder={SUPPORT.FEEDBACK.FORM.SUBJECT}
-              value={feedbackHeading}
-              onChange={onChangeFeedbackHeading}
-            />
-            <textarea
-              className="input outline"
-              placeholder={SUPPORT.FEEDBACK.FORM.CONTENT}
-              value={feedbackMessage}
-              onChange={onChangeFeedbackMessage}
-            />
-          </div>
-
-          <div className="actions">
-            <button
-              className="btn outline"
-              disabled={!canSubmitFeedback}
-              type="submit"
-            >
-              {SUPPORT.BUTTON.SUBMIT}
-            </button>
-          </div>
-        </form>
-
-        <form className="box" onSubmit={onSubmitProblemReport}>
-          <h2>{SUPPORT.ERROR_REPORT.TITLE}</h2>
-
-          <div className="wrapper">
-            <div className="defect-type">
-              <label>
-                <input
-                  className="input"
-                  type="radio"
-                  name="defect-type"
-                  value="pedelec"
-                  checked={defectType === 'pedelec'}
-                  onChange={onChangeDefectType}
-                />
-                <span>Pedelec</span>
-              </label>
-
-              <label>
-                <input
-                  className="input"
-                  type="radio"
-                  name="defect-type"
-                  value="station"
-                  checked={defectType === 'station'}
-                  onChange={onChangeDefectType}
-                />
-                <span>{BUCHUNGEN.RESERVIERUNG.STATION}</span>
-              </label>
-            </div>
-
-            {defectType === 'pedelec' ? (
-              <input
-                className="input outline"
-                type="number"
-                placeholder={SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}
-                value={defectBikeNumber}
-                onChange={onChangeDefectBikeNumber}
-              />
-            ) : (
-              <select
-                className="input outline"
-                value={defectStation}
-                onChange={onChangeDefectStation}
-              >
-                <option value="" disabled hidden>{SUPPORT.ERROR_REPORT.STATION.STATION_NAME}...</option>
-                {stations.map(stat => (
-                  <option key={stat.stationId} value={stat.stationId}>
-                    {stat.name}
-                  </option>
-                ))}
-              </select>
-            )}
-
-            <select
-              className="input outline"
-              value={defectCategory}
-              onChange={onChangeDefectCategory}
-            >
-              <option value="" disabled hidden>{SUPPORT.ERROR_REPORT.STATION.DEFECT}...</option>
-              {defectType === 'pedelec' ? (
-                Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
-                  <option key={`bike-${k}`} value={k}>
-                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
-                  </option>
-                ))
-              ) : (
-                Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(k => (
-                  <option key={`station-${k}`} value={k}>
-                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
-                  </option>
-                ))
-              )}
-            </select>
-
-            <textarea
-              className="input outline"
-              placeholder={SUPPORT.ERROR_REPORT.STATION.NOTES}
-              value={defectMessage}
-              onChange={onChangeDefectMessage}
-            />
-          </div>
-
-          <div className="actions">
-            <button
-              className="btn outline"
-              disabled={!canSubmitProblemReport}
-              type="submit"
-            >
-              {SUPPORT.BUTTON.SUBMIT}
-            </button>
-          </div>
-        </form>
-      </div>
-    )}
-  </LanguageContext.Consumer>
-);
-
-class Support extends React.Component<{}, SupportState> {
-  static contextType = LanguageContext;
-
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    defectBikeNumber: '',
-    defectCategory: '',
-    defectMessage: '',
-    defectStation: '',
-    defectType: 'pedelec' as 'pedelec',
-    feedbackHeading: '',
-    feedbackMessage: '',
-    stations: [],
-  };
-
-  componentDidMount() {
-    this.fetchStations();
-  }
-
-  render() {
-    const canSubmitFeedback = Boolean(
-      this.state.feedbackHeading &&
-      this.state.feedbackMessage,
-    );
-    const canSubmitProblemReport = Boolean(
-      this.state.defectMessage &&
-      (this.state.defectType === 'pedelec'
-        ? !isNaN(this.state.defectBikeNumber as unknown as number)
-        : !isNaN(this.state.defectStation as unknown as number)),
-    );
-
-    return (
-      <SupportBody
-        {...this.state}
-        canSubmitFeedback={canSubmitFeedback}
-        canSubmitProblemReport={canSubmitProblemReport}
-        onChangeDefectBikeNumber={this.handleChangeDefectBikeNumber}
-        onChangeDefectCategory={this.handleChangeDefectCategory}
-        onChangeDefectMessage={this.handleChangeDefectMessage}
-        onChangeDefectStation={this.handleChangeDefectStation}
-        onChangeDefectType={this.handleChangeDefectType}
-        onChangeFeedbackHeading={this.handleChangeFeedbackHeading}
-        onChangeFeedbackMessage={this.handleChangeFeedbackMessage}
-        onSubmitFeedback={this.handleSubmitFeedback}
-        onSubmitProblemReport={this.handleSubmitProblemReport}
-      />
-    );
-  }
-
-  private async fetchStations() {
-    try {
-      const stations = await getAllStations();
-      this.setState({
-        stations: stations.sort((a, b) => a.name.localeCompare(b.name)),
-      });
-    } catch (err) {
-      toast(
-        this.context.MAP.ALERT.STATION_LOAD,
-        { type: 'error' },
-      );
-    }
-  }
-
-  private handleChangeFeedbackHeading = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ feedbackHeading: ev.target.value })
-
-  private handleChangeFeedbackMessage = (ev: React.ChangeEvent<HTMLTextAreaElement>) =>
-    this.setState({ feedbackMessage: ev.target.value })
-
-  private handleChangeDefectBikeNumber = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ defectBikeNumber: ev.target.value })
-
-  private handleChangeDefectCategory = (ev: React.ChangeEvent<HTMLSelectElement>) =>
-    this.setState({ defectCategory: ev.target.value })
-
-  private handleChangeDefectMessage = (ev: React.ChangeEvent<HTMLTextAreaElement>) =>
-    this.setState({ defectMessage: ev.target.value })
-
-  private handleChangeDefectStation = (ev: React.ChangeEvent<HTMLSelectElement>) =>
-    this.setState({ defectStation: ev.target.value })
-
-  private handleChangeDefectType = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ defectType: ev.target.value as 'pedelec' | 'station' })
-
-  private handleSubmitFeedback = async (ev: React.FormEvent) => {
+  const handleSubmitFeedback = async (ev: React.FormEvent) => {
     ev.preventDefault();
 
     try {
-      await submitFeedback(this.state.feedbackHeading, this.state.feedbackMessage);
+      await submitFeedback(feedbackHeading, feedbackMessage);
 
       toast(
-        this.context.SUPPORT.FEEDBACK.ALERT.SUCCESS,
+        SUPPORT.FEEDBACK.ALERT.SUCCESS,
         { type: 'success' },
       );
     } catch (err) {
       toast(
-        this.context.SUPPORT.FEEDBACK.ALERT.ERROR,
+        SUPPORT.FEEDBACK.ALERT.ERROR.DEFAULT,
         { type: 'error' },
       );
     }
-  }
+  };
 
-  private handleSubmitProblemReport = async (ev: React.FormEvent) => {
+  const handleSubmitProblemReport = async (ev: React.FormEvent) => {
     ev.preventDefault();
 
-    const {
-      defectMessage,
-      defectCategory,
-      defectBikeNumber,
-      defectStation,
-    } = this.state;
-
     try {
-      await (this.state.defectType === 'pedelec'
+      await (defectType === 'pedelec'
         ? submitPedelecError(defectMessage, defectCategory, Number(defectBikeNumber))
         : submitStationError(defectMessage, defectCategory, Number(defectStation)));
 
       toast(
-        this.context.SUPPORT.ERROR_REPORT.ALERT.SUCCESS,
+        SUPPORT.ERROR_REPORT.ALERT.SUCCESS,
         { type: 'success' },
       );
     } catch (err) {
       toast(
-        this.context.SUPPORT.ERROR_REPORT.ALERT.ERROR,
+        SUPPORT.ERROR_REPORT.ALERT.ERROR.DEFAULT,
         { type: 'error' },
       );
     }
-  }
-}
+  };
+
+  return (
+    <div className={classNames('support box-list', className)}>
+      <form className="box" onSubmit={handleSubmitFeedback}>
+        <h2>{SUPPORT.FEEDBACK.TITLE}</h2>
+
+        <div className="wrapper">
+          <input
+            className="input outline"
+            placeholder={SUPPORT.FEEDBACK.FORM.SUBJECT}
+            value={feedbackHeading}
+            onChange={ev => setFeedbackHeading(ev.target.value)}
+          />
+          <textarea
+            className="input outline"
+            placeholder={SUPPORT.FEEDBACK.FORM.CONTENT}
+            value={feedbackMessage}
+            onChange={ev => setFeedbackMessage(ev.target.value)}
+          />
+        </div>
+
+        <div className="actions">
+          <button
+            className="btn outline"
+            disabled={!canSubmitFeedback}
+            type="submit"
+          >
+            {SUPPORT.BUTTON.SUBMIT}
+          </button>
+        </div>
+      </form>
+
+      <form className="box" onSubmit={handleSubmitProblemReport}>
+        <h2>{SUPPORT.ERROR_REPORT.TITLE}</h2>
+
+        <div className="wrapper">
+          <div className="defect-type">
+            <label>
+              <input
+                className="input"
+                type="radio"
+                name="defect-type"
+                value="pedelec"
+                checked={defectType === 'pedelec'}
+                onChange={() => setDefectType('pedelec')}
+              />
+              <span>Pedelec</span>
+            </label>
+
+            <label>
+              <input
+                className="input"
+                type="radio"
+                name="defect-type"
+                value="station"
+                checked={defectType === 'station'}
+                onChange={() => setDefectType('station')}
+              />
+              <span>{BUCHUNGEN.RESERVIERUNG.STATION}</span>
+            </label>
+          </div>
+
+          {defectType === 'pedelec' ? (
+            <input
+              className="input outline"
+              type="number"
+              placeholder={SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}
+              value={defectBikeNumber}
+              onChange={ev => setDefectBikeNumber(ev.target.value)}
+            />
+          ) : (
+            <select
+              className="input outline"
+              value={defectStation}
+              onChange={ev => setDefectStation(ev.target.value)}
+            >
+              <option value="" disabled hidden>
+                {SUPPORT.ERROR_REPORT.STATION.STATION_NAME}...
+              </option>
+              {stations.map(stat => (
+                <option key={stat.stationId} value={stat.stationId}>
+                  {stat.name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <select
+            className="input outline"
+            value={defectCategory}
+            onChange={ev => setDefectCategory(ev.target.value)}
+          >
+            <option value="" disabled hidden>
+              {SUPPORT.ERROR_REPORT.STATION.DEFECT}...
+            </option>
+            {defectType === 'pedelec' ? (
+              Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
+                <option key={`bike-${k}`} value={k}>
+                  {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
+                </option>
+              ))
+            ) : (
+              Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(k => (
+                <option key={`station-${k}`} value={k}>
+                  {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
+                </option>
+              ))
+            )}
+          </select>
+
+          <textarea
+            className="input outline"
+            placeholder={SUPPORT.ERROR_REPORT.STATION.NOTES}
+            value={defectMessage}
+            onChange={ev => setDefectMessage(ev.target.value)}
+          />
+        </div>
+
+        <div className="actions">
+          <button
+            className="btn outline"
+            disabled={!canSubmitProblemReport}
+            type="submit"
+          >
+            {SUPPORT.BUTTON.SUBMIT}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default Support;
