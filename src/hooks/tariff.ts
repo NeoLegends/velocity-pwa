@@ -1,4 +1,4 @@
-import { useContext, useDebugValue, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Tariff, UserTariff } from '../model';
@@ -9,8 +9,6 @@ export const useTariffs = () => {
   const { TARIFF } = useContext(LanguageContext);
   const languageId = useContext(LanguageIdContext);
   const [tariffs, setTariffs] = useState<Tariff[]>([]);
-
-  useDebugValue(tariffs);
 
   useEffect(() => {
     getTariffs(languageId)
@@ -30,7 +28,6 @@ export const useTariffs = () => {
 export const useUserTariff = () => {
   const { TARIFF } = useContext(LanguageContext);
   const [userTariff, setUserTariff] = useState<UserTariff | null>(null);
-  useDebugValue(userTariff);
 
   const loadUserTariff = () => {
     getCurrentTariff()
