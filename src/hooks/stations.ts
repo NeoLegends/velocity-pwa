@@ -5,21 +5,32 @@ import { Station } from '../model';
 import { getAllStations } from '../model/stations';
 import { LanguageContext } from '../resources/language';
 
+const LOCALSTORAGE_STATIONS_KEY = 'velocity/stations';
+
 export const useStations = () => {
   const { MAP } = useContext(LanguageContext);
   const [stations, setStations] = useState<Station[]>([]);
 
-  useEffect(() => {
+  const fetchStations = () => {
     getAllStations()
-      .then(stations => setStations(stations.sort(
-        (a, b) => a.name.localeCompare(b.name),
-      )))
+      .then(stations => {
+        localStorage.setItem(LOCALSTORAGE_STATIONS_KEY, JSON.stringify(stations));
+        setStations(stations);
+      })
       .catch(err => {
-        console.error("Error while fetching stations:", err);
-
+        console.error("Error while loading stations:", err);
         toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
       });
+  };
+
+  useEffect(() => {
+    const lsStations = localStorage.getItem(LOCALSTORAGE_STATIONS_KEY);
+    if (lsStations) {
+      setStations(JSON.parse(lsStations));
+    }
+
+    fetchStations();
   }, []);
 
-  return stations;
+  return [stations, fetchStations] as [Station[], () => void];
 };

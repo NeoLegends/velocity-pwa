@@ -18,7 +18,7 @@ interface SupportProps {
 }
 
 const Support: React.FC<SupportProps> = ({ className }) => {
-  const stations = useStations();
+  const [stations] = useStations();
 
   const [feedbackHeading, setFeedbackHeading] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState('');
