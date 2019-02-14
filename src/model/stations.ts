@@ -17,7 +17,8 @@ import {
 const PIN_LS_KEY = 'velocity/card-pin';
 
 export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(APP_ALL_STATIONS_URL);
+  fetchJsonEnsureOk(APP_ALL_STATIONS_URL)
+    .then(stations => stations.sort((a, b) => a.name.localeCompare(b.name)));
 
 export const getSavedCardPin = () => {
   const lsItem = localStorage.getItem(PIN_LS_KEY);
