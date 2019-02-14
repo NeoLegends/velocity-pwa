@@ -67,6 +67,11 @@ export const useOpenableStation = () => {
     [OpenedStation | null, (stationId: number) => void, () => void];
 };
 
+const setLsViewport = (v: Viewport) => viewportStorage.setItem(
+  STORAGE_VIEWPORT_KEY,
+  JSON.stringify(v),
+);
+
 export const useCachedViewport = () => {
   const [viewport, setViewport] = useState<Viewport>(defaultViewport);
 
@@ -78,11 +83,6 @@ export const useCachedViewport = () => {
 
     setViewport(JSON.parse(viewport));
   }, []);
-
-  const setLsViewport = (v: Viewport) => viewportStorage.setItem(
-    STORAGE_VIEWPORT_KEY,
-    JSON.stringify(v),
-  );
 
   return [viewport, setLsViewport] as [Viewport, (v: Viewport) => void];
 };
