@@ -57,7 +57,6 @@ export const useOpenableStation = () => {
       })
       .catch(err => {
         console.error("Error while opening station popup:", err);
-
         toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
       });
   };
