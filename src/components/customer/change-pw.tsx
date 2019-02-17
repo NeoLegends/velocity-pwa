@@ -1,5 +1,5 @@
 import { RouteComponentProps } from '@reach/router';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { LanguageContext } from '../../resources/language';
 
@@ -11,34 +11,34 @@ interface ChangePasswordProps {
 const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
   onCancel,
   onRequestPasswordEmail,
-}) => (
-  <LanguageContext.Consumer>
-    {({ PARTICULARS }) => (
-      <div className="change-pw box">
-        <h2>{PARTICULARS.MODAL.PW.TITLE}</h2>
+}) => {
+  const { PARTICULARS } = useContext(LanguageContext);
 
-        <div className="wrapper">
-          {PARTICULARS.MODAL.PW.TEXT}
-        </div>
+  return (
+    <div className="change-pw box">
+      <h2>{PARTICULARS.MODAL.PW.TITLE}</h2>
 
-        <div className="actions">
-          <button
-            className="btn outline"
-            onClick={onRequestPasswordEmail}
-          >
-            {PARTICULARS.MODAL.PW.BUTTON.SUBMIT}
-          </button>
-
-          <button
-            className="btn outline"
-            onClick={onCancel}
-          >
-            {PARTICULARS.MODAL.PW.BUTTON.CANCEL}
-          </button>
-        </div>
+      <div className="wrapper">
+        {PARTICULARS.MODAL.PW.TEXT}
       </div>
-    )}
-  </LanguageContext.Consumer>
-);
+
+      <div className="actions">
+        <button
+          className="btn outline"
+          onClick={onRequestPasswordEmail}
+        >
+          {PARTICULARS.MODAL.PW.BUTTON.SUBMIT}
+        </button>
+
+        <button
+          className="btn outline"
+          onClick={onCancel}
+        >
+          {PARTICULARS.MODAL.PW.BUTTON.CANCEL}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default ChangePassword;
