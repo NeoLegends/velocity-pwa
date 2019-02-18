@@ -1,120 +1,75 @@
-import { RouteComponentProps } from '@reach/router';
-import React from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
 
 import { LanguageContext } from '../../resources/language';
 
 interface ChangePinProps {
+  className?: string;
+
   onCancel: React.MouseEventHandler;
   onChangePin: (newPin: string, password: string) => void;
 }
 
-interface ChangePinState {
-  password: string;
-  pin: string;
-}
-
-interface BodyProps extends ChangePinState {
-  canSubmit: boolean;
-
-  onCancel: React.MouseEventHandler;
-  onChangePassword: React.ChangeEventHandler<HTMLInputElement>;
-  onChangePin: React.ChangeEventHandler<HTMLInputElement>;
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
-}
-
-const ChangePinBody: React.FC<BodyProps> = ({
-  canSubmit,
-  password,
-  pin,
+const ChangePin: React.FC<ChangePinProps> = ({
+  className,
 
   onCancel,
-  onChangePassword,
   onChangePin,
-  onSubmit,
-}) => (
-  <LanguageContext.Consumer>
-    {({ PARTICULARS }) => (
-      <form className="change-pin box" onSubmit={onSubmit}>
-        <h2>{PARTICULARS.MODAL.PIN.TITLE}</h2>
+}) => {
+  const { PARTICULARS } = useContext(LanguageContext);
+  const [password, setPassword] = useState('');
+  const [pin, setPin] = useState('');
 
-        <div className="wrapper">
-          <input
-            className="input outline"
-            placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PIN}
-            type="tel"
-            onChange={onChangePin}
-            value={pin}
-          />
-
-          <input
-            className="input outline"
-            placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PW}
-            type="password"
-            onChange={onChangePassword}
-            value={password}
-          />
-        </div>
-
-        <div className="actions">
-          <button
-            type="submit"
-            className="btn outline"
-            disabled={!canSubmit}
-          >
-            {PARTICULARS.MODAL.PIN.BUTTON.SUBMIT}
-          </button>
-
-          <button
-            className="btn outline"
-            onClick={onCancel}
-          >
-            {PARTICULARS.MODAL.PIN.BUTTON.CANCEL}
-          </button>
-        </div>
-      </form>
-    )}
-  </LanguageContext.Consumer>
-);
-
-class ChangePin extends React.Component<
-  ChangePinProps & RouteComponentProps,
-  ChangePinState
-> {
-  state = {
-    password: '',
-    pin: '',
+  const handleSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    onChangePin(pin, password);
   };
 
-  render() {
-    const canSubmit =
-      Boolean(this.state.password && /[0-9]{4}/.test(this.state.pin));
+  const canSubmit = Boolean(password && /[0-9]{4}/.test(pin));
 
-    return (
-      <ChangePinBody
-        {...this.state}
-        canSubmit={canSubmit}
-        onCancel={this.props.onCancel}
-        onChangePassword={this.handlePasswordChange}
-        onChangePin={this.handlePinChange}
-        onSubmit={this.handleSubmit}
-      />
-    );
-  }
+  return (
+    <form
+      className={classNames('change-pin box', className)}
+      onSubmit={handleSubmit}
+    >
+      <h2>{PARTICULARS.MODAL.PIN.TITLE}</h2>
 
-  private handlePasswordChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ password: ev.target.value })
+      <div className="wrapper">
+        <input
+          className="input outline"
+          placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PIN}
+          type="tel"
+          onChange={ev => setPin(ev.target.value)}
+          value={pin}
+        />
 
-  private handlePinChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ pin: ev.target.value })
+        <input
+          className="input outline"
+          placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PW}
+          type="password"
+          onChange={ev => setPassword(ev.target.value)}
+          value={password}
+        />
+      </div>
 
-  private handleSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
+      <div className="actions">
+        <button
+          type="submit"
+          className="btn outline"
+          disabled={!canSubmit}
+        >
+          {PARTICULARS.MODAL.PIN.BUTTON.SUBMIT}
+        </button>
 
-    this.props.onChangePin(
-      this.state.pin,
-      this.state.password,
-    );
-  }
-}
+        <button
+          className="btn outline"
+          onClick={onCancel}
+        >
+          {PARTICULARS.MODAL.PIN.BUTTON.CANCEL}
+        </button>
+      </div>
+    </form>
+  );
+};
 
 export default ChangePin;
