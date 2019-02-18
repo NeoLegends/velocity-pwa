@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import { useInvoices } from '../hooks/invoices';
-import { LanguageContext } from '../resources/language';
+import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './invoices.scss';
 
@@ -12,6 +12,7 @@ interface InvoicesProps {
 
 const Invoices: React.FC<InvoicesProps> = ({ className }) => {
   const { BILL } = useContext(LanguageContext);
+  const langId = useContext(LanguageIdContext);
   const invoices = useInvoices();
 
   return (
@@ -39,11 +40,13 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
               {invoices.map(inv => {
                 const urlParts = inv.url.split('/');
                 const invName = urlParts[urlParts.length - 1];
+                const monthName = new Date(inv.year, inv.month - 1)
+                  .toLocaleDateString(langId, { month: 'long' });
 
                 return (
                   <tr key={inv.url}>
                     <td>{inv.year}</td>
-                    <td>{inv.month}</td>
+                    <td>{monthName}</td>
                     <td>{inv.sum.toEuro()}</td>
                     <td>
                       <a href={inv.url} target="_blank">{invName}</a>
