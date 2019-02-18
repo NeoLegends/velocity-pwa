@@ -6,6 +6,9 @@ import { LanguageContext } from '../resources/language';
 
 import './menu.scss';
 
+interface MenuProps {
+  className?: string;
+}
 interface MenuEntryProps {
   text: string;
   to: string;
@@ -46,8 +49,8 @@ export const MenuEntries: React.FC = () => {
   );
 };
 
-const Menu: React.FC = () => (
-  <nav className="menu">
+const Menu: React.FC<MenuProps> = ({ className }) => (
+  <nav className={classNames('menu', className)}>
     <MenuEntries/>
   </nav>
 );

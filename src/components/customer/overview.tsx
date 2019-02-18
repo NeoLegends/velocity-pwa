@@ -1,15 +1,18 @@
 import { Link, RouteComponentProps } from '@reach/router';
+import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import { Customer, SepaMandate } from '../../model';
 import { LanguageContext } from '../../resources/language';
 
 interface CustomerBodyProps {
+  className?: string;
   customer: Customer;
   sepaMandate: SepaMandate;
 }
 
 const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
+  className,
   customer,
   sepaMandate,
 }) => {
@@ -17,7 +20,7 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
 
   return (
     <>
-      <div className="box personal">
+      <div className={classNames('box personal', className)}>
         <h2>{PARTICULARS.HEADING}</h2>
 
         <div className="wrapper">

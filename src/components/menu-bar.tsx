@@ -1,4 +1,5 @@
 import { Link } from '@reach/router';
+import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
 
 import { LanguageContext, LanguageIdentifier } from '../resources/language';
@@ -9,6 +10,7 @@ import Menu, { MenuEntries } from './menu';
 import './menu-bar.scss';
 
 export interface MenuBarProps {
+  className?: string;
   isLoggedIn: boolean;
   loginStatusKnown: boolean;
 
@@ -17,6 +19,7 @@ export interface MenuBarProps {
 }
 
 const MenuBar: React.FC<MenuBarProps> = ({
+  className,
   isLoggedIn,
   loginStatusKnown,
 
@@ -27,7 +30,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="menu-bar">
+    <header className={classNames('menu-bar', className)}>
       <Link to="/">
         <img className="logo" src={logo}/>
       </Link>

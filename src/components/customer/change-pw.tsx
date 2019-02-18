@@ -1,21 +1,26 @@
 import { RouteComponentProps } from '@reach/router';
+import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import { LanguageContext } from '../../resources/language';
 
 interface ChangePasswordProps {
+  className?: string;
+
   onCancel: React.MouseEventHandler;
   onRequestPasswordEmail: React.MouseEventHandler;
 }
 
 const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
+  className,
+
   onCancel,
   onRequestPasswordEmail,
 }) => {
   const { PARTICULARS } = useContext(LanguageContext);
 
   return (
-    <div className="change-pw box">
+    <div className={classNames('change-pw box', className)}>
       <h2>{PARTICULARS.MODAL.PW.TITLE}</h2>
 
       <div className="wrapper">

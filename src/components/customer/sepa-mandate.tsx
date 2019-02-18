@@ -1,16 +1,19 @@
 import { RouteComponentProps } from '@reach/router';
+import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import { SepaMandate } from '../../model';
 import { LanguageContext } from '../../resources/language';
 
 interface SepaMandateProps {
+  className?: string;
   mandate: SepaMandate;
 
   onCancel: React.MouseEventHandler;
 }
 
 const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
+  className,
   mandate,
 
   onCancel,
@@ -18,7 +21,7 @@ const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
   const { customer, SEPA } = useContext(LanguageContext);
 
   return (
-    <div className="change-pw box">
+    <div className={classNames('change-pw box', className)}>
       <h2>{SEPA.SUBTITLE}</h2>
 
       <div className="wrapper">
