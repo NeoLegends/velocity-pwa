@@ -1,74 +1,70 @@
-import { RouteComponentProps } from '@reach/router';
-import React from 'react';
+import classNames from 'classnames';
+import React, { useContext, useState } from 'react';
 
 import { LanguageContext } from '../../resources/language';
 
 interface ChangeTelProps {
+  className?: string;
+
   onCancel: React.MouseEventHandler;
   onChangeTel: (newTel: string) => void;
 }
 
-interface ChangeTelState {
-  tel: string;
-}
+const ChangeTel: React.FC<ChangeTelProps> = ({
+  className,
 
-class ChangeTel extends React.Component<ChangeTelProps & RouteComponentProps, ChangeTelState> {
-  static contextType = LanguageContext;
+  onCancel,
+  onChangeTel,
+}) => {
+  const { PARTICULARS } = useContext(LanguageContext);
+  const [tel, setTel] = useState('');
 
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    tel: '',
+  const handleSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    onChangeTel(tel);
   };
 
-  render() {
-    const canSubmit = /^[+-\s./0-9]{0,20}$/.test(this.state.tel);
+  const canSubmit = /^[+-\s./0-9]{0,20}$/.test(tel);
 
-    return (
-      <form className="change-tel box" onSubmit={this.handleSubmit}>
-        <h2>{this.context.PARTICULARS.MODAL.PHONE.TITLE}</h2>
+  return (
+    <form
+      className={classNames('change-tel box', className)}
+      onSubmit={handleSubmit}
+    >
+      <h2>{PARTICULARS.MODAL.PHONE.TITLE}</h2>
 
-        <div className="wrapper">
-          <p>
-            {this.context.PARTICULARS.MODAL.PHONE.DESCRIPTION_USAGE}
-          </p>
+      <div className="wrapper">
+        <p>
+          {PARTICULARS.MODAL.PHONE.DESCRIPTION_USAGE}
+        </p>
 
-          <input
-            className="input outline"
-            placeholder={this.context.PARTICULARS.MODAL.PHONE.DESCRIPTION_PHONE}
-            type="tel"
-            onChange={this.handleTelChange}
-            value={this.state.tel}
-          />
-        </div>
+        <input
+          className="input outline"
+          placeholder={PARTICULARS.MODAL.PHONE.DESCRIPTION_PHONE}
+          type="tel"
+          onChange={ev => setTel(ev.target.value)}
+          value={tel}
+        />
+      </div>
 
-        <div className="actions">
-          <button
-            type="submit"
-            className="btn outline"
-            disabled={!canSubmit}
-          >
-            {this.context.PARTICULARS.MODAL.PHONE.BUTTON.SUBMIT}
-          </button>
+      <div className="actions">
+        <button
+          type="submit"
+          className="btn outline"
+          disabled={!canSubmit}
+        >
+          {PARTICULARS.MODAL.PHONE.BUTTON.SUBMIT}
+        </button>
 
-          <button
-            className="btn outline"
-            onClick={this.props.onCancel}
-          >
-            {this.context.PARTICULARS.MODAL.PHONE.BUTTON.CANCEL}
-          </button>
-        </div>
-      </form>
-    );
-  }
-
-  private handleTelChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ tel: ev.target.value })
-
-  private handleSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
-
-    this.props.onChangeTel(this.state.tel);
-  }
-}
+        <button
+          className="btn outline"
+          onClick={onCancel}
+        >
+          {PARTICULARS.MODAL.PHONE.BUTTON.CANCEL}
+        </button>
+      </div>
+    </form>
+  );
+};
 
 export default ChangeTel;
