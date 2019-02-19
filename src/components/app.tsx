@@ -53,7 +53,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
   onLoginLogoutButtonClick,
   onLoginStart,
   onLoginStartWithoutRedirect,
-}) => ((
+}) => (
   <LanguageContext.Provider value={language}>
     <LanguageIdContext.Provider value={languageId}>
       <div className="app">
@@ -112,7 +112,7 @@ const AppBody: React.SFC<AppBodyProps> = ({
       </div>
     </LanguageIdContext.Provider>
   </LanguageContext.Provider>
-));
+);
 
 class App extends Component<{}, AppState> {
   static contextType = LanguageContext;
