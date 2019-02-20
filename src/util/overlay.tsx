@@ -1,55 +1,47 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import './overlay.scss';
 
 export interface OverlayMenuProps {
+  className?: string;
   isOpen: boolean;
 
   onRequestClose?: React.MouseEventHandler;
 }
 
-interface OverlayMenuState {
-  element: HTMLElement | null;
-}
+const Overlay: React.FC<OverlayMenuProps> = ({
+  children,
+  className,
+  isOpen,
 
-class Overlay extends React.Component<OverlayMenuProps, OverlayMenuState> {
-  state = {
-    element: null,
-  };
+  onRequestClose,
+}) => {
+  const [element, setElement] = useState<Element | null>(null);
 
-  componentDidMount() {
+  useEffect(() => {
     const el = document.createElement('div');
     document.body.appendChild(el);
+    setElement(el);
 
-    this.setState({ element: el });
+    return () => el.remove();
+  }, []);
+
+  if (!element) {
+    return null;
   }
 
-  componentWillUnmount() {
-    const el: HTMLElement | null = this.state.element;
-    if (el) {
-      (el as HTMLElement).remove();
-    }
-  }
+  const dom = (
+    <div
+      className={classNames('backdrop', isOpen && 'visible', className)}
+      onClick={onRequestClose}
+    >
+      {children}
+    </div>
+  );
 
-  render() {
-    if (!this.state.element) {
-      return null;
-    }
-
-    const { isOpen, onRequestClose } = this.props as any;
-    const dom = (
-      <div
-        className={classNames('backdrop', isOpen && 'visible')}
-        onClick={onRequestClose}
-      >
-        {this.props.children}
-      </div>
-    );
-
-    return ReactDOM.createPortal(dom, this.state.element!);
-  }
-}
+  return ReactDOM.createPortal(dom, element);
+};
 
 export default Overlay;
