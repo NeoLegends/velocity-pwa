@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import countries from 'country-info-list/countries.json';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
+import { useFormField } from '../../hooks/form';
 import { Address } from '../../model';
 import { LanguageContext, LanguageIdContext } from '../../resources/language';
 
@@ -41,10 +42,10 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
   onCancel,
   onChangeAddress,
 }) => {
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
-  const [streetAndHousenumber, setStreetAndHousenumber] = useState('');
-  const [zip, setZip] = useState('');
+  const [city, handleCityChange] = useFormField('');
+  const [country, handleCountryChange] = useFormField('');
+  const [streetAndHousenumber, handleStreetHandHousenumberChange] = useFormField('');
+  const [zip, handleZipChange] = useFormField('');
 
   const { PARTICULARS } = useContext(LanguageContext);
   const langId = useContext(LanguageIdContext);
@@ -74,27 +75,27 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
           className="input outline"
           placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.STREET_AND_HOUSENUMBER}
           type="text"
-          onChange={ev => setStreetAndHousenumber(ev.target.value)}
+          onChange={handleStreetHandHousenumberChange}
           value={streetAndHousenumber}
         />
         <input
           className="input outline"
           placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.ZIP}
           type="text"
-          onChange={ev => setZip(ev.target.value)}
+          onChange={handleZipChange}
           value={zip}
         />
         <input
           className="input outline"
           placeholder={PARTICULARS.MODAL.ADDRESS.INPUT.CITY}
           type="text"
-          onChange={ev => setCity(ev.target.value)}
+          onChange={handleCityChange}
           value={city}
         />
 
         <select
           className="input outline"
-          onChange={ev => setCountry(ev.target.value)}
+          onChange={handleCountryChange}
           value={country}
         >
           <option value="">-</option>

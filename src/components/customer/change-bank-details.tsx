@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import { isValidIBAN } from 'ibantools';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
+import { useCheckboxField, useFormField } from '../../hooks/form';
 import { BankDetails } from '../../model';
 import { LanguageContext } from '../../resources/language';
 
@@ -20,10 +21,10 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
   onCancel,
   onChangeBankDetails,
 }) => {
-  const [bankName, setBankName] = useState('');
-  const [bic, setBic] = useState('');
-  const [iban, setIban] = useState('');
-  const [mandateChecked, setMandateChecked] = useState(false);
+  const [bankName, handleBankNameChange] = useFormField('');
+  const [bic, handleBicChange] = useFormField('');
+  const [iban, handleIbanChange] = useFormField('');
+  const [mandateChecked, handleMandateCheckedChange] = useCheckboxField(false);
 
   const { customer, PARTICULARS } = useContext(LanguageContext);
 
@@ -58,21 +59,21 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
           className="input outline"
           placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}
           type="text"
-          onChange={ev => setIban(ev.target.value)}
+          onChange={handleIbanChange}
           value={iban}
         />
         <input
           className="input outline"
           placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME}
           type="text"
-          onChange={ev => setBankName(ev.target.value)}
+          onChange={handleBankNameChange}
           value={bankName}
         />
         <input
           className="input outline"
           placeholder={PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
           type="text"
-          onChange={ev => setBic(ev.target.value)}
+          onChange={handleBicChange}
           value={bic}
         />
 
@@ -93,7 +94,7 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
             className="input"
             type="checkbox"
             checked={mandateChecked}
-            onChange={ev => setMandateChecked(ev.target.checked)}
+            onChange={handleMandateCheckedChange}
           />
           <span>{customer.ACCEPT}</span>
         </label>

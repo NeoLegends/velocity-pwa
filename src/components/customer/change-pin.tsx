@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
+import { useFormField } from '../../hooks/form';
 import { LanguageContext } from '../../resources/language';
 
 interface ChangePinProps {
@@ -17,8 +18,8 @@ const ChangePin: React.FC<ChangePinProps> = ({
   onChangePin,
 }) => {
   const { PARTICULARS } = useContext(LanguageContext);
-  const [password, setPassword] = useState('');
-  const [pin, setPin] = useState('');
+  const [password, handlePasswordChange] = useFormField('');
+  const [pin, handlePinChange] = useFormField('');
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -39,7 +40,7 @@ const ChangePin: React.FC<ChangePinProps> = ({
           className="input outline"
           placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PIN}
           type="tel"
-          onChange={ev => setPin(ev.target.value)}
+          onChange={handlePinChange}
           value={pin}
         />
 
@@ -47,7 +48,7 @@ const ChangePin: React.FC<ChangePinProps> = ({
           className="input outline"
           placeholder={PARTICULARS.MODAL.PIN.DESCRIPTION_PW}
           type="password"
-          onChange={ev => setPassword(ev.target.value)}
+          onChange={handlePasswordChange}
           value={password}
         />
       </div>

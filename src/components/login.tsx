@@ -1,7 +1,8 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
+import { useFormField } from '../hooks/form';
 import { LanguageContext } from '../resources/language';
 
 import './login.scss';
@@ -14,8 +15,8 @@ export interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
   const { LOGIN, PASSWORD_REMEMBER } = useContext(LanguageContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, handleEmailChange] = useFormField('');
+  const [password, handlePasswordChange] = useFormField('');
 
   const canLogin = Boolean(email && password);
 
@@ -38,14 +39,14 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
             className="input outline"
             type="email"
             placeholder="E-Mail"
-            onChange={ev => setEmail(ev.target.value)}
+            onChange={handleEmailChange}
             value={email}
           />
           <input
             className="input outline"
             type="password"
             placeholder="Password"
-            onChange={ev => setPassword(ev.target.value)}
+            onChange={handlePasswordChange}
             value={password}
           />
 

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { useFormField } from '../hooks/form';
 import { useStations } from '../hooks/stations';
 import { DeviceSupportType } from '../model';
 import {
@@ -20,13 +21,13 @@ interface SupportProps {
 const Support: React.FC<SupportProps> = ({ className }) => {
   const [stations] = useStations();
 
-  const [feedbackHeading, setFeedbackHeading] = useState('');
-  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackHeading, handleFeedbackHeadingChange] = useFormField('');
+  const [feedbackMessage, handleFeedbackMessageChange] = useFormField('');
 
-  const [defectBikeNumber, setDefectBikeNumber] = useState('');
-  const [defectCategory, setDefectCategory] = useState('');
-  const [defectMessage, setDefectMessage] = useState('');
-  const [defectStation, setDefectStation] = useState('');
+  const [defectBikeNumber, handleDefectBikeNumberChange] = useFormField('');
+  const [defectCategory, handleDefectCategoryChange] = useFormField('');
+  const [defectMessage, handleDefectMessageChange] = useFormField('');
+  const [defectStation, handleDefectStationChange] = useFormField('');
   const [defectType, setDefectType] = useState<DeviceSupportType>('pedelec');
 
   const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
@@ -87,13 +88,13 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             className="input outline"
             placeholder={SUPPORT.FEEDBACK.FORM.SUBJECT}
             value={feedbackHeading}
-            onChange={ev => setFeedbackHeading(ev.target.value)}
+            onChange={handleFeedbackHeadingChange}
           />
           <textarea
             className="input outline"
             placeholder={SUPPORT.FEEDBACK.FORM.CONTENT}
             value={feedbackMessage}
-            onChange={ev => setFeedbackMessage(ev.target.value)}
+            onChange={handleFeedbackMessageChange}
           />
         </div>
 
@@ -144,13 +145,13 @@ const Support: React.FC<SupportProps> = ({ className }) => {
               type="number"
               placeholder={SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}
               value={defectBikeNumber}
-              onChange={ev => setDefectBikeNumber(ev.target.value)}
+              onChange={handleDefectBikeNumberChange}
             />
           ) : (
             <select
               className="input outline"
               value={defectStation}
-              onChange={ev => setDefectStation(ev.target.value)}
+              onChange={handleDefectStationChange}
             >
               <option value="" disabled hidden>
                 {SUPPORT.ERROR_REPORT.STATION.STATION_NAME}...
@@ -166,7 +167,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
           <select
             className="input outline"
             value={defectCategory}
-            onChange={ev => setDefectCategory(ev.target.value)}
+            onChange={handleDefectCategoryChange}
           >
             <option value="" disabled hidden>
               {SUPPORT.ERROR_REPORT.STATION.DEFECT}...
@@ -190,7 +191,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             className="input outline"
             placeholder={SUPPORT.ERROR_REPORT.STATION.NOTES}
             value={defectMessage}
-            onChange={ev => setDefectMessage(ev.target.value)}
+            onChange={handleDefectMessageChange}
           />
         </div>
 

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
+import { useFormField } from '../../hooks/form';
 import { LanguageContext } from '../../resources/language';
 
 interface ChangeTelProps {
@@ -17,7 +18,7 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
   onChangeTel,
 }) => {
   const { PARTICULARS } = useContext(LanguageContext);
-  const [tel, setTel] = useState('');
+  const [tel, handleTelChange] = useFormField('');
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -42,7 +43,7 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
           className="input outline"
           placeholder={PARTICULARS.MODAL.PHONE.DESCRIPTION_PHONE}
           type="tel"
-          onChange={ev => setTel(ev.target.value)}
+          onChange={handleTelChange}
           value={tel}
         />
       </div>
