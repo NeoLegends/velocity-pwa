@@ -1,6 +1,6 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Popup } from 'react-leaflet';
 
 import { Slot, Slots, Station, StationWithAddress } from '../../model';
@@ -47,39 +47,39 @@ const PinInputAndRentControls: React.SFC<StationPopupBodyProps> = ({
   onPinChange,
   onRentCancel,
   onRentComplete,
-}) => (
-  <LanguageContext.Consumer>
-    {({ MAP }) => (
-      <>
-        <div className="pin-entry">
-          <input
-            className="input outline"
-            onChange={onPinChange}
-            placeholder="PIN"
-            type="tel"
-          />
-        </div>
+}) => {
+  const { MAP } = useContext(LanguageContext);
 
-        <div className="actions">
-          <button
-            className="btn outline"
-            onClick={onRentCancel}
-          >
-            {MAP.POPUP.RENT_DIALOG.BUTTON.CANCEL}
-          </button>
+  return (
+    <>
+      <div className="pin-entry">
+        <input
+          className="input outline"
+          onChange={onPinChange}
+          placeholder="PIN"
+          type="tel"
+        />
+      </div>
 
-          <button
-            className="btn outline"
-            disabled={!pin}
-            onClick={onRentComplete}
-          >
-            {MAP.POPUP.BUTTON.RENT}
-          </button>
-        </div>
-      </>
-    )}
-  </LanguageContext.Consumer>
-);
+      <div className="actions">
+        <button
+          className="btn outline"
+          onClick={onRentCancel}
+        >
+          {MAP.POPUP.RENT_DIALOG.BUTTON.CANCEL}
+        </button>
+
+        <button
+          className="btn outline"
+          disabled={!pin}
+          onClick={onRentComplete}
+        >
+          {MAP.POPUP.BUTTON.RENT}
+        </button>
+      </div>
+    </>
+  );
+};
 
 const getSlotState = ({ MAP }: LanguageType, slot: Slot) => {
   const states = MAP.POPUP.STATES;
@@ -112,6 +112,8 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
   onRentStart,
   onReserve,
 }) => {
+  const lang = useContext(LanguageContext);
+
   const canRentBike =
     isLoggedIn &&
     station.state === 'OPERATIVE' &&
@@ -120,67 +122,62 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
   const canBookBike = canRentBike && !hasBooking;
 
   return (
-    <LanguageContext.Consumer>
-      {lang => (
-        <>
-          {station.note && <div className="note danger">{station.note}</div>}
+    <>
+      {station.note && <div className="note danger">{station.note}</div>}
 
-          {detail && (
-            <ul className="slot-list">
-              {detail.slots.stationSlots.map(slot => {
-                const isBikePotentiallyRentable = slot.state === 'OPERATIVE' &&
-                  (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE');
+      {detail && (
+        <ul className="slot-list">
+          {detail.slots.stationSlots.map(slot => {
+            const isBikePotentiallyRentable = slot.state === 'OPERATIVE' &&
+              (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE');
 
-                return (
-                  <li key={slot.stationSlotId} className="slot">
-                    <span className="slot-no">
-                      Slot {slot.stationSlotPosition}
-                    </span>
+            return (
+              <li key={slot.stationSlotId} className="slot">
+                <span className="slot-no">
+                  Slot {slot.stationSlotPosition}
+                </span>
 
-                    <span className="bike-state">
-                      {getSlotState(lang, slot)}
-                    </span>
+                <span className="bike-state">
+                  {getSlotState(lang, slot)}
+                </span>
 
-                    <span className="charge-state">
-                      {isBikePotentiallyRentable && slot.pedelecInfo && (
-                        `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`
-                      )}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-
-          <div className="actions">
-            {isLoggedIn
-              ? (
-                <>
-                  <button
-                    className="btn outline"
-                    disabled={!canBookBike}
-                    onClick={() => onReserve(station.stationId)}
-                  >
-                    {lang.MAP.POPUP.BUTTON.BOOK}
-                  </button>
-
-                  <button
-                    className="btn outline"
-                    disabled={!canRentBike}
-                    onClick={() => onRentStart(station.stationId)}
-                  >
-                    {lang.MAP.POPUP.BUTTON.RENT}
-                  </button>
-                </>
-              ) : (
-                <Link to="/login">
-                  {lang.MAP.POPUP.REQUIRE_SIGN_IN.LINK}{lang.MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
-                </Link>
-              )}
-          </div>
-        </>
+                <span className="charge-state">
+                  {isBikePotentiallyRentable && slot.pedelecInfo && (
+                    `⚡️ ${Math.round(slot.pedelecInfo.stateOfCharge * 100)}%`
+                  )}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       )}
-    </LanguageContext.Consumer>
+
+      <div className="actions">
+        {isLoggedIn ? (
+          <>
+            <button
+              className="btn outline"
+              disabled={!canBookBike}
+              onClick={() => onReserve(station.stationId)}
+            >
+              {lang.MAP.POPUP.BUTTON.BOOK}
+            </button>
+
+            <button
+              className="btn outline"
+              disabled={!canRentBike}
+              onClick={() => onRentStart(station.stationId)}
+            >
+              {lang.MAP.POPUP.BUTTON.RENT}
+            </button>
+          </>
+        ) : (
+          <Link to="/login">
+            {lang.MAP.POPUP.REQUIRE_SIGN_IN.LINK}{lang.MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+          </Link>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/de';
-import React from 'react';
+import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 
@@ -54,39 +54,37 @@ const BookingBox: React.SFC<BookingProps> = ({
   onCancelReservation,
   onRentReservation,
 }) => {
+  const { BUCHUNGEN, MAP } = useContext(LanguageContext);
+
   const targetStation = stations.find(stat => stat.stationId === booking.stationId);
 
   return (
-    <LanguageContext.Consumer>
-      {({ BUCHUNGEN, MAP }) => (
-        <div className="box outline booking">
-          <h2>{BUCHUNGEN.RESERVIERUNG.TITEL}</h2>
+    <div className="box outline booking">
+      <h2>{BUCHUNGEN.RESERVIERUNG.TITEL}</h2>
 
-          <div className="wrapper">
-            <p>{BUCHUNGEN.RESERVIERUNG.STATION}: {targetStation ? targetStation.name : 'N/A'}</p>
-            <p>{BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}</p>
-            <p>{BUCHUNGEN.RESERVIERUNG.ZEIT}: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
-          </div>
+      <div className="wrapper">
+        <p>{BUCHUNGEN.RESERVIERUNG.STATION}: {targetStation ? targetStation.name : 'N/A'}</p>
+        <p>{BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}</p>
+        <p>{BUCHUNGEN.RESERVIERUNG.ZEIT}: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
+      </div>
 
-          <div className="actions">
-            <button
-              className="btn outline"
-              onClick={onCancelReservation}
-            >
-              {BUCHUNGEN.RESERVIERUNG.BUTTON}
-            </button>
+      <div className="actions">
+        <button
+          className="btn outline"
+          onClick={onCancelReservation}
+        >
+          {BUCHUNGEN.RESERVIERUNG.BUTTON}
+        </button>
 
-            <button
-              className="btn outline"
-              disabled={!canRentReservation}
-              onClick={onRentReservation}
-            >
-              {MAP.POPUP.BUTTON.RENT}
-            </button>
-          </div>
-        </div>
-      )}
-    </LanguageContext.Consumer>
+        <button
+          className="btn outline"
+          disabled={!canRentReservation}
+          onClick={onRentReservation}
+        >
+          {MAP.POPUP.BUTTON.RENT}
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -98,44 +96,39 @@ const startDateFormattingOptions = {
 };
 
 const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
+  const language = useContext(LanguageIdContext);
+  const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
+
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <LanguageIdContext.Consumer>
-      {language => (
-        <LanguageContext.Consumer>
-          {({ BUCHUNGEN, SUPPORT }) => (
-            <div className="gap" style={style}>
-              <div className="transaction outline">
-                <p className="oneline">
-                  {startDate.toLocaleDateString(
-                    undefined,
-                    startDateFormattingOptions,
-                  )}
-                </p>
-                <p className="sentence">
-                  {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
-                  {' '}
-                  {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
-                  {' '}
-                  {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
-                  {' '}
-                  {transaction.toStation.name.replace(/\s/g, '\u00A0')}
-                  {' '}
-                  {moment(endDate, undefined, language).from(startDate, false)}
-                </p>
-                <p className="oneline">
-                  {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:
-                  {' '}
-                  {transaction.pedelecName.replace(/\_[nN]/g, '')}
-                </p>
-              </div>
-            </div>
+    <div className="gap" style={style}>
+      <div className="transaction outline">
+        <p className="oneline">
+          {startDate.toLocaleDateString(
+            undefined,
+            startDateFormattingOptions,
           )}
-        </LanguageContext.Consumer>
-      )}
-    </LanguageIdContext.Consumer>
+        </p>
+        <p className="sentence">
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
+          {' '}
+          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
+          {' '}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
+          {' '}
+          {transaction.toStation.name.replace(/\s/g, '\u00A0')}
+          {' '}
+          {moment(endDate, undefined, language).from(startDate, false)}
+        </p>
+        <p className="oneline">
+          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:
+          {' '}
+          {transaction.pedelecName.replace(/\_[nN]/g, '')}
+        </p>
+      </div>
+    </div>
   );
 };
 
@@ -153,6 +146,8 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
   onLoadNextPage,
   onRentReservation,
 }) => {
+  const { BUCHUNGEN } = useContext(LanguageContext);
+
   const isRowLoaded = ({ index }) => !hasNextPage || index < transactions.length;
 
   const renderRow = ({ index, key, style }) => {
@@ -170,50 +165,46 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
   };
 
   return (
-    <LanguageContext.Consumer>
-      {({ BUCHUNGEN }) => (
-        <div className="bookings box-list">
-          {currentBooking && (
-            <BookingBox
-              booking={currentBooking}
-              canRentReservation={Boolean(cardPin)}
-              stations={stations}
-              onCancelReservation={onCancelReservation}
-              onRentReservation={onRentReservation}
-            />
-          )}
-
-          <div className="box transactions">
-            <h2>{BUCHUNGEN.HISTORIE.TITEL}</h2>
-
-            <div className="wrapper">
-              <InfiniteLoader
-                isRowLoaded={isRowLoaded}
-                loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
-                minimumBatchSize={20}
-                rowCount={Infinity}
-              >
-                {({ onRowsRendered, registerChild }) => (
-                  <AutoSizer>
-                    {({ height, width }) => (
-                      <List
-                        ref={registerChild}
-                        height={height}
-                        width={width}
-                        onRowsRendered={onRowsRendered}
-                        rowCount={transactions.length}
-                        rowHeight={154}
-                        rowRenderer={renderRow}
-                      />
-                    )}
-                  </AutoSizer>
-                )}
-              </InfiniteLoader>
-            </div>
-          </div>
-        </div>
+    <div className="bookings box-list">
+      {currentBooking && (
+        <BookingBox
+          booking={currentBooking}
+          canRentReservation={Boolean(cardPin)}
+          stations={stations}
+          onCancelReservation={onCancelReservation}
+          onRentReservation={onRentReservation}
+        />
       )}
-    </LanguageContext.Consumer>
+
+      <div className="box transactions">
+        <h2>{BUCHUNGEN.HISTORIE.TITEL}</h2>
+
+        <div className="wrapper">
+          <InfiniteLoader
+            isRowLoaded={isRowLoaded}
+            loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
+            minimumBatchSize={20}
+            rowCount={Infinity}
+          >
+            {({ onRowsRendered, registerChild }) => (
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List
+                    ref={registerChild}
+                    height={height}
+                    width={width}
+                    onRowsRendered={onRowsRendered}
+                    rowCount={transactions.length}
+                    rowHeight={154}
+                    rowRenderer={renderRow}
+                  />
+                )}
+              </AutoSizer>
+            )}
+          </InfiniteLoader>
+        </div>
+      </div>
+    </div>
   );
 };
 
