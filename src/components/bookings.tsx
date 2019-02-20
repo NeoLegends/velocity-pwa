@@ -5,7 +5,12 @@ import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 
 import { Booking, Station, Transaction } from '../model';
-import { getAllStations, getSavedCardPin, getSlotInfo, rentBike } from '../model/stations';
+import {
+  getAllStations,
+  getSavedCardPin,
+  getSlotInfo,
+  rentBike,
+} from '../model/stations';
 import {
   cancelCurrentBooking,
   getCurrentBooking,
