@@ -5,20 +5,14 @@ import german from './de.json';
 import englishExt from './en-extensions.json';
 import english from './en.json';
 
-export type CustomTranslations = typeof germanExt & typeof englishExt;
-
-export const de: typeof german & CustomTranslations = {
-  ...german,
-  ...germanExt,
-};
-
-export const en: typeof english & CustomTranslations = {
-  ...english,
-  ...englishExt,
-};
+export type LanguageType =
+  | (typeof germanExt & typeof german)
+  | (typeof englishExt & typeof english);
 
 export type LanguageIdentifier = 'de' | 'en';
-export type LanguageType = typeof de & typeof en;
+
+export const de: LanguageType = { ...german, ...germanExt };
+export const en: LanguageType = { ...english, ...englishExt };
 
 export const LanguageContext = React.createContext<LanguageType>(de);
 export const LanguageIdContext = React.createContext<LanguageIdentifier>('de');
