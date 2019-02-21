@@ -1,18 +1,15 @@
 import { navigate, Router } from '@reach/router';
-import React, { Component } from 'react';
-import { toast, Slide, ToastContainer } from 'react-toastify';
+import React from 'react';
+import { Slide, ToastContainer } from 'react-toastify';
 
-import { isLoggedIn, login, logout } from '../model/authentication';
+import { useLogin } from '../hooks/authentication';
+import { useLanguage } from '../hooks/intl';
+import { useServiceWorker } from '../hooks/sw';
 import {
-  de,
-  en,
-  supportsLanguage,
   LanguageContext,
   LanguageIdentifier,
   LanguageIdContext,
-  LanguageType,
 } from '../resources/language';
-import * as serviceWorker from '../serviceWorker';
 import Login from '../util/lazy-login';
 import makeLazy from '../util/make-lazy';
 import needsLogin from '../util/needs-login';
@@ -20,18 +17,8 @@ import needsLogin from '../util/needs-login';
 import './app.scss';
 import MenuBar from './menu-bar';
 
-interface AppState {
-  isLoggedIn: boolean;
-  language: LanguageType;
-  languageId: LanguageIdentifier;
-  loginStatusKnown: boolean;
-}
-
-interface AppBodyProps extends AppState {
+interface AppBodyProps {
   onChangeLanguage: (lang: LanguageIdentifier) => void;
-  onLoginLogoutButtonClick: React.MouseEventHandler;
-  onLoginStart: (email: string, password: string) => void;
-  onLoginStartWithoutRedirect: (email: string, password: string) => void;
 }
 
 const Bookings = needsLogin(makeLazy(() => import('./bookings')));
@@ -41,185 +28,84 @@ const Map = makeLazy(() => import('./map/bike-map'));
 const Support = needsLogin(makeLazy(() => import('./support')));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
-const LOCALSTORAGE_LANGUAGE_KEY = 'velocity/lang';
+const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
+  useServiceWorker();
 
-const AppBody: React.SFC<AppBodyProps> = ({
-  isLoggedIn,
-  language,
-  languageId,
-  loginStatusKnown,
+  const { isLoggedIn, login, loginStatusKnown, logout } = useLogin();
 
-  onChangeLanguage,
-  onLoginLogoutButtonClick,
-  onLoginStart,
-  onLoginStartWithoutRedirect,
-}) => (
-  <LanguageContext.Provider value={language}>
-    <LanguageIdContext.Provider value={languageId}>
-      <div className="app">
-        <ToastContainer
-          position="bottom-center"
-          progressClassName="toast-progress"
-          toastClassName="toast outline"
-          transition={Slide}
-        />
+  const loginWithRedirect = (email: string, pw: string) =>
+    login(email, pw).then(() => navigate('/'));
+  const handleLoginLogoutButtonClick = () =>
+    isLoggedIn ? logout() : navigate('/login');
 
-        <MenuBar
-          isLoggedIn={isLoggedIn}
-          loginStatusKnown={loginStatusKnown}
-          onChangeLanguage={onChangeLanguage}
-          onLoginButtonClick={onLoginLogoutButtonClick}
-        />
-
-        <Router role="main" className="main">
-          <Map path="/" isLoggedIn={isLoggedIn}/>
-
-          <Bookings
-            path="/bookings"
-            isLoggedIn={isLoggedIn}
-            onLoginStart={onLoginStartWithoutRedirect}
-          />
-          <Customer
-            path="/customer/*"
-            isLoggedIn={isLoggedIn}
-            onLoginStart={onLoginStartWithoutRedirect}
-          />
-          <Invoices
-            path="/invoices"
-            isLoggedIn={isLoggedIn}
-            onLoginStart={onLoginStartWithoutRedirect}
-          />
-          <Login path="/login" onLoginStart={onLoginStart}/>
-          <Support
-            path="/support"
-            isLoggedIn={isLoggedIn}
-            onLoginStart={onLoginStartWithoutRedirect}
-          />
-          <Tariff
-            path="/tariff"
-            isLoggedIn={isLoggedIn}
-            onLoginStart={onLoginStartWithoutRedirect}
-          />
-        </Router>
-
-        <a
-          className="unofficial"
-          href="https://github.com/NeoLegends/velocity-pwa"
-          target="_blank"
-        >
-          Unofficial version
-        </a>
-      </div>
-    </LanguageIdContext.Provider>
-  </LanguageContext.Provider>
-);
-
-class App extends Component<{}, AppState> {
-  static contextType = LanguageContext;
-
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    isLoggedIn: false,
-    language: de,
-    languageId: 'de' as LanguageIdentifier,
-    loginStatusKnown: false,
-  };
-
-  componentDidMount() {
-    this.checkLanguage();
-    this.checkLogin();
-    this.configureServiceWorker();
-  }
-
-  render() {
-    return (
-      <AppBody
-        {...this.state}
-        onChangeLanguage={this.handleChangeLanguage}
-        onLoginLogoutButtonClick={this.handleLoginLogoutButton}
-        onLoginStart={this.handleLoginWithRedirect}
-        onLoginStartWithoutRedirect={this.handleLogin}
+  return (
+    <div className="app">
+      <ToastContainer
+        position="bottom-center"
+        progressClassName="toast-progress"
+        toastClassName="toast outline"
+        transition={Slide}
       />
-    );
-  }
 
-  private checkLanguage() {
-    const navigatorLanguage = navigator.language.split('-')[0].trim();
-    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) ||
-      (supportsLanguage(navigatorLanguage) ? navigatorLanguage : 'de');
+      <MenuBar
+        isLoggedIn={isLoggedIn}
+        loginStatusKnown={loginStatusKnown}
+        onChangeLanguage={onChangeLanguage}
+        onLoginButtonClick={handleLoginLogoutButtonClick}
+      />
 
-    this.handleChangeLanguage(lang as LanguageIdentifier);
-  }
+      <Router role="main" className="main">
+        <Map path="/" isLoggedIn={isLoggedIn}/>
 
-  private async checkLogin() {
-    const loggedIn = await isLoggedIn();
-    this.setState({
-      isLoggedIn: loggedIn,
-      loginStatusKnown: true,
-    });
-  }
+        <Bookings
+          path="/bookings"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={login}
+        />
+        <Customer
+          path="/customer/*"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={login}
+        />
+        <Invoices
+          path="/invoices"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={login}
+        />
+        <Login path="/login" onLoginStart={loginWithRedirect}/>
+        <Support
+          path="/support"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={login}
+        />
+        <Tariff
+          path="/tariff"
+          isLoggedIn={isLoggedIn}
+          onLoginStart={login}
+        />
+      </Router>
 
-  private configureServiceWorker() {
-    const swConfig = {
-      onSuccess: this.handleSwInstallation,
-      onUpdate: this.handleSwUpdate,
-    };
-    process.env.NODE_ENV === 'production'
-      ? serviceWorker.register(swConfig)
-      : serviceWorker.unregister();
-  }
+      <a
+        className="unofficial"
+        href="https://github.com/NeoLegends/velocity-pwa"
+        target="_blank"
+      >
+        Unofficial version
+      </a>
+    </div>
+  );
+};
 
-  private handleChangeLanguage = (lang: LanguageIdentifier) => {
-    this.setState({
-      language: (lang === 'en' ? en : de) as LanguageType,
-      languageId: lang,
-    });
-    localStorage.setItem(LOCALSTORAGE_LANGUAGE_KEY, lang);
-  }
+const App: React.FC = () => {
+  const [langId, language, setLanguage] = useLanguage();
 
-  private handleLogin = async (email: string, password: string) => {
-    try {
-      await login(email, password);
-      await this.checkLogin();
-    } catch (err) {
-      toast(
-        this.context.LOGIN.ALERT.NO_SERVER_RESPONSE,
-        { type: 'error' },
-      );
-    }
-  }
-
-  private handleLoginWithRedirect = async (email: string, password: string) => {
-    await this.handleLogin(email, password);
-
-    navigate('/');
-  }
-
-  private handleLoginLogoutButton = async () => {
-    if (!this.state.isLoggedIn) {
-      return navigate('/login');
-    }
-
-    try {
-      await logout();
-      await this.checkLogin();
-    } catch (err) {
-      toast(
-        this.context.LOGIN.ALERT.LOGOUT_ERR,
-        { type: 'error' },
-      );
-    }
-  }
-
-  private handleSwInstallation = () =>
-    toast(this.state.language.sw.NOW_AVAILABLE_OFFLINE)
-
-  private handleSwUpdate = () => {
-    toast(
-      this.state.language.sw.UPDATE_AVAILABLE,
-      { autoClose: false },
-    );
-  }
-}
+  return (
+    <LanguageContext.Provider value={language}>
+      <LanguageIdContext.Provider value={langId}>
+        <AppBody onChangeLanguage={setLanguage}/>
+      </LanguageIdContext.Provider>
+    </LanguageContext.Provider>
+  );
+};
 
 export default App;
