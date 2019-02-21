@@ -81,7 +81,18 @@ export const useCachedViewport = () => {
       return;
     }
 
-    setViewport(JSON.parse(viewport));
+    try {
+      const parsedViewport = JSON.parse(viewport);
+      if (parsedViewport) {
+        setViewport(parsedViewport);
+      }
+    } catch (err) {
+      console.warn(
+        "Failed to deserialize local storage viewport, removing incorrect entry.\n\n",
+        err,
+      );
+      viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);
+    }
   }, []);
 
   return [viewport, setLsViewport] as [Viewport, (v: Viewport) => void];
