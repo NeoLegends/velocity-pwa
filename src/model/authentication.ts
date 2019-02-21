@@ -10,7 +10,11 @@ export interface ApiError {
 }
 
 export const isLoggedIn = async () => {
-  const resp = await fetchWithRetry(API_IS_AUTHENTICATED_URL, { credentials: 'include' });
+  const resp = await fetchWithRetry(
+    API_IS_AUTHENTICATED_URL,
+    { credentials: 'include' },
+    25,
+  );
   return resp.ok ? !!(await resp.text()) : false;
 };
 
