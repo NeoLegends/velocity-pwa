@@ -6,6 +6,7 @@ import { LanguageContext } from '../../resources/language';
 
 interface ChangeTelProps {
   className?: string;
+  currentTel: string | null;
 
   onCancel: React.MouseEventHandler;
   onChangeTel: (newTel: string) => void;
@@ -13,12 +14,13 @@ interface ChangeTelProps {
 
 const ChangeTel: React.FC<ChangeTelProps> = ({
   className,
+  currentTel,
 
   onCancel,
   onChangeTel,
 }) => {
   const { PARTICULARS } = useContext(LanguageContext);
-  const [tel, handleTelChange] = useFormField('');
+  const [tel, handleTelChange] = useFormField(currentTel || '');
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();

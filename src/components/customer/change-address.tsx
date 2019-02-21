@@ -8,6 +8,7 @@ import { LanguageContext, LanguageIdContext } from '../../resources/language';
 
 interface ChangeAddressProps {
   className?: string;
+  currentAddress: Address;
 
   onCancel: React.MouseEventHandler;
   onChangeAddress: (newAddress: Address) => void;
@@ -35,17 +36,27 @@ const alpha3ToCountryName: Record<string, string> = countries.reduce((acc, c) =>
   acc[c.alpha3Code] = c.name;
   return acc;
 }, {});
+const countryNameToAlpha3: Record<string, string> = countries.reduce((acc, c) => {
+  acc[c.name] = c.alpha3Code;
+  if (c.translations.de) {
+    acc[c.translations.de] = c.alpha3Code;
+  }
+  return acc;
+}, {});
 
 const ChangeAddress: React.FC<ChangeAddressProps> = ({
   className,
+  currentAddress,
 
   onCancel,
   onChangeAddress,
 }) => {
-  const [city, handleCityChange] = useFormField('');
-  const [country, handleCountryChange] = useFormField('');
-  const [streetAndHousenumber, handleStreetHandHousenumberChange] = useFormField('');
-  const [zip, handleZipChange] = useFormField('');
+  const [city, handleCityChange] = useFormField(currentAddress.city);
+  const [country, handleCountryChange] =
+    useFormField(countryNameToAlpha3[currentAddress.country] || '');
+  const [streetAndHousenumber, handleStreetHandHousenumberChange] =
+    useFormField(currentAddress.streetAndHousenumber);
+  const [zip, handleZipChange] = useFormField(currentAddress.zip);
 
   const { PARTICULARS } = useContext(LanguageContext);
   const langId = useContext(LanguageIdContext);

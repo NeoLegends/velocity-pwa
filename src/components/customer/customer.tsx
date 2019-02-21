@@ -84,6 +84,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
         sepaMandate={sepaMandate}
       />
       <ChangeAddress
+        currentAddress={customer.address}
         path="change-address"
         onCancel={handleCancel}
         onChangeAddress={handleChangeAddress}
@@ -104,6 +105,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
         onChangePin={handleChangePin}
       />
       <ChangeTel
+        currentTel={customer.phonenumber}
         path="change-tel"
         onCancel={handleCancel}
         onChangeTel={handleChangeTel}
