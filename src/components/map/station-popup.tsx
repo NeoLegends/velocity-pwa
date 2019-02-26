@@ -1,8 +1,9 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Popup } from 'react-leaflet';
 
+import { useFormField } from '../../hooks/form';
 import { Slot, Slots, Station, StationWithAddress } from '../../model';
 import { LanguageContext, LanguageType } from '../../resources/language';
 import { asHumanReadable } from '../../util/address';
@@ -26,22 +27,20 @@ interface StationPopupProps extends BaseProps {
   onReserve: (stationId: number) => void;
 }
 
-interface StationPopupState {
+interface PinInputAndRentControlsProps {
   pin: string;
-  rentingStationId: number | null;
-}
 
-interface StationPopupBodyProps extends BaseProps, StationPopupState {
-  onClose: () => void;
-  onOpen: (stationId: number) => void;
   onPinChange: React.ChangeEventHandler<HTMLInputElement>;
   onRentCancel: React.MouseEventHandler;
   onRentComplete: React.MouseEventHandler;
-  onRentStart: (stationId: number) => void;
-  onReserve: (stationId: number) => void;
 }
 
-const PinInputAndRentControls: React.SFC<StationPopupBodyProps> = ({
+interface SlotListAndActionsProps extends BaseProps {
+  onRentStart: React.MouseEventHandler;
+  onReserve: React.MouseEventHandler;
+}
+
+const PinInputAndRentControls: React.SFC<PinInputAndRentControlsProps> = ({
   pin,
 
   onPinChange,
@@ -101,9 +100,7 @@ const getSlotState = ({ MAP }: LanguageType, slot: Slot) => {
   }
 };
 
-// tslint:disable:jsx-no-lambda
-
-const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
+const SlotListAndActions: React.SFC<SlotListAndActionsProps> = ({
   detail,
   hasBooking,
   isLoggedIn,
@@ -158,7 +155,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
             <button
               className="btn outline"
               disabled={!canBookBike}
-              onClick={() => onReserve(station.stationId)}
+              onClick={onReserve}
             >
               {lang.MAP.POPUP.BUTTON.BOOK}
             </button>
@@ -166,7 +163,7 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
             <button
               className="btn outline"
               disabled={!canRentBike}
-              onClick={() => onRentStart(station.stationId)}
+              onClick={onRentStart}
             >
               {lang.MAP.POPUP.BUTTON.RENT}
             </button>
@@ -181,76 +178,79 @@ const SlotListAndActions: React.SFC<StationPopupBodyProps> = ({
   );
 };
 
-const StationPopupBody: React.SFC<StationPopupBodyProps> = props => (
-  <Popup
-    className="station-popup"
-    maxWidth={300}
-    onClose={props.onClose}
-    onOpen={() => props.onOpen(props.station.stationId)}
-  >
-    <header>
-      <span
-        className={classNames(
-          'status-indicator',
-          props.station.state.toLowerCase(),
-        )}
-      />
+const StationPopup: React.SFC<StationPopupProps> = props => {
+  const [pin, handlePinChange, setPin] = useFormField('');
+  const [isRenting, setIsRenting] = useState(false);
 
-      <div className="meta">
-        <h3>{props.station.name}</h3>
-        <p>{props.detail && asHumanReadable(props.detail.station.address)}</p>
-      </div>
-    </header>
+  const handleOpen = useCallback(
+    () => props.onOpen(props.station.stationId),
+    [props.onOpen, props.station.stationId],
+  );
 
-    {props.rentingStationId
-      ? <PinInputAndRentControls {...props}/>
-      : <SlotListAndActions {...props}/>}
-  </Popup>
-);
+  const handleRentCancel = useCallback(() => {
+    setIsRenting(false);
+    setPin('');
+  }, []);
 
-// tslint:enable
+  const handleRentComplete = useCallback(
+    () => {
+      if (!props.detail) {
+        return;
+      }
 
-class StationPopup extends React.Component<StationPopupProps, StationPopupState> {
-  state = {
-    pin: '',
-    rentingStationId: null,
-  };
+      props.onRent(
+        pin,
+        props.station.stationId,
+        props.detail.slots.recommendedSlot!,
+      );
+    },
+    [pin, props.station.stationId, props.detail],
+  );
 
-  render() {
-    return (
-      <StationPopupBody
-        {...this.props}
-        {...this.state}
-        onPinChange={this.handlePinChange}
-        onRentCancel={this.handleRentCancel}
-        onRentComplete={this.handleRentComplete}
-        onRentStart={this.handleRentStart}
-      />
-    );
-  }
+  const handleRentStart = useCallback(() => setIsRenting(true), []);
 
-  private handlePinChange = (ev: React.ChangeEvent<HTMLInputElement>) =>
-    this.setState({ pin: ev.target.value })
+  const handleReserve = useCallback(
+    () => props.onReserve(props.station.stationId),
+    [props.onReserve, props.station.stationId],
+  );
 
-  private handleRentCancel = () => this.setState({
-    pin: '',
-    rentingStationId: null,
-  })
+  return (
+    <Popup
+      className="station-popup"
+      maxWidth={300}
+      onClose={props.onClose}
+      onOpen={handleOpen}
+    >
+      <header>
+        <span
+          className={classNames(
+            'status-indicator',
+            props.station.state.toLowerCase(),
+          )}
+        />
 
-  private handleRentComplete = () => {
-    if (!this.props.onRent || !this.state.rentingStationId || !this.props.detail) {
-      return;
-    }
+        <div className="meta">
+          <h3>{props.station.name}</h3>
+          <p>{props.detail && asHumanReadable(props.detail.station.address)}</p>
+        </div>
+      </header>
 
-    this.props.onRent(
-      this.state.pin,
-      this.state.rentingStationId!,
-      this.props.detail!.slots.recommendedSlot!,
-    );
-  }
-
-  private handleRentStart = (stationId: number) =>
-    this.setState({ rentingStationId: stationId })
-}
+      {isRenting ? (
+        <PinInputAndRentControls
+          pin={pin}
+          onPinChange={handlePinChange}
+          onRentCancel={handleRentCancel}
+          onRentComplete={handleRentComplete}
+        />
+      ) : (
+        <SlotListAndActions
+          {...props}
+          onRentStart={handleRentStart}
+          onReserve={handleReserve}
+        />
+      )}
+    </Popup>
+  );
+};
 
 export default StationPopup;
