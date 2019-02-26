@@ -11,6 +11,8 @@ import { asHumanReadable } from '../../util/address';
 import './station-popup.scss';
 
 interface BaseProps {
+  className?: string;
+
   detail: {
     slots: Slots;
     station: StationWithAddress;
@@ -216,7 +218,7 @@ const StationPopup: React.SFC<StationPopupProps> = props => {
 
   return (
     <Popup
-      className="station-popup"
+      className={classNames('station-popup', props.className)}
       maxWidth={300}
       onClose={props.onClose}
       onOpen={handleOpen}
