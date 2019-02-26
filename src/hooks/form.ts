@@ -7,7 +7,8 @@ export const useCheckboxField = <T extends HTMLInputElement>(initialState: boole
     [],
   );
 
-  return [value, formHandler] as [boolean, React.FormEventHandler<T>];
+  return [value, formHandler, setValue] as
+    [boolean, React.FormEventHandler<T>, (v: boolean) => void];
 };
 
 export const useFormField = <T extends { value: string }>(initialState: string) => {
@@ -17,5 +18,6 @@ export const useFormField = <T extends { value: string }>(initialState: string) 
     [],
   );
 
-  return [value, formHandler] as [string, React.FormEventHandler<T>];
+  return [value, formHandler, setValue] as
+    [string, React.FormEventHandler<T>, (v: string) => void];
 };
