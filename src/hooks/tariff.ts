@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Tariff, UserTariff } from '../model';
@@ -29,7 +29,7 @@ export const useUserTariff = () => {
   const { TARIFF } = useContext(LanguageContext);
   const [userTariff, setUserTariff] = useState<UserTariff | null>(null);
 
-  const loadUserTariff = () => {
+  const loadUserTariff = useCallback(() => {
     getCurrentTariff()
       .then(setUserTariff)
       .catch(err => {
@@ -39,7 +39,7 @@ export const useUserTariff = () => {
           { type: 'error' },
         );
       });
-  };
+  }, [TARIFF]);
 
   useEffect(loadUserTariff, []);
 

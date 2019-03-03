@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Station } from '../model';
@@ -11,7 +11,7 @@ export const useStations = () => {
   const { MAP } = useContext(LanguageContext);
   const [stations, setStations] = useState<Station[]>([]);
 
-  const fetchStations = () => {
+  const fetchStations = useCallback(() => {
     getAllStations()
       .then(stations => {
         localStorage.setItem(LOCALSTORAGE_STATIONS_KEY, JSON.stringify(stations));
@@ -21,7 +21,7 @@ export const useStations = () => {
         console.error("Error while loading stations:", err);
         toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
       });
-  };
+  }, [MAP]);
 
   useEffect(() => {
     const lsStations = localStorage.getItem(LOCALSTORAGE_STATIONS_KEY);
