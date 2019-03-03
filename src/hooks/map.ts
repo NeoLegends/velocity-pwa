@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Slots, StationWithAddress } from '../model';
@@ -33,35 +33,38 @@ export const useOpenableStation = () => {
   const { MAP } = useContext(LanguageContext);
   const [station, setStation] = useState<OpenedStation | null>(null);
 
-  const handleOpenStation = (stationId: number | null) => {
-    if (stationId === null) {
-      setStation(null);
-      return;
-    }
+  const handleOpenStation = useCallback(
+    (stationId: number | null) => {
+      if (stationId === null) {
+        setStation(null);
+        return;
+      }
 
-    Promise.all([
-      hasCurrentBooking(),
-      getSingleStation(stationId),
-      getSlotInfo(stationId),
-    ])
-      .then(([hasBooking, detailedStation, slotInfo]) => {
-        if (!detailedStation || !slotInfo) {
-          throw new Error(`Failed fetching station ${stationId}.`);
-        }
+      Promise.all([
+        hasCurrentBooking(),
+        getSingleStation(stationId),
+        getSlotInfo(stationId),
+      ])
+        .then(([hasBooking, detailedStation, slotInfo]) => {
+          if (!detailedStation || !slotInfo) {
+            throw new Error(`Failed fetching station ${stationId}.`);
+          }
 
-        setStation({
-          slots: slotInfo,
-          station: detailedStation,
-          userHasBooking: hasBooking,
+          setStation({
+            slots: slotInfo,
+            station: detailedStation,
+            userHasBooking: hasBooking,
+          });
+        })
+        .catch(err => {
+          console.error("Error while opening station popup:", err);
+          toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
         });
-      })
-      .catch(err => {
-        console.error("Error while opening station popup:", err);
-        toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
-      });
-  };
+    },
+    [MAP],
+  );
 
-  const handleCloseStation = () => setStation(null);
+  const handleCloseStation = useCallback(() => setStation(null), []);
 
   return [station, handleOpenStation, handleCloseStation] as
     [OpenedStation | null, (stationId: number) => void, () => void];
