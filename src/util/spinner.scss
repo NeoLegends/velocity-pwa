@@ -1,11 +1,11 @@
-.spinner-lazy {
+.spinner {
   display: flex;
   justify-content: center;
   align-items: center;
 
   height: 100%;
 
-  .lds-ellipsis {
+  .ellipsis {
     display: inline-block;
     position: relative;
     width: 64px;
