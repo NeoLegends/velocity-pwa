@@ -1,6 +1,8 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { useBodyDiv } from '../hooks/portal';
 
 import './overlay.scss';
 
@@ -18,15 +20,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
 
   onRequestClose,
 }) => {
-  const [element, setElement] = useState<Element | null>(null);
-
-  useEffect(() => {
-    const el = document.createElement('div');
-    document.body.appendChild(el);
-    setElement(el);
-
-    return () => el.remove();
-  }, []);
+  const element = useBodyDiv();
 
   if (!element) {
     return null;
