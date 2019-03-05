@@ -22,7 +22,7 @@ export const getAllStations = (): Promise<Station[]> =>
 
 export const getSavedCardPin = () => {
   const lsItem = localStorage.getItem(PIN_LS_KEY);
-  return lsItem ? lsItem : null;
+  return lsItem || null;
 };
 
 export const getSingleStation = (stationId: number): Promise<StationWithAddress | null> =>
