@@ -4,6 +4,10 @@ node_js:
   - "10"
   - "node"
 
+matrix:
+  allow_failures:
+    - node_js: node
+
 script:
   - yarn build
   - yarn test
