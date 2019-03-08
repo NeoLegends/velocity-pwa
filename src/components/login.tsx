@@ -41,6 +41,7 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
             placeholder="E-Mail"
             onChange={handleEmailChange}
             value={email}
+            autoComplete="email"
           />
           <input
             className="input outline"
@@ -48,6 +49,7 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
             placeholder="Password"
             onChange={handlePasswordChange}
             value={password}
+            autoComplete="current-password"
           />
 
           <a
