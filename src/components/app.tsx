@@ -1,5 +1,5 @@
 import { navigate, Router } from '@reach/router';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Slide, ToastContainer } from 'react-toastify';
 
 import { useLogin } from '../hooks/authentication';
@@ -33,10 +33,14 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
 
   const { isLoggedIn, login, loginStatusKnown, logout } = useLogin();
 
-  const loginWithRedirect = (email: string, pw: string) =>
-    login(email, pw).then(() => navigate('/'));
-  const handleLoginLogoutButtonClick = () =>
-    isLoggedIn ? logout() : navigate('/login');
+  const loginWithRedirect = useCallback(
+    (email: string, pw: string) => login(email, pw).then(() => navigate('/')),
+    [],
+  );
+  const handleLoginLogoutButtonClick = useCallback(
+    () => isLoggedIn ? logout() : navigate('/login'),
+    [isLoggedIn],
+  );
 
   return (
     <div className="app">
