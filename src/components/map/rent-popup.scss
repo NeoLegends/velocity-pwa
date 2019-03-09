@@ -56,7 +56,7 @@
     -webkit-overflow-scrolling: touch;
 
     .slot-entry {
-      display: inline-block;
+      display: inline-flex;
 
       &:not(:last-of-type) {
         margin-right: 16px;
