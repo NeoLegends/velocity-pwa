@@ -196,9 +196,6 @@ const RentPopup: React.FC<RentPopupProps> = ({
           <>
             <ul className="slot-list">
               {availableSlots.map(slot => {
-                const isAvailable =
-                  slot.pedelecInfo &&
-                  slot.pedelecInfo.availability === 'AVAILABLE';
                 const isReserved =
                   slot.pedelecInfo &&
                   slot.pedelecInfo.availability === 'RESERVED';
@@ -216,7 +213,6 @@ const RentPopup: React.FC<RentPopupProps> = ({
                     <div
                       className={classNames(
                         "slot-icon outline column",
-                        isAvailable && "available",
                         isReserved && "reserved",
                         isReservedByMe && "me",
                         selectedSlot
