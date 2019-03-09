@@ -73,6 +73,7 @@
 
       &.reserved {
         border-color: blue;
+        border-style: dashed;
 
         &.me {
           border-color: $velocity-green;
@@ -80,6 +81,7 @@
       }
       &.selected {
         border-color: $velocity-green;
+        border-style: solid;
       }
     }
   }
