@@ -42,6 +42,7 @@ const Slider: React.FC<SliderProps> = ({
 
   const [isDragging, setIsDragging] = useState(false);
   const [dx, setDx] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
   const [maxSlideDistance, setMaxSlideDistance] = useState(Infinity);
 
   const completion = dx / maxSlideDistance;
@@ -59,17 +60,19 @@ const Slider: React.FC<SliderProps> = ({
     },
     [],
   );
-  const handleMouseDown = useCallback(() => {
+
+  const handleDown = useCallback(() => {
     setDx(0);
     setIsDragging(true);
   }, []);
-  const handleMouseUp = useCallback(
+  const handleUp = useCallback(
     () => {
       if (isCompleted && typeof onCompleted === 'function') {
         onCompleted();
       }
 
       setDx(0);
+      setTouchStartX(0);
       setIsDragging(false);
     },
     [isCompleted, onCompleted],
@@ -85,20 +88,40 @@ const Slider: React.FC<SliderProps> = ({
     },
     [disabled, isDragging, maxSlideDistance],
   );
+  const handleTouchStart = useCallback(
+    (ev: React.TouchEvent) => {
+      setTouchStartX(ev.touches[0].screenX);
+      handleDown();
+    },
+    [handleDown],
+  );
+  const handleTouchMove = useCallback(
+    (ev: TouchEvent) => {
+      if (disabled || !isDragging) {
+        return;
+      }
+
+      const dx = clamp(ev.touches[0].screenX - touchStartX, 0, maxSlideDistance);
+      setDx(dx);
+    },
+    [disabled, isDragging, maxSlideDistance, touchStartX],
+  );
 
   useEffect(
     () => {
       document.body.addEventListener('mousemove', handleMouseMove);
-      document.body.addEventListener('mouseup', handleMouseUp);
+      document.body.addEventListener('mouseup', handleUp);
+      document.body.addEventListener('touchend', handleUp);
+      document.body.addEventListener('touchmove', handleTouchMove);
 
       return () => {
         document.body.removeEventListener('mousemove', handleMouseMove);
-        document.body.removeEventListener('mouseup', handleMouseUp);
+        document.body.removeEventListener('mouseup', handleUp);
+        document.body.removeEventListener('touchend', handleUp);
+        document.body.removeEventListener('touchmove', handleTouchMove);
       };
     },
-    // We need to reattach the callbacks when any of the callbacks change,
-    // so this means the union of the other dependency-arrays here.
-    [disabled, isDragging, onCompleted, maxSlideDistance],
+    [handleDown, handleMouseMove, handleTouchMove, handleTouchStart],
   );
 
   return (
@@ -114,7 +137,8 @@ const Slider: React.FC<SliderProps> = ({
         >
           <div
             className="knob"
-            onMouseDown={handleMouseDown}
+            onMouseDown={handleDown}
+            onTouchStart={handleTouchStart}
             style={{ transform: `translateX(${dx}px)` }}
           >
             <span>➢</span>
