@@ -1,0 +1,102 @@
+@import "../../resources/scss/variables";
+
+.rent-popup {
+  background: white;
+  padding: 16px;
+
+  height: 50vh;
+  width: 100%;
+
+  position: fixed;
+  bottom: 0;
+
+  transform: translateY(100vh);
+  transition: transform .2s ease;
+
+  &.open {
+    transform: translateY(0);
+  }
+
+  .station-name {
+    margin-top: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .loading-station .ellipsis div {
+    background: black;
+  }
+
+  .no-bikes {
+    text-align: center;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .slot-list {
+    display: flex;
+    justify-content: center;
+
+    list-style: none;
+    overflow-x: scroll;
+
+    padding: 0;
+    max-width: 100%;
+
+    .slot-entry {
+      &:not(:last-of-type) {
+        margin-right: 16px;
+      }
+    }
+
+    .slot-icon {
+      justify-content: center;
+      height: 64px;
+      width: 64px;
+
+      margin-bottom: $border-radius;
+
+      p {
+        margin: 0;
+      }
+
+      &.reserved {
+        border-color: blue;
+
+        &.me {
+          border-color: $velocity-green;
+        }
+      }
+      &.selected {
+        border-color: $velocity-green;
+      }
+    }
+  }
+
+  .rent-controls {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+
+    margin: auto;
+    max-width: 500px;
+
+    > * {
+      margin-bottom: 16px;
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+
+  .login-cta {
+    display: block;
+    text-align: center;
+  }
+}

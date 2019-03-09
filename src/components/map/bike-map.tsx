@@ -1,18 +1,19 @@
 import { navigate } from '@reach/router';
 import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
-import { useCachedViewport, useOpenableStation } from '../../hooks/map';
+import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { rentBike, reserveBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
+import Overlay from '../../util/overlay';
 
 import './bike-map.scss';
-import StationPopup from './station-popup';
+import RentPopup from './rent-popup';
 
 interface BikeMapProps {
   className?: string;
@@ -24,76 +25,90 @@ const stationIcon = icon({
   iconSize: [25.3, 29.37],
 });
 
-const BikeMap: React.SFC<BikeMapProps> = ({ className, isLoggedIn }) => {
+const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const { MAP } = useContext(LanguageContext);
 
   const [viewport, handleViewportChange] = useCachedViewport();
-  const [
-    openedStation,
-    handleOpenStation,
-    handleCloseStation,
-  ] = useOpenableStation();
+  const [selectedStation, setSelectedStation] = useState<number | null>(null);
   const [stations] = useStations();
 
-  const handleRent = (pin: string, stationId: number, slotId: number) => {
-    rentBike(pin, stationId, slotId)
-      .then(() => toast(
-        MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS,
-        { type: 'success' },
-      ))
-      .catch(err => {
-        console.error("Error while renting out bike:", err);
-        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
-      });
-  };
+  const closePopup = useCallback(() => setSelectedStation(null), []);
 
-  const handleReserve = (stationId: number) => {
-    reserveBike(stationId)
-      .then(() => navigate('/bookings'))
-      .catch(err => {
-        console.error("Error while reserving bike:", err);
-        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
-      });
-  };
+  const handleRent = useCallback(
+    (pin: string, slotId: number) => {
+      if (!selectedStation) {
+        throw new Error("Trying to rent a bike, but no station selected.");
+      }
+
+      rentBike(pin, selectedStation, slotId)
+        .then(() => {
+          closePopup();
+          toast(
+            MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS,
+            { type: 'success' },
+          );
+        })
+        .catch(err => {
+          console.error("Error while renting out bike:", err);
+          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+        });
+    },
+    [selectedStation, MAP],
+  );
+
+  const handleBook = useCallback(
+    () => {
+      if (!selectedStation) {
+        throw new Error("Trying to reserve a bike, but no station selected.");
+      }
+
+      reserveBike(selectedStation)
+        .then(() => navigate('/bookings'))
+        .catch(err => {
+          console.error("Error while reserving bike:", err);
+          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+        });
+    },
+    [selectedStation, MAP],
+  );
 
   return (
-    <Map
-      className={className}
-      center={viewport.center}
-      zoom={viewport.zoom}
-      maxZoom={17}
-      onViewportChanged={handleViewportChange}
-    >
-      <TileLayer
-        attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
-        detectRetina={true}
-        maxZoom={18}
-        url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
-      />
+    <>
+      <Map
+        className={className}
+        center={viewport.center}
+        zoom={viewport.zoom}
+        maxZoom={17}
+        onViewportChanged={handleViewportChange}
+      >
+        <TileLayer
+          attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
+          detectRetina={true}
+          maxZoom={18}
+          url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+        />
 
-      {stations.map(station => (
-        <Marker
-          icon={stationIcon}
-          key={station.stationId}
-          position={[station.locationLatitude, station.locationLongitude]}
-        >
-          <StationPopup
-            detail={
-              openedStation && openedStation.station.stationId === station.stationId
-                ? openedStation
-                : null
-            }
-            hasBooking={openedStation && openedStation.userHasBooking || false}
-            isLoggedIn={isLoggedIn}
-            station={station}
-            onClose={handleCloseStation}
-            onOpen={handleOpenStation}
-            onRent={handleRent}
-            onReserve={handleReserve}
+        {stations.map(station => (
+          <Marker
+            alt={`Station ${station.name}`}
+            icon={stationIcon}
+            key={station.stationId}
+            position={[station.locationLatitude, station.locationLongitude]}
+            onClick={() => setSelectedStation(station.stationId)}
           />
-        </Marker>
-      ))}
-    </Map>
+        ))}
+      </Map>
+
+      <Overlay isOpen={Boolean(selectedStation)} onRequestClose={closePopup}>
+        <RentPopup
+          isLoggedIn={isLoggedIn}
+          openedStationId={selectedStation}
+          stations={stations}
+          onBookBike={handleBook}
+          onRentBike={handleRent}
+        />
+      </Overlay>
+    </>
   );
 };
 

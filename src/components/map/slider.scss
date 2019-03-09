@@ -1,0 +1,48 @@
+@import "../../resources/scss/variables";
+
+.slider {
+  height: 64px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 12px;
+
+  user-select: none;
+
+  position: relative;
+
+  transition: border-color .2s ease;
+
+  &.completed {
+    border-color: $velocity-green;
+  }
+
+  .knob {
+    border-radius: 4px;
+    height: 56px;
+    width: 64px;
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+
+    background: $velocity-green;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+
+    span {
+      color: white;
+      font-size: 32px;
+      line-height: 56px;
+    }
+  }
+
+  .background {
+    margin-left: 72px;
+  }
+}

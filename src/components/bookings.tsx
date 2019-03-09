@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
 
 import { Booking, Station, Transaction } from '../model';
+import { getSavedCardPin } from '../model/pin';
 import {
   getAllStations,
-  getSavedCardPin,
   getSlotInfo,
   rentBike,
 } from '../model/stations';

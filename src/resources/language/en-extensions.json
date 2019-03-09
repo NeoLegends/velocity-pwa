@@ -6,8 +6,28 @@
       "BANK": "Bank",
       "BANK_DETAILS": "Bank details"
     },
+    "PIN": {
+      "REMOVE_SAVED_PIN": "Remove saved PIN",
+      "BODY": {
+        "LINE1": "Here you can remove your saved PIN from the website.",
+        "LINE2": "A re-entry will be required when renting the next bike."
+      },
+      "ACTION": "Remove"
+    },
     "SEPA_MANDATE": {
       "GO_BACK": "Back"
+    }
+  },
+  "map": {
+    "NO_BIKES": "No rentable bikes at this station right now.",
+    "PIN": {
+      "CTA": "Enter your PIN to rent a bike. You will only have to do this once.",
+      "ACTION": "Save"
+    },
+    "RENT": {
+      "SLIDE_FOR_BIKE_NO1": "Slide to rent bike at slot",
+      "SLIDE_FOR_BIKE_NO2": "",
+      "SLIDE_FOR_BEST_BIKE": "Slide to rent most-charged bike"
     }
   },
   "menu": "Menu",

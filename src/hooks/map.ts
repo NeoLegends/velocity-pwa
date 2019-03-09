@@ -1,15 +1,14 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Slots, StationWithAddress } from '../model';
+import { Booking, Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
-import { hasCurrentBooking } from '../model/transaction';
+import { getCurrentBooking } from '../model/transaction';
 import { LanguageContext } from '../resources/language';
 
 export interface OpenedStation {
   slots: Slots;
   station: StationWithAddress;
-  userHasBooking: boolean;
 }
 
 export interface Viewport {
@@ -29,6 +28,25 @@ const defaultViewport: Viewport = {
   zoom: 14,
 };
 
+export const useBooking = () => {
+  const { BUCHUNGEN } = useContext(LanguageContext);
+  const [booking, setBooking] = useState<Booking | null>(null);
+
+  const fetchBooking = useCallback(
+    () => getCurrentBooking()
+      .then(setBooking)
+      .catch(err => {
+        console.error("Failed loading current booking:", err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      }),
+    [BUCHUNGEN],
+  );
+
+  useEffect(() => { fetchBooking(); }, []);
+
+  return [booking, fetchBooking] as [Booking | null, () => Promise<void>];
+};
+
 export const useOpenableStation = () => {
   const { MAP } = useContext(LanguageContext);
   const [station, setStation] = useState<OpenedStation | null>(null);
@@ -41,20 +59,15 @@ export const useOpenableStation = () => {
       }
 
       Promise.all([
-        hasCurrentBooking(),
         getSingleStation(stationId),
         getSlotInfo(stationId),
       ])
-        .then(([hasBooking, detailedStation, slotInfo]) => {
+        .then(([detailedStation, slotInfo]) => {
           if (!detailedStation || !slotInfo) {
             throw new Error(`Failed fetching station ${stationId}.`);
           }
 
-          setStation({
-            slots: slotInfo,
-            station: detailedStation,
-            userHasBooking: hasBooking,
-          });
+          setStation({ slots: slotInfo, station: detailedStation });
         })
         .catch(err => {
           console.error("Error while opening station popup:", err);

@@ -1,4 +1,5 @@
 import { fetchWithRetry } from './fetch';
+import { eraseCardPin } from './pin';
 import { API_IS_AUTHENTICATED_URL, API_LOGIN_URL, API_LOGOUT_URL } from './urls';
 
 export interface ApiError {
@@ -36,4 +37,4 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-export const logout = () => fetchWithRetry(API_LOGOUT_URL).then(() => {});
+export const logout = () => fetchWithRetry(API_LOGOUT_URL).then(eraseCardPin);

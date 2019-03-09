@@ -6,8 +6,28 @@
       "BANK": "Bank",
       "BANK_DETAILS": "Bankdaten"
     },
+    "PIN": {
+      "REMOVE_SAVED_PIN": "Gespeicherte PIN löschen",
+      "BODY": {
+        "LINE1": "Hier können Sie ihre gespeicherte PIN aus der Web-App löschen.",
+        "LINE2": "Bei Ausleihe eines Fahrrads wird Ihre PIN dann wieder erfragt."
+      },
+      "ACTION": "Löschen"
+    },
     "SEPA_MANDATE": {
       "GO_BACK": "Zurück"
+    }
+  },
+  "map": {
+    "NO_BIKES": "Aktuell sind keine leihbaren Fahrräder verfügbar.",
+    "PIN": {
+      "CTA": "Geben Sie Ihre PIN ein, um ein Fahrrad auszuleihen. Ihre PIN wird gespeichert.",
+      "ACTION": "Speichern"
+    },
+    "RENT": {
+      "SLIDE_FOR_BIKE_NO1": "Fahrrad am Slot",
+      "SLIDE_FOR_BIKE_NO2": "ausleihen",
+      "SLIDE_FOR_BEST_BIKE": "Vollgeladenstes Fahrrad ausleihen"
     }
   },
   "menu": "Menü",
