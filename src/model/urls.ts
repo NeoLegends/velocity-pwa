@@ -3,7 +3,7 @@ import { LanguageIdentifier } from '../resources/language';
 import { SupportType } from '.';
 
 const BACKEND_URL = process.env.NODE_ENV === 'production'
-  ? '//backend'
+  ? '/backend'
   : 'http://localhost:8000/backend';
 const API_URL = `${BACKEND_URL}/api`;
 const APP_URL = `${BACKEND_URL}/app`;
