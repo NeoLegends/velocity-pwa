@@ -1,5 +1,5 @@
 import { navigate, Router } from '@reach/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, StrictMode } from 'react';
 import { Slide, ToastContainer } from 'react-toastify';
 
 import { useLogin } from '../hooks/authentication';
@@ -104,11 +104,13 @@ const App: React.FC = () => {
   const [langId, language, setLanguage] = useLanguage();
 
   return (
-    <LanguageContext.Provider value={language}>
-      <LanguageIdContext.Provider value={langId}>
-        <AppBody onChangeLanguage={setLanguage}/>
-      </LanguageIdContext.Provider>
-    </LanguageContext.Provider>
+    <StrictMode>
+      <LanguageContext.Provider value={language}>
+        <LanguageIdContext.Provider value={langId}>
+          <AppBody onChangeLanguage={setLanguage}/>
+        </LanguageIdContext.Provider>
+      </LanguageContext.Provider>
+    </StrictMode>
   );
 };
 
