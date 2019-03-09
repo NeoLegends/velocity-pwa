@@ -230,11 +230,14 @@ const RentPopup: React.FC<RentPopupProps> = ({
                       booking.stationId === stationDetail.station.stationId &&
                       booking.stationSlotPosition === slot.stationSlotPosition;
 
+                    const handleClick = () =>
+                      (!isReserved || isReservedByMe) && setSelectedSlot(slot);
+
                     return (
                       <li
                         className="slot-entry column"
                         key={slot.stationSlotId}
-                        onClick={() => setSelectedSlot(slot)}
+                        onClick={handleClick}
                       >
                         <div
                           className={classNames(
