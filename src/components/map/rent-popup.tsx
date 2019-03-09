@@ -225,12 +225,11 @@ const RentPopup: React.FC<RentPopupProps> = ({
                       )}
                     >
                       <p>⚡️</p>
-                      {slot.stateOfCharge !== null &&
-                        slot.stateOfCharge < 1 && (
-                          <p>
-                            {Math.round((slot.stateOfCharge || 0) * 100)}%
-                          </p>
-                        )}
+                      {slot.stateOfCharge !== null && (
+                        <p>
+                          {Math.round((slot.stateOfCharge || 0) * 100)}%
+                        </p>
+                      )}
                     </div>
 
                     <span>Slot {slot.stationSlotPosition}</span>
