@@ -55,6 +55,11 @@
 
     -webkit-overflow-scrolling: touch;
 
+    &.symmetric {
+      display: flex;
+      justify-content: center;
+    }
+
     .slot-entry {
       display: inline-flex;
 

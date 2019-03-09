@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import Measure, { ContentRect } from 'react-measure';
 
 import { useFormField } from '../../hooks/form';
 import { useBooking, useOpenableStation, OpenedStation } from '../../hooks/map';
@@ -128,6 +129,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   const [stationDetail, loadStationDetail, dismissStationDetail] =
     useOpenableStation();
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+  const [useSymmetricStyling, setUseSymmetricStyling] = useState(false);
 
   useEffect(
     () => {
@@ -168,6 +170,19 @@ const RentPopup: React.FC<RentPopupProps> = ({
     (ev: React.MouseEvent) => ev.stopPropagation(),
     [],
   );
+  const handlePopupResize = useCallback(
+    (ev: ContentRect) => {
+      // 32 is 2 * padding
+      const popupWidth = ev.client!.width - 32;
+
+      // A slot item is 64px wide and there is a 16px margin between each
+      const requiredWidth =
+        64 * availableSlots.length + 16 * (availableSlots.length - 1);
+
+      setUseSymmetricStyling(requiredWidth < popupWidth);
+    },
+    [availableSlots],
+  );
 
   const { map, MAP } = useContext(LanguageContext);
 
@@ -179,85 +194,98 @@ const RentPopup: React.FC<RentPopupProps> = ({
   };
 
   return (
-    <div
-      className={classNames(
-        'rent-popup',
-        openedStationId && 'open',
-        className,
-      )}
-      onClick={handleClickOnPopup}
-    >
-      <h2 className="station-name">{selectedStation && selectedStation.name}</h2>
+    <Measure client onResize={handlePopupResize}>
+      {({ measureRef }) => (
+        <div
+          className={classNames(
+            'rent-popup',
+            openedStationId && 'open',
+            className,
+          )}
+          onClick={handleClickOnPopup}
+          ref={measureRef}
+        >
+          <h2 className="station-name">
+            {selectedStation && selectedStation.name}
+          </h2>
 
-      <hr />
+          <hr />
 
-      {stationDetail ? (
-        availableSlots.length ? (
-          <>
-            <ul className="slot-list">
-              {availableSlots.map(slot => {
-                const isReserved =
-                  slot.pedelecInfo &&
-                  slot.pedelecInfo.availability === 'RESERVED';
-                const isReservedByMe =
-                  booking &&
-                  booking.stationId === stationDetail.station.stationId &&
-                  booking.stationSlotPosition === slot.stationSlotPosition;
+          {stationDetail ? (
+            availableSlots.length ? (
+              <>
+                <ul
+                  className={classNames(
+                    'slot-list',
+                    useSymmetricStyling && 'symmetric',
+                  )}
+                  ref={measureRef}
+                >
+                  {availableSlots.map(slot => {
+                    const isReserved =
+                      slot.pedelecInfo &&
+                      slot.pedelecInfo.availability === 'RESERVED';
+                    const isReservedByMe =
+                      booking &&
+                      booking.stationId === stationDetail.station.stationId &&
+                      booking.stationSlotPosition === slot.stationSlotPosition;
 
-                return (
-                  <li
-                    className="slot-entry column"
-                    key={slot.stationSlotId}
-                    onClick={() => setSelectedSlot(slot)}
-                  >
-                    <div
-                      className={classNames(
-                        "slot-icon outline column",
-                        isReserved && "reserved",
-                        isReservedByMe && "me",
-                        selectedSlot
-                          && selectedSlot.stationSlotId === slot.stationSlotId
-                          && 'selected',
-                      )}
-                    >
-                      <p>⚡️</p>
-                      {slot.stateOfCharge !== null && (
-                        <p>
-                          {Math.round((slot.stateOfCharge || 0) * 100)}%
-                        </p>
-                      )}
-                    </div>
+                    return (
+                      <li
+                        className="slot-entry column"
+                        key={slot.stationSlotId}
+                        onClick={() => setSelectedSlot(slot)}
+                      >
+                        <div
+                          className={classNames(
+                            "slot-icon outline column",
+                            isReserved && "reserved",
+                            isReservedByMe && "me",
+                            selectedSlot
+                              && selectedSlot.stationSlotId === slot.stationSlotId
+                              && 'selected',
+                          )}
+                        >
+                          <p>⚡️</p>
+                          {slot.stateOfCharge !== null && (
+                            <p>
+                              {Math.round((slot.stateOfCharge || 0) * 100)}%
+                            </p>
+                          )}
+                        </div>
 
-                    <span>Slot {slot.stationSlotPosition}</span>
-                  </li>
-                );
-              })}
-            </ul>
+                        <span>Slot {slot.stationSlotPosition}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-            {isLoggedIn ? (
-              <RentControls
-                booking={booking}
-                openedStation={stationDetail}
-                selectedSlot={selectedSlot}
-                onBookBike={onBookBike}
-                onRentBike={handleRent}
-              />
+                {isLoggedIn ? (
+                  <RentControls
+                    booking={booking}
+                    openedStation={stationDetail}
+                    selectedSlot={selectedSlot}
+                    onBookBike={onBookBike}
+                    onRentBike={handleRent}
+                  />
+                ) : (
+                  <Link className="login-cta" to="/login">
+                    {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
+                    {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+                  </Link>
+                )}
+              </>
             ) : (
-              <Link className="login-cta" to="/login">
-                {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
-                {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
-              </Link>
-            )}
-          </>
-        ) : (
-          <p className="no-bikes">
-            {map.NO_BIKES}
-          </p>
-        )
-      ) : (
-        <Spinner className="loading-station" />
+              <p className="no-bikes">
+                {map.NO_BIKES}
+              </p>
+            )
+          ) : (
+            <Spinner className="loading-station" />
+          )}
+        </div>
       )}
-    </div>
+    </Measure>
   );
 };
 
