@@ -129,7 +129,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   const [stationDetail, loadStationDetail, dismissStationDetail] =
     useOpenableStation();
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
-  const [useSymmetricStyling, setUseSymmetricStyling] = useState(false);
+  const [useCenteredStyling, setUseCenteredStyling] = useState(false);
 
   useEffect(
     () => {
@@ -179,7 +179,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
       const requiredWidth =
         64 * availableSlots.length + 16 * (availableSlots.length - 1);
 
-      setUseSymmetricStyling(requiredWidth < popupWidth);
+      setUseCenteredStyling(requiredWidth < popupWidth);
     },
     [availableSlots],
   );
@@ -217,7 +217,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                 <ul
                   className={classNames(
                     'slot-list',
-                    useSymmetricStyling && 'symmetric',
+                    useCenteredStyling && 'centered',
                   )}
                   ref={measureRef}
                 >
