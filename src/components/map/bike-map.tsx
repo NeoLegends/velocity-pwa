@@ -1,7 +1,7 @@
 import { navigate } from '@reach/router';
 import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
@@ -32,8 +32,40 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
   const [stations] = useStations();
 
-  const closePopup = useCallback(() => setSelectedStation(null), []);
+  const handleHashChange = useCallback(() => {
+    const stationId = window.location.hash.substr(1);
 
+    if (
+      !stationId
+        || isNaN(stationId as unknown as number)
+        || !isFinite(stationId as unknown as number)
+    ) {
+      setSelectedStation(null);
+      return;
+    }
+
+    setSelectedStation(Number(stationId));
+  }, []);
+
+  const closePopup = useCallback(() => {
+    history.pushState(null, '', '#');
+    handleHashChange();
+  }, []);
+  const handleBook = useCallback(
+    () => {
+      if (!selectedStation) {
+        throw new Error("Trying to reserve a bike, but no station selected.");
+      }
+
+      reserveBike(selectedStation)
+        .then(() => navigate('/bookings'))
+        .catch(err => {
+          console.error("Error while reserving bike:", err);
+          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+        });
+    },
+    [selectedStation, MAP],
+  );
   const handleRent = useCallback(
     (pin: string, slotId: number) => {
       if (!selectedStation) {
@@ -56,21 +88,12 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
     [selectedStation, MAP],
   );
 
-  const handleBook = useCallback(
-    () => {
-      if (!selectedStation) {
-        throw new Error("Trying to reserve a bike, but no station selected.");
-      }
+  useEffect(() => {
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
 
-      reserveBike(selectedStation)
-        .then(() => navigate('/bookings'))
-        .catch(err => {
-          console.error("Error while reserving bike:", err);
-          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
-        });
-    },
-    [selectedStation, MAP],
-  );
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   return (
     <>
@@ -94,7 +117,10 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
             icon={stationIcon}
             key={station.stationId}
             position={[station.locationLatitude, station.locationLongitude]}
-            onClick={() => setSelectedStation(station.stationId)}
+            onClick={() => {
+              history.pushState(null, '', `#${station.stationId}`);
+              handleHashChange();
+            }}
           />
         ))}
       </Map>
