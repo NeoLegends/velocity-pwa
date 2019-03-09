@@ -45,16 +45,19 @@
   }
 
   .slot-list {
-    display: flex;
-    justify-content: center;
-
     list-style: none;
-    overflow-x: scroll;
 
     padding: 0;
-    max-width: 100%;
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
 
     .slot-entry {
+      display: inline-block;
+
       &:not(:last-of-type) {
         margin-right: 16px;
       }
