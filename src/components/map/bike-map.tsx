@@ -10,7 +10,7 @@ import { useStations } from '../../hooks/stations';
 import { rentBike, reserveBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
-import Overlay from '../../util/overlay';
+import Overlay from '../util/overlay';
 
 import './bike-map.scss';
 import RentPopup from './rent-popup';

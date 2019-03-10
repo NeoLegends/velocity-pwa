@@ -1,7 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 
-import { LoginProps } from '../components/login';
+import { LoginProps } from '../login';
 
 import Login from './lazy-login';
 

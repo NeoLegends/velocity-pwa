@@ -11,7 +11,7 @@ import {
   getSepaInfo,
   requestPasswordResetEmail,
 } from '../../model/customer';
-import makeLazy from '../../util/make-lazy';
+import makeLazy from '../util/make-lazy';
 
 import './customer.scss';
 import Overview from './overview';

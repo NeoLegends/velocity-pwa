@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { useBodyDiv } from '../hooks/portal';
+import { useBodyDiv } from '../../hooks/portal';
 
 import './overlay.scss';
 

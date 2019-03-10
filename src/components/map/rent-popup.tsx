@@ -14,7 +14,7 @@ import { useBooking, useOpenableStation, OpenedStation } from '../../hooks/map';
 import { useSavedPin } from '../../hooks/pin';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
-import Spinner from '../../util/spinner';
+import Spinner from '../util/spinner';
 
 import './rent-popup.scss';
 import Slider from './slider';

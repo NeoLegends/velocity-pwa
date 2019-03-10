@@ -10,12 +10,12 @@ import {
   LanguageIdentifier,
   LanguageIdContext,
 } from '../resources/language';
-import Login from '../util/lazy-login';
-import makeLazy from '../util/make-lazy';
-import needsLogin from '../util/needs-login';
 
 import './app.scss';
 import MenuBar from './menu-bar';
+import Login from './util/lazy-login';
+import makeLazy from './util/make-lazy';
+import needsLogin from './util/needs-login';
 
 interface AppBodyProps {
   onChangeLanguage: (lang: LanguageIdentifier) => void;

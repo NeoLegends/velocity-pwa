@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
 
-import { LanguageContext } from '../resources/language';
+import { LanguageContext } from '../../resources/language';
 
 import './lazy-load-failed.scss';
 import Overlay from './overlay';

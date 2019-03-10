@@ -4,10 +4,10 @@ import React, { useContext, useState } from 'react';
 
 import { LanguageContext, LanguageIdentifier } from '../resources/language';
 import logo from '../resources/logo.png';
-import Overlay from '../util/overlay';
 
 import Menu, { MenuEntries } from './menu';
 import './menu-bar.scss';
+import Overlay from './util/overlay';
 
 export interface MenuBarProps {
   className?: string;
