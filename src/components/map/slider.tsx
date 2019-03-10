@@ -67,7 +67,7 @@ const Slider: React.FC<SliderProps> = ({
   }, []);
   const handleUp = useCallback(
     () => {
-      if (isCompleted && typeof onCompleted === 'function') {
+      if (isCompleted && !disabled && typeof onCompleted === 'function') {
         onCompleted();
       }
 
@@ -75,7 +75,7 @@ const Slider: React.FC<SliderProps> = ({
       setTouchStartX(0);
       setIsDragging(false);
     },
-    [isCompleted, onCompleted],
+    [disabled, isCompleted, onCompleted],
   );
   const handleMouseMove = useCallback(
     (ev: MouseEvent) => {
