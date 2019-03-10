@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useBodyDiv } from '../hooks/portal';
@@ -21,6 +21,21 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   onRequestClose,
 }) => {
   const element = useBodyDiv();
+
+  // Prevent touch events on overlay background
+  useEffect(
+    () => {
+      if (!isOpen) {
+        return;
+      }
+
+      const root = document.getElementById('root')!;
+      root.classList.add('no-touch-events');
+
+      return () => root.classList.remove('no-touch-events');
+    },
+    [isOpen],
+  );
 
   if (!element) {
     return null;

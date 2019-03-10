@@ -24,3 +24,7 @@
     pointer-events: auto;
   }
 }
+
+.no-touch-events {
+  touch-action: none;
+}
