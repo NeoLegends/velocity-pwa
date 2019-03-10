@@ -5,6 +5,7 @@ import { Booking, Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
 import { getCurrentBooking } from '../model/transaction';
 import { LanguageContext } from '../resources/language';
+import { isIos } from '../util/is-ios';
 
 export interface OpenedStation {
   slots: Slots;
@@ -18,10 +19,7 @@ export interface Viewport {
 
 const STORAGE_VIEWPORT_KEY = 'velocity/viewport';
 
-const viewportStorage =
-  /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    ? localStorage
-    : sessionStorage;
+const viewportStorage = isIos ? localStorage : sessionStorage;
 
 const defaultViewport: Viewport = {
   center: [50.77403035497566, 6.084194183349609],

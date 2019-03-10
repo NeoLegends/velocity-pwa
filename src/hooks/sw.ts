@@ -3,8 +3,7 @@ import { toast } from 'react-toastify';
 
 import { LanguageContext } from '../resources/language';
 import * as serviceWorker from '../serviceWorker';
-
-const isIos = /iPhone|iPod|iPad/i.test(navigator.platform);
+import { isIos } from '../util/is-ios';
 
 export const useServiceWorker = () => {
   const { sw } = useContext(LanguageContext);
