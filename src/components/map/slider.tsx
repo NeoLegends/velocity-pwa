@@ -121,7 +121,7 @@ const Slider: React.FC<SliderProps> = ({
         document.body.removeEventListener('touchmove', handleTouchMove);
       };
     },
-    [handleDown, handleMouseMove, handleTouchMove, handleTouchStart, handleUp],
+    [handleMouseMove, handleTouchMove, handleUp],
   );
 
   return (
