@@ -58,13 +58,14 @@ const RentControls: React.FC<RentControlsProps> = ({
     pin ? (
       <div className="rent-controls">
         <Slider
-          className="slider"
-          background={({ className }) => (
-            <span className={className}>
-              {selectedSlot
-                ? `${map.RENT.SLIDE_FOR_BIKE_NO1} ${selectedSlot.stationSlotPosition} ${map.RENT.SLIDE_FOR_BIKE_NO2}`
-                : map.RENT.SLIDE_FOR_BEST_BIKE}
-            </span>
+          background={() => (
+            <div className="slider-content column">
+              <span>
+                {selectedSlot
+                  ? `${map.RENT.SLIDE_FOR_BIKE_NO1} ${selectedSlot.stationSlotPosition} ${map.RENT.SLIDE_FOR_BIKE_NO2}`
+                  : map.RENT.SLIDE_FOR_BEST_BIKE}
+              </span>
+            </div>
           )}
           disabled={!canRentBike}
           onCompleted={() => onRentBike(pin)}

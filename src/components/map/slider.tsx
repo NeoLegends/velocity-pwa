@@ -5,7 +5,6 @@ import Measure, { ContentRect } from 'react-measure';
 import './slider.scss';
 
 interface BackgroundProps {
-  className?: string;
   completion: number;
 }
 
@@ -145,7 +144,7 @@ const Slider: React.FC<SliderProps> = ({
           </div>
 
           {Background && (
-            <Background className="background" completion={completion} />
+            <Background completion={completion} />
           )}
         </div>
       )}

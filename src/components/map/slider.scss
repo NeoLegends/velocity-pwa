@@ -4,16 +4,9 @@
   height: 64px;
   width: 100%;
 
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 6px 12px;
-
-  user-select: none;
-
+  padding-left: 80px;
   position: relative;
-
+  user-select: none;
   transition: border-color .2s ease;
 
   &.completed {
@@ -40,9 +33,5 @@
       font-size: 32px;
       line-height: 56px;
     }
-  }
-
-  .background {
-    margin-left: 72px;
   }
 }
