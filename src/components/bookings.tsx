@@ -1,38 +1,22 @@
+import { navigate } from '@reach/router';
+import classNames from 'classnames';
 import moment from 'moment';
 import 'moment/locale/de';
-import React, { useContext } from 'react';
-import { toast } from 'react-toastify';
-import { AutoSizer, IndexRange, InfiniteLoader, List } from 'react-virtualized';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
+import { useTransactions } from '../hooks/bookings';
+import { useBooking } from '../hooks/map';
+import { useSavedPin } from '../hooks/pin';
+import { useStations } from '../hooks/stations';
 import { Booking, Station, Transaction } from '../model';
-import { getSavedCardPin } from '../model/pin';
-import {
-  getAllStations,
-  getSlotInfo,
-  rentBike,
-} from '../model/stations';
-import {
-  cancelCurrentBooking,
-  getCurrentBooking,
-  getTransactions,
-} from '../model/transaction';
+import { cancelCurrentBooking } from '../model/transaction';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './bookings.scss';
 
-interface BookingsState {
-  cardPin: string | null;
-  currentBooking: Booking | null;
-  hasNextPage: boolean;
-  isNextPageLoading: boolean;
-  stations: Station[];
-  transactions: Transaction[];
-}
-
-interface BookingsBodyProps extends BookingsState {
-  onCancelReservation: React.MouseEventHandler;
-  onLoadNextPage: (range: IndexRange) => Promise<any>;
-  onRentReservation: React.MouseEventHandler;
+interface BookingsProps {
+  className?: string;
 }
 
 interface BookingProps {
@@ -48,8 +32,6 @@ interface TransactionProps {
   style: any;
   transaction: Transaction;
 }
-
-const TRANSACTIONS_PER_PAGE = 20;
 
 const BookingBox: React.SFC<BookingProps> = ({
   booking,
@@ -139,19 +121,25 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
 
 const noop = () => Promise.resolve();
 
-const BookingsBody: React.SFC<BookingsBodyProps> = ({
-  cardPin,
-  currentBooking,
-  hasNextPage,
-  isNextPageLoading,
-  stations,
-  transactions,
+const Bookings: React.SFC<BookingsProps> = ({ className }) => {
+  const [currentBooking, fetchBooking] = useBooking();
+  const [cardPin] = useSavedPin();
+  const [stations] = useStations();
+  const { hasNextPage, isNextPageLoading, loadNextPage, transactions } =
+    useTransactions();
 
-  onCancelReservation,
-  onLoadNextPage,
-  onRentReservation,
-}) => {
   const { BUCHUNGEN } = useContext(LanguageContext);
+
+  const handleCancelReservation = useCallback(
+    () => cancelCurrentBooking().then(fetchBooking),
+    [],
+  );
+  const handleRentReservation = () => navigate(`/#${currentBooking!.stationId}`);
+
+  useEffect(
+    () => { loadNextPage({ startIndex: 0 }); },
+    [],
+  );
 
   const isRowLoaded = ({ index }) => !hasNextPage || index < transactions.length;
 
@@ -170,14 +158,14 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
   };
 
   return (
-    <div className="bookings box-list">
+    <div className={classNames('bookings box-list', className)}>
       {currentBooking && (
         <BookingBox
           booking={currentBooking}
           canRentReservation={Boolean(cardPin)}
           stations={stations}
-          onCancelReservation={onCancelReservation}
-          onRentReservation={onRentReservation}
+          onCancelReservation={handleCancelReservation}
+          onRentReservation={handleRentReservation}
         />
       )}
 
@@ -187,7 +175,7 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
         <div className="wrapper">
           <InfiniteLoader
             isRowLoaded={isRowLoaded}
-            loadMoreRows={!isNextPageLoading ? onLoadNextPage : noop}
+            loadMoreRows={!isNextPageLoading ? loadNextPage : noop}
             minimumBatchSize={20}
             rowCount={Infinity}
           >
@@ -212,125 +200,5 @@ const BookingsBody: React.SFC<BookingsBodyProps> = ({
     </div>
   );
 };
-
-class Bookings extends React.Component<{}, BookingsState> {
-  static contextType = LanguageContext;
-
-  context!: React.ContextType<typeof LanguageContext>;
-  state = {
-    cardPin: null,
-    currentBooking: null,
-    hasNextPage: true,
-    isNextPageLoading: false,
-    stations: [],
-    transactions: [],
-  };
-
-  componentDidMount() {
-    this.fetchBookingAndStations();
-  }
-
-  render() {
-    return (
-      <BookingsBody
-        {...this.state}
-        onCancelReservation={this.handleCancelReservation}
-        onLoadNextPage={this.handleLoadTransactions}
-        onRentReservation={this.handleRentReservation}
-      />
-    );
-  }
-
-  private async fetchBookingAndStations() {
-    try {
-      const [currentBooking, stations] = await Promise.all([
-        getCurrentBooking(),
-        getAllStations(),
-        this.handleLoadTransactions({ startIndex: 0 }),
-      ]);
-
-      this.setState({
-        cardPin: getSavedCardPin(),
-        currentBooking,
-        stations,
-      });
-    } catch (err) {
-      toast(
-        this.context.BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR,
-        { type: 'error' },
-      );
-    }
-  }
-
-  private handleCancelReservation = async () => {
-    await cancelCurrentBooking();
-    await this.fetchBookingAndStations();
-  }
-
-  private handleLoadTransactions = async ({ startIndex }) => {
-    this.setState({ isNextPageLoading: true });
-    const page = Math.floor(startIndex / TRANSACTIONS_PER_PAGE);
-
-    try {
-      const transactions = await getTransactions(page);
-      this.setState(state => ({
-        hasNextPage: transactions.length >= TRANSACTIONS_PER_PAGE,
-        transactions: [...state.transactions, ...transactions],
-      }));
-    } catch (err) {
-      toast(
-        this.context.BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY,
-        { type: 'error' },
-      );
-    } finally {
-      this.setState({ isNextPageLoading: false });
-    }
-  }
-
-  private handleRentReservation = async () => {
-    try {
-      const { cardPin, currentBooking, stations } = this.state as BookingsState;
-      if (!cardPin) {
-        throw new Error("Trying to rent, but missing card pin.");
-      }
-      if (!currentBooking) {
-        throw new Error("Trying to rent, but missing current booking.");
-      }
-
-      const station = stations.find(
-        stat => stat.stationId === currentBooking.stationId,
-      );
-      if (!station) {
-        throw new Error("Trying to rent, but missing station.");
-      }
-
-      const slots = await getSlotInfo(station.stationId);
-      if (!slots) {
-        throw new Error("Trying to rent, but missing slot detail.");
-      }
-
-      const slot = slots.stationSlots.find(
-        slot => slot.stationSlotPosition === currentBooking.stationSlotPosition,
-      );
-      if (!slot) {
-        throw new Error("Trying to rent, but missing slot.");
-      }
-
-      await rentBike(
-        cardPin,
-        currentBooking.stationId,
-        slot.stationSlotId,
-      );
-      await this.fetchBookingAndStations();
-    } catch (err) {
-      console.error(err);
-
-      toast(
-        this.context.MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR,
-        { type: 'error' },
-      );
-    }
-  }
-}
 
 export default Bookings;
