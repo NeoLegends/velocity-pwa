@@ -117,17 +117,12 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
 const noop = () => Promise.resolve();
 
 const Bookings: React.SFC<BookingsProps> = ({ className }) => {
-  const [currentBooking, fetchBooking] = useBooking();
+  const { booking, cancelBooking } = useBooking();
   const [stations] = useStations();
   const { hasNextPage, isNextPageLoading, loadNextPage, transactions } =
     useTransactions();
 
   const { BUCHUNGEN } = useContext(LanguageContext);
-
-  const handleCancelReservation = useCallback(
-    () => cancelCurrentBooking().then(fetchBooking),
-    [],
-  );
 
   useEffect(
     () => { loadNextPage({ startIndex: 0 }); },
@@ -152,11 +147,11 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
 
   return (
     <div className={classNames('bookings box-list', className)}>
-      {currentBooking && (
+      {booking && (
         <BookingBox
-          booking={currentBooking}
+          booking={booking}
           stations={stations}
-          onCancelReservation={handleCancelReservation}
+          onCancelReservation={cancelBooking}
         />
       )}
 

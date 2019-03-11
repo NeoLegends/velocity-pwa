@@ -126,7 +126,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   onBookBike,
   onRentBike,
 }) => {
-  const [booking, fetchBooking] = useBooking();
+  const { booking, fetchBooking } = useBooking();
   const [stationDetail, loadStationDetail, dismissStationDetail] =
     useOpenableStation();
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);

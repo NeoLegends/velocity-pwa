@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Booking, Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
-import { getCurrentBooking } from '../model/transaction';
+import { cancelCurrentBooking, getCurrentBooking } from '../model/transaction';
 import { LanguageContext } from '../resources/language';
 import { isIos } from '../util/is-ios';
 
@@ -27,9 +27,18 @@ const defaultViewport: Viewport = {
 };
 
 export const useBooking = () => {
-  const { BUCHUNGEN } = useContext(LanguageContext);
+  const { BUCHUNGEN, PARTICULARS } = useContext(LanguageContext);
   const [booking, setBooking] = useState<Booking | null>(null);
 
+  const cancelBooking = useCallback(
+    () => cancelCurrentBooking()
+      .then(() => setBooking(null))
+      .catch(err => {
+        console.error("Failed to cancel current booking:", err);
+        toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
+      }),
+    [PARTICULARS],
+  );
   const fetchBooking = useCallback(
     () => getCurrentBooking()
       .then(setBooking)
@@ -42,7 +51,7 @@ export const useBooking = () => {
 
   useEffect(() => { fetchBooking(); }, []);
 
-  return [booking, fetchBooking] as [Booking | null, () => Promise<void>];
+  return { booking, cancelBooking, fetchBooking };
 };
 
 export const useOpenableStation = () => {
