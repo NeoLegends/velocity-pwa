@@ -116,7 +116,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
           attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
           detectRetina={true}
           maxZoom={18}
-          url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+          url="/tile/{z}/{x}/{y}"
         />
 
         {stations.map(station => (
