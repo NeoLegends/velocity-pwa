@@ -32,10 +32,15 @@ export const useLogin = () => {
       .then(() => {
         setIsLoggedIn(true);
         setStatusKnown(true);
+        return true;
       })
       .catch(err => {
         console.error("Error while logging in:", err);
-        toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
+        const message = err.status === 401
+          ? LOGIN.ALERT.WRONG_USERDATA
+          : LOGIN.ALERT.NO_SERVER_RESPONSE;
+        toast(message, { type: 'error' });
+        return false;
       });
 
   const logout = () =>
