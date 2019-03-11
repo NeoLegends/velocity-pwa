@@ -28,6 +28,12 @@
     background: $velocity-green;
     cursor: pointer;
 
+    transition: transform .2s ease;
+
+    &.dragging {
+      transition: none;
+    }
+
     span {
       color: white;
       font-size: 32px;

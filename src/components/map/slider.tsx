@@ -135,7 +135,7 @@ const Slider: React.FC<SliderProps> = ({
           ref={measureRef}
         >
           <div
-            className="knob"
+            className={classNames('knob', isDragging && 'dragging')}
             onMouseDown={handleDown}
             onTouchStart={handleTouchStart}
             style={{ transform: `translateX(${dx}px)` }}
