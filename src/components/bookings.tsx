@@ -1,4 +1,4 @@
-import { navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import classNames from 'classnames';
 import moment from 'moment';
 import 'moment/locale/de';
@@ -21,11 +21,9 @@ interface BookingsProps {
 
 interface BookingProps {
   booking: Booking;
-  canRentReservation: boolean;
   stations: Station[];
 
   onCancelReservation: React.MouseEventHandler;
-  onRentReservation: React.MouseEventHandler;
 }
 
 interface TransactionProps {
@@ -35,13 +33,11 @@ interface TransactionProps {
 
 const BookingBox: React.SFC<BookingProps> = ({
   booking,
-  canRentReservation,
   stations,
 
   onCancelReservation,
-  onRentReservation,
 }) => {
-  const { BUCHUNGEN, MAP } = useContext(LanguageContext);
+  const { map, BUCHUNGEN } = useContext(LanguageContext);
 
   const targetStation = stations.find(stat => stat.stationId === booking.stationId);
 
@@ -63,13 +59,12 @@ const BookingBox: React.SFC<BookingProps> = ({
           {BUCHUNGEN.RESERVIERUNG.BUTTON}
         </button>
 
-        <button
+        <Link
           className="btn outline"
-          disabled={!canRentReservation}
-          onClick={onRentReservation}
+          to={`/#${booking.stationId}`}
         >
-          {MAP.POPUP.BUTTON.RENT}
-        </button>
+          {map.GO_TO_MAP}
+        </Link>
       </div>
     </div>
   );
@@ -123,7 +118,6 @@ const noop = () => Promise.resolve();
 
 const Bookings: React.SFC<BookingsProps> = ({ className }) => {
   const [currentBooking, fetchBooking] = useBooking();
-  const [cardPin] = useSavedPin();
   const [stations] = useStations();
   const { hasNextPage, isNextPageLoading, loadNextPage, transactions } =
     useTransactions();
@@ -134,7 +128,6 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
     () => cancelCurrentBooking().then(fetchBooking),
     [],
   );
-  const handleRentReservation = () => navigate(`/#${currentBooking!.stationId}`);
 
   useEffect(
     () => { loadNextPage({ startIndex: 0 }); },
@@ -162,10 +155,8 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
       {currentBooking && (
         <BookingBox
           booking={currentBooking}
-          canRentReservation={Boolean(cardPin)}
           stations={stations}
           onCancelReservation={handleCancelReservation}
-          onRentReservation={handleRentReservation}
         />
       )}
 
