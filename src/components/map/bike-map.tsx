@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
+import { InvalidStatusCodeError } from '../../model';
 import { rentBike, reserveBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
@@ -82,7 +83,14 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         })
         .catch(err => {
           console.error("Error while renting out bike:", err);
-          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+          const code = (err as InvalidStatusCodeError).statusCode;
+          const message = code === 403
+            ? MAP.POPUP.RENT_DIALOG.ALERT.INVALID_PIN
+            : code === 406
+              ? MAP.POPUP.RENT_DIALOG.ALERT.SLOT_LOCKED
+              : MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR;
+
+          toast(message, { type: 'error' });
         });
     },
     [selectedStation, MAP],
