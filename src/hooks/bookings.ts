@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Transaction } from '../model';
@@ -34,6 +34,8 @@ export const useTransactions = () => {
     },
     [BUCHUNGEN],
   );
+
+  useEffect(() => { loadNextPage({ startIndex: 0 }); }, []);
 
   return {
     hasNextPage,

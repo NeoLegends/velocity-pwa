@@ -124,11 +124,6 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
 
   const { BUCHUNGEN } = useContext(LanguageContext);
 
-  useEffect(
-    () => { loadNextPage({ startIndex: 0 }); },
-    [],
-  );
-
   const isRowLoaded = ({ index }) => !hasNextPage || index < transactions.length;
 
   const renderRow = ({ index, key, style }) => {
