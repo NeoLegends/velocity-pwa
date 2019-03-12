@@ -26,6 +26,10 @@ const stationIcon = icon({
   iconSize: [25.3, 29.37],
 });
 
+const TILE_URL = process.env.NODE_ENV === 'production'
+  ? "/tile/{z}/{x}/{y}"
+  : "http://localhost:8000/tile/{z}/{x}/{y}";
+
 const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const { MAP } = useContext(LanguageContext);
 
@@ -116,7 +120,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
           attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
           detectRetina={true}
           maxZoom={18}
-          url="/tile/{z}/{x}/{y}"
+          url={TILE_URL}
         />
 
         {stations.map(station => (
