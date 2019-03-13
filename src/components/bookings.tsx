@@ -2,15 +2,13 @@ import { Link } from '@reach/router';
 import classNames from 'classnames';
 import moment from 'moment';
 import 'moment/locale/de';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
 import { useTransactions } from '../hooks/bookings';
 import { useBooking } from '../hooks/map';
-import { useSavedPin } from '../hooks/pin';
 import { useStations } from '../hooks/stations';
 import { Booking, Station, Transaction } from '../model';
-import { cancelCurrentBooking } from '../model/transaction';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './bookings.scss';
