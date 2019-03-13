@@ -10,8 +10,9 @@ import React, {
 import Measure, { ContentRect } from 'react-measure';
 
 import { useFormField } from '../../hooks/form';
-import { useBooking, useOpenableStation, OpenedStation } from '../../hooks/map';
+import { useOpenableStation, OpenedStation } from '../../hooks/map';
 import { useSavedPin } from '../../hooks/pin';
+import { useBooking } from '../../hooks/stations';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 import Spinner from '../util/spinner';
