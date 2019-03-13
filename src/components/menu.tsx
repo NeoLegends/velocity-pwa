@@ -46,6 +46,13 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
       <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices"/>
       <MenuEntry text={NAVIGATION.ACCOUNT} to="/customer"/>
       <MenuEntry text={NAVIGATION.SUPPORT} to="/support"/>
+      <a
+        className="menu-entry"
+        href="https://www.velocity-aachen.de/imprint.html"
+        target="_blank"
+      >
+        Impressum
+      </a>
       {canInstall && (
         <div
           className="menu-entry"
@@ -54,13 +61,6 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
           {sw.INSTALL_TO_DEVICE}
         </div>
       )}
-      <a
-        className="menu-entry"
-        href="https://www.velocity-aachen.de/imprint.html"
-        target="_blank"
-      >
-        Impressum
-      </a>
     </>
   );
 };
