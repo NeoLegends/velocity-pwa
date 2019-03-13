@@ -44,7 +44,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   return (
     <header className={classNames('menu-bar', className)}>
       <Link to="/">
-        <img className="logo" src={logo} />
+        <img className="logo" alt="Velocity Logo" src={logo} />
       </Link>
 
       <MenuEntries
