@@ -35,9 +35,9 @@ const Support: React.FC<SupportProps> = ({ className }) => {
   const canSubmitFeedback = Boolean(feedbackHeading && feedbackMessage);
   const canSubmitProblemReport = Boolean(
     defectMessage &&
-    (defectType === 'pedelec'
-      ? !isNaN(defectBikeNumber as unknown as number)
-      : !isNaN(defectStation as unknown as number)),
+      (defectType === 'pedelec'
+        ? !isNaN((defectBikeNumber as unknown) as number)
+        : !isNaN((defectStation as unknown) as number)),
   );
 
   const handleSubmitFeedback = async (ev: React.FormEvent) => {
@@ -46,15 +46,9 @@ const Support: React.FC<SupportProps> = ({ className }) => {
     try {
       await submitFeedback(feedbackHeading, feedbackMessage);
 
-      toast(
-        SUPPORT.FEEDBACK.ALERT.SUCCESS,
-        { type: 'success' },
-      );
+      toast(SUPPORT.FEEDBACK.ALERT.SUCCESS, { type: 'success' });
     } catch (err) {
-      toast(
-        SUPPORT.FEEDBACK.ALERT.ERROR.DEFAULT,
-        { type: 'error' },
-      );
+      toast(SUPPORT.FEEDBACK.ALERT.ERROR.DEFAULT, { type: 'error' });
     }
   };
 
@@ -63,18 +57,20 @@ const Support: React.FC<SupportProps> = ({ className }) => {
 
     try {
       await (defectType === 'pedelec'
-        ? submitPedelecError(defectMessage, defectCategory, Number(defectBikeNumber))
-        : submitStationError(defectMessage, defectCategory, Number(defectStation)));
+        ? submitPedelecError(
+            defectMessage,
+            defectCategory,
+            Number(defectBikeNumber),
+          )
+        : submitStationError(
+            defectMessage,
+            defectCategory,
+            Number(defectStation),
+          ));
 
-      toast(
-        SUPPORT.ERROR_REPORT.ALERT.SUCCESS,
-        { type: 'success' },
-      );
+      toast(SUPPORT.ERROR_REPORT.ALERT.SUCCESS, { type: 'success' });
     } catch (err) {
-      toast(
-        SUPPORT.ERROR_REPORT.ALERT.ERROR.DEFAULT,
-        { type: 'error' },
-      );
+      toast(SUPPORT.ERROR_REPORT.ALERT.ERROR.DEFAULT, { type: 'error' });
     }
   };
 
@@ -172,19 +168,19 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             <option value="" disabled hidden>
               {SUPPORT.ERROR_REPORT.STATION.DEFECT}...
             </option>
-            {defectType === 'pedelec' ? (
-              Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
-                <option key={`bike-${k}`} value={k}>
-                  {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
-                </option>
-              ))
-            ) : (
-              Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(k => (
-                <option key={`station-${k}`} value={k}>
-                  {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
-                </option>
-              ))
-            )}
+            {defectType === 'pedelec'
+              ? Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
+                  <option key={`bike-${k}`} value={k}>
+                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
+                  </option>
+                ))
+              : Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(
+                  k => (
+                    <option key={`station-${k}`} value={k}>
+                      {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
+                    </option>
+                  ),
+                )}
           </select>
 
           <textarea

@@ -16,25 +16,29 @@ export const useBooking = () => {
   const [booking, setBooking] = useState<Booking | null>(null);
 
   const cancelBooking = useCallback(
-    () => cancelCurrentBooking()
-      .then(() => setBooking(null))
-      .catch(err => {
-        console.error("Failed to cancel current booking:", err);
-        toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
-      }),
+    () =>
+      cancelCurrentBooking()
+        .then(() => setBooking(null))
+        .catch(err => {
+          console.error('Failed to cancel current booking:', err);
+          toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
+        }),
     [PARTICULARS],
   );
   const fetchBooking = useCallback(
-    () => getCurrentBooking()
-      .then(setBooking)
-      .catch(err => {
-        console.error("Failed loading current booking:", err);
-        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-      }),
+    () =>
+      getCurrentBooking()
+        .then(setBooking)
+        .catch(err => {
+          console.error('Failed loading current booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        }),
     [BUCHUNGEN],
   );
 
-  useEffect(() => { fetchBooking(); }, []);
+  useEffect(() => {
+    fetchBooking();
+  }, []);
 
   return { booking, cancelBooking, fetchBooking };
 };
@@ -46,11 +50,14 @@ export const useStations = () => {
   const fetchStations = useCallback(() => {
     getAllStations()
       .then(stations => {
-        localStorage.setItem(LOCALSTORAGE_STATIONS_KEY, JSON.stringify(stations));
+        localStorage.setItem(
+          LOCALSTORAGE_STATIONS_KEY,
+          JSON.stringify(stations),
+        );
         setStations(stations);
       })
       .catch(err => {
-        console.error("Error while loading stations:", err);
+        console.error('Error while loading stations:', err);
         toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
       });
   }, [MAP]);

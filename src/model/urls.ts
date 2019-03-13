@@ -2,9 +2,10 @@ import { LanguageIdentifier } from '../resources/language';
 
 import { SupportType } from '.';
 
-const BACKEND_URL = process.env.NODE_ENV === 'production'
-  ? '/backend'
-  : 'http://localhost:8000/backend';
+const BACKEND_URL =
+  process.env.NODE_ENV === 'production'
+    ? '/backend'
+    : 'http://localhost:8000/backend';
 const API_URL = `${BACKEND_URL}/api`;
 const APP_URL = `${BACKEND_URL}/app`;
 
@@ -25,11 +26,17 @@ export const APP_SUPPORT_URL = `${APP_URL}/support`;
 export const APP_TOGGLE_TARIFF_RENEWAL_URL = `${APP_CURRENT_TARIFF_URL}/auto-renewal`;
 export const APP_SEPA_MANDATE_URL = `${APP_CUSTOMER_URL}/bankaccount/sepa`;
 
-export const singleStationUrl = (statId: number) => `${APP_ALL_STATIONS_URL}/${statId}`;
+export const singleStationUrl = (statId: number) =>
+  `${APP_ALL_STATIONS_URL}/${statId}`;
 
 export const feedbackUrl = (type: SupportType) => `${APP_SUPPORT_URL}/${type}`;
-export const rentBikeUrl = (statId: number) => `${singleStationUrl(statId)}/rent`;
-export const reserveBikeUrl = (statId: number) => `${singleStationUrl(statId)}/book`;
-export const slotInfoUrl = (statId: number) => `${singleStationUrl(statId)}/slots/full`;
-export const tariffsUrl = (lang: LanguageIdentifier) => `${APP_URL}/tariffs?lang=${lang}`;
-export const transactionsUrl = (page: number) => `${APP_URL}/transactions?page=${page}`;
+export const rentBikeUrl = (statId: number) =>
+  `${singleStationUrl(statId)}/rent`;
+export const reserveBikeUrl = (statId: number) =>
+  `${singleStationUrl(statId)}/book`;
+export const slotInfoUrl = (statId: number) =>
+  `${singleStationUrl(statId)}/slots/full`;
+export const tariffsUrl = (lang: LanguageIdentifier) =>
+  `${APP_URL}/tariffs?lang=${lang}`;
+export const transactionsUrl = (page: number) =>
+  `${APP_URL}/transactions?page=${page}`;

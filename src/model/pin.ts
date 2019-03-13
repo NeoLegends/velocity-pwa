@@ -7,4 +7,5 @@ export const getSavedCardPin = () => {
   return lsItem || null;
 };
 
-export const setCardPin = (pin: string) => localStorage.setItem(PIN_LS_KEY, pin);
+export const setCardPin = (pin: string) =>
+  localStorage.setItem(PIN_LS_KEY, pin);

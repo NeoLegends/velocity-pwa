@@ -36,30 +36,34 @@ const BookingBox: React.SFC<BookingProps> = ({
 }) => {
   const { map, BUCHUNGEN } = useContext(LanguageContext);
 
-  const targetStation = stations.find(stat => stat.stationId === booking.stationId);
+  const targetStation = stations.find(
+    stat => stat.stationId === booking.stationId,
+  );
 
   return (
     <div className="box outline booking">
       <h2>{BUCHUNGEN.RESERVIERUNG.TITEL}</h2>
 
       <div className="wrapper">
-        <p>{BUCHUNGEN.RESERVIERUNG.STATION}: {targetStation ? targetStation.name : 'N/A'}</p>
-        <p>{BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}</p>
-        <p>{BUCHUNGEN.RESERVIERUNG.ZEIT}: {(new Date(booking.expiryDateTime)).toLocaleString()}</p>
+        <p>
+          {BUCHUNGEN.RESERVIERUNG.STATION}:{' '}
+          {targetStation ? targetStation.name : 'N/A'}
+        </p>
+        <p>
+          {BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}
+        </p>
+        <p>
+          {BUCHUNGEN.RESERVIERUNG.ZEIT}:{' '}
+          {new Date(booking.expiryDateTime).toLocaleString()}
+        </p>
       </div>
 
       <div className="actions">
-        <button
-          className="btn outline"
-          onClick={onCancelReservation}
-        >
+        <button className="btn outline" onClick={onCancelReservation}>
           {BUCHUNGEN.RESERVIERUNG.BUTTON}
         </button>
 
-        <Link
-          className="btn outline"
-          to={`/#${booking.stationId}`}
-        >
+        <Link className="btn outline" to={`/#${booking.stationId}`}>
           {map.GO_TO_MAP}
         </Link>
       </div>
@@ -85,25 +89,17 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
     <div className="gap" style={style}>
       <div className="transaction outline">
         <p className="oneline">
-          {startDate.toLocaleDateString(
-            undefined,
-            startDateFormattingOptions,
-          )}
+          {startDate.toLocaleDateString(undefined, startDateFormattingOptions)}
         </p>
         <p className="sentence">
-          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}
-          {' '}
-          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
-          {' '}
-          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}
-          {' '}
-          {transaction.toStation.name.replace(/\s/g, '\u00A0')}
-          {' '}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}{' '}
+          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}{' '}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}{' '}
+          {transaction.toStation.name.replace(/\s/g, '\u00A0')}{' '}
           {moment(endDate, undefined, language).from(startDate, false)}
         </p>
         <p className="oneline">
-          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:
-          {' '}
+          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:{' '}
           {transaction.pedelecName.replace(/\_[nN]/g, '')}
         </p>
       </div>
@@ -116,25 +112,28 @@ const noop = () => Promise.resolve();
 const Bookings: React.SFC<BookingsProps> = ({ className }) => {
   const { booking, cancelBooking } = useBooking();
   const [stations] = useStations();
-  const { hasNextPage, isNextPageLoading, loadNextPage, transactions } =
-    useTransactions();
+  const {
+    hasNextPage,
+    isNextPageLoading,
+    loadNextPage,
+    transactions,
+  } = useTransactions();
 
   const { BUCHUNGEN } = useContext(LanguageContext);
 
-  const isRowLoaded = ({ index }) => !hasNextPage || index < transactions.length;
+  const isRowLoaded = ({ index }) =>
+    !hasNextPage || index < transactions.length;
 
   const renderRow = ({ index, key, style }) => {
     if (!isRowLoaded({ index })) {
-      return <div key={key} style={style}>Loading...</div>;
+      return (
+        <div key={key} style={style}>
+          Loading...
+        </div>
+      );
     }
 
-    return (
-      <Trans
-        key={key}
-        style={style}
-        transaction={transactions[index]}
-      />
-    );
+    return <Trans key={key} style={style} transaction={transactions[index]} />;
   };
 
   return (

@@ -25,10 +25,8 @@ const defaultViewport: Viewport = {
   zoom: 14,
 };
 
-const setLsViewport = (v: Viewport) => viewportStorage.setItem(
-  STORAGE_VIEWPORT_KEY,
-  JSON.stringify(v),
-);
+const setLsViewport = (v: Viewport) =>
+  viewportStorage.setItem(STORAGE_VIEWPORT_KEY, JSON.stringify(v));
 
 export const useCachedViewport = () => {
   const [viewport, setViewport] = useState<Viewport>(defaultViewport);
@@ -46,7 +44,7 @@ export const useCachedViewport = () => {
       }
     } catch (err) {
       console.warn(
-        "Failed to deserialize local storage viewport, removing incorrect entry.\n\n",
+        'Failed to deserialize local storage viewport, removing incorrect entry.\n\n',
         err,
       );
       viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);
@@ -67,10 +65,7 @@ export const useOpenableStation = () => {
         return;
       }
 
-      Promise.all([
-        getSingleStation(stationId),
-        getSlotInfo(stationId),
-      ])
+      Promise.all([getSingleStation(stationId), getSlotInfo(stationId)])
         .then(([detailedStation, slotInfo]) => {
           if (!detailedStation || !slotInfo) {
             throw new Error(`Failed fetching station ${stationId}.`);
@@ -79,7 +74,7 @@ export const useOpenableStation = () => {
           setStation({ slots: slotInfo, station: detailedStation });
         })
         .catch(err => {
-          console.error("Error while opening station popup:", err);
+          console.error('Error while opening station popup:', err);
           toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
         });
     },
@@ -88,6 +83,9 @@ export const useOpenableStation = () => {
 
   const handleCloseStation = useCallback(() => setStation(null), []);
 
-  return [station, handleOpenStation, handleCloseStation] as
-    [OpenedStation | null, (stationId: number) => void, () => void];
+  return [station, handleOpenStation, handleCloseStation] as [
+    OpenedStation | null,
+    (stationId: number) => void,
+    () => void
+  ];
 };

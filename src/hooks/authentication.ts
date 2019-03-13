@@ -21,7 +21,7 @@ export const useLogin = () => {
         setStatusKnown(true);
       })
       .catch(err => {
-        console.error("Error while checking for login state:", err);
+        console.error('Error while checking for login state:', err);
         toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
       });
   }, []);
@@ -34,10 +34,11 @@ export const useLogin = () => {
         return true;
       })
       .catch(err => {
-        console.error("Error while logging in:", err);
-        const message = err.status === 401
-          ? LOGIN.ALERT.WRONG_USERDATA
-          : LOGIN.ALERT.NO_SERVER_RESPONSE;
+        console.error('Error while logging in:', err);
+        const message =
+          err.status === 401
+            ? LOGIN.ALERT.WRONG_USERDATA
+            : LOGIN.ALERT.NO_SERVER_RESPONSE;
         toast(message, { type: 'error' });
         return false;
       });
@@ -49,7 +50,7 @@ export const useLogin = () => {
         setStatusKnown(true);
       })
       .catch(err => {
-        console.error("Error while logging out:", err);
+        console.error('Error while logging out:', err);
         toast(LOGIN.ALERT.LOGOUT_ERR, { type: 'error' });
       });
 

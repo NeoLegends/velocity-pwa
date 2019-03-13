@@ -5,4 +5,6 @@ import { Address } from '../model';
  * non-breaking spaces between the relevant parts.
  */
 export const asHumanReadable = (addr: Address) =>
-  `${addr.streetAndHousenumber.replace(/ /g, '\u00a0')}, ${addr.zip}\u00a0${addr.city}`;
+  `${addr.streetAndHousenumber.replace(/ /g, '\u00a0')}, ${addr.zip}\u00a0${
+    addr.city
+  }`;

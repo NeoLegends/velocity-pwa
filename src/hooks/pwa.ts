@@ -20,7 +20,7 @@ export const useDesktopInstallation = () => {
 
   const handleInstall = useCallback(() => {
     if (!event) {
-      throw new Error("Trying to install to desktop, but no event cached.");
+      throw new Error('Trying to install to desktop, but no event cached.');
     }
 
     event.prompt();

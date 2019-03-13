@@ -1,31 +1,17 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:latest",
-    "tslint-react"
-  ],
+  "extends": ["tslint:latest", "tslint-react"],
   "jsRules": {},
   "rules": {
     "array-type": false,
-    "arrow-parens": [
-      "ban-single-arg-parens"
-    ],
+    "arrow-parens": ["ban-single-arg-parens"],
     "curly": true,
-    "interface-name": [
-      "never-prefix"
-    ],
+    "interface-name": ["never-prefix"],
     "jsx-no-multiline-js": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,
-    "max-classes-per-file": [
-      true,
-      5,
-      "exclude-class-expressions"
-    ],
-    "member-access": [
-      true,
-      "no-public"
-    ],
+    "max-classes-per-file": [true, 5, "exclude-class-expressions"],
+    "member-access": [true, "no-public"],
     "no-consecutive-blank-lines": true,
     "no-console": false,
     "no-empty": false,
@@ -43,13 +29,8 @@
         "named-imports-order": "lowercase-first"
       }
     ],
-    "prefer-template": [
-      true,
-      "allow-single-concat"
-    ],
-    "quotemark": [
-      "avoid-escape"
-    ],
+    "prefer-template": [true, "allow-single-concat"],
+    "quotemark": ["avoid-escape"],
     "radix": false,
     "space-before-function-paren": false,
     "whitespace": [
@@ -66,10 +47,8 @@
       "check-preblock"
     ]
   },
-  "rulesDirectory": [],
+  "rulesDirectory": ["tslint-plugin-prettier"],
   "linterOptions": {
-    "exclude": [
-      "src/resources/language/*.json"
-    ]
+    "exclude": ["src/resources/language/*.json"]
   }
 }

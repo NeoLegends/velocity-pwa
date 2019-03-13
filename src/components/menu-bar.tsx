@@ -34,13 +34,17 @@ const MenuBar: React.FC<MenuBarProps> = ({
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
   const openMenu = useCallback(() => setIsMenuOpen(true), []);
 
-  const setEnglish = useCallback(() => onChangeLanguage('en'), [onChangeLanguage]);
-  const setGerman = useCallback(() => onChangeLanguage('de'), [onChangeLanguage]);
+  const setEnglish = useCallback(() => onChangeLanguage('en'), [
+    onChangeLanguage,
+  ]);
+  const setGerman = useCallback(() => onChangeLanguage('de'), [
+    onChangeLanguage,
+  ]);
 
   return (
     <header className={classNames('menu-bar', className)}>
       <Link to="/">
-        <img className="logo" src={logo}/>
+        <img className="logo" src={logo} />
       </Link>
 
       <MenuEntries
@@ -48,42 +52,27 @@ const MenuBar: React.FC<MenuBarProps> = ({
         onClickInstallOnDevice={onClickInstallOnDevice}
       />
 
-      <div className="flex-grow"/>
+      <div className="flex-grow" />
 
-      <button
-        className="btn transparent"
-        onClick={setGerman}
-      >
+      <button className="btn transparent" onClick={setGerman}>
         DE
       </button>
-      <button
-        className="btn transparent"
-        onClick={setEnglish}
-      >
+      <button className="btn transparent" onClick={setEnglish}>
         EN
       </button>
 
-      <button
-        className="btn outline"
-        onClick={onLoginButtonClick}
-      >
+      <button className="btn outline" onClick={onLoginButtonClick}>
         {loginStatusKnown
           ? isLoggedIn
             ? NAVIGATION.SIGN_OUT_BTN
             : NAVIGATION.SIGN_IN_BTN
           : '...'}
       </button>
-      <button
-        className="btn outline btn-menu"
-        onClick={openMenu}
-      >
+      <button className="btn outline btn-menu" onClick={openMenu}>
         {menu}
       </button>
 
-      <Overlay
-        isOpen={isMenuOpen}
-        onRequestClose={closeMenu}
-      >
+      <Overlay isOpen={isMenuOpen} onRequestClose={closeMenu}>
         <Menu
           canInstall={canInstall}
           onClickInstallOnDevice={onClickInstallOnDevice}

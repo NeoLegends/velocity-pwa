@@ -8,12 +8,10 @@ export const submitPedelecError = (
   content: string,
   error: string,
   pedelecId: number,
-) =>
-  postJsonEnsureOk(feedbackUrl('pedelec'), { content, error, pedelecId });
+) => postJsonEnsureOk(feedbackUrl('pedelec'), { content, error, pedelecId });
 
 export const submitStationError = (
   content: string,
   error: string,
   stationId: number,
-) =>
-  postJsonEnsureOk(feedbackUrl('station'), { content, error, stationId });
+) => postJsonEnsureOk(feedbackUrl('station'), { content, error, stationId });

@@ -19,7 +19,11 @@ interface MenuEntryProps {
   to: string;
 }
 
-const calculateClassNames = ({ href, isCurrent, isPartiallyCurrent }: LinkGetProps) => ({
+const calculateClassNames = ({
+  href,
+  isCurrent,
+  isPartiallyCurrent,
+}: LinkGetProps) => ({
   className: classNames('menu-entry', {
     // Don't show root route as always active
     ['active']: href === '/' ? isCurrent : isPartiallyCurrent,
@@ -40,12 +44,12 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
 
   return (
     <>
-      <MenuEntry text={NAVIGATION.KARTE} to="/"/>
-      <MenuEntry text={NAVIGATION.BUCHUNGEN} to="/bookings"/>
-      <MenuEntry text={NAVIGATION.ABONNEMENT} to="/tariff"/>
-      <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices"/>
-      <MenuEntry text={NAVIGATION.ACCOUNT} to="/customer"/>
-      <MenuEntry text={NAVIGATION.SUPPORT} to="/support"/>
+      <MenuEntry text={NAVIGATION.KARTE} to="/" />
+      <MenuEntry text={NAVIGATION.BUCHUNGEN} to="/bookings" />
+      <MenuEntry text={NAVIGATION.ABONNEMENT} to="/tariff" />
+      <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices" />
+      <MenuEntry text={NAVIGATION.ACCOUNT} to="/customer" />
+      <MenuEntry text={NAVIGATION.SUPPORT} to="/support" />
       <a
         className="menu-entry"
         href="https://www.velocity-aachen.de/imprint.html"
@@ -54,10 +58,7 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
         Impressum
       </a>
       {canInstall && (
-        <div
-          className="menu-entry"
-          onClick={onClickInstallOnDevice}
-        >
+        <div className="menu-entry" onClick={onClickInstallOnDevice}>
           {sw.INSTALL_TO_DEVICE}
         </div>
       )}

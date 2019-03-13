@@ -24,18 +24,17 @@ export const useTransactions = () => {
           setHasNextPage(trans.length >= TRANSACTIONS_PER_PAGE);
         })
         .catch(err => {
-          console.error("Failed loading transactions:", err);
-          toast(
-            BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY,
-            { type: 'error' },
-          );
+          console.error('Failed loading transactions:', err);
+          toast(BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY, { type: 'error' });
         })
         .finally(() => setIsNextPageLoading(false));
     },
     [BUCHUNGEN],
   );
 
-  useEffect(() => { loadNextPage({ startIndex: 0 }); }, []);
+  useEffect(() => {
+    loadNextPage({ startIndex: 0 });
+  }, []);
 
   return {
     hasNextPage,

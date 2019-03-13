@@ -127,8 +127,8 @@
           "DEFAULT_SUCCESS": "You can now take your bike."
         }
       },
-      "CHANGE_BIKE":{
-        "BUTTON":{
+      "CHANGE_BIKE": {
+        "BUTTON": {
           "SELECT": "Select",
           "CANCEL": "Cancel"
         }
@@ -238,7 +238,7 @@
           "SUBMIT": "Submit",
           "CANCEL": "Cancel"
         },
-        "INPUT":{
+        "INPUT": {
           "STREET_AND_HOUSENUMBER": "Street and No.",
           "ZIP": "ZIP",
           "CITY": "City"
@@ -351,8 +351,8 @@
       "RESETPIN": "Reset PIN",
       "SEPA": "Request SEPA mandate",
       "TOOLTIP": {
-          "PASSWORD": "We will send you a link to change your password.",
-          "PIN": "Your PIN has been blocked due to security concerns. Please select a new one."
+        "PASSWORD": "We will send you a link to change your password.",
+        "PIN": "Your PIN has been blocked due to security concerns. Please select a new one."
       },
       "BANK_ACC": "Change bank account"
     }

@@ -18,9 +18,7 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
   return (
     <div className={classNames('invoices box-list', className)}>
       {!invoices.length && (
-        <div className="note info">
-          {BILL.ALERT.NO_INVOICES}
-        </div>
+        <div className="note info">{BILL.ALERT.NO_INVOICES}</div>
       )}
 
       {invoices.length && (
@@ -40,8 +38,10 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
               {invoices.map(inv => {
                 const urlParts = inv.url.split('/');
                 const invName = urlParts[urlParts.length - 1];
-                const monthName = new Date(inv.year, inv.month - 1)
-                  .toLocaleDateString(langId, { month: 'long' });
+                const monthName = new Date(
+                  inv.year,
+                  inv.month - 1,
+                ).toLocaleDateString(langId, { month: 'long' });
 
                 return (
                   <tr key={inv.url}>
@@ -49,7 +49,9 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
                     <td>{monthName}</td>
                     <td>{inv.sum.toEuro()}</td>
                     <td>
-                      <a href={inv.url} target="_blank">{invName}</a>
+                      <a href={inv.url} target="_blank">
+                        {invName}
+                      </a>
                     </td>
                   </tr>
                 );

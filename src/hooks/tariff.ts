@@ -14,11 +14,8 @@ export const useTariffs = () => {
     getTariffs(languageId)
       .then(setTariffs)
       .catch(err => {
-        console.error("Error while loading all available tarrifs:", err);
-        toast(
-          TARIFF.ALERT.LOAD_TARIFFS_FAIL,
-          { type: 'error' },
-        );
+        console.error('Error while loading all available tarrifs:', err);
+        toast(TARIFF.ALERT.LOAD_TARIFFS_FAIL, { type: 'error' });
       });
   }, [languageId]);
 
@@ -33,11 +30,8 @@ export const useUserTariff = () => {
     getCurrentTariff()
       .then(setUserTariff)
       .catch(err => {
-        console.error("Error while loading user tariff:", err);
-        toast(
-          TARIFF.ALERT.LOAD_TARIFF_FAIL,
-          { type: 'error' },
-        );
+        console.error('Error while loading user tariff:', err);
+        toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
       });
   }, [TARIFF]);
 

@@ -1,6 +1,10 @@
 import { fetchWithRetry } from './fetch';
 import { eraseCardPin } from './pin';
-import { API_IS_AUTHENTICATED_URL, API_LOGIN_URL, API_LOGOUT_URL } from './urls';
+import {
+  API_IS_AUTHENTICATED_URL,
+  API_LOGIN_URL,
+  API_LOGOUT_URL,
+} from './urls';
 
 export interface ApiError {
   error: string;

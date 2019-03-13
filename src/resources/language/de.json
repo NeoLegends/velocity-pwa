@@ -354,7 +354,7 @@
       "TOOLTIP": {
         "PASSWORD": "Wir senden Ihnen einen Link zum Ändern des Passworts zu.",
         "PIN": "Ihre PIN wurde aus Sicherheitsgründen gesperrt. Bitte wählen Sie eine neue PIN."
-    },
+      },
       "BANK_ACC": "Bankdaten ändern"
     }
   },

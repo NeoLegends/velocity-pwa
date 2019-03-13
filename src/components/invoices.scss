@@ -1,4 +1,4 @@
-@import "../resources/scss/variables";
+@import '../resources/scss/variables';
 
 .invoices {
   table {
@@ -10,7 +10,8 @@
     border-bottom: 1px solid #ddd;
   }
 
-  td, th {
+  td,
+  th {
     text-align: center;
 
     padding: 8px;

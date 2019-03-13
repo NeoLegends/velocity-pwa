@@ -27,11 +27,7 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
 
   return (
     <div className={classNames('login', className)}>
-      <form
-        className="box outline"
-        action="#"
-        onSubmit={handleLogin}
-      >
+      <form className="box outline" action="#" onSubmit={handleLogin}>
         <h2>Login</h2>
 
         <div className="wrapper">
@@ -52,23 +48,14 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
             autoComplete="current-password"
           />
 
-          <a
-            href="https://velocity-aachen.de/reg/"
-            target="_blank"
-          >
+          <a href="https://velocity-aachen.de/reg/" target="_blank">
             {LOGIN.REGISTRIEREN}
           </a>
-          <Link to="/forgot-password">
-            {PASSWORD_REMEMBER.HYPERLINK}
-          </Link>
+          <Link to="/forgot-password">{PASSWORD_REMEMBER.HYPERLINK}</Link>
         </div>
 
         <div className="actions">
-          <button
-            className="btn outline"
-            disabled={!canLogin}
-            type="submit"
-          >
+          <button className="btn outline" disabled={!canLogin} type="submit">
             Login
           </button>
         </div>

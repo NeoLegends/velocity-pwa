@@ -23,12 +23,16 @@ export const useLanguage = () => {
 
   useLayoutEffect(() => {
     const navigatorLanguage = navigator.language.split('-')[0].trim();
-    const lang = localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) ||
+    const lang =
+      localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) ||
       (supportsLanguage(navigatorLanguage) ? navigatorLanguage : 'de');
 
     handleChangeLanguage(lang as LanguageIdentifier);
   }, []);
 
-  return [langId, language, handleChangeLanguage] as
-    [LanguageIdentifier, LanguageType, (id: LanguageIdentifier) => void];
+  return [langId, language, handleChangeLanguage] as [
+    LanguageIdentifier,
+    LanguageType,
+    (id: LanguageIdentifier) => void
+  ];
 };

@@ -40,7 +40,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
     [],
   );
   const handleLoginLogoutButtonClick = useCallback(
-    () => isLoggedIn ? logout() : navigate('/login'),
+    () => (isLoggedIn ? logout() : navigate('/login')),
     [isLoggedIn],
   );
 
@@ -63,7 +63,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
       />
 
       <Router role="main" className="main">
-        <Map path="/" isLoggedIn={isLoggedIn}/>
+        <Map path="/" isLoggedIn={isLoggedIn} />
 
         <Bookings
           path="/bookings"
@@ -80,17 +80,9 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
           isLoggedIn={isLoggedIn}
           onLoginStart={login}
         />
-        <Login path="/login" onLoginStart={loginWithRedirect}/>
-        <Support
-          path="/support"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={login}
-        />
-        <Tariff
-          path="/tariff"
-          isLoggedIn={isLoggedIn}
-          onLoginStart={login}
-        />
+        <Login path="/login" onLoginStart={loginWithRedirect} />
+        <Support path="/support" isLoggedIn={isLoggedIn} onLoginStart={login} />
+        <Tariff path="/tariff" isLoggedIn={isLoggedIn} onLoginStart={login} />
       </Router>
 
       <a
@@ -104,14 +96,14 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
   );
 };
 
-const App: React.FC = () => {
+const App: React.FC = () => {
   const [langId, language, setLanguage] = useLanguage();
 
   return (
     <StrictMode>
       <LanguageContext.Provider value={language}>
         <LanguageIdContext.Provider value={langId}>
-          <AppBody onChangeLanguage={setLanguage}/>
+          <AppBody onChangeLanguage={setLanguage} />
         </LanguageIdContext.Provider>
       </LanguageContext.Provider>
     </StrictMode>
