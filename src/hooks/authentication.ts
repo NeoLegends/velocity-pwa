@@ -6,7 +6,6 @@ import {
   login as doLogin,
   logout as doLogout,
 } from '../model/authentication';
-import { eraseCardPin } from '../model/pin';
 import { LanguageContext } from '../resources/language';
 
 export const useLogin = () => {
@@ -48,7 +47,6 @@ export const useLogin = () => {
       .then(() => {
         setIsLoggedIn(false);
         setStatusKnown(true);
-        eraseCardPin();
       })
       .catch(err => {
         console.error("Error while logging out:", err);
