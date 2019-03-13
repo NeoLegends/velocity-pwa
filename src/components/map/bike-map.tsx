@@ -23,7 +23,7 @@ interface BikeMapProps {
 
 const stationIcon = icon({
   iconUrl: logo,
-  iconSize: [25.3, 29.37],
+  iconSize: [30, 30],
 });
 
 const TILE_URL = process.env.NODE_ENV === 'production'
