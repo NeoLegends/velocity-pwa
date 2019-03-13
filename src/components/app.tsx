@@ -88,6 +88,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
       <a
         className="unofficial"
         href="https://github.com/NeoLegends/velocity-pwa"
+        rel="noreferrer noopener"
         target="_blank"
       >
         Unofficial version

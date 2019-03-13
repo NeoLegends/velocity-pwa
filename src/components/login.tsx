@@ -48,7 +48,11 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
             autoComplete="current-password"
           />
 
-          <a href="https://velocity-aachen.de/reg/" target="_blank">
+          <a
+            href="https://velocity-aachen.de/reg/"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
             {LOGIN.REGISTRIEREN}
           </a>
           <Link to="/forgot-password">{PASSWORD_REMEMBER.HYPERLINK}</Link>

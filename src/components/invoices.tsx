@@ -49,7 +49,11 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
                     <td>{monthName}</td>
                     <td>{inv.sum.toEuro()}</td>
                     <td>
-                      <a href={inv.url} target="_blank">
+                      <a
+                        href={inv.url}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
                         {invName}
                       </a>
                     </td>

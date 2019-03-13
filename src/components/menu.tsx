@@ -53,6 +53,7 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
       <a
         className="menu-entry"
         href="https://www.velocity-aachen.de/imprint.html"
+        rel="noreferrer noopener"
         target="_blank"
       >
         Impressum

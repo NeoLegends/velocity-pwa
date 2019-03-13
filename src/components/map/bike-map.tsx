@@ -21,6 +21,9 @@ interface BikeMapProps {
   isLoggedIn: boolean;
 }
 
+const ATTRIBUTION =
+  '&copy; <a href="http://osm.org/copyright" rel="noreferrer noopener">OpenStreetMap</a> contributors';
+
 const stationIcon = icon({
   iconUrl: logo,
   iconSize: [30, 30],
@@ -117,7 +120,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         onViewportChanged={handleViewportChange}
       >
         <TileLayer
-          attribution={'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
+          attribution={ATTRIBUTION}
           detectRetina={true}
           maxZoom={18}
           url={TILE_URL}
