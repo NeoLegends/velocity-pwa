@@ -33,6 +33,7 @@
   },
   "menu": "Menü",
   "sw": {
+    "INSTALL_TO_DEVICE": "Auf Gerät installieren",
     "NOW_AVAILABLE_OFFLINE": "Velocity ist jetzt auch offline verfügbar.",
     "UPDATE_AVAILABLE": "Es ist ein Update verfügbar. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut, um das Update anzuwenden.",
     "LOAD_FAILED": {

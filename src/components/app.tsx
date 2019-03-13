@@ -4,7 +4,7 @@ import { Slide, ToastContainer } from 'react-toastify';
 
 import { useLogin } from '../hooks/authentication';
 import { useLanguage } from '../hooks/intl';
-import { useServiceWorker } from '../hooks/sw';
+import { useDesktopInstallation, useServiceWorker } from '../hooks/pwa';
 import {
   LanguageContext,
   LanguageIdentifier,
@@ -29,6 +29,7 @@ const Support = needsLogin(makeLazy(() => import('./support')));
 const Tariff = needsLogin(makeLazy(() => import('./tariff')));
 
 const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
+  const { canInstall, handleInstall } = useDesktopInstallation();
   useServiceWorker();
 
   const { isLoggedIn, login, loginStatusKnown, logout } = useLogin();
@@ -53,9 +54,11 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
       />
 
       <MenuBar
+        canInstall={canInstall}
         isLoggedIn={isLoggedIn}
         loginStatusKnown={loginStatusKnown}
         onChangeLanguage={onChangeLanguage}
+        onClickInstallOnDevice={handleInstall}
         onLoginButtonClick={handleLoginLogoutButtonClick}
       />
 

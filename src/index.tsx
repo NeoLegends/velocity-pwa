@@ -13,6 +13,12 @@ declare global {
   interface Number {
     toEuro(): string;
   }
+
+  interface BeforeInstallProptEvent extends Event {
+    userChoice: Promise<{ outcome: 'accepted' | unknown }>;
+
+    prompt: () => void;
+  }
 }
 
 /** Format a number as euro currency. */

@@ -5,11 +5,11 @@ import React, { useContext, useState } from 'react';
 import { LanguageContext, LanguageIdentifier } from '../resources/language';
 import logo from '../resources/logo.png';
 
-import Menu, { MenuEntries } from './menu';
+import Menu, { MenuEntries, MenuEntriesProps } from './menu';
 import './menu-bar.scss';
 import Overlay from './util/overlay';
 
-export interface MenuBarProps {
+export interface MenuBarProps extends MenuEntriesProps {
   className?: string;
   isLoggedIn: boolean;
   loginStatusKnown: boolean;
@@ -19,11 +19,13 @@ export interface MenuBarProps {
 }
 
 const MenuBar: React.FC<MenuBarProps> = ({
+  canInstall,
   className,
   isLoggedIn,
   loginStatusKnown,
 
   onChangeLanguage,
+  onClickInstallOnDevice,
   onLoginButtonClick,
 }) => {
   const { menu, NAVIGATION } = useContext(LanguageContext);
@@ -35,7 +37,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
         <img className="logo" src={logo}/>
       </Link>
 
-      <MenuEntries/>
+      <MenuEntries
+        canInstall={canInstall}
+        onClickInstallOnDevice={onClickInstallOnDevice}
+      />
 
       <div className="flex-grow"/>
 
@@ -73,7 +78,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
         isOpen={isMenuOpen}
         onRequestClose={() => setIsMenuOpen(false)}
       >
-        <Menu/>
+        <Menu
+          canInstall={canInstall}
+          onClickInstallOnDevice={onClickInstallOnDevice}
+        />
       </Overlay>
     </header>
   );
