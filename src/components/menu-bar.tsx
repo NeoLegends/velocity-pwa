@@ -1,6 +1,6 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import { LanguageContext, LanguageIdentifier } from '../resources/language';
 import logo from '../resources/logo.png';
@@ -31,6 +31,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
   const { menu, NAVIGATION } = useContext(LanguageContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const openMenu = useCallback(() => setIsMenuOpen(true), []);
+
+  const setEnglish = useCallback(() => onChangeLanguage('en'), [onChangeLanguage]);
+  const setGerman = useCallback(() => onChangeLanguage('de'), [onChangeLanguage]);
+
   return (
     <header className={classNames('menu-bar', className)}>
       <Link to="/">
@@ -46,13 +52,13 @@ const MenuBar: React.FC<MenuBarProps> = ({
 
       <button
         className="btn transparent"
-        onClick={() => onChangeLanguage('de')}
+        onClick={setGerman}
       >
         DE
       </button>
       <button
         className="btn transparent"
-        onClick={() => onChangeLanguage('en')}
+        onClick={setEnglish}
       >
         EN
       </button>
@@ -69,14 +75,14 @@ const MenuBar: React.FC<MenuBarProps> = ({
       </button>
       <button
         className="btn outline btn-menu"
-        onClick={() => setIsMenuOpen(true)}
+        onClick={openMenu}
       >
         {menu}
       </button>
 
       <Overlay
         isOpen={isMenuOpen}
-        onRequestClose={() => setIsMenuOpen(false)}
+        onRequestClose={closeMenu}
       >
         <Menu
           canInstall={canInstall}
