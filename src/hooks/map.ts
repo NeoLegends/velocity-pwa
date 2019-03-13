@@ -1,9 +1,8 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Booking, Slots, StationWithAddress } from '../model';
+import { Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
-import { cancelCurrentBooking, getCurrentBooking } from '../model/transaction';
 import { LanguageContext } from '../resources/language';
 import { isIos } from '../util/is-ios';
 
@@ -26,32 +25,35 @@ const defaultViewport: Viewport = {
   zoom: 14,
 };
 
-export const useBooking = () => {
-  const { BUCHUNGEN, PARTICULARS } = useContext(LanguageContext);
-  const [booking, setBooking] = useState<Booking | null>(null);
+const setLsViewport = (v: Viewport) => viewportStorage.setItem(
+  STORAGE_VIEWPORT_KEY,
+  JSON.stringify(v),
+);
 
-  const cancelBooking = useCallback(
-    () => cancelCurrentBooking()
-      .then(() => setBooking(null))
-      .catch(err => {
-        console.error("Failed to cancel current booking:", err);
-        toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
-      }),
-    [PARTICULARS],
-  );
-  const fetchBooking = useCallback(
-    () => getCurrentBooking()
-      .then(setBooking)
-      .catch(err => {
-        console.error("Failed loading current booking:", err);
-        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-      }),
-    [BUCHUNGEN],
-  );
+export const useCachedViewport = () => {
+  const [viewport, setViewport] = useState<Viewport>(defaultViewport);
 
-  useEffect(() => { fetchBooking(); }, []);
+  useEffect(() => {
+    const viewport = viewportStorage.getItem(STORAGE_VIEWPORT_KEY);
+    if (!viewport) {
+      return;
+    }
 
-  return { booking, cancelBooking, fetchBooking };
+    try {
+      const parsedViewport = JSON.parse(viewport);
+      if (parsedViewport) {
+        setViewport(parsedViewport);
+      }
+    } catch (err) {
+      console.warn(
+        "Failed to deserialize local storage viewport, removing incorrect entry.\n\n",
+        err,
+      );
+      viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);
+    }
+  }, []);
+
+  return [viewport, setLsViewport] as [Viewport, (v: Viewport) => void];
 };
 
 export const useOpenableStation = () => {
@@ -88,35 +90,4 @@ export const useOpenableStation = () => {
 
   return [station, handleOpenStation, handleCloseStation] as
     [OpenedStation | null, (stationId: number) => void, () => void];
-};
-
-const setLsViewport = (v: Viewport) => viewportStorage.setItem(
-  STORAGE_VIEWPORT_KEY,
-  JSON.stringify(v),
-);
-
-export const useCachedViewport = () => {
-  const [viewport, setViewport] = useState<Viewport>(defaultViewport);
-
-  useEffect(() => {
-    const viewport = viewportStorage.getItem(STORAGE_VIEWPORT_KEY);
-    if (!viewport) {
-      return;
-    }
-
-    try {
-      const parsedViewport = JSON.parse(viewport);
-      if (parsedViewport) {
-        setViewport(parsedViewport);
-      }
-    } catch (err) {
-      console.warn(
-        "Failed to deserialize local storage viewport, removing incorrect entry.\n\n",
-        err,
-      );
-      viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);
-    }
-  }, []);
-
-  return [viewport, setLsViewport] as [Viewport, (v: Viewport) => void];
 };

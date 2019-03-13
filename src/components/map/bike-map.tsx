@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
-import { rentBike, reserveBike } from '../../model/stations';
+import { bookBike, rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
 import Overlay from '../util/overlay';
@@ -62,7 +62,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         throw new Error("Trying to reserve a bike, but no station selected.");
       }
 
-      reserveBike(selectedStation)
+      bookBike(selectedStation)
         .then(() => navigate('/bookings'))
         .catch(err => {
           console.error("Error while reserving bike:", err);

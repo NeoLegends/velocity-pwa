@@ -1,11 +1,43 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Station } from '../model';
-import { getAllStations } from '../model/stations';
+import { Booking, Station } from '../model';
+import {
+  cancelCurrentBooking,
+  getAllStations,
+  getCurrentBooking,
+} from '../model/stations';
 import { LanguageContext } from '../resources/language';
 
 const LOCALSTORAGE_STATIONS_KEY = 'velocity/stations';
+
+export const useBooking = () => {
+  const { BUCHUNGEN, PARTICULARS } = useContext(LanguageContext);
+  const [booking, setBooking] = useState<Booking | null>(null);
+
+  const cancelBooking = useCallback(
+    () => cancelCurrentBooking()
+      .then(() => setBooking(null))
+      .catch(err => {
+        console.error("Failed to cancel current booking:", err);
+        toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
+      }),
+    [PARTICULARS],
+  );
+  const fetchBooking = useCallback(
+    () => getCurrentBooking()
+      .then(setBooking)
+      .catch(err => {
+        console.error("Failed loading current booking:", err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      }),
+    [BUCHUNGEN],
+  );
+
+  useEffect(() => { fetchBooking(); }, []);
+
+  return { booking, cancelBooking, fetchBooking };
+};
 
 export const useStations = () => {
   const { MAP } = useContext(LanguageContext);

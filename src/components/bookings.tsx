@@ -5,9 +5,8 @@ import 'moment/locale/de';
 import React, { useContext } from 'react';
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
-import { useTransactions } from '../hooks/bookings';
-import { useBooking } from '../hooks/map';
-import { useStations } from '../hooks/stations';
+import { useBooking, useStations } from '../hooks/stations';
+import { useTransactions } from '../hooks/transaction';
 import { Booking, Station, Transaction } from '../model';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
