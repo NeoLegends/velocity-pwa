@@ -9,6 +9,7 @@ import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
 import { bookBike, rentBike } from '../../model/stations';
+import { TILE_URL } from '../../model/urls';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
 import Overlay from '../util/overlay';
@@ -28,10 +29,6 @@ const stationIcon = icon({
   iconUrl: logo,
   iconSize: [30, 30],
 });
-
-const TILE_URL = process.env.NODE_ENV === 'production'
-  ? "/tile/{z}/{x}/{y}"
-  : "http://localhost:8000/tile/{z}/{x}/{y}";
 
 const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const { MAP } = useContext(LanguageContext);

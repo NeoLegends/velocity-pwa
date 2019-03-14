@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import { useInvoices } from '../hooks/invoices';
+import { invoiceUrl } from '../model/urls';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './invoices.scss';
@@ -50,7 +51,7 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
                     <td>{inv.sum.toEuro()}</td>
                     <td>
                       <a
-                        href={inv.url}
+                        href={invoiceUrl(invName)}
                         rel="noopener noreferrer"
                         target="_blank"
                       >

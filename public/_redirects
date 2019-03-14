@@ -1,3 +1,4 @@
-/backend/*    https://cms.velocity-aachen.de/backend/:splat               200
-/tile/:z/:x/* https://a.tile.openstreetmap.se/hydda/full/:z/:x/:splat.png 200
-/*            /index.html                                                 200
+/backend/*    https://cms.velocity-aachen.de/backend/:splat                       200
+/invoices/*   https://cms.velocity-aachen.de/backend/app/customer/invoices/:splat 200
+/tile/:z/:x/* https://a.tile.openstreetmap.se/hydda/full/:z/:x/:splat.png         200
+/*            /index.html                                                         200

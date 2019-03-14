@@ -2,10 +2,21 @@ import { LanguageIdentifier } from '../resources/language';
 
 import { SupportType } from '.';
 
+export const TILE_URL = process.env.NODE_ENV === 'production'
+    ? "/tile/{z}/{x}/{y}"
+    : "http://localhost:8000/tile/{z}/{x}/{y}";
+
+const INVOICES_URL = process.env.NODE_ENV === 'production'
+    ? "/invoices"
+    : "http://localhost:8000/invoices";
+
+export const invoiceUrl = (fileName: string) => `${INVOICES_URL}/${fileName}`;
+
 const BACKEND_URL =
   process.env.NODE_ENV === 'production'
     ? '/backend'
     : 'http://localhost:8000/backend';
+
 const API_URL = `${BACKEND_URL}/api`;
 const APP_URL = `${BACKEND_URL}/app`;
 
