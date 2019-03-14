@@ -1,11 +1,10 @@
-import { navigate } from '@reach/router';
 import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
-import { useCachedViewport } from '../../hooks/map';
+import { useCachedViewport, useOpenableStation } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
 import { bookBike, cancelCurrentBooking, rentBike } from '../../model/stations';
@@ -36,6 +35,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const [viewport, handleViewportChange] = useCachedViewport();
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
   const [stations] = useStations();
+  const [, loadStationDetail] = useOpenableStation();
 
   const handleHashChange = useCallback(() => {
     const stationId = window.location.hash.substr(1);
@@ -63,7 +63,11 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
       }
 
       bookBike(selectedStation)
-        .then(() => navigate('/bookings'))
+        .then(() => {
+          closePopup();
+          loadStationDetail(selectedStation);
+          setSelectedStation(selectedStation);
+        })
         .catch(err => {
           console.error("Error while reserving bike:", err);
           toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
