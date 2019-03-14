@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
-import { bookBike, rentBike, cancelCurrentBooking } from '../../model/stations';
+import { bookBike, cancelCurrentBooking, rentBike } from '../../model/stations';
 import { TILE_URL } from '../../model/urls';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';

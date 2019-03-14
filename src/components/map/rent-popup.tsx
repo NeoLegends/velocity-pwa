@@ -50,7 +50,7 @@ const RentControls: React.FC<RentControlsProps> = ({
     [pinInput],
   );
 
-  const { map, MAP, BUCHUNGEN } = useContext(LanguageContext);
+  const { map, BUCHUNGEN } = useContext(LanguageContext);
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
@@ -79,7 +79,7 @@ const RentControls: React.FC<RentControlsProps> = ({
           onClick={!booking ? onBookBike : onCancelBooking}
         >
           {!booking ?
-            MAP.POPUP.BUTTON.BOOK :
+            map.BOOKING.BOOK_BIKE :
             BUCHUNGEN.RESERVIERUNG.BUTTON
           }
         </button>

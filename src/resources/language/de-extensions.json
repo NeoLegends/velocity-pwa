@@ -25,6 +25,9 @@
       "CTA": "Geben Sie Ihre PIN ein, um ein Fahrrad auszuleihen. Ihre PIN wird gespeichert.",
       "ACTION": "Speichern"
     },
+    "BOOKING": {
+      "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades"
+    },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Fahrrad am Slot",
       "SLIDE_FOR_BIKE_NO2": "ausleihen",

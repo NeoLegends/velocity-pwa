@@ -25,6 +25,9 @@
       "CTA": "Enter your PIN to rent a bike. You will only have to do this once.",
       "ACTION": "Save"
     },
+    "BOOKING": {
+      "BOOK_BIKE": "Book the most-charged bike"
+    },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Slide to rent bike at slot",
       "SLIDE_FOR_BIKE_NO2": "",
