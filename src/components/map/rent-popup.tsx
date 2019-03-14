@@ -12,7 +12,7 @@ import Measure, { ContentRect } from 'react-measure';
 import { useFormField } from '../../hooks/form';
 import { useOpenableStation, OpenedStation } from '../../hooks/map';
 import { useSavedPin } from '../../hooks/pin';
-import { useBooking } from '../../hooks/stations';
+import { useBooking, useStations } from '../../hooks/stations';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 import Spinner from '../util/spinner';
@@ -51,10 +51,13 @@ const RentControls: React.FC<RentControlsProps> = ({
   );
 
   const { map, BUCHUNGEN } = useContext(LanguageContext);
+  const [stations] = useStations();
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
     openedStation.slots.stationSlots.some(s => s.isOccupied);
+  const bookedStation = booking && stations.find(station => station.stationId === booking.stationId);
+  const isCurrentStationBooked = bookedStation && (bookedStation.stationId === openedStation.station.stationId);
 
   return (
     pin ? (
@@ -80,7 +83,8 @@ const RentControls: React.FC<RentControlsProps> = ({
         >
           {!booking ?
             map.BOOKING.BOOK_BIKE :
-            BUCHUNGEN.RESERVIERUNG.BUTTON
+              BUCHUNGEN.RESERVIERUNG.BUTTON +
+              (!isCurrentStationBooked ? ` (${bookedStation && bookedStation.name})` : '')
           }
         </button>
       </div>
