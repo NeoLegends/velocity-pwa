@@ -5,9 +5,9 @@ import { Map, Marker, TileLayer } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
 import { useCachedViewport, useOpenableStation } from '../../hooks/map';
-import { useStations } from '../../hooks/stations';
+import { useStations, useBooking } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
-import { bookBike, cancelCurrentBooking, rentBike } from '../../model/stations';
+import { bookBike, rentBike } from '../../model/stations';
 import { TILE_URL } from '../../model/urls';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
@@ -36,6 +36,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
   const [stations] = useStations();
   const [, loadStationDetail] = useOpenableStation();
+  const { cancelBooking } = useBooking();
 
   const handleHashChange = useCallback(() => {
     const stationId = window.location.hash.substr(1);
@@ -77,7 +78,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   );
   const handleCancelBooking = useCallback(
     () => {
-      cancelCurrentBooking()
+      cancelBooking()
         .then(() => closePopup());
     },
     [],
