@@ -245,6 +245,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
                     const handleClick = () =>
                       (!isReserved || isReservedByMe) && setSelectedSlot(slot);
 
+                    if (isReservedByMe && !selectedSlot) { setSelectedSlot(slot); }
+
                     return (
                       <li
                         className="slot-entry column"
