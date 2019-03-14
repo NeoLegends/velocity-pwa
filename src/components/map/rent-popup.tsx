@@ -26,6 +26,7 @@ interface RentControlsProps {
   selectedSlot: Slot | null;
 
   onBookBike: React.MouseEventHandler;
+  onCancelBooking: React.MouseEventHandler;
   onRentBike: (pin: string) => void;
 }
 
@@ -35,6 +36,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   selectedSlot,
 
   onBookBike,
+  onCancelBooking,
   onRentBike,
 }) => {
   const [pin, setPin] = useSavedPin();
@@ -48,12 +50,11 @@ const RentControls: React.FC<RentControlsProps> = ({
     [pinInput],
   );
 
-  const { map, MAP } = useContext(LanguageContext);
+  const { map, MAP, BUCHUNGEN } = useContext(LanguageContext);
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
     openedStation.slots.stationSlots.some(s => s.isOccupied);
-  const canBookBike = canRentBike && !booking;
 
   return (
     pin ? (
@@ -74,10 +75,13 @@ const RentControls: React.FC<RentControlsProps> = ({
 
         <button
           className="btn outline book"
-          disabled={!canBookBike}
-          onClick={onBookBike}
+          disabled={!canRentBike && !booking}
+          onClick={!booking ? onBookBike : onCancelBooking}
         >
-          {MAP.POPUP.BUTTON.BOOK}
+          {!booking ?
+            MAP.POPUP.BUTTON.BOOK :
+            BUCHUNGEN.RESERVIERUNG.BUTTON
+          }
         </button>
       </div>
     ) : (
@@ -115,6 +119,7 @@ interface RentPopupProps {
   stations: Station[];
 
   onBookBike: () => void;
+  onCancelBooking: () => void;
   onRentBike: (pin: string, slotId: number) => void;
 }
 
@@ -125,6 +130,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   stations,
 
   onBookBike,
+  onCancelBooking,
   onRentBike,
 }) => {
   const { booking, fetchBooking } = useBooking();
@@ -271,6 +277,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                     openedStation={stationDetail}
                     selectedSlot={selectedSlot}
                     onBookBike={onBookBike}
+                    onCancelBooking={onCancelBooking}
                     onRentBike={handleRent}
                   />
                 ) : (

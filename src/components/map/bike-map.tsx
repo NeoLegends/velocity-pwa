@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useCachedViewport } from '../../hooks/map';
 import { useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
-import { bookBike, rentBike } from '../../model/stations';
+import { bookBike, rentBike, cancelCurrentBooking } from '../../model/stations';
 import { TILE_URL } from '../../model/urls';
 import { LanguageContext } from '../../resources/language';
 import logo from '../../resources/logo.png';
@@ -70,6 +70,13 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         });
     },
     [selectedStation, MAP],
+  );
+  const handleCancelBooking = useCallback(
+    () => {
+      cancelCurrentBooking()
+        .then(() => closePopup());
+    },
+    [],
   );
   const handleRent = useCallback(
     (pin: string, slotId: number) => {
@@ -143,6 +150,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
           openedStationId={selectedStation}
           stations={stations}
           onBookBike={handleBook}
+          onCancelBooking={handleCancelBooking}
           onRentBike={handleRent}
         />
       </Overlay>
