@@ -30,7 +30,7 @@ const stationIcon = icon({
 });
 
 const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
-  const { MAP } = useContext(LanguageContext);
+  const { MAP, BUCHUNGEN } = useContext(LanguageContext);
 
   const [viewport, handleViewportChange] = useCachedViewport();
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
@@ -78,18 +78,27 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   );
   const handleCancelBooking = useCallback(
     () => {
-      fetchBooking();
-      const wasBookingForCurrentStation = booking && booking.stationId === selectedStation;
-      cancelBooking()
-        .then(() => {
-          closePopup();
-          if (!wasBookingForCurrentStation && selectedStation) {
-            loadStationDetail(selectedStation);
-            setSelectedStation(selectedStation);
-          }
-        });
+      fetchBooking().then(() => {
+        if (!booking) {
+          throw new Error("Trying to cancel a booking, but no bike booked.");
+        }
+
+        const wasBookingForCurrentStation = booking.stationId === selectedStation;
+        cancelBooking()
+          .then(() => {
+            closePopup();
+            if (!wasBookingForCurrentStation && selectedStation) {
+              loadStationDetail(selectedStation);
+              setSelectedStation(selectedStation);
+            }
+          })
+          .catch(err => {
+            console.error("Error while canceling a booking:", err);
+            toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+          });
+      });
     },
-    [booking, selectedStation],
+    [booking, selectedStation, BUCHUNGEN],
   );
   const handleRent = useCallback(
     (pin: string, slotId: number) => {
