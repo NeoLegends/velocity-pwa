@@ -36,7 +36,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
   const [stations] = useStations();
   const [, loadStationDetail] = useOpenableStation();
-  const { cancelBooking } = useBooking();
+  const { booking, fetchBooking, cancelBooking } = useBooking();
 
   const handleHashChange = useCallback(() => {
     const stationId = window.location.hash.substr(1);
@@ -78,10 +78,18 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   );
   const handleCancelBooking = useCallback(
     () => {
+      fetchBooking();
+      const wasBookingForCurrentStation = booking && booking.stationId === selectedStation;
       cancelBooking()
-        .then(() => closePopup());
+        .then(() => {
+          closePopup();
+          if (!wasBookingForCurrentStation && selectedStation) {
+            loadStationDetail(selectedStation);
+            setSelectedStation(selectedStation);
+          }
+        });
     },
-    [],
+    [booking, selectedStation],
   );
   const handleRent = useCallback(
     (pin: string, slotId: number) => {
