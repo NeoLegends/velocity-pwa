@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from "react";
 
-import './charge.scss';
+import './battery-charge.scss';
 
 interface BatteryChargeProps {
     chargePercentage: number;
