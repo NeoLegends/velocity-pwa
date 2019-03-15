@@ -12,7 +12,7 @@ import Measure, { ContentRect } from 'react-measure';
 import { useFormField } from '../../hooks/form';
 import { useOpenableStation, OpenedStation } from '../../hooks/map';
 import { useSavedPin } from '../../hooks/pin';
-import { useBooking, useStations } from '../../hooks/stations';
+import { useBooking } from '../../hooks/stations';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 import Spinner from '../util/spinner';
@@ -24,6 +24,7 @@ interface RentControlsProps {
   booking: Booking | null;
   openedStation: OpenedStation;
   selectedSlot: Slot | null;
+  stations: Station[];
 
   onBookBike: React.MouseEventHandler;
   onCancelBooking: React.MouseEventHandler;
@@ -34,6 +35,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   booking,
   openedStation,
   selectedSlot,
+  stations,
 
   onBookBike,
   onCancelBooking,
@@ -51,13 +53,12 @@ const RentControls: React.FC<RentControlsProps> = ({
   );
 
   const { map, BUCHUNGEN } = useContext(LanguageContext);
-  const [stations] = useStations();
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
     openedStation.slots.stationSlots.some(s => s.isOccupied);
   const bookedStation = booking && stations.find(station => station.stationId === booking.stationId);
-  const isCurrentStationBooked = bookedStation && (bookedStation.stationId === openedStation.station.stationId);
+  const isOpenedStationBooked = booking && (booking.stationId === openedStation.station.stationId);
 
   return (
     pin ? (
@@ -84,7 +85,7 @@ const RentControls: React.FC<RentControlsProps> = ({
           {!booking ?
             map.BOOKING.BOOK_BIKE :
               BUCHUNGEN.RESERVIERUNG.BUTTON +
-              (!isCurrentStationBooked ? ` (${bookedStation && bookedStation.name})` : '')
+              (!isOpenedStationBooked ? ` (${bookedStation!.name})` : '')
           }
         </button>
       </div>
@@ -282,6 +283,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                     booking={booking}
                     openedStation={stationDetail}
                     selectedSlot={selectedSlot}
+                    stations={stations}
                     onBookBike={onBookBike}
                     onCancelBooking={onCancelBooking}
                     onRentBike={handleRent}
