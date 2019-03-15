@@ -167,9 +167,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
       }
       const bookedSlot =
         stationDetail.slots.stationSlots.find(slot => slot.stationSlotPosition === booking.stationSlotPosition);
-      if (bookedSlot) {
-          setSelectedSlot(bookedSlot);
-      }
+      bookedSlot && setSelectedSlot(bookedSlot);
     },
     [booking, openedStationId, stationDetail, setSelectedSlot],
   );
