@@ -15,6 +15,7 @@ import { useSavedPin } from '../../hooks/pin';
 import { useBooking } from '../../hooks/stations';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
+import BatteryCharge from '../charge';
 import Spinner from '../util/spinner';
 
 import './rent-popup.scss';
@@ -251,7 +252,9 @@ const RentPopup: React.FC<RentPopupProps> = ({
                               && 'selected',
                           )}
                         >
-                          <p>⚡️</p>
+                          <BatteryCharge
+                            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
+                          />
                           {slot.stateOfCharge !== null && (
                             <p>
                               {Math.round((slot.stateOfCharge || 0) * 100)}%
