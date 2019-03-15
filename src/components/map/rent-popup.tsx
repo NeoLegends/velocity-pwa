@@ -84,8 +84,7 @@ const RentControls: React.FC<RentControlsProps> = ({
         >
           {!booking ?
             map.BOOKING.BOOK_BIKE :
-              BUCHUNGEN.RESERVIERUNG.BUTTON +
-              (!isOpenedStationBooked ? ` (${bookedStation!.name})` : '')
+            `${BUCHUNGEN.RESERVIERUNG.BUTTON} ${!isOpenedStationBooked ? `(${bookedStation!.name})` : ''}`
           }
         </button>
       </div>
