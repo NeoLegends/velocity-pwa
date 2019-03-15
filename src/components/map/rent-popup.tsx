@@ -15,9 +15,9 @@ import { useSavedPin } from '../../hooks/pin';
 import { useBooking } from '../../hooks/stations';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
-import BatteryCharge from './battery-charge';
 import Spinner from '../util/spinner';
 
+import BatteryCharge from './battery-charge';
 import './rent-popup.scss';
 import Slider from './slider';
 
