@@ -162,12 +162,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   useEffect(
     () => {
-      if (booking && openedStationId && stationDetail && openedStationId === booking.stationId) {
-        const bookedSlot =
-          stationDetail.slots.stationSlots.find(slot => slot.stationSlotPosition === booking.stationSlotPosition);
-        if (bookedSlot) {
-            setSelectedSlot(bookedSlot);
-        }
+      if (!booking || !openedStationId || !stationDetail || openedStationId !== booking.stationId) {
+        return;
+      }
+      const bookedSlot =
+        stationDetail.slots.stationSlots.find(slot => slot.stationSlotPosition === booking.stationSlotPosition);
+      if (bookedSlot) {
+          setSelectedSlot(bookedSlot);
       }
     },
     [booking, openedStationId, stationDetail, setSelectedSlot],
