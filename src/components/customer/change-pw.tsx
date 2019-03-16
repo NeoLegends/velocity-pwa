@@ -23,22 +23,14 @@ const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
     <div className={classNames('change-pw box', className)}>
       <h2>{PARTICULARS.MODAL.PW.TITLE}</h2>
 
-      <div className="wrapper">
-        {PARTICULARS.MODAL.PW.TEXT}
-      </div>
+      <div className="wrapper">{PARTICULARS.MODAL.PW.TEXT}</div>
 
       <div className="actions">
-        <button
-          className="btn outline"
-          onClick={onRequestPasswordEmail}
-        >
+        <button className="btn outline" onClick={onRequestPasswordEmail}>
           {PARTICULARS.MODAL.PW.BUTTON.SUBMIT}
         </button>
 
-        <button
-          className="btn outline"
-          onClick={onCancel}
-        >
+        <button className="btn outline" onClick={onCancel}>
           {PARTICULARS.MODAL.PW.BUTTON.CANCEL}
         </button>
       </div>

@@ -31,18 +31,19 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [sepaMandate, setSepaMandate] = useState<SepaMandate | null>(null);
 
-  const fetchData = () => Promise.all([
-    getCustomer(),
-    getSepaInfo(),
-  ])
-    .then(([customer, sepaMandate]) => {
-      setCustomer(customer);
-      setSepaMandate(sepaMandate);
-    });
+  const fetchData = () =>
+    Promise.all([getCustomer(), getSepaInfo()]).then(
+      ([customer, sepaMandate]) => {
+        setCustomer(customer);
+        setSepaMandate(sepaMandate);
+      },
+    );
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  if (!customer || !sepaMandate) {
+  if (!customer || !sepaMandate) {
     return null;
   }
 
@@ -78,11 +79,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
 
   return (
     <Router className={classNames('customer-info box-list', className)}>
-      <Overview
-        path="/"
-        customer={customer}
-        sepaMandate={sepaMandate}
-      />
+      <Overview path="/" customer={customer} sepaMandate={sepaMandate} />
       <ChangeAddress
         currentAddress={customer.address}
         path="change-address"

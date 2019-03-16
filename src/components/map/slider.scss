@@ -1,4 +1,4 @@
-@import "../../resources/scss/variables";
+@import '../../resources/scss/variables';
 
 .slider {
   height: 64px;
@@ -7,7 +7,7 @@
   padding-left: 70px;
   position: relative;
   user-select: none;
-  transition: border-color .2s ease;
+  transition: border-color 0.2s ease;
 
   &.completed {
     border-color: $velocity-green;
@@ -28,7 +28,7 @@
     background: $velocity-green;
     cursor: pointer;
 
-    transition: transform .2s ease;
+    transition: transform 0.2s ease;
 
     &.dragging {
       transition: none;

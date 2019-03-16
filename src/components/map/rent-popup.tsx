@@ -58,62 +58,66 @@ const RentControls: React.FC<RentControlsProps> = ({
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
     openedStation.slots.stationSlots.some(s => s.isOccupied);
-  const bookedStation = booking && stations.find(station => station.stationId === booking.stationId);
-  const isOpenedStationBooked = booking && (booking.stationId === openedStation.station.stationId);
+  const bookedStation =
+    booking &&
+    stations.find(station => station.stationId === booking.stationId);
+  const isOpenedStationBooked =
+    booking && booking.stationId === openedStation.station.stationId;
 
-  return (
-    pin ? (
-      <div className="rent-controls">
-        <Slider
-          background={() => (
-            <div className="slider-content column">
-              <span>
-                {selectedSlot
-                  ? `${map.RENT.SLIDE_FOR_BIKE_NO1} ${selectedSlot.stationSlotPosition} ${map.RENT.SLIDE_FOR_BIKE_NO2}`
-                  : map.RENT.SLIDE_FOR_BEST_BIKE}
-              </span>
-            </div>
-          )}
-          disabled={!canRentBike}
-          onCompleted={() => onRentBike(pin)}
-        />
+  return pin ? (
+    <div className="rent-controls">
+      <Slider
+        background={() => (
+          <div className="slider-content column">
+            <span>
+              {selectedSlot
+                ? `${map.RENT.SLIDE_FOR_BIKE_NO1} ${
+                    selectedSlot.stationSlotPosition
+                  } ${map.RENT.SLIDE_FOR_BIKE_NO2}`
+                : map.RENT.SLIDE_FOR_BEST_BIKE}
+            </span>
+          </div>
+        )}
+        disabled={!canRentBike}
+        onCompleted={() => onRentBike(pin)}
+      />
 
-        <button
-          className="btn outline book"
-          disabled={!canRentBike && !booking}
-          onClick={!booking ? onBookBike : onCancelBooking}
-        >
-          {!booking ?
-            map.BOOKING.BOOK_BIKE :
-            `${BUCHUNGEN.RESERVIERUNG.BUTTON} ${!isOpenedStationBooked ? `(${bookedStation!.name})` : ''}`
-          }
-        </button>
-      </div>
-    ) : (
-      <form className="rent-controls" onSubmit={handleSubmitPin}>
-        <p>{map.PIN.CTA}</p>
+      <button
+        className="btn outline book"
+        disabled={!canRentBike && !booking}
+        onClick={!booking ? onBookBike : onCancelBooking}
+      >
+        {!booking
+          ? map.BOOKING.BOOK_BIKE
+          : `${BUCHUNGEN.RESERVIERUNG.BUTTON} ${
+              !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
+            }`}
+      </button>
+    </div>
+  ) : (
+    <form className="rent-controls" onSubmit={handleSubmitPin}>
+      <p>{map.PIN.CTA}</p>
 
-        <input
-          className="input outline"
-          onChange={handlePinChange}
-          placeholder="PIN"
-          type="tel"
-          value={pinInput}
-        />
+      <input
+        className="input outline"
+        onChange={handlePinChange}
+        placeholder="PIN"
+        type="tel"
+        value={pinInput}
+      />
 
-        <button
-          className="btn outline"
-          disabled={
-            !pinInput
-              || isNaN(pinInput as unknown as number)
-              || !isFinite(pinInput as unknown as number)
-          }
-          type="submit"
-        >
-          {map.PIN.ACTION}
-        </button>
-      </form>
-    )
+      <button
+        className="btn outline"
+        disabled={
+          !pinInput ||
+          isNaN((pinInput as unknown) as number) ||
+          !isFinite((pinInput as unknown) as number)
+        }
+        type="submit"
+      >
+        {map.PIN.ACTION}
+      </button>
+    </form>
   );
 };
 
@@ -139,58 +143,58 @@ const RentPopup: React.FC<RentPopupProps> = ({
   onRentBike,
 }) => {
   const { booking, fetchBooking } = useBooking();
-  const [stationDetail, loadStationDetail, dismissStationDetail] =
-    useOpenableStation();
+  const [
+    stationDetail,
+    loadStationDetail,
+    dismissStationDetail,
+  ] = useOpenableStation();
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [useCenteredStyling, setUseCenteredStyling] = useState(false);
 
-  useEffect(
-    () => {
-      if (openedStationId === null) {
-        return;
-      }
+  useEffect(() => {
+    if (openedStationId === null) {
+      return;
+    }
 
-      loadStationDetail(openedStationId);
-      fetchBooking();
+    loadStationDetail(openedStationId);
+    fetchBooking();
 
-      return () => {
-        dismissStationDetail();
-        setSelectedSlot(null);
-      };
-    },
-    [openedStationId],
-  );
+    return () => {
+      dismissStationDetail();
+      setSelectedSlot(null);
+    };
+  }, [openedStationId]);
 
-  useEffect(
-    () => {
-      if (!booking || !openedStationId || !stationDetail || openedStationId !== booking.stationId) {
-        return;
-      }
-      const bookedSlot =
-        stationDetail.slots.stationSlots.find(slot => slot.stationSlotPosition === booking.stationSlotPosition);
-      bookedSlot && setSelectedSlot(bookedSlot);
-    },
-    [booking, openedStationId, stationDetail, setSelectedSlot],
-  );
+  useEffect(() => {
+    if (
+      !booking ||
+      !openedStationId ||
+      !stationDetail ||
+      openedStationId !== booking.stationId
+    ) {
+      return;
+    }
+    const bookedSlot = stationDetail.slots.stationSlots.find(
+      slot => slot.stationSlotPosition === booking.stationSlotPosition,
+    );
+    bookedSlot && setSelectedSlot(bookedSlot);
+  }, [booking, openedStationId, stationDetail, setSelectedSlot]);
 
   const selectedStation = useMemo(
     () => stations.find(stat => stat.stationId === openedStationId),
     [openedStationId],
   );
-  const availableSlots = useMemo(
-    () => {
-      if (!stationDetail) {
-        return [];
-      }
+  const availableSlots = useMemo(() => {
+    if (!stationDetail) {
+      return [];
+    }
 
-      return stationDetail.slots.stationSlots.filter(
-        slot =>
-          slot.isOccupied &&
-          (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
-      );
-    },
-    [stationDetail],
-  );
+    return stationDetail.slots.stationSlots.filter(
+      slot =>
+        slot.isOccupied &&
+        (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
+    );
+  }, [stationDetail]);
   const handleClickOnPopup = useCallback(
     (ev: React.MouseEvent) => ev.stopPropagation(),
     [],
@@ -266,16 +270,19 @@ const RentPopup: React.FC<RentPopupProps> = ({
                       >
                         <div
                           className={classNames(
-                            "slot-icon outline column",
-                            isReserved && "reserved",
-                            isReservedByMe && "me",
-                            selectedSlot
-                              && selectedSlot.stationSlotId === slot.stationSlotId
-                              && 'selected',
+                            'slot-icon outline column',
+                            isReserved && 'reserved',
+                            isReservedByMe && 'me',
+                            selectedSlot &&
+                              selectedSlot.stationSlotId ===
+                                slot.stationSlotId &&
+                              'selected',
                           )}
                         >
                           <BatteryCharge
-                            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
+                            chargePercentage={Math.round(
+                              (slot.stateOfCharge || 0) * 100,
+                            )}
                           />
                           {slot.stateOfCharge !== null && (
                             <p>
@@ -308,9 +315,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                 )}
               </>
             ) : (
-              <p className="no-bikes">
-                {map.NO_BIKES}
-              </p>
+              <p className="no-bikes">{map.NO_BIKES}</p>
             )
           ) : (
             <Spinner className="loading-station" />

@@ -1,4 +1,4 @@
-import { Link, RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import classNames from 'classnames';
 import React, { useContext } from 'react';
 
@@ -28,7 +28,9 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
             <tbody>
               <tr>
                 <td>{PARTICULARS.TABLE.NAME}</td>
-                <td>{customer.firstname} {customer.lastname}</td>
+                <td>
+                  {customer.firstname} {customer.lastname}
+                </td>
               </tr>
               <tr>
                 <td>{PARTICULARS.TABLE.STREET}</td>
@@ -52,38 +54,26 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
               </tr>
               <tr>
                 <td>{PARTICULARS.TABLE.PHONE}</td>
-                <td>{customer.phonenumber || "N/A"}</td>
+                <td>{customer.phonenumber || 'N/A'}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="actions">
-          <Link
-            className="btn outline"
-            to="change-address"
-          >
+          <Link className="btn outline" to="change-address">
             {PARTICULARS.TABLE.CHANGE_ADDRESS}
           </Link>
 
-          <Link
-            className="btn outline"
-            to="change-pin"
-          >
+          <Link className="btn outline" to="change-pin">
             {PARTICULARS.PANEL.PIN}
           </Link>
 
-          <Link
-            className="btn outline"
-            to="change-password"
-          >
+          <Link className="btn outline" to="change-password">
             {PARTICULARS.PANEL.PASSWORD}
           </Link>
 
-          <Link
-            className="btn outline"
-            to="change-tel"
-          >
+          <Link className="btn outline" to="change-tel">
             {PARTICULARS.TABLE.CHANGE_PHONE}
           </Link>
         </div>
@@ -97,7 +87,9 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
             <tbody>
               <tr>
                 <td>{cust.BANK_DETAILS.ACCOUNT_OWNER}</td>
-                <td>{sepaMandate.firstname} {sepaMandate.lastname}</td>
+                <td>
+                  {sepaMandate.firstname} {sepaMandate.lastname}
+                </td>
               </tr>
               <tr>
                 <td>{PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}</td>
@@ -105,27 +97,23 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
               </tr>
               <tr>
                 <td>
-                  {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} & {
-                    PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
+                  {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{' '}
+                  {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
                 </td>
-                <td>{sepaMandate.bankName} | {sepaMandate.bic}</td>
+                <td>
+                  {sepaMandate.bankName} | {sepaMandate.bic}
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div className="actions">
-          <Link
-            className="btn outline"
-            to="change-bank-details"
-          >
+          <Link className="btn outline" to="change-bank-details">
             {PARTICULARS.PANEL.BANK_ACC}
           </Link>
 
-          <Link
-            className="btn outline"
-            to="sepa-mandate"
-          >
+          <Link className="btn outline" to="sepa-mandate">
             {PARTICULARS.PANEL.SEPA}
           </Link>
         </div>

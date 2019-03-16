@@ -1,4 +1,4 @@
-@import "../../resources/scss/variables";
+@import '../../resources/scss/variables';
 
 .rent-popup {
   background: white;
@@ -12,7 +12,7 @@
   bottom: 0;
 
   transform: translateY(100vh);
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 
   &.open {
     transform: translateY(0);

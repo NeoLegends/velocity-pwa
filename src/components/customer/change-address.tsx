@@ -32,17 +32,23 @@ const countryListGerman = countries
     </option>
   ));
 
-const alpha3ToCountryName: Record<string, string> = countries.reduce((acc, c) => {
-  acc[c.alpha3Code] = c.name;
-  return acc;
-}, {});
-const countryNameToAlpha3: Record<string, string> = countries.reduce((acc, c) => {
-  acc[c.name] = c.alpha3Code;
-  if (c.translations.de) {
-    acc[c.translations.de] = c.alpha3Code;
-  }
-  return acc;
-}, {});
+const alpha3ToCountryName: Record<string, string> = countries.reduce(
+  (acc, c) => {
+    acc[c.alpha3Code] = c.name;
+    return acc;
+  },
+  {},
+);
+const countryNameToAlpha3: Record<string, string> = countries.reduce(
+  (acc, c) => {
+    acc[c.name] = c.alpha3Code;
+    if (c.translations.de) {
+      acc[c.translations.de] = c.alpha3Code;
+    }
+    return acc;
+  },
+  {},
+);
 
 const ChangeAddress: React.FC<ChangeAddressProps> = ({
   className,
@@ -52,10 +58,13 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
   onChangeAddress,
 }) => {
   const [city, handleCityChange] = useFormField(currentAddress.city);
-  const [country, handleCountryChange] =
-    useFormField(countryNameToAlpha3[currentAddress.country] || '');
-  const [streetAndHousenumber, handleStreetHandHousenumberChange] =
-    useFormField(currentAddress.streetAndHousenumber);
+  const [country, handleCountryChange] = useFormField(
+    countryNameToAlpha3[currentAddress.country] || '',
+  );
+  const [
+    streetAndHousenumber,
+    handleStreetHandHousenumberChange,
+  ] = useFormField(currentAddress.streetAndHousenumber);
   const [zip, handleZipChange] = useFormField(currentAddress.zip);
 
   const { PARTICULARS } = useContext(LanguageContext);
@@ -111,25 +120,18 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
         >
           <option value="">-</option>
           <option value="DEU">
-            {langId === 'de' ? "Deutschland" : "Germany"}
+            {langId === 'de' ? 'Deutschland' : 'Germany'}
           </option>
           {langId === 'de' ? countryListGerman : countryListEnglish}
         </select>
       </div>
 
       <div className="actions">
-        <button
-          type="submit"
-          className="btn outline"
-          disabled={!canSubmit}
-        >
+        <button type="submit" className="btn outline" disabled={!canSubmit}>
           {PARTICULARS.MODAL.ADDRESS.BUTTON.SUBMIT}
         </button>
 
-        <button
-          className="btn outline"
-          onClick={onCancel}
-        >
+        <button className="btn outline" onClick={onCancel}>
           {PARTICULARS.MODAL.ADDRESS.BUTTON.CANCEL}
         </button>
       </div>

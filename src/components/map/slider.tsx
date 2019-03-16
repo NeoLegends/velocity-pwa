@@ -18,11 +18,7 @@ interface SliderProps {
 }
 
 const clamp = (val: number, min: number, max: number) =>
-  val < min
-    ? min
-    : val > max
-      ? max
-      : val;
+  val < min ? min : val > max ? max : val;
 
 const knobWidth = 64;
 const knobPadding = 3;
@@ -36,7 +32,7 @@ const Slider: React.FC<SliderProps> = ({
   onCompleted,
 }) => {
   if (completionPercentage <= 0) {
-    throw new Error("completionPercentage must be > 0");
+    throw new Error('completionPercentage must be > 0');
   }
 
   const [isDragging, setIsDragging] = useState(false);
@@ -47,35 +43,29 @@ const Slider: React.FC<SliderProps> = ({
   const completion = dx / maxSlideDistance;
   const isCompleted = completion > completionPercentage;
 
-  const handleResize = useCallback(
-    (rect: ContentRect) => {
-      /**
-       * We need to subtract the knob width once (since it's fully inside the
-       * slider) and twice it's margin to the side to get the maximum distance
-       * the knob is allowed to slide.
-       */
-      const slideDist = rect.client!.width - knobWidth - (2 * knobPadding);
-      setMaxSlideDistance(slideDist);
-    },
-    [],
-  );
+  const handleResize = useCallback((rect: ContentRect) => {
+    /**
+     * We need to subtract the knob width once (since it's fully inside the
+     * slider) and twice it's margin to the side to get the maximum distance
+     * the knob is allowed to slide.
+     */
+    const slideDist = rect.client!.width - knobWidth - 2 * knobPadding;
+    setMaxSlideDistance(slideDist);
+  }, []);
 
   const handleDown = useCallback(() => {
     setDx(0);
     setIsDragging(true);
   }, []);
-  const handleUp = useCallback(
-    () => {
-      if (isCompleted && !disabled && typeof onCompleted === 'function') {
-        onCompleted();
-      }
+  const handleUp = useCallback(() => {
+    if (isCompleted && !disabled && typeof onCompleted === 'function') {
+      onCompleted();
+    }
 
-      setDx(0);
-      setTouchStartX(0);
-      setIsDragging(false);
-    },
-    [disabled, isCompleted, onCompleted],
-  );
+    setDx(0);
+    setTouchStartX(0);
+    setIsDragging(false);
+  }, [disabled, isCompleted, onCompleted]);
   const handleMouseMove = useCallback(
     (ev: MouseEvent) => {
       if (disabled || !isDragging) {
@@ -100,28 +90,29 @@ const Slider: React.FC<SliderProps> = ({
         return;
       }
 
-      const dx = clamp(ev.touches[0].screenX - touchStartX, 0, maxSlideDistance);
+      const dx = clamp(
+        ev.touches[0].screenX - touchStartX,
+        0,
+        maxSlideDistance,
+      );
       setDx(dx);
     },
     [disabled, isDragging, maxSlideDistance, touchStartX],
   );
 
-  useEffect(
-    () => {
-      document.body.addEventListener('mousemove', handleMouseMove);
-      document.body.addEventListener('mouseup', handleUp);
-      document.body.addEventListener('touchend', handleUp);
-      document.body.addEventListener('touchmove', handleTouchMove);
+  useEffect(() => {
+    document.body.addEventListener('mousemove', handleMouseMove);
+    document.body.addEventListener('mouseup', handleUp);
+    document.body.addEventListener('touchend', handleUp);
+    document.body.addEventListener('touchmove', handleTouchMove);
 
-      return () => {
-        document.body.removeEventListener('mousemove', handleMouseMove);
-        document.body.removeEventListener('mouseup', handleUp);
-        document.body.removeEventListener('touchend', handleUp);
-        document.body.removeEventListener('touchmove', handleTouchMove);
-      };
-    },
-    [handleMouseMove, handleTouchMove, handleUp],
-  );
+    return () => {
+      document.body.removeEventListener('mousemove', handleMouseMove);
+      document.body.removeEventListener('mouseup', handleUp);
+      document.body.removeEventListener('touchend', handleUp);
+      document.body.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [handleMouseMove, handleTouchMove, handleUp]);
 
   return (
     <Measure client onResize={handleResize}>
@@ -143,9 +134,7 @@ const Slider: React.FC<SliderProps> = ({
             <span>➢</span>
           </div>
 
-          {Background && (
-            <Background completion={completion} />
-          )}
+          {Background && <Background completion={completion} />}
         </div>
       )}
     </Measure>

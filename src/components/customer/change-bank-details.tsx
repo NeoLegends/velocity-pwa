@@ -35,10 +35,7 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
   };
 
   const canSubmit = Boolean(
-    bankName &&
-    bic &&
-    mandateChecked &&
-    isValidIBAN(iban),
+    bankName && bic && mandateChecked && isValidIBAN(iban),
   );
 
   return (
@@ -50,9 +47,9 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
 
       <div className="wrapper">
         <h3>
-          {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN}, {
-            PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} & {
-            PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
+          {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN},{' '}
+          {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{' '}
+          {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
         </h3>
 
         <input
@@ -80,9 +77,12 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
         <h3>{PARTICULARS.MODAL.BANK_ACC.SEPA.SUBTITLE}</h3>
 
         <p>
-          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.NAME}<br/>
-          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.STREET}<br/>
-          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.ZIP_CITY}<br/>
+          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.NAME}
+          <br />
+          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.STREET}
+          <br />
+          {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.ZIP_CITY}
+          <br />
           {PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.ADDRESS.ID_NR}
         </p>
         <p>{PARTICULARS.MODAL.BANK_ACC.SEPA.MANDATE.SECTION_1}</p>
@@ -101,18 +101,11 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
       </div>
 
       <div className="actions">
-        <button
-          type="submit"
-          className="btn outline"
-          disabled={!canSubmit}
-        >
+        <button type="submit" className="btn outline" disabled={!canSubmit}>
           {PARTICULARS.MODAL.BANK_ACC.BUTTON.SUBMIT}
         </button>
 
-        <button
-          className="btn outline"
-          onClick={onCancel}
-        >
+        <button className="btn outline" onClick={onCancel}>
           {PARTICULARS.MODAL.BANK_ACC.BUTTON.CANCEL}
         </button>
       </div>

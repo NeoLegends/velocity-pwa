@@ -70,10 +70,7 @@ const ChangePin: React.FC<ChangePinProps> = ({
             {PARTICULARS.MODAL.PIN.BUTTON.SUBMIT}
           </button>
 
-          <button
-            className="btn outline"
-            onClick={onCancel}
-          >
+          <button className="btn outline" onClick={onCancel}>
             {PARTICULARS.MODAL.PIN.BUTTON.CANCEL}
           </button>
         </div>

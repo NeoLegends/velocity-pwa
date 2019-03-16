@@ -37,9 +37,7 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
       <h2>{PARTICULARS.MODAL.PHONE.TITLE}</h2>
 
       <div className="wrapper">
-        <p>
-          {PARTICULARS.MODAL.PHONE.DESCRIPTION_USAGE}
-        </p>
+        <p>{PARTICULARS.MODAL.PHONE.DESCRIPTION_USAGE}</p>
 
         <input
           className="input outline"
@@ -51,18 +49,11 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
       </div>
 
       <div className="actions">
-        <button
-          type="submit"
-          className="btn outline"
-          disabled={!canSubmit}
-        >
+        <button type="submit" className="btn outline" disabled={!canSubmit}>
           {PARTICULARS.MODAL.PHONE.BUTTON.SUBMIT}
         </button>
 
-        <button
-          className="btn outline"
-          onClick={onCancel}
-        >
+        <button className="btn outline" onClick={onCancel}>
           {PARTICULARS.MODAL.PHONE.BUTTON.CANCEL}
         </button>
       </div>

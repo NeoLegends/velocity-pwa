@@ -47,9 +47,9 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
     const stationId = window.location.hash.substr(1);
 
     if (
-      !stationId
-        || isNaN(stationId as unknown as number)
-        || !isFinite(stationId as unknown as number)
+      !stationId ||
+      isNaN((stationId as unknown) as number) ||
+      !isFinite((stationId as unknown) as number)
     ) {
       setSelectedStation(null);
       return;
@@ -62,74 +62,68 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
     history.pushState(null, '', '#');
     handleHashChange();
   }, []);
-  const handleBook = useCallback(
-    () => {
-      if (!selectedStation) {
-        throw new Error("Trying to reserve a bike, but no station selected.");
-      }
+  const handleBook = useCallback(() => {
+    if (!selectedStation) {
+      throw new Error('Trying to reserve a bike, but no station selected.');
+    }
 
-      bookBike(selectedStation)
-        .then(() => {
-          closePopup();
+    bookBike(selectedStation)
+      .then(() => {
+        closePopup();
+        loadStationDetail(selectedStation);
+        setSelectedStation(selectedStation);
+      })
+      .catch(err => {
+        console.error('Error while reserving bike:', err);
+        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+      });
+  }, [selectedStation, MAP]);
+  const handleCancelBooking = useCallback(() => {
+    fetchBooking().then(() => {
+      if (!booking) {
+        closePopup();
+        if (selectedStation) {
           loadStationDetail(selectedStation);
           setSelectedStation(selectedStation);
-        })
-        .catch(err => {
-          console.error("Error while reserving bike:", err);
-          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
-        });
-    },
-    [selectedStation, MAP],
-  );
-  const handleCancelBooking = useCallback(
-    () => {
-      fetchBooking().then(() => {
-        if (!booking) {
+        }
+        return;
+      }
+
+      const wasBookingForCurrentStation = booking.stationId === selectedStation;
+      cancelBooking()
+        .then(() => {
           closePopup();
-          if (selectedStation) {
+          if (!wasBookingForCurrentStation && selectedStation) {
             loadStationDetail(selectedStation);
             setSelectedStation(selectedStation);
           }
-          return;
-        }
-
-        const wasBookingForCurrentStation = booking.stationId === selectedStation;
-        cancelBooking()
-          .then(() => {
-            closePopup();
-            if (!wasBookingForCurrentStation && selectedStation) {
-              loadStationDetail(selectedStation);
-              setSelectedStation(selectedStation);
-            }
-          })
-          .catch(err => {
-            console.error("Error while canceling a booking:", err);
-            toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-          });
-      });
-    },
-    [booking, selectedStation, BUCHUNGEN],
-  );
+        })
+        .catch(err => {
+          console.error('Error while canceling a booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        });
+    });
+  }, [booking, selectedStation, BUCHUNGEN]);
   const handleRent = useCallback(
     (pin: string, slotId: number) => {
       if (!selectedStation) {
-        throw new Error("Trying to rent a bike, but no station selected.");
+        throw new Error('Trying to rent a bike, but no station selected.');
       }
 
       rentBike(pin, selectedStation, slotId)
         .then(() => {
           closePopup();
-          toast(
-            MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS,
-            { type: 'success' },
-          );
+          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
+            type: 'success',
+          });
         })
         .catch(err => {
-          console.error("Error while renting out bike:", err);
+          console.error('Error while renting out bike:', err);
           const code = (err as InvalidStatusCodeError).statusCode;
-          const message = code === 403
-            ? MAP.POPUP.RENT_DIALOG.ALERT.INVALID_PIN
-            : code === 406
+          const message =
+            code === 403
+              ? MAP.POPUP.RENT_DIALOG.ALERT.INVALID_PIN
+              : code === 406
               ? MAP.POPUP.RENT_DIALOG.ALERT.SLOT_LOCKED
               : MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR;
 
@@ -165,7 +159,11 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         {stations.map(station => (
           <Marker
             alt={`Station ${station.name}`}
-            icon={station.numAllSlots > station.numFreeSlots ? stationIcon : noBikesStationIcon}
+            icon={
+              station.numAllSlots > station.numFreeSlots
+                ? stationIcon
+                : noBikesStationIcon
+            }
             key={station.stationId}
             position={[station.locationLatitude, station.locationLongitude]}
             onClick={() => {

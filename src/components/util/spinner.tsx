@@ -10,10 +10,10 @@ interface SpinnerProps {
 const Spinner: React.FC<SpinnerProps> = ({ className }) => (
   <div className={classNames('spinner', className)}>
     <div className="ellipsis">
-      <div/>
-      <div/>
-      <div/>
-      <div/>
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
   </div>
 );

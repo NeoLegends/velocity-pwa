@@ -9,18 +9,21 @@ import LazySpinner from './spinner';
 const MakeLazy = function<P>(
   loader: () => Promise<{ default: React.ComponentType<P> }>,
 ) {
-  const loaderWithFallback = () => loader().catch(err => {
-    console.error("Chunk import failed:", err);
-    return ({ default: LazyLoadFailed as unknown as React.ComponentType<P> });
-  });
+  const loaderWithFallback = () =>
+    loader().catch(err => {
+      console.error('Chunk import failed:', err);
+      return { default: (LazyLoadFailed as unknown) as React.ComponentType<P> };
+    });
 
   const Lazy = React.lazy(loaderWithFallback);
 
-  const LazyWrapper = React.forwardRef((props: P & RouteComponentProps, ref) => (
-    <Suspense fallback={<LazySpinner/>}>
-      <Lazy ref={ref} {...(props as any)}/>
-    </Suspense>
-  ));
+  const LazyWrapper = React.forwardRef(
+    (props: P & RouteComponentProps, ref) => (
+      <Suspense fallback={<LazySpinner />}>
+        <Lazy ref={ref} {...props as any} />
+      </Suspense>
+    ),
+  );
 
   return LazyWrapper;
 };
