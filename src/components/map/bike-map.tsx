@@ -80,7 +80,12 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
     () => {
       fetchBooking().then(() => {
         if (!booking) {
-          throw new Error("Trying to cancel a booking, but no bike booked.");
+          closePopup();
+          if (selectedStation) {
+            loadStationDetail(selectedStation);
+            setSelectedStation(selectedStation);
+          }
+          return;
         }
 
         const wasBookingForCurrentStation = booking.stationId === selectedStation;
