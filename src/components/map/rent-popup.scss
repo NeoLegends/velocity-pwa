@@ -94,33 +94,6 @@
     }
   }
 
-  .rent-controls {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: stretch;
-
-    margin: auto;
-    max-width: 500px;
-
-    > * {
-      margin-bottom: 16px;
-    }
-
-    .slider-content {
-      height: 100%;
-      justify-content: center;
-
-      span {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-
-    p {
-      text-align: center;
-    }
-  }
-
   .login-cta {
     display: block;
     text-align: center;
