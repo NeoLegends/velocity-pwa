@@ -5,7 +5,7 @@ import { Map, Marker, TileLayer } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
 import { useCachedViewport, useOpenableStation } from '../../hooks/map';
-import { useStations, useBooking } from '../../hooks/stations';
+import { useBooking, useStations } from '../../hooks/stations';
 import { InvalidStatusCodeError } from '../../model';
 import { bookBike, rentBike } from '../../model/stations';
 import { TILE_URL } from '../../model/urls';
