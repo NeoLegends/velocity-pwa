@@ -54,6 +54,7 @@ export const useStationDetail = (stationId: number | null) => {
     return stationDetail.slots.stationSlots.filter(
       slot =>
         slot.isOccupied &&
+        slot.state === 'OPERATIVE' &&
         (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
     );
   }, [stationDetail]);
