@@ -96,7 +96,7 @@ const SlotList: React.FC<SlotListProps> = ({
 
       setUseCenteredStyling(requiredWidth < popupWidth);
     },
-    [availableSlots],
+    [availableSlots.length],
   );
 
   return (
