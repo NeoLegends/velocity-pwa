@@ -10,6 +10,7 @@ import { InvalidStatusCodeError } from '../../model';
 import { bookBike, rentBike } from '../../model/stations';
 import { TILE_URL } from '../../model/urls';
 import { LanguageContext } from '../../resources/language';
+import logoGreyscale from '../../resources/logo-greyscale.png';
 import logo from '../../resources/logo.png';
 import Overlay from '../util/overlay';
 
@@ -26,6 +27,10 @@ const ATTRIBUTION =
 
 const stationIcon = icon({
   iconUrl: logo,
+  iconSize: [30, 30],
+});
+const noBikesStationIcon = icon({
+  iconUrl: logoGreyscale,
   iconSize: [30, 30],
 });
 
@@ -160,7 +165,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
         {stations.map(station => (
           <Marker
             alt={`Station ${station.name}`}
-            icon={stationIcon}
+            icon={station.numAllSlots > station.numFreeSlots ? stationIcon : noBikesStationIcon}
             key={station.stationId}
             position={[station.locationLatitude, station.locationLongitude]}
             onClick={() => {
