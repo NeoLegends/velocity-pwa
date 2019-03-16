@@ -1,25 +1,23 @@
-@import "../../resources/scss/variables";
+@import '../../resources/scss/variables';
 
 .zap-icon {
-    height: 32px;
-    width: 25px;
-    
-}
+  height: 32px;
+  width: 25px;
 
-.full-battery {
+  &.full-battery {
     rect {
-        fill: #fbc531;
+      fill: #fbc531;
     }
     polygon {
-        stroke: #f39c12;
+      stroke: #f39c12;
     }
-}
-
-.low-battery {
+  }
+  &.low-battery {
     rect {
-        fill: #e84118;
+      fill: #e84118;
     }
     polygon {
-        stroke: #c23616;
+      stroke: #c23616;
     }
+  }
 }
