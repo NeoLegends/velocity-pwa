@@ -24,3 +24,7 @@
     pointer-events: auto;
   }
 }
+
+.overlay-open {
+  pointer-events: none;
+}

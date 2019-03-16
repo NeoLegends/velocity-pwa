@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useBodyDiv } from '../../hooks/portal';
@@ -13,6 +13,8 @@ export interface OverlayMenuProps {
   onRequestClose?: React.MouseEventHandler;
 }
 
+const OVERLAY_OPEN_CLASS = 'overlay-open';
+
 const Overlay: React.FC<OverlayMenuProps> = ({
   children,
   className,
@@ -21,6 +23,18 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   onRequestClose,
 }) => {
   const element = useBodyDiv();
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    // Disable touch events on the background
+    const app = document.getElementById('root')!;
+    app.classList.add(OVERLAY_OPEN_CLASS);
+
+    return () => app.classList.remove(OVERLAY_OPEN_CLASS);
+  }, [isOpen]);
 
   if (!element) {
     return null;
