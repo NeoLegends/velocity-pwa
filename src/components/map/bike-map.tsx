@@ -150,8 +150,8 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
     <>
       <Map
         className={className}
-        center={viewport.center}
-        zoom={viewport.zoom}
+        center={viewport.center || undefined}
+        zoom={viewport.zoom || 14}
         maxZoom={17}
         onViewportChanged={handleViewportChange}
       >

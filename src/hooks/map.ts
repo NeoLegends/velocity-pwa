@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { Viewport } from 'react-leaflet';
 import { toast } from 'react-toastify';
 
 import { Slots, StationWithAddress } from '../model';
@@ -9,11 +10,6 @@ import { isIos } from '../util/is-ios';
 export interface OpenedStation {
   slots: Slots;
   station: StationWithAddress;
-}
-
-export interface Viewport {
-  center: [number, number];
-  zoom: number;
 }
 
 const STORAGE_VIEWPORT_KEY = 'velocity/viewport';
