@@ -17,6 +17,7 @@ import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 import Spinner from '../util/spinner';
 
+import BatteryCharge from './battery-charge';
 import './rent-popup.scss';
 import Slider from './slider';
 
@@ -251,7 +252,9 @@ const RentPopup: React.FC<RentPopupProps> = ({
                               && 'selected',
                           )}
                         >
-                          <p>⚡️</p>
+                          <BatteryCharge
+                            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
+                          />
                           {slot.stateOfCharge !== null && (
                             <p>
                               {Math.round((slot.stateOfCharge || 0) * 100)}%
