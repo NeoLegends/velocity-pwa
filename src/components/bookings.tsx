@@ -111,7 +111,7 @@ const noop = () => Promise.resolve();
 
 const Bookings: React.SFC<BookingsProps> = ({ className }) => {
   const { booking, cancelBooking } = useBooking();
-  const [stations] = useStations();
+  const { stations } = useStations();
   const {
     hasNextPage,
     isNextPageLoading,

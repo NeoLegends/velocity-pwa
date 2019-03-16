@@ -26,16 +26,20 @@ export const useUserTariff = () => {
   const { TARIFF } = useContext(LanguageContext);
   const [userTariff, setUserTariff] = useState<UserTariff | null>(null);
 
-  const loadUserTariff = useCallback(() => {
-    getCurrentTariff()
-      .then(setUserTariff)
-      .catch(err => {
-        console.error('Error while loading user tariff:', err);
-        toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
-      });
-  }, [TARIFF]);
+  const fetchTariff = useCallback(
+    () =>
+      getCurrentTariff()
+        .then(setUserTariff)
+        .catch(err => {
+          console.error('Error while loading user tariff:', err);
+          toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
+        }),
+    [TARIFF],
+  );
 
-  useEffect(loadUserTariff, []);
+  useEffect(() => {
+    fetchTariff();
+  }, []);
 
-  return [userTariff, loadUserTariff] as [UserTariff | null, () => void];
+  return { userTariff, fetchTariff };
 };

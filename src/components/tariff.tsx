@@ -172,7 +172,7 @@ const TariffBookingConfirmation: React.FC<TariffConfirmationProps> = ({
 
 const TariffView: React.FC<TariffProps> = props => {
   const tariffs = useTariffs();
-  const [userTariff, reloadTariff] = useUserTariff();
+  const { userTariff, fetchTariff } = useUserTariff();
   const [tariffToBook, setTariffToBok] = useState<Tariff | null>(null);
 
   const { TARIFF } = useContext(LanguageContext);
@@ -195,7 +195,7 @@ const TariffView: React.FC<TariffProps> = props => {
       return toast(TARIFF.ALERT.CHANGE_TARIFF_FAIL, { type: 'error' });
     }
 
-    reloadTariff();
+    fetchTariff();
 
     toast(TARIFF.ALERT.CHANGE_TARIFF_SUCCESS, { type: 'success' });
   };
@@ -214,7 +214,7 @@ const TariffView: React.FC<TariffProps> = props => {
       return toast(TARIFF.ALERT.ALTER_RENEWAL_FAIL, { type: 'error' });
     }
 
-    reloadTariff();
+    fetchTariff();
   };
 
   const hasDefaultTariff = Boolean(

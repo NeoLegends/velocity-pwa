@@ -71,5 +71,5 @@ export const useStations = () => {
     fetchStations();
   }, []);
 
-  return [stations, fetchStations] as [Station[], () => void];
+  return { stations, fetchStations };
 };

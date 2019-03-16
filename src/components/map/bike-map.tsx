@@ -32,7 +32,7 @@ const noBikesStationIcon = icon({
 const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   const [viewport, handleViewportChange] = useCachedViewport();
   const [selectedStation, setSelectedStation] = useState<number | null>(null);
-  const [stations] = useStations();
+  const { stations } = useStations();
 
   const handleHashChange = useCallback(() => {
     const stationId = window.location.hash.substr(1);
