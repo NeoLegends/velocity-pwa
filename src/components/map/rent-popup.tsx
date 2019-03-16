@@ -25,8 +25,10 @@ interface RentControlsProps {
   booking: Booking | null;
   openedStation: OpenedStation;
   selectedSlot: Slot | null;
+  stations: Station[];
 
   onBookBike: React.MouseEventHandler;
+  onCancelBooking: React.MouseEventHandler;
   onRentBike: (pin: string) => void;
 }
 
@@ -34,8 +36,10 @@ const RentControls: React.FC<RentControlsProps> = ({
   booking,
   openedStation,
   selectedSlot,
+  stations,
 
   onBookBike,
+  onCancelBooking,
   onRentBike,
 }) => {
   const [pin, setPin] = useSavedPin();
@@ -49,12 +53,13 @@ const RentControls: React.FC<RentControlsProps> = ({
     [pinInput],
   );
 
-  const { map, MAP } = useContext(LanguageContext);
+  const { map, BUCHUNGEN } = useContext(LanguageContext);
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
     openedStation.slots.stationSlots.some(s => s.isOccupied);
-  const canBookBike = canRentBike && !booking;
+  const bookedStation = booking && stations.find(station => station.stationId === booking.stationId);
+  const isOpenedStationBooked = booking && (booking.stationId === openedStation.station.stationId);
 
   return (
     pin ? (
@@ -75,10 +80,13 @@ const RentControls: React.FC<RentControlsProps> = ({
 
         <button
           className="btn outline book"
-          disabled={!canBookBike}
-          onClick={onBookBike}
+          disabled={!canRentBike && !booking}
+          onClick={!booking ? onBookBike : onCancelBooking}
         >
-          {MAP.POPUP.BUTTON.BOOK}
+          {!booking ?
+            map.BOOKING.BOOK_BIKE :
+            `${BUCHUNGEN.RESERVIERUNG.BUTTON} ${!isOpenedStationBooked ? `(${bookedStation!.name})` : ''}`
+          }
         </button>
       </div>
     ) : (
@@ -116,6 +124,7 @@ interface RentPopupProps {
   stations: Station[];
 
   onBookBike: () => void;
+  onCancelBooking: () => void;
   onRentBike: (pin: string, slotId: number) => void;
 }
 
@@ -126,6 +135,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   stations,
 
   onBookBike,
+  onCancelBooking,
   onRentBike,
 }) => {
   const { booking, fetchBooking } = useBooking();
@@ -149,6 +159,18 @@ const RentPopup: React.FC<RentPopupProps> = ({
       };
     },
     [openedStationId],
+  );
+
+  useEffect(
+    () => {
+      if (!booking || !openedStationId || !stationDetail || openedStationId !== booking.stationId) {
+        return;
+      }
+      const bookedSlot =
+        stationDetail.slots.stationSlots.find(slot => slot.stationSlotPosition === booking.stationSlotPosition);
+      bookedSlot && setSelectedSlot(bookedSlot);
+    },
+    [booking, openedStationId, stationDetail, setSelectedSlot],
   );
 
   const selectedStation = useMemo(
@@ -273,7 +295,9 @@ const RentPopup: React.FC<RentPopupProps> = ({
                     booking={booking}
                     openedStation={stationDetail}
                     selectedSlot={selectedSlot}
+                    stations={stations}
                     onBookBike={onBookBike}
+                    onCancelBooking={onCancelBooking}
                     onRentBike={handleRent}
                   />
                 ) : (
