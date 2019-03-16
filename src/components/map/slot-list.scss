@@ -1,0 +1,51 @@
+@import '../../resources/scss/variables';
+
+.slot-list {
+  list-style: none;
+
+  padding: 0;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  -webkit-overflow-scrolling: touch;
+
+  &.centered {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.slot-entry {
+  display: inline-flex;
+
+  &:not(:last-of-type) {
+    margin-right: 16px;
+  }
+}
+
+.slot-icon {
+  justify-content: center;
+  height: 64px;
+  width: 64px;
+
+  margin-bottom: $border-radius;
+
+  p {
+    margin: 0;
+  }
+
+  &.reserved {
+    border-color: blue;
+    border-style: dashed;
+
+    &.me {
+      border-color: $velocity-green;
+    }
+  }
+  &.selected {
+    border-color: $velocity-green;
+    border-style: solid;
+  }
+}

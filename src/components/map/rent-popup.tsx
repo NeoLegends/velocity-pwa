@@ -7,7 +7,6 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import Measure, { ContentRect } from 'react-measure';
 
 import { useOpenableStation } from '../../hooks/map';
 import { useBooking } from '../../hooks/stations';
@@ -15,9 +14,9 @@ import { Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 import Spinner from '../util/spinner';
 
-import BatteryCharge from './battery-charge';
 import RentControls from './rent-controls';
 import './rent-popup.scss';
+import SlotList from './slot-list';
 
 interface RentPopupProps {
   className?: string;
@@ -47,7 +46,6 @@ const RentPopup: React.FC<RentPopupProps> = ({
     dismissStationDetail,
   ] = useOpenableStation();
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
-  const [useCenteredStyling, setUseCenteredStyling] = useState(false);
 
   useEffect(() => {
     if (openedStationId === null) {
@@ -78,10 +76,6 @@ const RentPopup: React.FC<RentPopupProps> = ({
     bookedSlot && setSelectedSlot(bookedSlot);
   }, [booking, openedStationId, stationDetail, setSelectedSlot]);
 
-  const selectedStation = useMemo(
-    () => stations.find(stat => stat.stationId === openedStationId),
-    [openedStationId],
-  );
   const availableSlots = useMemo(() => {
     if (!stationDetail) {
       return [];
@@ -93,22 +87,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
         (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
     );
   }, [stationDetail]);
+  const selectedStation = useMemo(
+    () => stations.find(stat => stat.stationId === openedStationId),
+    [openedStationId],
+  );
   const handleClickOnPopup = useCallback(
     (ev: React.MouseEvent) => ev.stopPropagation(),
     [],
-  );
-  const handlePopupResize = useCallback(
-    (ev: ContentRect) => {
-      // 32 is 2 * padding
-      const popupWidth = ev.client!.width - 32;
-
-      // A slot item is 64px wide and there is a 16px margin between each
-      const requiredWidth =
-        64 * availableSlots.length + 16 * (availableSlots.length - 1);
-
-      setUseCenteredStyling(requiredWidth < popupWidth);
-    },
-    [availableSlots],
   );
 
   const { map, MAP } = useContext(LanguageContext);
@@ -121,106 +106,49 @@ const RentPopup: React.FC<RentPopupProps> = ({
   };
 
   return (
-    <Measure client onResize={handlePopupResize}>
-      {({ measureRef }) => (
-        <div
-          className={classNames(
-            'rent-popup',
-            openedStationId && 'open',
-            className,
-          )}
-          onClick={handleClickOnPopup}
-          ref={measureRef}
-        >
-          <h2 className="station-name">
-            {selectedStation && selectedStation.name}
-          </h2>
+    <div
+      className={classNames('rent-popup', openedStationId && 'open', className)}
+      onClick={handleClickOnPopup}
+    >
+      <h2 className="station-name">
+        {selectedStation && selectedStation.name}
+      </h2>
 
-          <hr />
+      <hr />
 
-          {stationDetail ? (
-            availableSlots.length ? (
-              <>
-                <ul
-                  className={classNames(
-                    'slot-list',
-                    useCenteredStyling && 'centered',
-                  )}
-                  ref={measureRef}
-                >
-                  {availableSlots.map(slot => {
-                    const isReserved =
-                      slot.pedelecInfo &&
-                      slot.pedelecInfo.availability === 'RESERVED';
-                    const isReservedByMe =
-                      booking &&
-                      booking.stationId === stationDetail.station.stationId &&
-                      booking.stationSlotPosition === slot.stationSlotPosition;
+      {!stationDetail ? (
+        <Spinner className="loading-station" />
+      ) : !availableSlots.length ? (
+        <p className="no-bikes">{map.NO_BIKES}</p>
+      ) : (
+        <>
+          <SlotList
+            availableSlots={availableSlots}
+            booking={booking}
+            onSetSelectedSlot={setSelectedSlot}
+            selectedSlot={selectedSlot}
+            stationId={stationDetail.station.stationId}
+          />
 
-                    const handleClick = () =>
-                      (!isReserved || isReservedByMe) && setSelectedSlot(slot);
-
-                    return (
-                      <li
-                        className="slot-entry column"
-                        key={slot.stationSlotId}
-                        onClick={handleClick}
-                      >
-                        <div
-                          className={classNames(
-                            'slot-icon outline column',
-                            isReserved && 'reserved',
-                            isReservedByMe && 'me',
-                            selectedSlot &&
-                              selectedSlot.stationSlotId ===
-                                slot.stationSlotId &&
-                              'selected',
-                          )}
-                        >
-                          <BatteryCharge
-                            chargePercentage={Math.round(
-                              (slot.stateOfCharge || 0) * 100,
-                            )}
-                          />
-                          {slot.stateOfCharge !== null && (
-                            <p>
-                              {Math.round((slot.stateOfCharge || 0) * 100)}%
-                            </p>
-                          )}
-                        </div>
-
-                        <span>Slot {slot.stationSlotPosition}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                {isLoggedIn ? (
-                  <RentControls
-                    booking={booking}
-                    openedStation={stationDetail}
-                    selectedSlot={selectedSlot}
-                    stations={stations}
-                    onBookBike={onBookBike}
-                    onCancelBooking={onCancelBooking}
-                    onRentBike={handleRent}
-                  />
-                ) : (
-                  <Link className="login-cta" to="/login">
-                    {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
-                    {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
-                  </Link>
-                )}
-              </>
-            ) : (
-              <p className="no-bikes">{map.NO_BIKES}</p>
-            )
+          {isLoggedIn ? (
+            <RentControls
+              booking={booking}
+              openedStation={stationDetail}
+              selectedSlot={selectedSlot}
+              stations={stations}
+              onBookBike={onBookBike}
+              onCancelBooking={onCancelBooking}
+              onRentBike={handleRent}
+            />
           ) : (
-            <Spinner className="loading-station" />
+            <Link className="login-cta" to="/login">
+              {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
+              {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+            </Link>
           )}
-        </div>
+        </>
       )}
-    </Measure>
+    </div>
   );
 };
 
