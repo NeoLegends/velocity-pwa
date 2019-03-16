@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
 
 import { useFormField } from '../../hooks/form';
-import { OpenedStation } from '../../hooks/map';
 import { useSavedPin } from '../../hooks/pin';
+import { StationDetail } from '../../hooks/rent-popup';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext } from '../../resources/language';
 
@@ -13,7 +13,7 @@ import Slider from './slider';
 interface RentControlsProps {
   booking: Booking | null;
   className?: string;
-  openedStation: OpenedStation;
+  openedStation: StationDetail;
   selectedSlot: Slot | null;
   stations: Station[];
 

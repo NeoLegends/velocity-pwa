@@ -1,17 +1,14 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
-import { useOpenableStation } from '../../hooks/map';
+import { useSelectedSlot, useStationDetail } from '../../hooks/rent-popup';
 import { useBooking } from '../../hooks/stations';
-import { Slot, Station } from '../../model';
+import { InvalidStatusCodeError, Station } from '../../model';
+import { bookBike, rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
+import Overlay from '../util/overlay';
 import Spinner from '../util/spinner';
 
 import RentControls from './rent-controls';
@@ -24,9 +21,7 @@ interface RentPopupProps {
   openedStationId: number | null;
   stations: Station[];
 
-  onBookBike: () => void;
-  onCancelBooking: () => void;
-  onRentBike: (pin: string, slotId: number) => void;
+  onRequestClose: () => void;
 }
 
 const RentPopup: React.FC<RentPopupProps> = ({
@@ -35,58 +30,26 @@ const RentPopup: React.FC<RentPopupProps> = ({
   openedStationId,
   stations,
 
-  onBookBike,
-  onCancelBooking,
-  onRentBike,
+  onRequestClose,
 }) => {
-  const { booking, fetchBooking } = useBooking();
-  const [
+  const { booking, cancelBooking, fetchBooking } = useBooking();
+  const {
+    availableSlots,
     stationDetail,
-    loadStationDetail,
-    dismissStationDetail,
-  ] = useOpenableStation();
-  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+    fetchStationDetail,
+  } = useStationDetail(openedStationId);
+  const { selectedSlot, setSelectedSlot } = useSelectedSlot(
+    openedStationId,
+    booking,
+    stationDetail,
+  );
 
   useEffect(() => {
-    if (openedStationId === null) {
-      return;
+    if (openedStationId) {
+      fetchBooking();
     }
-
-    loadStationDetail(openedStationId);
-    fetchBooking();
-
-    return () => {
-      dismissStationDetail();
-      setSelectedSlot(null);
-    };
   }, [openedStationId]);
 
-  useEffect(() => {
-    if (
-      !booking ||
-      !openedStationId ||
-      !stationDetail ||
-      openedStationId !== booking.stationId
-    ) {
-      return;
-    }
-    const bookedSlot = stationDetail.slots.stationSlots.find(
-      slot => slot.stationSlotPosition === booking.stationSlotPosition,
-    );
-    bookedSlot && setSelectedSlot(bookedSlot);
-  }, [booking, openedStationId, stationDetail, setSelectedSlot]);
-
-  const availableSlots = useMemo(() => {
-    if (!stationDetail) {
-      return [];
-    }
-
-    return stationDetail.slots.stationSlots.filter(
-      slot =>
-        slot.isOccupied &&
-        (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
-    );
-  }, [stationDetail]);
   const selectedStation = useMemo(
     () => stations.find(stat => stat.stationId === openedStationId),
     [openedStationId],
@@ -96,59 +59,118 @@ const RentPopup: React.FC<RentPopupProps> = ({
     [],
   );
 
-  const { map, MAP } = useContext(LanguageContext);
+  const { map, BUCHUNGEN, MAP } = useContext(LanguageContext);
 
-  const handleRent = (pin: string) => {
-    const slotId = selectedSlot
-      ? selectedSlot.stationSlotId
-      : stationDetail!.slots.recommendedSlot!;
-    onRentBike(pin, slotId);
-  };
+  const handleBook = useCallback(() => {
+    if (!selectedStation) {
+      throw new Error('Trying to reserve a bike, but no station selected.');
+    }
+
+    bookBike(selectedStation.stationId)
+      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+      .catch(err => {
+        console.error('Error while reserving bike:', err);
+        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+      });
+  }, [fetchBooking, fetchStationDetail, selectedStation, MAP]);
+
+  const handleCancelBooking = useCallback(() => {
+    if (!booking) {
+      return;
+    }
+
+    return cancelBooking()
+      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+      .catch(err => {
+        console.error('Error while canceling a booking:', err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      });
+  }, [booking, fetchBooking, fetchStationDetail, selectedStation, BUCHUNGEN]);
+
+  const handleRent = useCallback(
+    (pin: string) => {
+      if (!selectedStation || !stationDetail) {
+        throw new Error('Trying to rent a bike, but no station selected.');
+      }
+
+      const slotId = selectedSlot
+        ? selectedSlot.stationSlotId
+        : stationDetail.slots.recommendedSlot!;
+
+      rentBike(pin, selectedStation.stationId, slotId)
+        .then(() => {
+          onRequestClose();
+
+          toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
+            type: 'success',
+          });
+        })
+        .catch(err => {
+          console.error('Error while renting out bike:', err);
+          const code = (err as InvalidStatusCodeError).statusCode;
+          const message =
+            code === 403
+              ? MAP.POPUP.RENT_DIALOG.ALERT.INVALID_PIN
+              : code === 406
+              ? MAP.POPUP.RENT_DIALOG.ALERT.SLOT_LOCKED
+              : MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR;
+
+          toast(message, { type: 'error' });
+        });
+    },
+    [onRequestClose, selectedSlot, selectedStation, stationDetail, MAP],
+  );
 
   return (
-    <div
-      className={classNames('rent-popup', openedStationId && 'open', className)}
-      onClick={handleClickOnPopup}
-    >
-      <h2 className="station-name">
-        {selectedStation && selectedStation.name}
-      </h2>
+    <Overlay isOpen={Boolean(openedStationId)} onRequestClose={onRequestClose}>
+      <div
+        className={classNames(
+          'rent-popup',
+          openedStationId && 'open',
+          className,
+        )}
+        onClick={handleClickOnPopup}
+      >
+        <h2 className="station-name">
+          {selectedStation && selectedStation.name}
+        </h2>
 
-      <hr />
+        <hr />
 
-      {!stationDetail ? (
-        <Spinner className="loading-station" />
-      ) : !availableSlots.length ? (
-        <p className="no-bikes">{map.NO_BIKES}</p>
-      ) : (
-        <>
-          <SlotList
-            availableSlots={availableSlots}
-            booking={booking}
-            onSetSelectedSlot={setSelectedSlot}
-            selectedSlot={selectedSlot}
-            stationId={stationDetail.station.stationId}
-          />
-
-          {isLoggedIn ? (
-            <RentControls
+        {!stationDetail ? (
+          <Spinner className="loading-station" />
+        ) : !availableSlots.length ? (
+          <p className="no-bikes">{map.NO_BIKES}</p>
+        ) : (
+          <>
+            <SlotList
+              availableSlots={availableSlots}
               booking={booking}
-              openedStation={stationDetail}
+              onSetSelectedSlot={setSelectedSlot}
               selectedSlot={selectedSlot}
-              stations={stations}
-              onBookBike={onBookBike}
-              onCancelBooking={onCancelBooking}
-              onRentBike={handleRent}
+              stationId={stationDetail.station.stationId}
             />
-          ) : (
-            <Link className="login-cta" to="/login">
-              {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
-              {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
-            </Link>
-          )}
-        </>
-      )}
-    </div>
+
+            {isLoggedIn ? (
+              <RentControls
+                booking={booking}
+                openedStation={stationDetail}
+                selectedSlot={selectedSlot}
+                stations={stations}
+                onBookBike={handleBook}
+                onCancelBooking={handleCancelBooking}
+                onRentBike={handleRent}
+              />
+            ) : (
+              <Link className="login-cta" to="/login">
+                {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
+                {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+              </Link>
+            )}
+          </>
+        )}
+      </div>
+    </Overlay>
   );
 };
 
