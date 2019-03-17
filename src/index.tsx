@@ -1,9 +1,12 @@
+// tslint:disable:ordered-imports
+
 import 'modern-normalize/modern-normalize.css';
+import './index.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './components/app';
-import './index.scss';
 
 declare global {
   interface Number {
