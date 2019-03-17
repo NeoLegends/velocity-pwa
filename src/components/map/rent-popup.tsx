@@ -124,14 +124,16 @@ const RentPopup: React.FC<RentPopupProps> = ({
   return (
     <Overlay isOpen={Boolean(openedStationId)} onRequestClose={onRequestClose}>
       <div
+        aria-labelledby="station-name"
         className={classNames(
           'rent-popup',
           openedStationId && 'open',
           className,
         )}
         onClick={handleClickOnPopup}
+        role="dialog"
       >
-        <h2 className="station-name">
+        <h2 id="station-name" className="station-name">
           {selectedStation && selectedStation.name}
         </h2>
 

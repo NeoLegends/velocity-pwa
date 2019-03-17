@@ -68,7 +68,7 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
 };
 
 const Menu: React.FC<MenuProps> = ({ className, ...rest }) => (
-  <nav className={classNames('menu', className)}>
+  <nav className={classNames('menu', className)} role="dialog">
     <MenuEntries {...rest} />
   </nav>
 );
