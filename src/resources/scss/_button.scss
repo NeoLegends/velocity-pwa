@@ -16,6 +16,9 @@
   &:hover {
     background-color: darken($menu-background, 10%);
   }
+  &:active {
+    background-color: darken($menu-background, 20%);
+  }
   &:disabled {
     background-color: darken($menu-background, 10%);
     color: lighten($text-color, 20%);
