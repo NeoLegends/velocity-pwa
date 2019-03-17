@@ -30,8 +30,9 @@ const Overlay: React.FC<OverlayMenuProps> = ({
       return;
     }
 
-    // Disable touch events on the background
     const app = document.getElementById('root')!;
+
+    // Disable touch events on the background
     app.classList.add(OVERLAY_OPEN_CLASS);
 
     // Disable scrolling on background
