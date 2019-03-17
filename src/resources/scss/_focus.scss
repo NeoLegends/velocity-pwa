@@ -1,0 +1,9 @@
+@import './variables';
+
+* {
+  outline: none;
+
+  &:focus {
+    box-shadow: 0 0 4px darken($menu-background, 50%);
+  }
+}
