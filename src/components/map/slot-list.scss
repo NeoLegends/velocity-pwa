@@ -3,7 +3,8 @@
 .slot-list {
   list-style: none;
 
-  padding: 0;
+  margin: 0;
+  padding: 1em 0;
 
   overflow-x: scroll;
   overflow-y: hidden;
@@ -15,37 +16,54 @@
     display: flex;
     justify-content: center;
   }
-}
 
-.slot-entry {
-  display: inline-flex;
+  .slot-list-item {
+    display: inline-flex;
 
-  &:not(:last-of-type) {
-    margin-right: 16px;
-  }
-}
-
-.slot-icon {
-  justify-content: center;
-  height: 64px;
-  width: 64px;
-
-  margin-bottom: $border-radius;
-
-  p {
-    margin: 0;
-  }
-
-  &.reserved {
-    border-color: blue;
-    border-style: dashed;
-
-    &.me {
-      border-color: $velocity-green;
+    &:not(:last-of-type) {
+      margin-right: 16px;
     }
   }
-  &.selected {
-    border-color: $velocity-green;
-    border-style: solid;
+
+  .slot-button {
+    background: transparent;
+    border: none;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    &:focus {
+      box-shadow: none;
+
+      .slot-icon {
+        box-shadow: $focus-box-shadow;
+      }
+    }
+  }
+
+  .slot-icon {
+    justify-content: center;
+    height: 64px;
+    width: 64px;
+
+    margin-bottom: $border-radius;
+
+    p {
+      margin: 0;
+    }
+
+    &.reserved {
+      border-color: blue;
+      border-style: dashed;
+
+      &.me {
+        border-color: $velocity-green;
+      }
+    }
+    &.selected {
+      border-color: $velocity-green;
+      border-style: solid;
+    }
   }
 }

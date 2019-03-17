@@ -40,29 +40,30 @@ const SlotView: React.FC<SlotViewProps> = ({
 
   return (
     <li
-      className={classNames('slot-entry column', className)}
+      className={classNames('slot-list-item', className)}
       key={slot.stationSlotId}
-      onClick={handleClick}
     >
-      <div
-        className={classNames(
-          'slot-icon outline column',
-          isReserved && 'reserved',
-          isReservedByMe && 'me',
-          selectedSlot &&
-            selectedSlot.stationSlotId === slot.stationSlotId &&
-            'selected',
-        )}
-      >
-        <BatteryCharge
-          chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
-        />
-        {slot.stateOfCharge !== null && (
-          <p>{Math.round((slot.stateOfCharge || 0) * 100)}%</p>
-        )}
-      </div>
+      <button className="slot-button column" onClick={handleClick}>
+        <div
+          className={classNames(
+            'slot-icon outline column',
+            isReserved && 'reserved',
+            isReservedByMe && 'me',
+            selectedSlot &&
+              selectedSlot.stationSlotId === slot.stationSlotId &&
+              'selected',
+          )}
+        >
+          <BatteryCharge
+            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
+          />
+          {slot.stateOfCharge !== null && (
+            <p>{Math.round((slot.stateOfCharge || 0) * 100)}%</p>
+          )}
+        </div>
 
-      <span>Slot {slot.stationSlotPosition}</span>
+        <span>Slot {slot.stationSlotPosition}</span>
+      </button>
     </li>
   );
 };
