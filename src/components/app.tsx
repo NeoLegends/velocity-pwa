@@ -1,6 +1,7 @@
 import { navigate, Router } from '@reach/router';
 import React, { useCallback, StrictMode } from 'react';
 import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useLogin } from '../hooks/authentication';
 import { useLanguage } from '../hooks/intl';
