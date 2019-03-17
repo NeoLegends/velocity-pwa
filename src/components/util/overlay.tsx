@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
@@ -33,7 +34,13 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     const app = document.getElementById('root')!;
     app.classList.add(OVERLAY_OPEN_CLASS);
 
-    return () => app.classList.remove(OVERLAY_OPEN_CLASS);
+    // Disable scrolling on background
+    disableBodyScroll(app, { reserveScrollBarGap: true });
+
+    return () => {
+      app.classList.remove(OVERLAY_OPEN_CLASS);
+      enableBodyScroll(app);
+    };
   }, [isOpen]);
 
   if (!element) {
