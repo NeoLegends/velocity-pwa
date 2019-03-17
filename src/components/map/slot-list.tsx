@@ -85,7 +85,7 @@ const SlotList: React.FC<SlotListProps> = ({
 
   onSetSelectedSlot,
 }) => {
-  const [useCenteredStyling, setUseCenteredStyling] = useState(false);
+  const [useCenteredStyling, setUseCenteredStyling] = useState(true);
   const handlePopupResize = useCallback(
     (ev: ContentRect) => {
       const popupWidth = ev.client!.width;
