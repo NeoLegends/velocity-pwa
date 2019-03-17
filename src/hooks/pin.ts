@@ -10,10 +10,7 @@ export const useSavedPin = () => {
     setPin(pin);
   }, []);
 
-  useLayoutEffect(() => {
-    const pin = getSavedCardPin();
-    setPin(pin);
-  }, []);
+  useLayoutEffect(() => setPin(getSavedCardPin()), []);
 
   return [pin, setPinInLsAndState] as [
     string | null,
