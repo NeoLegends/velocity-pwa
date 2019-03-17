@@ -1,6 +1,6 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useBodyDiv } from '../../hooks/portal';
@@ -31,7 +31,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   const element = useBodyDiv();
   const [focusRef, setFocusRef] = useState<unknown>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       return;
     }
@@ -44,18 +44,21 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     // Disable scrolling on background
     disableBodyScroll(app, { reserveScrollBarGap: true });
 
+    return () => {
+      app.classList.remove(OVERLAY_OPEN_CLASS);
+      enableBodyScroll(app);
+    };
+  }, [isOpen]);
+
+  useLayoutEffect(() => {
     // Autofocus first focusable element
     if (
+      isOpen &&
       focusRef &&
       typeof (focusRef as HTMLOrSVGElement).focus === 'function'
     ) {
       (focusRef as HTMLOrSVGElement).focus();
     }
-
-    return () => {
-      app.classList.remove(OVERLAY_OPEN_CLASS);
-      enableBodyScroll(app);
-    };
   }, [focusRef, isOpen]);
 
   if (!element) {
