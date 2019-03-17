@@ -1,13 +1,18 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { useBodyDiv } from '../../hooks/portal';
 
 import './overlay.scss';
 
+export interface OverlayContentProps {
+  focusRef: React.Ref<any>;
+}
+
 export interface OverlayMenuProps {
+  children: React.ComponentType<OverlayContentProps>;
   className?: string;
   isOpen: boolean;
 
@@ -24,8 +29,9 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   onRequestClose,
 }) => {
   const element = useBodyDiv();
+  const [focusRef, setFocusRef] = useState<unknown>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isOpen) {
       return;
     }
@@ -38,22 +44,32 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     // Disable scrolling on background
     disableBodyScroll(app, { reserveScrollBarGap: true });
 
+    // Autofocus first focusable element
+    if (
+      focusRef &&
+      typeof (focusRef as HTMLOrSVGElement).focus === 'function'
+    ) {
+      (focusRef as HTMLOrSVGElement).focus();
+    }
+
     return () => {
       app.classList.remove(OVERLAY_OPEN_CLASS);
       enableBodyScroll(app);
     };
-  }, [isOpen]);
+  }, [focusRef, isOpen]);
 
   if (!element) {
     return null;
   }
+
+  const Children = children;
 
   const dom = (
     <div
       className={classNames('backdrop', isOpen && 'visible', className)}
       onClick={onRequestClose}
     >
-      {children}
+      <Children focusRef={setFocusRef} />
     </div>
   );
 

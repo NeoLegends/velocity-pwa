@@ -15,10 +15,12 @@ const LazyLoadFailed: React.FC<LazyLoadFailedProps> = ({ className }) => {
 
   return (
     <Overlay isOpen>
-      <div className={classNames('lazy-load-failed', className)}>
-        <h1>{sw.LOAD_FAILED.TITLE}</h1>
-        <p>{sw.LOAD_FAILED.BODY}</p>
-      </div>
+      {({ focusRef }) => (
+        <div className={classNames('lazy-load-failed', className)}>
+          <h1 ref={focusRef}>{sw.LOAD_FAILED.TITLE}</h1>
+          <p>{sw.LOAD_FAILED.BODY}</p>
+        </div>
+      )}
     </Overlay>
   );
 };

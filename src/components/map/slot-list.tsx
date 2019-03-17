@@ -10,6 +10,7 @@ import './slot-list.scss';
 interface SlotViewProps {
   booking: Booking | null;
   className?: string;
+  focusRef: React.Ref<any> | null;
   selectedSlot: Slot | null;
   slot: Slot;
   stationId: number;
@@ -20,6 +21,7 @@ interface SlotViewProps {
 const SlotView: React.FC<SlotViewProps> = ({
   booking,
   className,
+  focusRef,
   selectedSlot,
   slot,
   stationId,
@@ -43,7 +45,11 @@ const SlotView: React.FC<SlotViewProps> = ({
       className={classNames('slot-list-item', className)}
       key={slot.stationSlotId}
     >
-      <button className="slot-button column" onClick={handleClick}>
+      <button
+        className="slot-button column"
+        onClick={handleClick}
+        ref={focusRef}
+      >
         <div
           className={classNames(
             'slot-icon outline column',
@@ -72,6 +78,7 @@ interface SlotListProps {
   availableSlots: Slot[];
   booking: Booking | null;
   className?: string;
+  focusRef: React.Ref<HTMLOrSVGElement | undefined>;
   selectedSlot: Slot | null;
   stationId: number;
 
@@ -81,6 +88,7 @@ interface SlotListProps {
 const SlotList: React.FC<SlotListProps> = ({
   availableSlots,
   booking,
+  focusRef,
   selectedSlot,
   stationId,
 
@@ -107,9 +115,10 @@ const SlotList: React.FC<SlotListProps> = ({
           className={classNames('slot-list', useCenteredStyling && 'centered')}
           ref={measureRef}
         >
-          {availableSlots.map(slot => (
+          {availableSlots.map((slot, index) => (
             <SlotView
               key={slot.stationSlotId}
+              focusRef={index === 0 ? focusRef : null}
               booking={booking}
               onClick={() => onSetSelectedSlot(slot)}
               selectedSlot={selectedSlot}

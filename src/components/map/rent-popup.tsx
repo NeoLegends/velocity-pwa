@@ -123,55 +123,58 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   return (
     <Overlay isOpen={Boolean(openedStationId)} onRequestClose={onRequestClose}>
-      <div
-        aria-labelledby="station-name"
-        className={classNames(
-          'rent-popup',
-          openedStationId && 'open',
-          className,
-        )}
-        onClick={handleClickOnPopup}
-        role="dialog"
-      >
-        <h2 id="station-name" className="station-name">
-          {selectedStation && selectedStation.name}
-        </h2>
+      {({ focusRef }) => (
+        <div
+          aria-labelledby="station-name"
+          className={classNames(
+            'rent-popup',
+            openedStationId && 'open',
+            className,
+          )}
+          onClick={handleClickOnPopup}
+          role="dialog"
+        >
+          <h2 id="station-name" className="station-name">
+            {selectedStation && selectedStation.name}
+          </h2>
 
-        <hr />
+          <hr />
 
-        {!stationDetail ? (
-          <Spinner className="loading-station" />
-        ) : !availableSlots.length ? (
-          <p className="no-bikes">{map.NO_BIKES}</p>
-        ) : (
-          <>
-            <SlotList
-              availableSlots={availableSlots}
-              booking={booking}
-              onSetSelectedSlot={setSelectedSlot}
-              selectedSlot={selectedSlot}
-              stationId={stationDetail.station.stationId}
-            />
-
-            {isLoggedIn ? (
-              <RentControls
+          {!stationDetail ? (
+            <Spinner className="loading-station" />
+          ) : !availableSlots.length ? (
+            <p className="no-bikes">{map.NO_BIKES}</p>
+          ) : (
+            <>
+              <SlotList
+                availableSlots={availableSlots}
                 booking={booking}
-                openedStation={stationDetail}
+                focusRef={focusRef}
+                onSetSelectedSlot={setSelectedSlot}
                 selectedSlot={selectedSlot}
-                stations={stations}
-                onBookBike={handleBook}
-                onCancelBooking={handleCancelBooking}
-                onRentBike={handleRent}
+                stationId={stationDetail.station.stationId}
               />
-            ) : (
-              <Link className="login-cta" to="/login">
-                {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
-                {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
-              </Link>
-            )}
-          </>
-        )}
-      </div>
+
+              {isLoggedIn ? (
+                <RentControls
+                  booking={booking}
+                  openedStation={stationDetail}
+                  selectedSlot={selectedSlot}
+                  stations={stations}
+                  onBookBike={handleBook}
+                  onCancelBooking={handleCancelBooking}
+                  onRentBike={handleRent}
+                />
+              ) : (
+                <Link className="login-cta" to="/login">
+                  {MAP.POPUP.REQUIRE_SIGN_IN.LINK}
+                  {MAP.POPUP.REQUIRE_SIGN_IN.TEXT}
+                </Link>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </Overlay>
   );
 };

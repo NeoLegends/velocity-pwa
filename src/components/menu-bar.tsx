@@ -73,10 +73,13 @@ const MenuBar: React.FC<MenuBarProps> = ({
       </button>
 
       <Overlay isOpen={isMenuOpen} onRequestClose={closeMenu}>
-        <Menu
-          canInstall={canInstall}
-          onClickInstallOnDevice={onClickInstallOnDevice}
-        />
+        {({ focusRef }) => (
+          <Menu
+            canInstall={canInstall}
+            focusRef={focusRef}
+            onClickInstallOnDevice={onClickInstallOnDevice}
+          />
+        )}
       </Overlay>
     </header>
   );

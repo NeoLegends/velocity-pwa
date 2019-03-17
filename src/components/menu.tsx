@@ -8,6 +8,7 @@ import './menu.scss';
 
 export interface MenuEntriesProps {
   canInstall?: boolean;
+  focusRef?: React.Ref<any>;
 
   onClickInstallOnDevice?: React.MouseEventHandler;
 }
@@ -30,21 +31,22 @@ const calculateClassNames = ({
   }),
 });
 
-const MenuEntry: React.FC<MenuEntryProps> = ({ text, to }) => (
-  <Link to={to} getProps={calculateClassNames}>
+const MenuEntry = React.forwardRef<any, MenuEntryProps>(({ text, to }, ref) => (
+  <Link to={to} getProps={calculateClassNames} ref={ref}>
     {text}
   </Link>
-);
+));
 
 export const MenuEntries: React.FC<MenuEntriesProps> = ({
   canInstall,
+  focusRef,
   onClickInstallOnDevice,
 }) => {
   const { sw, NAVIGATION } = useContext(LanguageContext);
 
   return (
     <>
-      <MenuEntry text={NAVIGATION.KARTE} to="/" />
+      <MenuEntry text={NAVIGATION.KARTE} to="/" ref={focusRef} />
       <MenuEntry text={NAVIGATION.BUCHUNGEN} to="/bookings" />
       <MenuEntry text={NAVIGATION.ABONNEMENT} to="/tariff" />
       <MenuEntry text={NAVIGATION.RECHNUNGEN} to="/invoices" />
