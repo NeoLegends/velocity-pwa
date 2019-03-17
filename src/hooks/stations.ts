@@ -9,6 +9,8 @@ import {
 } from '../model/stations';
 import { LanguageContext } from '../resources/language';
 
+import { useInterval } from './interval';
+
 const LOCALSTORAGE_STATIONS_KEY = 'velocity/stations';
 
 export const useBooking = () => {
@@ -36,9 +38,7 @@ export const useBooking = () => {
     [BUCHUNGEN],
   );
 
-  useEffect(() => {
-    fetchBooking();
-  }, []);
+  useInterval(fetchBooking);
 
   return { booking, cancelBooking, fetchBooking };
 };
@@ -67,9 +67,9 @@ export const useStations = () => {
     if (lsStations) {
       setStations(JSON.parse(lsStations));
     }
-
-    fetchStations();
   }, []);
+
+  useInterval(fetchStations);
 
   return { stations, fetchStations };
 };

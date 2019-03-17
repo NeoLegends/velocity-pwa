@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import {
@@ -8,13 +8,15 @@ import {
 } from '../model/authentication';
 import { LanguageContext } from '../resources/language';
 
+import { useInterval } from './interval';
+
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginStatusKnown, setStatusKnown] = useState(false);
 
-  useEffect(() => {
+  const fetchLoginState = () =>
     checkIsLoggedIn()
       .then(isIn => {
         setIsLoggedIn(isIn);
@@ -24,7 +26,6 @@ export const useLogin = () => {
         console.error('Error while checking for login state:', err);
         toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
       });
-  }, []);
 
   const login = (email: string, pw: string) =>
     doLogin(email, pw)
@@ -54,8 +55,11 @@ export const useLogin = () => {
         toast(LOGIN.ALERT.LOGOUT_ERR, { type: 'error' });
       });
 
+  const fetchLoginStateCallback = useCallback(fetchLoginState, [LOGIN]);
   const loginCallback = useCallback(login, [LOGIN]);
   const logoutCallback = useCallback(logout, [LOGIN]);
+
+  useInterval(fetchLoginStateCallback);
 
   return {
     isLoggedIn,

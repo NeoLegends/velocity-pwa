@@ -5,6 +5,8 @@ import { Tariff, UserTariff } from '../model';
 import { getCurrentTariff, getTariffs } from '../model/tariff';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
+import { useInterval } from './interval';
+
 export const useTariffs = () => {
   const { TARIFF } = useContext(LanguageContext);
   const languageId = useContext(LanguageIdContext);
@@ -37,9 +39,7 @@ export const useUserTariff = () => {
     [TARIFF],
   );
 
-  useEffect(() => {
-    fetchTariff();
-  }, []);
+  useInterval(fetchTariff);
 
   return { userTariff, fetchTariff };
 };

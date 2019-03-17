@@ -5,6 +5,8 @@ import { Booking, Slot, Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
 import { LanguageContext } from '../resources/language';
 
+import { useInterval } from './interval';
+
 export interface StationDetail {
   slots: Slots;
   station: StationWithAddress;
@@ -80,10 +82,7 @@ export const useStationDetail = (stationId: number | null) => {
       });
   }, [stationId, MAP]);
 
-  useEffect(() => {
-    fetchStationDetail();
-    return () => setStationDetail(null);
-  }, [stationId]);
+  useInterval(fetchStationDetail);
 
   return {
     availableSlots,
