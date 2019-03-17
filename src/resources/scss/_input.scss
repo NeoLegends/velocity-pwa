@@ -9,10 +9,10 @@
   padding: 6px 12px;
 
   -webkit-tap-highlight-color: transparent;
-}
 
-.input:invalid {
-  border-color: $error-color;
+  &:invalid {
+    border-color: $error-color;
+  }
 }
 
 label {
