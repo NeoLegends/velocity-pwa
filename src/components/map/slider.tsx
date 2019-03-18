@@ -9,7 +9,7 @@ interface BackgroundProps {
 }
 
 interface SliderProps {
-  background?: React.ComponentType<BackgroundProps>;
+  background?: React.FC<BackgroundProps>;
   className?: string;
   completionPercentage?: number;
   disabled?: boolean;
@@ -24,7 +24,7 @@ const knobWidth = 64;
 const knobPadding = 4;
 
 const Slider: React.FC<SliderProps> = ({
-  background: Background,
+  background,
   className,
   completionPercentage = 0.9,
   disabled,
@@ -130,7 +130,7 @@ const Slider: React.FC<SliderProps> = ({
         <span>➢</span>
       </div>
 
-      {Background && <Background completion={completion} />}
+      {background && background({ completion })}
     </div>
   );
 };
