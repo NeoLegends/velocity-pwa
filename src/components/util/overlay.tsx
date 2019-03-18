@@ -32,7 +32,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   const [focusRef, setFocusRef] = useState<unknown>(null);
 
   useEffect(() => {
-    if (!isOpen || !element) {
+    if (!element || !isOpen) {
       return;
     }
 
@@ -41,9 +41,11 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     // Disable touch events on the background
     app.classList.add(OVERLAY_OPEN_CLASS);
 
-    // Disable scrolling on background
-    disableBodyScroll(element, { reserveScrollBarGap: true });
-
+    // Disable scrolling on the body
+    disableBodyScroll(element, {
+      allowTouchMove: el => element.contains(el),
+      reserveScrollBarGap: true,
+    });
     return () => {
       app.classList.remove(OVERLAY_OPEN_CLASS);
       enableBodyScroll(element);
