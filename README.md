@@ -31,6 +31,7 @@ A development proxy is in the `proxy` folder, it can be started by running `dock
 <img width="484" alt="mobile-1-map" src="https://user-images.githubusercontent.com/1683034/54537688-37669280-4993-11e9-8cb1-fcfa9e88dcd4.png">
 <img width="484" alt="mobile-2-menu" src="https://user-images.githubusercontent.com/1683034/54537568-fec6b900-4992-11e9-9108-46acfd323be8.png">
 <img width="484" alt="mobile-3-popup" src="https://user-images.githubusercontent.com/1683034/54537569-fec6b900-4992-11e9-983e-dcbb4121959b.png">
+<img width="484" alt="mobile-4-no-bikes" src="https://user-images.githubusercontent.com/1683034/54537876-8c0a0d80-4993-11e9-9e99-87d937db1e96.png">
 
 ### Desktop
 
