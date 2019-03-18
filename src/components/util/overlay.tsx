@@ -32,7 +32,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
   const [focusRef, setFocusRef] = useState<unknown>(null);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || !element) {
       return;
     }
 
@@ -42,13 +42,13 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     app.classList.add(OVERLAY_OPEN_CLASS);
 
     // Disable scrolling on background
-    disableBodyScroll(app, { reserveScrollBarGap: true });
+    disableBodyScroll(element, { reserveScrollBarGap: true });
 
     return () => {
       app.classList.remove(OVERLAY_OPEN_CLASS);
-      enableBodyScroll(app);
+      enableBodyScroll(element);
     };
-  }, [isOpen]);
+  }, [element, isOpen]);
 
   useLayoutEffect(() => {
     // Autofocus first focusable element
