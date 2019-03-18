@@ -96,15 +96,16 @@ const RentPopup: React.FC<RentPopupProps> = ({
       const slotId = selectedSlot
         ? selectedSlot.stationSlotId
         : stationDetail.slots.recommendedSlot!;
+      const stationId = selectedStation.stationId;
 
-      rentBike(pin, selectedStation.stationId, slotId)
-        .then(() => {
-          onRequestClose();
+      onRequestClose();
 
+      rentBike(pin, stationId, slotId)
+        .then(() =>
           toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
             type: 'success',
-          });
-        })
+          }),
+        )
         .catch(err => {
           console.error('Error while renting out bike:', err);
           const code = (err as InvalidStatusCodeError).statusCode;
