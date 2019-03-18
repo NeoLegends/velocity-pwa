@@ -1,44 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Velocity PWA
 
-## Available Scripts
+This is an improved version of the e-bike-rental PWA found at https://velocity-aachen.de/menu.
 
-In the project directory, you can run:
+It was rewritten from the ground up in modern React for improved performance and a better user experience. Originally written to be a 1:1 clone of the existing PWA it now has diverged from the official web app to integrate some improvements in regards to the bike booking & rental process and an improved overview over the map.
 
-### `npm start`
+The PWA contains a service worker (that is currently disabled on iOS) and can be [installed as a Chrome PWA](https://developers.google.com/web/progressive-web-apps/desktop).
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Building
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+This project uses Create-React-App as its build process & yarn for package management. Compiling is straightforward:
 
-### `npm test`
+`yarn build`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You will find the minified & bundled sources in the `build` folder. They can be served from any static web server. Due to CORS restrictions, the PWA also requires an API proxy to Velocity's backend. It already contains the necessary configuration for a [Netlify](https://netlify.com/) deployment.
 
-### `npm run build`
+## Development
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Running the webpack dev server with hot reloading is straightforward:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+`yarn start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The web app will by default be served on `localhost:3000`.
 
-### `npm run eject`
+A development proxy is in the `proxy` folder, it can be started by running `docker-compose up` in the repo's root directory.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Screenshots
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Mobile
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<img width="484" alt="mobile-1-map" src="https://user-images.githubusercontent.com/1683034/54537688-37669280-4993-11e9-8cb1-fcfa9e88dcd4.png">
+<img width="484" alt="mobile-2-menu" src="https://user-images.githubusercontent.com/1683034/54537568-fec6b900-4992-11e9-9108-46acfd323be8.png">
+<img width="484" alt="mobile-3-popup" src="https://user-images.githubusercontent.com/1683034/54537569-fec6b900-4992-11e9-983e-dcbb4121959b.png">
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Desktop
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img width="1321" alt="desktop-1-map" src="https://user-images.githubusercontent.com/1683034/54537560-fd958c00-4992-11e9-9b45-792ceff92422.png">
+<img width="1321" alt="desktop-2-popup" src="https://user-images.githubusercontent.com/1683034/54537563-fd958c00-4992-11e9-99a9-82687ec96b10.png">
+<img width="1321" alt="desktop-3-rent-at-slot" src="https://user-images.githubusercontent.com/1683034/54537566-fec6b900-4992-11e9-90ee-7dff53d107fd.png">
