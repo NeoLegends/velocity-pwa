@@ -21,13 +21,37 @@ interface SupportProps {
 const Support: React.FC<SupportProps> = ({ className }) => {
   const { stations } = useStations();
 
-  const [feedbackHeading, handleFeedbackHeadingChange] = useFormField('');
-  const [feedbackMessage, handleFeedbackMessageChange] = useFormField('');
+  const [
+    feedbackHeading,
+    handleFeedbackHeadingChange,
+    setFeedbackHeading,
+  ] = useFormField('');
+  const [
+    feedbackMessage,
+    handleFeedbackMessageChange,
+    setFeedbackMessage,
+  ] = useFormField('');
 
-  const [defectBikeNumber, handleDefectBikeNumberChange] = useFormField('');
-  const [defectCategory, handleDefectCategoryChange] = useFormField('');
-  const [defectMessage, handleDefectMessageChange] = useFormField('');
-  const [defectStation, handleDefectStationChange] = useFormField('');
+  const [
+    defectBikeNumber,
+    handleDefectBikeNumberChange,
+    setDefectBikeNumber,
+  ] = useFormField('');
+  const [
+    defectCategory,
+    handleDefectCategoryChange,
+    setDefectCategory,
+  ] = useFormField('');
+  const [
+    defectMessage,
+    handleDefectMessageChange,
+    setDefectMessage,
+  ] = useFormField('');
+  const [
+    defectStation,
+    handleDefectStationChange,
+    setDefectStation,
+  ] = useFormField('');
   const [defectType, setDefectType] = useState<DeviceSupportType>('pedelec');
 
   const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
@@ -45,6 +69,9 @@ const Support: React.FC<SupportProps> = ({ className }) => {
 
     try {
       await submitFeedback(feedbackHeading, feedbackMessage);
+
+      setFeedbackHeading('');
+      setFeedbackMessage('');
 
       toast(SUPPORT.FEEDBACK.ALERT.SUCCESS, { type: 'success' });
     } catch (err) {
@@ -67,6 +94,11 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             defectCategory,
             Number(defectStation),
           ));
+
+      setDefectBikeNumber('');
+      setDefectMessage('');
+      setDefectCategory('');
+      setDefectStation('');
 
       toast(SUPPORT.ERROR_REPORT.ALERT.SUCCESS, { type: 'success' });
     } catch (err) {
