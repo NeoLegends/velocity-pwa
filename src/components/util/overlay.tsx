@@ -1,6 +1,11 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 import { useBodyDiv } from '../../hooks/portal';
@@ -16,7 +21,7 @@ export interface OverlayMenuProps {
   className?: string;
   isOpen: boolean;
 
-  onRequestClose?: React.MouseEventHandler;
+  onRequestClose?: () => void;
 }
 
 const OVERLAY_OPEN_CLASS = 'overlay-open';
@@ -30,6 +35,12 @@ const Overlay: React.FC<OverlayMenuProps> = ({
 }) => {
   const element = useBodyDiv();
   const [focusRef, setFocusRef] = useState<unknown>(null);
+
+  const handleKeyPressed = useCallback(
+    (ev: KeyboardEvent) =>
+      onRequestClose && ev.key === 'Escape' && onRequestClose(),
+    [onRequestClose],
+  );
 
   useEffect(() => {
     if (!element || !isOpen) {
@@ -46,11 +57,16 @@ const Overlay: React.FC<OverlayMenuProps> = ({
       allowTouchMove: el => element.contains(el),
       reserveScrollBarGap: true,
     });
+
+    // Catch escape key
+    document.body.addEventListener('keyup', handleKeyPressed);
+
     return () => {
       app.classList.remove(OVERLAY_OPEN_CLASS);
       enableBodyScroll(element);
+      document.body.removeEventListener('keyup', handleKeyPressed);
     };
-  }, [element, isOpen]);
+  }, [element, handleKeyPressed, isOpen]);
 
   useLayoutEffect(() => {
     // Autofocus first focusable element
