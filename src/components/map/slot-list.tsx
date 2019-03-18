@@ -1,6 +1,6 @@
+import useComponentSize from '@rehooks/component-size';
 import classNames from 'classnames';
-import React, { useCallback, useState } from 'react';
-import Measure, { ContentRect } from 'react-measure';
+import React, { useCallback, useRef } from 'react';
 
 import { Booking, Slot } from '../../model';
 
@@ -94,41 +94,30 @@ const SlotList: React.FC<SlotListProps> = ({
 
   onSetSelectedSlot,
 }) => {
-  const [useCenteredStyling, setUseCenteredStyling] = useState(true);
-  const handlePopupResize = useCallback(
-    (ev: ContentRect) => {
-      const popupWidth = ev.client!.width;
+  const measureRef = useRef<any>();
+  const { width } = useComponentSize(measureRef);
 
-      // A slot item is 64px wide and there is a 16px margin between each
-      const requiredWidth =
-        64 * availableSlots.length + 16 * (availableSlots.length - 1);
-
-      setUseCenteredStyling(requiredWidth < popupWidth);
-    },
-    [availableSlots.length],
-  );
+  // A slot item is 64px wide and there is a 16px margin between each
+  const requiredWidth =
+    64 * availableSlots.length + 16 * (availableSlots.length - 1);
 
   return (
-    <Measure client onResize={handlePopupResize}>
-      {({ measureRef }) => (
-        <ul
-          className={classNames('slot-list', useCenteredStyling && 'centered')}
-          ref={measureRef}
-        >
-          {availableSlots.map((slot, index) => (
-            <SlotView
-              key={slot.stationSlotId}
-              focusRef={index === 0 ? focusRef : null}
-              booking={booking}
-              onClick={() => onSetSelectedSlot(slot)}
-              selectedSlot={selectedSlot}
-              slot={slot}
-              stationId={stationId}
-            />
-          ))}
-        </ul>
-      )}
-    </Measure>
+    <ul
+      className={classNames('slot-list', requiredWidth < width && 'centered')}
+      ref={measureRef}
+    >
+      {availableSlots.map((slot, index) => (
+        <SlotView
+          key={slot.stationSlotId}
+          focusRef={index === 0 ? focusRef : null}
+          booking={booking}
+          onClick={() => onSetSelectedSlot(slot)}
+          selectedSlot={selectedSlot}
+          slot={slot}
+          stationId={stationId}
+        />
+      ))}
+    </ul>
   );
 };
 

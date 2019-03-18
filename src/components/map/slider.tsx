@@ -1,6 +1,6 @@
+import useComponentSize from '@rehooks/component-size';
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useState } from 'react';
-import Measure, { ContentRect } from 'react-measure';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import './slider.scss';
 
@@ -21,7 +21,7 @@ const clamp = (val: number, min: number, max: number) =>
   val < min ? min : val > max ? max : val;
 
 const knobWidth = 64;
-const knobPadding = 3;
+const knobPadding = 4;
 
 const Slider: React.FC<SliderProps> = ({
   background: Background,
@@ -38,20 +38,18 @@ const Slider: React.FC<SliderProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [dx, setDx] = useState(0);
   const [touchStartX, setTouchStartX] = useState(0);
-  const [maxSlideDistance, setMaxSlideDistance] = useState(Infinity);
+  const measureRef = useRef<any>();
+  const { width } = useComponentSize(measureRef);
+
+  /**
+   * We need to subtract the knob width once (since it's fully inside the
+   * slider) and twice it's margin to the side to get the maximum distance
+   * the knob is allowed to slide.
+   */
+  const maxSlideDistance = width - knobWidth - 2 * knobPadding;
 
   const completion = dx / maxSlideDistance;
   const isCompleted = completion > completionPercentage;
-
-  const handleResize = useCallback((rect: ContentRect) => {
-    /**
-     * We need to subtract the knob width once (since it's fully inside the
-     * slider) and twice it's margin to the side to get the maximum distance
-     * the knob is allowed to slide.
-     */
-    const slideDist = rect.client!.width - knobWidth - 2 * knobPadding;
-    setMaxSlideDistance(slideDist);
-  }, []);
 
   const handleDown = useCallback(() => {
     setDx(0);
@@ -115,29 +113,25 @@ const Slider: React.FC<SliderProps> = ({
   }, [handleMouseMove, handleTouchMove, handleUp]);
 
   return (
-    <Measure client onResize={handleResize}>
-      {({ measureRef }) => (
-        <div
-          className={classNames(
-            'slider outline',
-            className,
-            isCompleted && 'completed',
-          )}
-          ref={measureRef}
-        >
-          <div
-            className={classNames('knob', isDragging && 'dragging')}
-            onMouseDown={handleDown}
-            onTouchStart={handleTouchStart}
-            style={{ transform: `translateX(${dx}px)` }}
-          >
-            <span>➢</span>
-          </div>
-
-          {Background && <Background completion={completion} />}
-        </div>
+    <div
+      className={classNames(
+        'slider outline',
+        className,
+        isCompleted && 'completed',
       )}
-    </Measure>
+      ref={measureRef}
+    >
+      <div
+        className={classNames('knob', isDragging && 'dragging')}
+        onMouseDown={handleDown}
+        onTouchStart={handleTouchStart}
+        style={{ transform: `translateX(${dx}px)` }}
+      >
+        <span>➢</span>
+      </div>
+
+      {Background && <Background completion={completion} />}
+    </div>
   );
 };
 
