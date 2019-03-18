@@ -12,7 +12,7 @@ export interface OverlayContentProps {
 }
 
 export interface OverlayMenuProps {
-  children: React.ComponentType<OverlayContentProps>;
+  children: React.FC<OverlayContentProps>;
   className?: string;
   isOpen: boolean;
 
@@ -67,14 +67,12 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     return null;
   }
 
-  const Children = children;
-
   const dom = (
     <div
       className={classNames('backdrop', isOpen && 'visible', className)}
       onClick={onRequestClose}
     >
-      <Children focusRef={setFocusRef} />
+      {children({ focusRef: setFocusRef })}
     </div>
   );
 
