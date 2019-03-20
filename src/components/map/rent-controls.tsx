@@ -91,7 +91,7 @@ const RentControls: React.FC<RentControlsProps> = ({
           className="btn outline book"
           onClick={onRefreshBooking}
         >
-          Refresh booking
+          {map.BOOKING.REFRESH}
         </button>
       }
     </div>

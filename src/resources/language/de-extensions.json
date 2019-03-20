@@ -26,7 +26,8 @@
       "ACTION": "Speichern"
     },
     "BOOKING": {
-      "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades"
+      "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades",
+      "REFRESH": "Buchung erneuern"
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Fahrrad am Slot",
