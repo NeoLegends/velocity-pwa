@@ -86,14 +86,15 @@ const RentControls: React.FC<RentControlsProps> = ({
               !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
             }`}
       </button>
-      {isOpenedStationBooked &&
+      {booking && (
         <button
           className="btn outline book"
+          disabled={!booking}
           onClick={onRefreshBooking}
         >
-          {map.BOOKING.REFRESH}
+          {isOpenedStationBooked ? map.BOOKING.REFRESH : map.BOOKING.SWITCH}
         </button>
-      }
+      )}
     </div>
   ) : (
     <form

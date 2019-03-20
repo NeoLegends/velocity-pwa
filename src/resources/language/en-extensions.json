@@ -27,7 +27,8 @@
     },
     "BOOKING": {
       "BOOK_BIKE": "Book the most-charged bike",
-      "REFRESH": "Refresh booking"
+      "REFRESH": "Refresh booking",
+      "SWITCH": "Switch current booking to this station"
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Slide to rent bike at slot",
