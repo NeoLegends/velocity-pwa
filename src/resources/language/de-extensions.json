@@ -27,6 +27,7 @@
     },
     "BOOKING": {
       "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades",
+      "MINUTES_REMAINING": "Minuten verbleibend",
       "REFRESH": "Buchung erneuern",
       "SWITCH": "Zu aktueller Station umbuchen"
     },

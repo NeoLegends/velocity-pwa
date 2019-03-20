@@ -27,6 +27,7 @@
     },
     "BOOKING": {
       "BOOK_BIKE": "Book the most-charged bike",
+      "MINUTES_REMAINING": "minutes remaining",
       "REFRESH": "Refresh booking",
       "SWITCH": "Switch current booking to this station"
     },
