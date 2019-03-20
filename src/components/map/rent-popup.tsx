@@ -87,6 +87,17 @@ const RentPopup: React.FC<RentPopupProps> = ({
       });
   }, [booking, fetchBooking, fetchStationDetail, selectedStation, BUCHUNGEN]);
 
+  const handleRefreshBooking = useCallback(() => {
+    if (!booking) {
+      throw new Error('Trying to refresh a booking, but no bike booked.');
+    }
+    const canceledBooking = booking;
+
+    return cancelBooking()
+      .then(() => bookBike(canceledBooking.stationId))
+      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]));
+  }, [booking, fetchBooking]);
+
   const handleRent = useCallback(
     (pin: string) => {
       if (!selectedStation || !stationDetail) {
@@ -164,6 +175,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                   stations={stations}
                   onBookBike={handleBook}
                   onCancelBooking={handleCancelBooking}
+                  onRefreshBooking={handleRefreshBooking}
                   onRentBike={handleRent}
                 />
               ) : (

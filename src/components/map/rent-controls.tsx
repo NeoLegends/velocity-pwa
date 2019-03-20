@@ -19,6 +19,7 @@ interface RentControlsProps {
 
   onBookBike: React.MouseEventHandler;
   onCancelBooking: React.MouseEventHandler;
+  onRefreshBooking: React.MouseEventHandler;
   onRentBike: (pin: string) => void;
 }
 
@@ -31,6 +32,7 @@ const RentControls: React.FC<RentControlsProps> = ({
 
   onBookBike,
   onCancelBooking,
+  onRefreshBooking,
   onRentBike,
 }) => {
   const [pin, setPin] = useSavedPin();
@@ -84,6 +86,14 @@ const RentControls: React.FC<RentControlsProps> = ({
               !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
             }`}
       </button>
+      {isOpenedStationBooked &&
+        <button
+          className="btn outline book"
+          onClick={onRefreshBooking}
+        >
+          Refresh booking
+        </button>
+      }
     </div>
   ) : (
     <form
