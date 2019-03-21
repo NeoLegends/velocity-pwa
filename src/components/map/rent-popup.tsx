@@ -102,7 +102,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
         console.error('Error while refreshing a booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
       });
-  }, [booking, fetchBooking, selectedStation]);
+  }, [booking, fetchBooking, fetchStationDetail, selectedStation]);
 
   const handleRent = useCallback(
     (pin: string) => {
