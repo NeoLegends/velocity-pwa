@@ -1,8 +1,9 @@
 import useComponentSize from '@rehooks/component-size';
 import classNames from 'classnames';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 
 import { Booking, Slot } from '../../model';
+import { LanguageContext } from '../../resources/language';
 
 import BatteryCharge from './battery-charge';
 import './slot-list.scss';
@@ -64,7 +65,9 @@ const SlotView: React.FC<SlotViewProps> = ({
             chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
           />
           {slot.stateOfCharge !== null && (
-            <span className="charge-percentage">{Math.round((slot.stateOfCharge || 0) * 100)}%</span>
+            <span className="charge-percentage">
+              {Math.round((slot.stateOfCharge || 0) * 100)}%
+            </span>
           )}
         </div>
 
@@ -77,6 +80,7 @@ const SlotView: React.FC<SlotViewProps> = ({
 interface SlotListProps {
   availableSlots: Slot[];
   booking: Booking | null;
+  canAcceptBikes: boolean;
   className?: string;
   focusRef: React.Ref<HTMLOrSVGElement | undefined>;
   selectedSlot: Slot | null;
@@ -88,6 +92,7 @@ interface SlotListProps {
 const SlotList: React.FC<SlotListProps> = ({
   availableSlots,
   booking,
+  canAcceptBikes,
   focusRef,
   selectedSlot,
   stationId,
@@ -96,16 +101,33 @@ const SlotList: React.FC<SlotListProps> = ({
 }) => {
   const measureRef = useRef<any>();
   const { width } = useComponentSize(measureRef);
+  const { map } = useContext(LanguageContext);
 
   // A slot item is 64px wide and there is a 16px margin between each
-  const requiredWidth =
+  let requiredWidth =
     64 * availableSlots.length + 16 * (availableSlots.length - 1);
+
+  // If we cannot accept bikes, there is an indicator
+  if (!canAcceptBikes) {
+    requiredWidth += 16 + 108;
+  }
 
   return (
     <ul
       className={classNames('slot-list', requiredWidth < width && 'centered')}
       ref={measureRef}
     >
+      {!canAcceptBikes && (
+        <li className="slot-list-item">
+          <div className="slot-button column">
+            <div className="slot-icon outline column station-full">
+              <span className="station-full-icon">❗️</span>
+            </div>
+            <span>{map.NO_FREE_SLOTS}</span>
+          </div>
+        </li>
+      )}
+
       {availableSlots.map((slot, index) => (
         <SlotView
           key={slot.stationSlotId}
