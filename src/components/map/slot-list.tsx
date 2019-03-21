@@ -64,7 +64,7 @@ const SlotView: React.FC<SlotViewProps> = ({
             chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
           />
           {slot.stateOfCharge !== null && (
-            <p>{Math.round((slot.stateOfCharge || 0) * 100)}%</p>
+            <span className="charge-percentage">{Math.round((slot.stateOfCharge || 0) * 100)}%</span>
           )}
         </div>
 

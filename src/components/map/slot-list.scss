@@ -49,10 +49,6 @@
 
     margin-bottom: $border-radius;
 
-    p {
-      margin: 0;
-    }
-
     &.reserved {
       border-color: blue;
       border-style: dashed;
@@ -65,5 +61,9 @@
       border-color: $velocity-green;
       border-style: solid;
     }
+  }
+
+  .charge-percentage {
+    margin: 0;
   }
 }
