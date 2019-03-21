@@ -86,19 +86,17 @@ const RentControls: React.FC<RentControlsProps> = ({
               !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
             }`}
       </button>
-      {booking && (
-        <button
-          className="btn outline book"
-          onClick={onRefreshBooking}
-        >
-          {isOpenedStationBooked
-            ? `${map.BOOKING.REFRESH} (${
-              (new Date(Date.parse(booking.expiryDateTime) - Date.now())).getUTCMinutes()
-            } ${map.BOOKING.MINUTES_REMAINING})`
-            : map.BOOKING.SWITCH
-          }
-        </button>
-      )}
+      <button
+        className="btn outline book"
+        disabled={!booking}
+        onClick={onRefreshBooking}
+      >
+        {(booking && isOpenedStationBooked)
+          ? `${map.BOOKING.REFRESH} (${new Date(
+              Date.parse(booking.expiryDateTime) - Date.now(),
+            ).getUTCMinutes()} ${map.BOOKING.MINUTES_REMAINING})`
+          : map.BOOKING.SWITCH}
+      </button>
     </div>
   ) : (
     <form
