@@ -80,7 +80,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
     }
 
     return cancelBooking()
-      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+      .then(fetchStationDetail)
       .catch(err => {
         console.error('Error while canceling a booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
