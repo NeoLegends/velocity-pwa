@@ -61,7 +61,7 @@
       border-color: $velocity-green;
       border-style: solid;
     }
-    &.station-full {
+    &.no-slots-free {
       border-color: orange;
     }
   }
@@ -70,7 +70,7 @@
     margin: 0;
   }
 
-  .station-full-icon {
+  .slots-free-icon {
     font-size: 32px;
 
     margin-left: 2px;

@@ -80,9 +80,9 @@ const SlotView: React.FC<SlotViewProps> = ({
 interface SlotListProps {
   availableSlots: Slot[];
   booking: Booking | null;
-  canAcceptBikes: boolean;
   className?: string;
   focusRef: React.Ref<HTMLOrSVGElement | undefined>;
+  freeSlots: number;
   selectedSlot: Slot | null;
   stationId: number;
 
@@ -92,8 +92,8 @@ interface SlotListProps {
 const SlotList: React.FC<SlotListProps> = ({
   availableSlots,
   booking,
-  canAcceptBikes,
   focusRef,
+  freeSlots,
   selectedSlot,
   stationId,
 
@@ -103,30 +103,32 @@ const SlotList: React.FC<SlotListProps> = ({
   const { width } = useComponentSize(measureRef);
   const { map } = useContext(LanguageContext);
 
-  // A slot item is 64px wide and there is a 16px margin between each
-  let requiredWidth =
-    64 * availableSlots.length + 16 * (availableSlots.length - 1);
-
-  // If we cannot accept bikes, there is an indicator
-  if (!canAcceptBikes) {
-    requiredWidth += 16 + 108;
-  }
+  // A slot item is 64px wide and there is a 16px margin between each and there
+  // is an indicator for the amount of free slots
+  const requiredWidth =
+    64 + 64 * availableSlots.length + 16 * availableSlots.length;
 
   return (
     <ul
       className={classNames('slot-list', requiredWidth < width && 'centered')}
       ref={measureRef}
     >
-      {!canAcceptBikes && (
-        <li className="slot-list-item">
-          <div className="slot-button column">
-            <div className="slot-icon outline column station-full">
-              <span className="station-full-icon">❗️</span>
-            </div>
-            <span>{map.NO_FREE_SLOTS}</span>
+      <li className="slot-list-item">
+        <div className="slot-button column">
+          <div
+            className={classNames(
+              'slot-icon outline column',
+              freeSlots === 0 && 'no-slots-free',
+            )}
+          >
+            <span className="slots-free-icon">
+              {freeSlots > 0 ? '🏠' : '❗'}
+            </span>
+            <span>{freeSlots}</span>
           </div>
-        </li>
-      )}
+          <span>{freeSlots !== 1 ? map.SLOTS_FREE : map.SLOT_FREE}</span>
+        </div>
+      </li>
 
       {availableSlots.map((slot, index) => (
         <SlotView

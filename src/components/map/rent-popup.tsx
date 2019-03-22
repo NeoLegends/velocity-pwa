@@ -150,8 +150,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
               <SlotList
                 availableSlots={availableSlots}
                 booking={booking}
-                canAcceptBikes={stationDetail.station.numFreeSlots > 0}
                 focusRef={focusRef}
+                freeSlots={stationDetail.station.numFreeSlots}
                 onSetSelectedSlot={setSelectedSlot}
                 selectedSlot={selectedSlot}
                 stationId={stationDetail.station.stationId}
