@@ -2,7 +2,6 @@ import {
   Booking,
   InvalidStatusCodeError,
   Rent,
-  Reservation,
   Slots,
   Station,
   StationWithAddress,
@@ -23,7 +22,7 @@ import {
   APP_CURRENT_BOOKING_URL,
 } from './urls';
 
-export const bookBike = (stationId: number): Promise<Reservation> =>
+export const bookBike = (stationId: number): Promise<Booking> =>
   postJsonEnsureOk(reserveBikeUrl(stationId)).then(resp => resp.json());
 
 export const cancelCurrentBooking = (): Promise<void> =>
