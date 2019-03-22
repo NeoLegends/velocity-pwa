@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useSelectedSlot, useStationDetail } from '../../hooks/rent-popup';
 import { useBooking } from '../../hooks/stations';
 import { InvalidStatusCodeError, Station } from '../../model';
-import { bookBike, rentBike } from '../../model/stations';
+import { rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import Overlay from '../util/overlay';
 import Spinner from '../util/spinner';
@@ -32,7 +32,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   onRequestClose,
 }) => {
-  const { booking, cancelBooking, fetchBooking } = useBooking();
+  const { booking, bookBike, cancelBooking, fetchBooking } = useBooking();
   const {
     availableSlots,
     stationDetail,
@@ -67,12 +67,12 @@ const RentPopup: React.FC<RentPopupProps> = ({
     }
 
     bookBike(selectedStation.stationId)
-      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+      .then(fetchStationDetail)
       .catch(err => {
         console.error('Error while reserving bike:', err);
         toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
       });
-  }, [fetchBooking, fetchStationDetail, selectedStation, MAP]);
+  }, [bookBike, fetchStationDetail, selectedStation, MAP]);
 
   const handleCancelBooking = useCallback(() => {
     if (!booking) {
