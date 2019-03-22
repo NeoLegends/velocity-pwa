@@ -32,7 +32,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   onRequestClose,
 }) => {
-  const { booking, cancelBooking, fetchBooking } = useBooking();
+  const { booking, cancelBooking, fetchBooking, refreshBooking } = useBooking();
   const {
     availableSlots,
     stationDetail,
@@ -87,22 +87,14 @@ const RentPopup: React.FC<RentPopupProps> = ({
       });
   }, [booking, fetchBooking, fetchStationDetail, selectedStation, BUCHUNGEN]);
 
-  const handleRefreshBooking = useCallback(() => {
-    if (!booking) {
-      throw new Error('Trying to refresh a booking, but no bike booked.');
-    }
-    if (!selectedStation) {
-      throw new Error('Trying to refresh a booking, but no station selected.');
-    }
-
-    return cancelBooking()
-      .then(() => bookBike(selectedStation.stationId))
+  const handleRefreshBooking = useCallback(() =>
+    refreshBooking()
       .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
       .catch(err => {
         console.error('Error while refreshing a booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-      });
-  }, [booking, fetchBooking, fetchStationDetail, selectedStation]);
+      }),
+    [fetchBooking, fetchStationDetail, refreshBooking, BUCHUNGEN]);
 
   const handleRent = useCallback(
     (pin: string) => {

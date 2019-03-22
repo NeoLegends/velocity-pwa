@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import { Booking, Station } from '../model';
 import {
+  bookBike,
   cancelCurrentBooking,
   getAllStations,
   getCurrentBooking,
@@ -37,10 +38,25 @@ export const useBooking = () => {
         }),
     [BUCHUNGEN],
   );
+  const refreshBooking = useCallback(
+    () =>
+      getCurrentBooking()
+        .then(setBooking)
+        .then(() => {
+          const oldBooking = booking;
+          return cancelCurrentBooking()
+            .then(oldBooking && (() => bookBike(oldBooking.stationId)))
+            .catch(err => {
+              console.error('Failed refreshing current booking:', err);
+              toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+            });
+        }),
+    [BUCHUNGEN],
+  );
 
   useInterval(fetchBooking);
 
-  return { booking, cancelBooking, fetchBooking };
+  return { booking, cancelBooking, fetchBooking, refreshBooking };
 };
 
 export const useStations = () => {
