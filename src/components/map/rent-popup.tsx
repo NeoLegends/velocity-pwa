@@ -66,7 +66,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
       throw new Error('Trying to reserve a bike, but no station selected.');
     }
 
-    bookBike(selectedStation.stationId)
+    return bookBike(selectedStation.stationId)
       .then(fetchStationDetail)
       .catch(err => {
         console.error('Error while reserving bike:', err);
@@ -100,7 +100,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
       onRequestClose();
 
-      rentBike(pin, stationId, slotId)
+      return rentBike(pin, stationId, slotId)
         .then(() =>
           toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
             type: 'success',
