@@ -138,7 +138,11 @@ const RentPopup: React.FC<RentPopupProps> = ({
           <h2 id="station-name" className="station-name">
             {selectedStation && selectedStation.name}
           </h2>
-
+          {selectedStation && selectedStation.note && (
+            <p className="station-note">
+              {selectedStation && selectedStation.note}
+            </p>
+          )}
           <hr />
 
           {!stationDetail ? (
