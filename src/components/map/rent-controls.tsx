@@ -56,6 +56,12 @@ const RentControls: React.FC<RentControlsProps> = ({
     stations.find(station => station.stationId === booking.stationId);
   const isOpenedStationBooked =
     booking && booking.stationId === openedStation.station.stationId;
+  const remainingBookingMinutes =
+    booking
+    ? new Date(
+      Date.parse(booking.expiryDateTime) - Date.now(),
+      ).getUTCMinutes()
+    : 0;
 
   return pin ? (
     <div className={classNames('rent-controls', className)}>
@@ -86,17 +92,17 @@ const RentControls: React.FC<RentControlsProps> = ({
               !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
             }`}
       </button>
-      <button
-        className="btn outline book"
-        disabled={!booking}
-        onClick={onRefreshBooking}
-      >
-        {booking && isOpenedStationBooked
-          ? `${map.BOOKING.REFRESH} (${new Date(
-              Date.parse(booking.expiryDateTime) - Date.now(),
-            ).getUTCMinutes()} ${map.BOOKING.MINUTES_REMAINING})`
-          : map.BOOKING.SWITCH}
-      </button>
+      {booking &&
+        <button
+          className="btn outline book"
+          disabled={!isOpenedStationBooked || remainingBookingMinutes >= 14}
+          onClick={onRefreshBooking}
+        >
+          {booking && isOpenedStationBooked
+            ? `${map.BOOKING.REFRESH} (${remainingBookingMinutes} ${map.BOOKING.MINUTES_REMAINING})`
+            : map.BOOKING.SWITCH}
+        </button>
+      }
     </div>
   ) : (
     <form
