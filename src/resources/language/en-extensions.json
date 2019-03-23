@@ -20,6 +20,8 @@
   },
   "map": {
     "NO_BIKES": "No rentable bikes at this station right now.",
+    "SLOT_FREE": "Slot free",
+    "SLOTS_FREE": "Slots free",
     "GO_TO_MAP": "Go to map to rent",
     "PIN": {
       "CTA": "Enter your PIN to rent a bike. You will only have to do this once.",

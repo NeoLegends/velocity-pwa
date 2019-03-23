@@ -48,12 +48,6 @@ export interface Rent {
   stationSlotPosition: number;
 }
 
-export interface Reservation {
-  expiryDateTime: string;
-  stationId: number;
-  stationSlotPosition: number;
-}
-
 export interface SepaMandate extends BankDetails {
   address: Address;
   date: string;

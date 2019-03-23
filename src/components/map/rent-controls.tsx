@@ -91,7 +91,7 @@ const RentControls: React.FC<RentControlsProps> = ({
         disabled={!booking}
         onClick={onRefreshBooking}
       >
-        {(booking && isOpenedStationBooked)
+        {booking && isOpenedStationBooked
           ? `${map.BOOKING.REFRESH} (${new Date(
               Date.parse(booking.expiryDateTime) - Date.now(),
             ).getUTCMinutes()} ${map.BOOKING.MINUTES_REMAINING})`

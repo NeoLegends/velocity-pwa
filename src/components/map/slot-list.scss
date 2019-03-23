@@ -19,6 +19,7 @@
 
   .slot-list-item {
     display: inline-flex;
+    vertical-align: top;
 
     &:not(:last-of-type) {
       margin-right: 16px;
@@ -49,10 +50,6 @@
 
     margin-bottom: $border-radius;
 
-    p {
-      margin: 0;
-    }
-
     &.reserved {
       border-color: blue;
       border-style: dashed;
@@ -64,6 +61,27 @@
     &.selected {
       border-color: $velocity-green;
       border-style: solid;
+    }
+  }
+
+  .charge-percentage {
+    margin: 0;
+  }
+
+  .slots-free {
+    .no-slots-free {
+      border-color: orange;
+    }
+
+    .icon {
+      font-size: 24px;
+      line-height: 32px;
+
+      height: 32px;
+
+      &.adjust-margin {
+        margin-left: 2px;
+      }
     }
   }
 }

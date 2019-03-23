@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useSelectedSlot, useStationDetail } from '../../hooks/rent-popup';
 import { useBooking } from '../../hooks/stations';
 import { InvalidStatusCodeError, Station } from '../../model';
-import { bookBike, rentBike } from '../../model/stations';
+import { rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import Overlay from '../util/overlay';
 import Spinner from '../util/spinner';
@@ -32,7 +32,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   onRequestClose,
 }) => {
-  const { booking, cancelBooking, fetchBooking, refreshBooking } = useBooking();
+  const {
+    booking,
+    bookBike,
+    cancelBooking,
+    fetchBooking,
+    refreshBooking,
+  } = useBooking();
   const {
     availableSlots,
     stationDetail,
@@ -66,13 +72,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
       throw new Error('Trying to reserve a bike, but no station selected.');
     }
 
-    bookBike(selectedStation.stationId)
-      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+    return bookBike(selectedStation.stationId)
+      .then(fetchStationDetail)
       .catch(err => {
         console.error('Error while reserving bike:', err);
         toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
       });
-  }, [fetchBooking, fetchStationDetail, selectedStation, MAP]);
+  }, [bookBike, fetchStationDetail, selectedStation, MAP]);
 
   const handleCancelBooking = useCallback(() => {
     if (!booking) {
@@ -80,21 +86,23 @@ const RentPopup: React.FC<RentPopupProps> = ({
     }
 
     return cancelBooking()
-      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+      .then(fetchStationDetail)
       .catch(err => {
         console.error('Error while canceling a booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
       });
-  }, [booking, fetchBooking, fetchStationDetail, selectedStation, BUCHUNGEN]);
+  }, [booking, cancelBooking, fetchStationDetail, BUCHUNGEN]);
 
-  const handleRefreshBooking = useCallback(() =>
-    refreshBooking()
-      .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
-      .catch(err => {
-        console.error('Error while refreshing a booking:', err);
-        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-      }),
-    [fetchBooking, fetchStationDetail, refreshBooking, BUCHUNGEN]);
+  const handleRefreshBooking = useCallback(
+    () =>
+      refreshBooking()
+        .then(() => Promise.all([fetchBooking(), fetchStationDetail()]))
+        .catch(err => {
+          console.error('Error while refreshing a booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        }),
+    [fetchBooking, fetchStationDetail, refreshBooking, BUCHUNGEN],
+  );
 
   const handleRent = useCallback(
     (pin: string) => {
@@ -109,7 +117,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
       onRequestClose();
 
-      rentBike(pin, stationId, slotId)
+      return rentBike(pin, stationId, slotId)
         .then(() =>
           toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
             type: 'success',
@@ -160,6 +168,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                 availableSlots={availableSlots}
                 booking={booking}
                 focusRef={focusRef}
+                freeSlots={stationDetail.station.numFreeSlots}
                 onSetSelectedSlot={setSelectedSlot}
                 selectedSlot={selectedSlot}
                 stationId={stationDetail.station.stationId}

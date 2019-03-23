@@ -4,7 +4,9 @@
   outline: none;
 }
 
-a, .btn, .input {
+a,
+.btn,
+.input {
   &:focus {
     box-shadow: $focus-box-shadow;
   }

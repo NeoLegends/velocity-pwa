@@ -20,6 +20,8 @@
   },
   "map": {
     "NO_BIKES": "Aktuell sind keine leihbaren Fahrräder verfügbar.",
+    "SLOT_FREE": "Slot frei",
+    "SLOTS_FREE": "Slots frei",
     "GO_TO_MAP": "Gehe zu Karte zum Leihen",
     "PIN": {
       "CTA": "Geben Sie Ihre PIN ein, um ein Fahrrad auszuleihen. Ihre PIN wird gespeichert.",
