@@ -2,7 +2,7 @@ import { Link } from '@reach/router';
 import classNames from 'classnames';
 import moment from 'moment';
 import 'moment/locale/de';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
 import { useBooking, useStations } from '../hooks/stations';
@@ -121,20 +121,22 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
 
   const { BUCHUNGEN } = useContext(LanguageContext);
 
-  const isRowLoaded = ({ index }) =>
-    !hasNextPage || index < transactions.length;
+  const isRowLoaded = useCallback(
+    ({ index }) => !hasNextPage || index < transactions.length,
+    [hasNextPage, transactions.length],
+  );
 
-  const renderRow = ({ index, key, style }) => {
-    if (!isRowLoaded({ index })) {
-      return (
+  const renderRow = useCallback(
+    ({ index, key, style }) =>
+      isRowLoaded({ index }) ? (
+        <Trans key={key} style={style} transaction={transactions[index]} />
+      ) : (
         <div key={key} style={style}>
           Loading...
         </div>
-      );
-    }
-
-    return <Trans key={key} style={style} transaction={transactions[index]} />;
-  };
+      ),
+    [isRowLoaded, ...transactions],
+  );
 
   return (
     <div className={classNames('bookings box-list', className)}>
