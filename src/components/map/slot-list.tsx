@@ -113,15 +113,17 @@ const SlotList: React.FC<SlotListProps> = ({
       className={classNames('slot-list', requiredWidth < width && 'centered')}
       ref={measureRef}
     >
-      <li className="slot-list-item">
-        <div className="slot-button column">
+      <li className="slot-list-item slots-free">
+        <div className="column">
           <div
             className={classNames(
               'slot-icon outline column',
               freeSlots === 0 && 'no-slots-free',
             )}
           >
-            <span className="slots-free-icon">
+            <span
+              className={classNames('icon', freeSlots <= 0 && 'adjust-margin')}
+            >
               {freeSlots > 0 ? '⏎' : '❗'}
             </span>
             <span>{freeSlots}</span>

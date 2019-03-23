@@ -62,19 +62,26 @@
       border-color: $velocity-green;
       border-style: solid;
     }
-    &.no-slots-free {
-      border-color: orange;
-    }
   }
 
   .charge-percentage {
     margin: 0;
   }
 
-  .slots-free-icon {
-    font-size: 24px;
-    line-height: 32px;
+  .slots-free {
+    .no-slots-free {
+      border-color: orange;
+    }
 
-    height: 32px;
+    .icon {
+      font-size: 24px;
+      line-height: 32px;
+
+      height: 32px;
+
+      &.adjust-margin {
+        margin-left: 2px;
+      }
+    }
   }
 }
