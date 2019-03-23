@@ -58,20 +58,22 @@ export const useStations = () => {
   const { MAP } = useContext(LanguageContext);
   const [stations, setStations] = useState<Station[]>([]);
 
-  const fetchStations = useCallback(() => {
-    getAllStations()
-      .then(stations => {
-        localStorage.setItem(
-          LOCALSTORAGE_STATIONS_KEY,
-          JSON.stringify(stations),
-        );
-        setStations(stations);
-      })
-      .catch(err => {
-        console.error('Error while loading stations:', err);
-        toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
-      });
-  }, [MAP]);
+  const fetchStations = useCallback(
+    () =>
+      getAllStations()
+        .then(stations => {
+          localStorage.setItem(
+            LOCALSTORAGE_STATIONS_KEY,
+            JSON.stringify(stations),
+          );
+          setStations(stations);
+        })
+        .catch(err => {
+          console.error('Error while loading stations:', err);
+          toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
+        }),
+    [MAP],
+  );
 
   useEffect(() => {
     const lsStations = localStorage.getItem(LOCALSTORAGE_STATIONS_KEY);
