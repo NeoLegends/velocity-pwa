@@ -41,6 +41,8 @@ const SlotView: React.FC<SlotViewProps> = ({
     [isReserved, isReservedByMe, onClick],
   );
 
+  const chargePercentage = Math.round((slot.stateOfCharge || 0) * 100);
+
   return (
     <li
       className={classNames('slot-list-item', className)}
@@ -61,13 +63,10 @@ const SlotView: React.FC<SlotViewProps> = ({
               'selected',
           )}
         >
-          <BatteryCharge
-            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
-          />
+          <BatteryCharge chargePercentage={chargePercentage} />
+
           {slot.stateOfCharge !== null && (
-            <span className="charge-percentage">
-              {Math.round((slot.stateOfCharge || 0) * 100)}%
-            </span>
+            <span className="charge-percentage">{chargePercentage}%</span>
           )}
         </div>
 
