@@ -58,6 +58,8 @@ export const useBooking = () => {
             doBook(booking.stationId);
           }
         })
+        .then(() => getCurrentBooking())
+        .then(setBooking)
         .catch(err => {
           console.error('Failed refreshing current booking:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
