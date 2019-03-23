@@ -9,7 +9,6 @@ import { InvalidStatusCodeError, Station } from '../../model';
 import { rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import Overlay from '../util/overlay';
-import Spinner from '../util/spinner';
 
 import RentControls from './rent-controls';
 import './rent-popup.scss';
@@ -129,7 +128,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
           aria-labelledby="station-name"
           className={classNames(
             'rent-popup',
-            openedStationId && 'open',
+            stationDetail && 'open',
             className,
           )}
           onClick={handleClickOnPopup}
@@ -141,9 +140,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
           <hr />
 
-          {!stationDetail ? (
-            <Spinner className="loading-station" />
-          ) : !availableSlots.length ? (
+          {!stationDetail ? null : !availableSlots.length ? (
             <p className="no-bikes">{map.NO_BIKES}</p>
           ) : (
             <>
