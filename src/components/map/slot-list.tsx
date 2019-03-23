@@ -122,7 +122,7 @@ const SlotList: React.FC<SlotListProps> = ({
             )}
           >
             <span className="slots-free-icon">
-              {freeSlots > 0 ? '↩️' : '❗'}
+              {freeSlots > 0 ? '⏎' : '❗'}
             </span>
             <span>{freeSlots}</span>
           </div>
