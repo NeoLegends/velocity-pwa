@@ -49,22 +49,21 @@ export const useBooking = () => {
     [BUCHUNGEN],
   );
   const refreshBooking = useCallback(
-    () =>
-      getCurrentBooking()
-        .then(setBooking)
-        .then(() => cancelCurrentBooking())
+    async () => {
+      const oldBooking = await getCurrentBooking();
+      return cancelBooking()
         .then(() => {
-          if (booking) {
-            doBook(booking.stationId);
+          if (oldBooking) {
+            doBook(oldBooking.stationId);
           }
         })
-        .then(() => getCurrentBooking())
-        .then(setBooking)
+        .then(fetchBooking)
         .catch(err => {
           console.error('Failed refreshing current booking:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-        }),
-    [booking, BUCHUNGEN],
+        });
+    },
+    [BUCHUNGEN],
   );
 
   useInterval(fetchBooking);
