@@ -52,16 +52,17 @@ export const useBooking = () => {
     () =>
       getCurrentBooking()
         .then(setBooking)
+        .then(() => cancelCurrentBooking())
         .then(() => {
-          const oldBooking = booking;
-          return cancelCurrentBooking()
-            .then(oldBooking && (() => bookBike(oldBooking.stationId)))
-            .catch(err => {
-              console.error('Failed refreshing current booking:', err);
-              toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-            });
+          if (booking) {
+            doBook(booking.stationId);
+          }
+        })
+        .catch(err => {
+          console.error('Failed refreshing current booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
-    [BUCHUNGEN],
+    [booking, BUCHUNGEN],
   );
 
   useInterval(fetchBooking);
