@@ -92,7 +92,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
       });
   }, [booking, cancelBooking, fetchStationDetail, BUCHUNGEN]);
 
-  const handleRefreshBooking = useCallback(() =>
+  const handleRefreshBooking = useCallback(
+    () =>
       refreshBooking()
         .then(fetchStationDetail)
         .catch(err => {

@@ -48,31 +48,28 @@ export const useBooking = () => {
         }),
     [BUCHUNGEN],
   );
-  const refreshBooking = useCallback(
-    async () => {
-      try {
-        const stationId = booking && booking.stationId;
-        if (!stationId) {
-          return;
-        }
-
-        const currentBooking = await getCurrentBooking();
-        if (currentBooking) {
-          await cancelCurrentBooking();
-        }
-
-        try {
-          setBooking(await doBook(stationId));
-        } catch (err) {
-          setBooking(null);
-        }
-      } catch (err) {
-        console.error('Failed refreshing current booking:', err);
-        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+  const refreshBooking = useCallback(async () => {
+    try {
+      const stationId = booking && booking.stationId;
+      if (!stationId) {
+        return;
       }
-    },
-    [booking, BUCHUNGEN],
-  );
+
+      const currentBooking = await getCurrentBooking();
+      if (currentBooking) {
+        await cancelCurrentBooking();
+      }
+
+      try {
+        setBooking(await doBook(stationId));
+      } catch (err) {
+        setBooking(null);
+      }
+    } catch (err) {
+      console.error('Failed refreshing current booking:', err);
+      toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+    }
+  }, [booking, BUCHUNGEN]);
 
   useInterval(fetchBooking);
 
