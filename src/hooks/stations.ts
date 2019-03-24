@@ -50,18 +50,17 @@ export const useBooking = () => {
   );
   const refreshBooking = useCallback(
     async () => {
-      const oldBooking = await getCurrentBooking();
-      return cancelBooking()
-        .then(() => {
-          if (oldBooking) {
-            doBook(oldBooking.stationId);
-          }
-        })
-        .then(fetchBooking)
-        .catch(err => {
-          console.error('Failed refreshing current booking:', err);
-          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
-        });
+      try {
+        const oldBooking = await getCurrentBooking();
+        await cancelBooking();
+        if (oldBooking) {
+          await doBook(oldBooking.stationId);
+        }
+        await fetchBooking();
+      } catch (err) {
+        console.error('Failed refreshing current booking:', err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      }
     },
     [BUCHUNGEN],
   );
