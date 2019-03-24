@@ -52,7 +52,7 @@ export const useBooking = () => {
     async () => {
       try {
         const oldBooking = await getCurrentBooking();
-        await cancelBooking();
+        await cancelCurrentBooking();
         if (oldBooking) {
           const currBooking = await doBook(oldBooking.stationId);
           await setBooking(currBooking);
