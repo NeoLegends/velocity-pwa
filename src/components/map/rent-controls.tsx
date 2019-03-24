@@ -56,12 +56,12 @@ const RentControls: React.FC<RentControlsProps> = ({
     stations.find(station => station.stationId === booking.stationId);
   const isOpenedStationBooked =
     booking && booking.stationId === openedStation.station.stationId;
-  const remainingBookingMinutes =
-    booking
-    ? new Date(
-      Date.parse(booking.expiryDateTime) - Date.now(),
-      ).getUTCMinutes()
+  const remainingBookingTime = booking
+    ? Date.parse(booking.expiryDateTime) - Date.now()
     : 0;
+  const remainingBookingMinutes = new Date(
+    remainingBookingTime,
+  ).getUTCMinutes();
 
   return pin ? (
     <div className={classNames('rent-controls', className)}>
