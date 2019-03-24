@@ -1,11 +1,13 @@
 import classNames from 'classnames';
+import moment from 'moment';
+import 'moment/locale/de';
 import React, { useCallback, useContext } from 'react';
 
 import { useFormField } from '../../hooks/form';
 import { useSavedPin } from '../../hooks/pin';
 import { StationDetail } from '../../hooks/rent-popup';
 import { Booking, Slot, Station } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { LanguageContext, LanguageIdContext } from '../../resources/language';
 
 import './rent-controls.scss';
 import Slider from './slider';
@@ -47,6 +49,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   );
 
   const { map, BUCHUNGEN } = useContext(LanguageContext);
+  const langId = useContext(LanguageIdContext);
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
@@ -57,12 +60,10 @@ const RentControls: React.FC<RentControlsProps> = ({
   const isOpenedStationBooked = Boolean(
     booking && booking.stationId === openedStation.station.stationId,
   );
-  const remainingBookingTime = booking
-    ? Date.parse(booking.expiryDateTime) - Date.now()
-    : 0;
-  const remainingBookingMinutes = new Date(
-    remainingBookingTime,
-  ).getUTCMinutes();
+
+  const remainingBookingTime =
+    booking &&
+    moment(new Date(booking.expiryDateTime), undefined, langId).fromNow(true);
 
   return pin ? (
     <div className={classNames('rent-controls', className)}>
@@ -84,9 +85,7 @@ const RentControls: React.FC<RentControlsProps> = ({
 
       {booking && isOpenedStationBooked && (
         <button className="btn outline book" onClick={onRefreshBooking}>
-          {`${map.BOOKING.REFRESH} (${remainingBookingMinutes} ${
-            map.BOOKING.MINUTES_REMAINING
-          })`}
+          {map.BOOKING.REFRESH} ({remainingBookingTime} {map.BOOKING.REMAINING})
         </button>
       )}
       <button
