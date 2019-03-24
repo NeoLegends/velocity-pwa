@@ -48,10 +48,31 @@ export const useBooking = () => {
         }),
     [BUCHUNGEN],
   );
+  const refreshBooking = useCallback(
+    async () => {
+      try {
+        let oldBooking = await getCurrentBooking();
+        if (!oldBooking) {
+          oldBooking = booking;
+        }
+        await cancelCurrentBooking();
+        if (oldBooking) {
+          const currBooking = await doBook(oldBooking.stationId);
+          await setBooking(currBooking);
+        } else {
+          await fetchBooking();
+        }
+      } catch (err) {
+        console.error('Failed refreshing current booking:', err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      }
+    },
+    [BUCHUNGEN],
+  );
 
   useInterval(fetchBooking);
 
-  return { booking, bookBike, cancelBooking, fetchBooking };
+  return { booking, bookBike, cancelBooking, fetchBooking, refreshBooking };
 };
 
 export const useStations = () => {

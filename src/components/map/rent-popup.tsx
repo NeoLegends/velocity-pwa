@@ -31,7 +31,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   onRequestClose,
 }) => {
-  const { booking, bookBike, cancelBooking, fetchBooking } = useBooking();
+  const {
+    booking,
+    bookBike,
+    cancelBooking,
+    fetchBooking,
+    refreshBooking,
+  } = useBooking();
   const {
     availableSlots,
     stationDetail,
@@ -85,6 +91,16 @@ const RentPopup: React.FC<RentPopupProps> = ({
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
       });
   }, [booking, cancelBooking, fetchStationDetail, BUCHUNGEN]);
+
+  const handleRefreshBooking = useCallback(() =>
+      refreshBooking()
+        .then(fetchStationDetail)
+        .catch(err => {
+          console.error('Error while refreshing a booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        }),
+    [fetchStationDetail, refreshBooking, BUCHUNGEN],
+  );
 
   const handleRent = useCallback(
     (pin: string) => {
@@ -162,6 +178,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                   stations={stations}
                   onBookBike={handleBook}
                   onCancelBooking={handleCancelBooking}
+                  onRefreshBooking={handleRefreshBooking}
                   onRentBike={handleRent}
                 />
               ) : (
