@@ -54,9 +54,11 @@ export const useBooking = () => {
         const oldBooking = await getCurrentBooking();
         await cancelBooking();
         if (oldBooking) {
-          await doBook(oldBooking.stationId);
+          const currBooking = await doBook(oldBooking.stationId);
+          await setBooking(currBooking);
+        } else {
+          await fetchBooking();
         }
-        await fetchBooking();
       } catch (err) {
         console.error('Failed refreshing current booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
