@@ -60,9 +60,9 @@ const Slider: React.FC<SliderProps> = ({
       onCompleted();
     }
 
+    setIsDragging(false);
     setDx(0);
     setTouchStartX(0);
-    setIsDragging(false);
   }, [disabled, isCompleted, onCompleted]);
   const handleMouseMove = useCallback(
     (ev: MouseEvent) => {
