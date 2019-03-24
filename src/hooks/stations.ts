@@ -51,7 +51,10 @@ export const useBooking = () => {
   const refreshBooking = useCallback(
     async () => {
       try {
-        const oldBooking = await getCurrentBooking();
+        let oldBooking = await getCurrentBooking();
+        if (!oldBooking) {
+          oldBooking = booking;
+        }
         await cancelCurrentBooking();
         if (oldBooking) {
           const currBooking = await doBook(oldBooking.stationId);
