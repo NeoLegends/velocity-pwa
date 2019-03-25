@@ -14,6 +14,10 @@ This project uses Create-React-App as its build process & yarn for package manag
 
 You will find the minified & bundled sources in the `build` folder. They can be served from any static web server. Due to CORS restrictions, the PWA also requires an API proxy to Velocity's backend. It already contains the necessary configuration for a [Netlify](https://netlify.com/) deployment.
 
+## Bundle Analysis
+
+The build process will generate a bundle analysis of the compiled code at `build/bundle-stats.html`.
+
 ## Development
 
 Running the webpack dev server with hot reloading is straightforward:
