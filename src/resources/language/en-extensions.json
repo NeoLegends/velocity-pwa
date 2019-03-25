@@ -20,13 +20,18 @@
   },
   "map": {
     "NO_BIKES": "No rentable bikes at this station right now.",
+    "SLOT_FREE": "Slot free",
+    "SLOTS_FREE": "Slots free",
     "GO_TO_MAP": "Go to map to rent",
     "PIN": {
       "CTA": "Enter your PIN to rent a bike. You will only have to do this once.",
       "ACTION": "Save"
     },
     "BOOKING": {
-      "BOOK_BIKE": "Book the most-charged bike"
+      "BOOK_BIKE": "Book the most-charged bike",
+      "REMAINING": "remaining",
+      "REFRESH": "Refresh booking",
+      "SWITCH": "Switch current booking to this station"
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Slide to rent bike at slot",

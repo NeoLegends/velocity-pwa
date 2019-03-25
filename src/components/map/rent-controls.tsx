@@ -1,11 +1,13 @@
 import classNames from 'classnames';
+import moment from 'moment';
+import 'moment/locale/de';
 import React, { useCallback, useContext } from 'react';
 
 import { useFormField } from '../../hooks/form';
 import { useSavedPin } from '../../hooks/pin';
 import { StationDetail } from '../../hooks/rent-popup';
 import { Booking, Slot, Station } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { LanguageContext, LanguageIdContext } from '../../resources/language';
 
 import './rent-controls.scss';
 import Slider from './slider';
@@ -19,6 +21,7 @@ interface RentControlsProps {
 
   onBookBike: React.MouseEventHandler;
   onCancelBooking: React.MouseEventHandler;
+  onRefreshBooking: React.MouseEventHandler;
   onRentBike: (pin: string) => void;
 }
 
@@ -31,6 +34,7 @@ const RentControls: React.FC<RentControlsProps> = ({
 
   onBookBike,
   onCancelBooking,
+  onRefreshBooking,
   onRentBike,
 }) => {
   const [pin, setPin] = useSavedPin();
@@ -45,6 +49,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   );
 
   const { map, BUCHUNGEN } = useContext(LanguageContext);
+  const langId = useContext(LanguageIdContext);
 
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
@@ -52,8 +57,13 @@ const RentControls: React.FC<RentControlsProps> = ({
   const bookedStation =
     booking &&
     stations.find(station => station.stationId === booking.stationId);
-  const isOpenedStationBooked =
-    booking && booking.stationId === openedStation.station.stationId;
+  const isOpenedStationBooked = Boolean(
+    booking && booking.stationId === openedStation.station.stationId,
+  );
+
+  const remainingBookingTime =
+    booking &&
+    moment(new Date(booking.expiryDateTime), undefined, langId).fromNow(true);
 
   return pin ? (
     <div className={classNames('rent-controls', className)}>
@@ -73,6 +83,11 @@ const RentControls: React.FC<RentControlsProps> = ({
         onCompleted={() => onRentBike(pin)}
       />
 
+      {booking && isOpenedStationBooked && (
+        <button className="btn outline book" onClick={onRefreshBooking}>
+          {map.BOOKING.REFRESH} ({remainingBookingTime} {map.BOOKING.REMAINING})
+        </button>
+      )}
       <button
         className="btn outline book"
         disabled={!canRentBike && !booking}

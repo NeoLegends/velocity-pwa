@@ -19,17 +19,18 @@ export const useSelectedSlot = (
 ) => {
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
-  // Autoselect the booked slot
   useEffect(() => {
-    if (
-      !booking ||
-      !openedStationId ||
-      !stationDetail ||
-      openedStationId !== booking.stationId
-    ) {
+    // Deselect when station is closed
+    if (!openedStationId || !stationDetail) {
+      setSelectedSlot(null);
       return;
     }
 
+    if (!booking || openedStationId !== booking.stationId) {
+      return;
+    }
+
+    // Autoselect the booked slot
     const bookedSlot = stationDetail.slots.stationSlots.find(
       slot => slot.stationSlotPosition === booking.stationSlotPosition,
     );

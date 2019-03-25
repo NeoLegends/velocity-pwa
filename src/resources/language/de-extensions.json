@@ -20,13 +20,18 @@
   },
   "map": {
     "NO_BIKES": "Aktuell sind keine leihbaren Fahrräder verfügbar.",
+    "SLOT_FREE": "Slot frei",
+    "SLOTS_FREE": "Slots frei",
     "GO_TO_MAP": "Gehe zu Karte zum Leihen",
     "PIN": {
       "CTA": "Geben Sie Ihre PIN ein, um ein Fahrrad auszuleihen. Ihre PIN wird gespeichert.",
       "ACTION": "Speichern"
     },
     "BOOKING": {
-      "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades"
+      "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades",
+      "REMAINING": "verbleibend",
+      "REFRESH": "Buchung erneuern",
+      "SWITCH": "Zu aktueller Station umbuchen"
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Fahrrad am Slot",

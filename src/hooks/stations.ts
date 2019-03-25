@@ -48,30 +48,54 @@ export const useBooking = () => {
         }),
     [BUCHUNGEN],
   );
+  const refreshBooking = useCallback(async () => {
+    try {
+      const stationId = booking && booking.stationId;
+      if (!stationId) {
+        return;
+      }
+
+      const currentBooking = await getCurrentBooking();
+      if (currentBooking) {
+        await cancelCurrentBooking();
+      }
+
+      try {
+        setBooking(await doBook(stationId));
+      } catch (err) {
+        setBooking(null);
+      }
+    } catch (err) {
+      console.error('Failed refreshing current booking:', err);
+      toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+    }
+  }, [booking, BUCHUNGEN]);
 
   useInterval(fetchBooking);
 
-  return { booking, bookBike, cancelBooking, fetchBooking };
+  return { booking, bookBike, cancelBooking, fetchBooking, refreshBooking };
 };
 
 export const useStations = () => {
   const { MAP } = useContext(LanguageContext);
   const [stations, setStations] = useState<Station[]>([]);
 
-  const fetchStations = useCallback(() => {
-    getAllStations()
-      .then(stations => {
-        localStorage.setItem(
-          LOCALSTORAGE_STATIONS_KEY,
-          JSON.stringify(stations),
-        );
-        setStations(stations);
-      })
-      .catch(err => {
-        console.error('Error while loading stations:', err);
-        toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
-      });
-  }, [MAP]);
+  const fetchStations = useCallback(
+    () =>
+      getAllStations()
+        .then(stations => {
+          localStorage.setItem(
+            LOCALSTORAGE_STATIONS_KEY,
+            JSON.stringify(stations),
+          );
+          setStations(stations);
+        })
+        .catch(err => {
+          console.error('Error while loading stations:', err);
+          toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
+        }),
+    [MAP],
+  );
 
   useEffect(() => {
     const lsStations = localStorage.getItem(LOCALSTORAGE_STATIONS_KEY);

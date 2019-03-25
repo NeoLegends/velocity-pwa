@@ -1,8 +1,9 @@
 import useComponentSize from '@rehooks/component-size';
 import classNames from 'classnames';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 
 import { Booking, Slot } from '../../model';
+import { LanguageContext } from '../../resources/language';
 
 import BatteryCharge from './battery-charge';
 import './slot-list.scss';
@@ -40,6 +41,8 @@ const SlotView: React.FC<SlotViewProps> = ({
     [isReserved, isReservedByMe, onClick],
   );
 
+  const chargePercentage = Math.round((slot.stateOfCharge || 0) * 100);
+
   return (
     <li
       className={classNames('slot-list-item', className)}
@@ -60,13 +63,10 @@ const SlotView: React.FC<SlotViewProps> = ({
               'selected',
           )}
         >
-          <BatteryCharge
-            chargePercentage={Math.round((slot.stateOfCharge || 0) * 100)}
-          />
+          <BatteryCharge chargePercentage={chargePercentage} />
+
           {slot.stateOfCharge !== null && (
-            <span className="charge-percentage">
-              {Math.round((slot.stateOfCharge || 0) * 100)}%
-            </span>
+            <span className="charge-percentage">{chargePercentage}%</span>
           )}
         </div>
 
@@ -81,6 +81,7 @@ interface SlotListProps {
   booking: Booking | null;
   className?: string;
   focusRef: React.Ref<HTMLOrSVGElement | undefined>;
+  freeSlots: number;
   selectedSlot: Slot | null;
   stationId: number;
 
@@ -91,6 +92,7 @@ const SlotList: React.FC<SlotListProps> = ({
   availableSlots,
   booking,
   focusRef,
+  freeSlots,
   selectedSlot,
   stationId,
 
@@ -98,16 +100,37 @@ const SlotList: React.FC<SlotListProps> = ({
 }) => {
   const measureRef = useRef<any>();
   const { width } = useComponentSize(measureRef);
+  const { map } = useContext(LanguageContext);
 
-  // A slot item is 64px wide and there is a 16px margin between each
+  // A slot item is 64px wide and there is a 16px margin between each and there
+  // is an indicator for the amount of free slots
   const requiredWidth =
-    64 * availableSlots.length + 16 * (availableSlots.length - 1);
+    64 + 64 * availableSlots.length + 16 * availableSlots.length;
 
   return (
     <ul
       className={classNames('slot-list', requiredWidth < width && 'centered')}
       ref={measureRef}
     >
+      <li className="slot-list-item slots-free">
+        <div className="column">
+          <div
+            className={classNames(
+              'slot-icon outline column',
+              freeSlots === 0 && 'no-slots-free',
+            )}
+          >
+            <span
+              className={classNames('icon', freeSlots <= 0 && 'adjust-margin')}
+            >
+              {freeSlots > 0 ? '⏎' : '❗'}
+            </span>
+            <span>{freeSlots}</span>
+          </div>
+          <span>{freeSlots !== 1 ? map.SLOTS_FREE : map.SLOT_FREE}</span>
+        </div>
+      </li>
+
       {availableSlots.map((slot, index) => (
         <SlotView
           key={slot.stationSlotId}

@@ -9,7 +9,6 @@ import { InvalidStatusCodeError, Station } from '../../model';
 import { rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
 import Overlay from '../util/overlay';
-import Spinner from '../util/spinner';
 
 import RentControls from './rent-controls';
 import './rent-popup.scss';
@@ -32,7 +31,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   onRequestClose,
 }) => {
-  const { booking, bookBike, cancelBooking, fetchBooking } = useBooking();
+  const {
+    booking,
+    bookBike,
+    cancelBooking,
+    fetchBooking,
+    refreshBooking,
+  } = useBooking();
   const {
     availableSlots,
     stationDetail,
@@ -87,6 +92,17 @@ const RentPopup: React.FC<RentPopupProps> = ({
       });
   }, [booking, cancelBooking, fetchStationDetail, BUCHUNGEN]);
 
+  const handleRefreshBooking = useCallback(
+    () =>
+      refreshBooking()
+        .then(fetchStationDetail)
+        .catch(err => {
+          console.error('Error while refreshing a booking:', err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        }),
+    [fetchStationDetail, refreshBooking, BUCHUNGEN],
+  );
+
   const handleRent = useCallback(
     (pin: string) => {
       if (!selectedStation || !stationDetail) {
@@ -129,7 +145,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
           aria-labelledby="station-name"
           className={classNames(
             'rent-popup',
-            openedStationId && 'open',
+            stationDetail && 'open',
             className,
           )}
           onClick={handleClickOnPopup}
@@ -145,9 +161,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
           )}
           <hr />
 
-          {!stationDetail ? (
-            <Spinner className="loading-station" />
-          ) : !availableSlots.length ? (
+          {!stationDetail ? null : !availableSlots.length ? (
             <p className="no-bikes">{map.NO_BIKES}</p>
           ) : (
             <>
@@ -155,6 +169,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                 availableSlots={availableSlots}
                 booking={booking}
                 focusRef={focusRef}
+                freeSlots={stationDetail.station.numFreeSlots}
                 onSetSelectedSlot={setSelectedSlot}
                 selectedSlot={selectedSlot}
                 stationId={stationDetail.station.stationId}
@@ -168,6 +183,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
                   stations={stations}
                   onBookBike={handleBook}
                   onCancelBooking={handleCancelBooking}
+                  onRefreshBooking={handleRefreshBooking}
                   onRentBike={handleRent}
                 />
               ) : (
