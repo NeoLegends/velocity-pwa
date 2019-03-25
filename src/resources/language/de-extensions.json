@@ -30,7 +30,7 @@
     "BOOKING": {
       "BOOK_BIKE": "Reservieren des vollgeladensten Fahrrades",
       "REMAINING": "verbleibend",
-      "REFRESH": "Buchung erneuern",
+      "REFRESH": "Reservierung erneuern",
       "SWITCH": "Zu aktueller Station umbuchen"
     },
     "RENT": {
