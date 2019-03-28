@@ -1,13 +1,9 @@
 .bookings {
-  .transactions {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  height: auto;
 
-    .wrapper {
-      flex: 1;
-      padding-bottom: 0;
-    }
+  .wrapper {
+    display: block;
+    padding-bottom: 0;
   }
 
   .gap {

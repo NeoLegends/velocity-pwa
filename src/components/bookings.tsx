@@ -1,6 +1,9 @@
 import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
-import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
+import { AutoSizer } from 'react-virtualized/dist/es/AutoSizer';
+import { InfiniteLoader } from 'react-virtualized/dist/es/InfiniteLoader';
+import { List } from 'react-virtualized/dist/es/List';
+import { WindowScroller } from 'react-virtualized/dist/es/WindowScroller';
 
 import { useTransactions } from '../hooks/transaction';
 import { Transaction } from '../model';
@@ -75,15 +78,10 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
   );
 
   const renderRow = useCallback(
-    ({ index, key, style }) =>
-      isRowLoaded({ index }) ? (
-        <Trans key={key} style={style} transaction={transactions[index]} />
-      ) : (
-        <div key={key} style={style}>
-          Loading...
-        </div>
-      ),
-    [isRowLoaded, transactions],
+    ({ index, key, style }) => (
+      <Trans key={key} style={style} transaction={transactions[index]} />
+    ),
+    [transactions],
   );
 
   return (
@@ -99,19 +97,27 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
             rowCount={Infinity}
           >
             {({ onRowsRendered, registerChild }) => (
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    ref={registerChild}
-                    height={height}
-                    width={width}
-                    onRowsRendered={onRowsRendered}
-                    rowCount={transactions.length}
-                    rowHeight={170}
-                    rowRenderer={renderRow}
-                  />
+              <WindowScroller>
+                {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <List
+                        ref={registerChild}
+                        autoHeight={true}
+                        height={height}
+                        width={width}
+                        isScrolling={isScrolling}
+                        onRowsRendered={onRowsRendered}
+                        onScroll={onChildScroll}
+                        rowCount={transactions.length}
+                        rowHeight={170}
+                        rowRenderer={renderRow}
+                        scrollTop={scrollTop}
+                      />
+                    )}
+                  </AutoSizer>
                 )}
-              </AutoSizer>
+              </WindowScroller>
             )}
           </InfiniteLoader>
         </div>
