@@ -1,6 +1,4 @@
 import classNames from 'classnames';
-import moment from 'moment';
-import 'moment/locale/de';
 import React, { useCallback, useContext } from 'react';
 
 import { useFormField } from '../../hooks/form';
@@ -8,6 +6,7 @@ import { useSavedPin } from '../../hooks/pin';
 import { StationDetail } from '../../hooks/rent-popup';
 import { Booking, Slot, Station } from '../../model';
 import { LanguageContext, LanguageIdContext } from '../../resources/language';
+import moment from '../../util/moment';
 
 import './rent-controls.scss';
 import Slider from './slider';

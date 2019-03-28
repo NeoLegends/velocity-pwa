@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import moment from 'moment';
-import 'moment/locale/de';
 import React, { useCallback, useContext } from 'react';
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
 import { useTransactions } from '../hooks/transaction';
 import { Transaction } from '../model';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
+import moment from '../util/moment';
 
 import './bookings.scss';
 
