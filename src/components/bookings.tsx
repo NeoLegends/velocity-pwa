@@ -17,6 +17,7 @@ interface BookingsProps {
 }
 
 interface TransactionProps {
+  className?: string;
   style: any;
   transaction: Transaction;
 }
@@ -28,7 +29,11 @@ const startDateFormattingOptions = {
   day: 'numeric',
 };
 
-const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
+const Trans: React.SFC<TransactionProps> = ({
+  className,
+  style,
+  transaction,
+}) => {
   const language = useContext(LanguageIdContext);
   const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
@@ -36,7 +41,7 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <div className="gap" style={style}>
+    <div className={classNames('gap', className)} style={style}>
       <div className="transaction outline">
         <p className="oneline">
           {startDate.toLocaleDateString(undefined, startDateFormattingOptions)}
