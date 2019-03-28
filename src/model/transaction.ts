@@ -1,5 +1,5 @@
 import { Transaction } from '.';
-import { fetchJsonEnsureOk } from './fetch';
+import { fetch204ToNull } from './fetch';
 import { transactionsUrl } from './urls';
 
 /**
@@ -8,4 +8,4 @@ import { transactionsUrl } from './urls';
  * @param page the transaction page to fetch (a page contains 20 transactions).
  */
 export const getTransactions = (page: number): Promise<Transaction[]> =>
-  fetchJsonEnsureOk(transactionsUrl(page));
+  fetch204ToNull(transactionsUrl(page)).then(maybeTrans => maybeTrans || []);
