@@ -38,16 +38,19 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
         <p className="oneline">
           {startDate.toLocaleDateString(undefined, startDateFormattingOptions)}
         </p>
-        <p className="sentence">
+        <p className="oneline">
           {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}{' '}
-          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}{' '}
-          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}{' '}
-          {transaction.toStation.name.replace(/\s/g, '\u00A0')}{' '}
-          {moment(endDate, undefined, language).from(startDate, false)}
+          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
         </p>
         <p className="oneline">
-          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}:{' '}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}{' '}
+          {transaction.toStation.name.replace(/\s/g, '\u00A0')}
+        </p>
+        <p className="oneline">
+          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}{' '}
           {transaction.pedelecName.replace(/\_[nN]/g, '')}
+          {', '}
+          {moment(endDate, undefined, language).from(startDate, true)}
         </p>
       </div>
     </div>
@@ -104,7 +107,7 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
                     width={width}
                     onRowsRendered={onRowsRendered}
                     rowCount={transactions.length}
-                    rowHeight={154}
+                    rowHeight={170}
                     rowRenderer={renderRow}
                   />
                 )}

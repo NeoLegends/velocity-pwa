@@ -17,19 +17,18 @@
   .transaction {
     margin-bottom: 16px;
     padding: 16px;
+  }
 
-    p {
+  .oneline {
+    margin: 0;
+    margin-bottom: 16px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:last-of-type {
       margin: 0;
-      margin-bottom: 16px;
-      text-overflow: ellipsis;
-
-      &:last-of-type {
-        margin: 0;
-      }
-      &.oneline {
-        overflow: hidden;
-        white-space: nowrap;
-      }
     }
   }
 }
