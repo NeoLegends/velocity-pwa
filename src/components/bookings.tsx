@@ -1,13 +1,11 @@
-import { Link } from '@reach/router';
 import classNames from 'classnames';
 import moment from 'moment';
 import 'moment/locale/de';
 import React, { useCallback, useContext } from 'react';
 import { AutoSizer, InfiniteLoader, List } from 'react-virtualized';
 
-import { useBooking, useStations } from '../hooks/stations';
 import { useTransactions } from '../hooks/transaction';
-import { Booking, Station, Transaction } from '../model';
+import { Transaction } from '../model';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
 
 import './bookings.scss';
@@ -16,60 +14,10 @@ interface BookingsProps {
   className?: string;
 }
 
-interface BookingProps {
-  booking: Booking;
-  stations: Station[];
-
-  onCancelReservation: React.MouseEventHandler;
-}
-
 interface TransactionProps {
   style: any;
   transaction: Transaction;
 }
-
-const BookingBox: React.SFC<BookingProps> = ({
-  booking,
-  stations,
-
-  onCancelReservation,
-}) => {
-  const { map, BUCHUNGEN } = useContext(LanguageContext);
-
-  const targetStation = stations.find(
-    stat => stat.stationId === booking.stationId,
-  );
-
-  return (
-    <div className="box outline booking">
-      <h2>{BUCHUNGEN.RESERVIERUNG.TITEL}</h2>
-
-      <div className="wrapper">
-        <p>
-          {BUCHUNGEN.RESERVIERUNG.STATION}:{' '}
-          {targetStation ? targetStation.name : 'N/A'}
-        </p>
-        <p>
-          {BUCHUNGEN.RESERVIERUNG.SLOT}: {booking.stationSlotPosition}
-        </p>
-        <p>
-          {BUCHUNGEN.RESERVIERUNG.ZEIT}:{' '}
-          {new Date(booking.expiryDateTime).toLocaleString()}
-        </p>
-      </div>
-
-      <div className="actions">
-        <button className="btn outline" onClick={onCancelReservation}>
-          {BUCHUNGEN.RESERVIERUNG.BUTTON}
-        </button>
-
-        <Link className="btn outline" to={`/#${booking.stationId}`}>
-          {map.GO_TO_MAP}
-        </Link>
-      </div>
-    </div>
-  );
-};
 
 const startDateFormattingOptions = {
   weekday: 'long',
@@ -110,8 +58,6 @@ const Trans: React.SFC<TransactionProps> = ({ style, transaction }) => {
 const noop = () => Promise.resolve();
 
 const Bookings: React.SFC<BookingsProps> = ({ className }) => {
-  const { booking, cancelBooking } = useBooking();
-  const { stations } = useStations();
   const {
     hasNextPage,
     isNextPageLoading,
@@ -140,14 +86,6 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
 
   return (
     <div className={classNames('bookings box-list', className)}>
-      {booking && (
-        <BookingBox
-          booking={booking}
-          stations={stations}
-          onCancelReservation={cancelBooking}
-        />
-      )}
-
       <div className="box transactions">
         <h2>{BUCHUNGEN.HISTORIE.TITEL}</h2>
 
