@@ -52,8 +52,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
     userTariff.expiryDateTime &&
     new Date(userTariff.expiryDateTime).toLocaleDateString();
   const tariffInfo =
-    userTariff &&
-    tariffs.find(t => t.tariffId === userTariff.tariffId)!.description;
+    userTariff && tariffs.find(t => t.tariffId === userTariff.tariffId);
 
   return (
     <div className={classNames('tariff box-list', className)}>
@@ -72,7 +71,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
                 </li>
               )}
               <li>
-                {TARIFF.ALL.INFO}: {tariffInfo}
+                {TARIFF.ALL.INFO}: {tariffInfo ? tariffInfo.description : 'N/A'}
               </li>
               {!hasDefaultTariff && (
                 <li>
