@@ -80,7 +80,7 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
           Loading...
         </div>
       ),
-    [isRowLoaded, ...transactions],
+    [isRowLoaded, transactions],
   );
 
   return (
