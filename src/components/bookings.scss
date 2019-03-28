@@ -1,17 +1,4 @@
 .bookings {
-  p {
-    margin: 0;
-    margin-bottom: 16px;
-
-    &:last-of-type {
-      margin: 0;
-    }
-  }
-
-  .booking {
-    flex-shrink: 0;
-  }
-
   .transactions {
     display: flex;
     flex-direction: column;
@@ -32,8 +19,13 @@
     padding: 16px;
 
     p {
+      margin: 0;
+      margin-bottom: 16px;
       text-overflow: ellipsis;
 
+      &:last-of-type {
+        margin: 0;
+      }
       &.oneline {
         overflow: hidden;
         white-space: nowrap;
