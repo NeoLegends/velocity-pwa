@@ -39,6 +39,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   const [pin, setPin] = useSavedPin();
   const [pinInput, handlePinChange] = useFormField('');
 
+  const handleSliderComplete = useCallback(() => onRentBike(pin!), [pin]);
   const handleSubmitPin = useCallback(
     (ev: React.FormEvent) => {
       ev.preventDefault();
@@ -79,7 +80,7 @@ const RentControls: React.FC<RentControlsProps> = ({
           </div>
         )}
         disabled={!canRentBike}
-        onCompleted={() => onRentBike(pin)}
+        onCompleted={handleSliderComplete}
       />
 
       {booking && isOpenedStationBooked && (
