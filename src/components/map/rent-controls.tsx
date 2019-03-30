@@ -51,15 +51,26 @@ const RentControls: React.FC<RentControlsProps> = ({
   const { map, BUCHUNGEN } = useContext(LanguageContext);
   const langId = useContext(LanguageIdContext);
 
-  const canRentBike =
-    openedStation.station.state === 'OPERATIVE' &&
-    openedStation.slots.stationSlots.some(s => s.isOccupied);
   const bookedStation =
     booking &&
     stations.find(station => station.stationId === booking.stationId);
   const isOpenedStationBooked = Boolean(
     booking && booking.stationId === openedStation.station.stationId,
   );
+  const canRentBike =
+    openedStation.station.state === 'OPERATIVE' &&
+    openedStation.slots.stationSlots.some(s =>
+      Boolean(
+        s.isOccupied &&
+          s.state === 'OPERATIVE' &&
+          s.pedelecInfo &&
+          // Either the pedelec must be available or be rented by myself
+          (s.pedelecInfo.availability === 'AVAILABLE' ||
+            (s.pedelecInfo.availability === 'RESERVED' &&
+              isOpenedStationBooked &&
+              booking!.stationSlotPosition === s.stationSlotPosition)),
+      ),
+    );
 
   const remainingBookingTime =
     booking &&
