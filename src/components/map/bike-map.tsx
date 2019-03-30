@@ -8,9 +8,11 @@ import { useStations } from '../../hooks/stations';
 import { TILE_URL } from '../../model/urls';
 import logoGreyscale from '../../resources/logo-greyscale.png';
 import logo from '../../resources/logo.png';
+import MakeLazy from '../util/make-lazy';
 
 import './bike-map.scss';
-import RentPopup from './rent-popup';
+
+const RentPopup = MakeLazy(() => import('./rent-popup'));
 
 interface BikeMapProps {
   className?: string;
