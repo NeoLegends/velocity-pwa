@@ -52,11 +52,19 @@ const Slider: React.FC<SliderProps> = ({
   const isCompleted = completion > completionPercentage;
 
   const handleDown = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
     setDx(0);
     setIsDragging(true);
-  }, []);
+  }, [disabled]);
   const handleUp = useCallback(() => {
-    if (isCompleted && !disabled && typeof onCompleted === 'function') {
+    if (disabled) {
+      return;
+    }
+
+    if (isCompleted && typeof onCompleted === 'function') {
       onCompleted();
     }
 
@@ -77,10 +85,14 @@ const Slider: React.FC<SliderProps> = ({
   );
   const handleTouchStart = useCallback(
     (ev: React.TouchEvent) => {
+      if (disabled) {
+        return;
+      }
+
       setTouchStartX(ev.touches[0].screenX);
       handleDown();
     },
-    [handleDown],
+    [disabled, handleDown],
   );
   const handleTouchMove = useCallback(
     (ev: TouchEvent) => {
