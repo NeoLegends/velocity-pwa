@@ -45,33 +45,29 @@ const SlotView: React.FC<SlotViewProps> = ({
 
   return (
     <li
-      className={classNames('slot-list-item', className)}
+      className={classNames('slot-list-item column', className)}
       key={slot.stationSlotId}
     >
       <button
-        className="slot-button column"
+        className={classNames(
+          'slot-icon slot-button outline column',
+          isReserved && 'reserved',
+          isReservedByMe && 'me',
+          selectedSlot &&
+            selectedSlot.stationSlotId === slot.stationSlotId &&
+            'selected',
+        )}
         onClick={handleClick}
         ref={focusRef}
       >
-        <div
-          className={classNames(
-            'slot-icon outline column',
-            isReserved && 'reserved',
-            isReservedByMe && 'me',
-            selectedSlot &&
-              selectedSlot.stationSlotId === slot.stationSlotId &&
-              'selected',
-          )}
-        >
-          <BatteryCharge chargePercentage={chargePercentage} />
+        <BatteryCharge chargePercentage={chargePercentage} />
 
-          {slot.stateOfCharge !== null && (
-            <span className="charge-percentage">{chargePercentage}%</span>
-          )}
-        </div>
-
-        <span>Slot {slot.stationSlotPosition}</span>
+        {slot.stateOfCharge !== null && (
+          <span className="charge-percentage">{chargePercentage}%</span>
+        )}
       </button>
+
+      <span>Slot {slot.stationSlotPosition}</span>
     </li>
   );
 };
@@ -112,23 +108,24 @@ const SlotList: React.FC<SlotListProps> = ({
       className={classNames('slot-list', requiredWidth < width && 'centered')}
       ref={measureRef}
     >
-      <li className="slot-list-item slots-free">
-        <div className="column">
-          <div
+      <li className="slot-list-item column">
+        <div
+          className={classNames(
+            'slot-icon outline column',
+            freeSlots === 0 && 'no-slots-free',
+          )}
+        >
+          <span
             className={classNames(
-              'slot-icon outline column',
-              freeSlots === 0 && 'no-slots-free',
+              'slots-free-icon',
+              freeSlots <= 0 && 'adjust-margin',
             )}
           >
-            <span
-              className={classNames('icon', freeSlots <= 0 && 'adjust-margin')}
-            >
-              {freeSlots > 0 ? '⏎' : '❗'}
-            </span>
-            <span>{freeSlots}</span>
-          </div>
-          <span>{freeSlots !== 1 ? map.SLOTS_FREE : map.SLOT_FREE}</span>
+            {freeSlots > 0 ? '⏎' : '❗'}
+          </span>
+          <span>{freeSlots}</span>
         </div>
+        <span>{freeSlots !== 1 ? map.SLOTS_FREE : map.SLOT_FREE}</span>
       </li>
 
       {availableSlots.map((slot, index) => (
