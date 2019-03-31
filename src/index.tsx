@@ -1,5 +1,9 @@
 // tslint:disable:ordered-imports
 
+// Import this first to avoid excessive deoptimization because of a
+// prototype change in `number`.
+import './util/to-euro';
+
 import 'modern-normalize/modern-normalize.css';
 import './index.scss';
 
@@ -9,23 +13,11 @@ import ReactDOM from 'react-dom';
 import App from './components/app';
 
 declare global {
-  interface Number {
-    toEuro(): string;
-  }
-
   interface BeforeInstallProptEvent extends Event {
     userChoice: Promise<{ outcome: 'accepted' | unknown }>;
 
     prompt: () => void;
   }
 }
-
-/** Format a number as euro currency. */
-Number.prototype.toEuro = function() {
-  return this.toLocaleString(undefined, {
-    currency: 'EUR',
-    style: 'currency',
-  });
-};
 
 ReactDOM.render(<App />, document.getElementById('root'));
