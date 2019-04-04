@@ -112,7 +112,7 @@ const SlotList: React.FC<SlotListProps> = ({
         <div
           className={classNames(
             'slot-icon outline column',
-            freeSlots === 0 && 'no-slots-free',
+            freeSlots <= 0 && 'no-slots-free',
           )}
         >
           <span
