@@ -35,8 +35,7 @@
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Slide to rent bike at slot",
-      "SLIDE_FOR_BIKE_NO2": "",
-      "SLIDE_FOR_BEST_BIKE": "Slide to rent most-charged bike"
+      "SLIDE_FOR_BIKE_NO2": ""
     }
   },
   "menu": "Menu",

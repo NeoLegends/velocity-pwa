@@ -26,16 +26,19 @@ export const useSelectedSlot = (
       return;
     }
 
-    if (!booking || openedStationId !== booking.stationId) {
-      return;
-    }
+    // Autoselect the booked slot if we have a booking, otherwise select
+    // the fullest bike.
+    const slotToSelect =
+      booking && openedStationId === booking.stationId
+        ? stationDetail.slots.stationSlots.find(
+            slot => slot.stationSlotPosition === booking.stationSlotPosition,
+          )
+        : stationDetail.slots.stationSlots.find(
+            slot => slot.stationSlotId === stationDetail.slots.recommendedSlot,
+          );
 
-    // Autoselect the booked slot
-    const bookedSlot = stationDetail.slots.stationSlots.find(
-      slot => slot.stationSlotPosition === booking.stationSlotPosition,
-    );
-    if (bookedSlot) {
-      setSelectedSlot(bookedSlot);
+    if (slotToSelect) {
+      setSelectedSlot(slotToSelect);
       return () => setSelectedSlot(null);
     }
   }, [booking, openedStationId, stationDetail]);

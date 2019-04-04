@@ -81,13 +81,12 @@ const RentControls: React.FC<RentControlsProps> = ({
       <Slider
         background={() => (
           <div className="slider-content column">
-            <span>
-              {selectedSlot
-                ? `${map.RENT.SLIDE_FOR_BIKE_NO1} ${
-                    selectedSlot.stationSlotPosition
-                  } ${map.RENT.SLIDE_FOR_BIKE_NO2}`
-                : map.RENT.SLIDE_FOR_BEST_BIKE}
-            </span>
+            {selectedSlot && (
+              <span>
+                {map.RENT.SLIDE_FOR_BIKE_NO1} {selectedSlot.stationSlotPosition}{' '}
+                {map.RENT.SLIDE_FOR_BIKE_NO2}
+              </span>
+            )}
           </div>
         )}
         disabled={!canRentBike}

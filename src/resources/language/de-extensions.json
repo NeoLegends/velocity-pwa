@@ -35,8 +35,7 @@
     },
     "RENT": {
       "SLIDE_FOR_BIKE_NO1": "Fahrrad am Slot",
-      "SLIDE_FOR_BIKE_NO2": "ausleihen",
-      "SLIDE_FOR_BEST_BIKE": "Vollgeladenstes Fahrrad ausleihen"
+      "SLIDE_FOR_BIKE_NO2": "ausleihen"
     }
   },
   "menu": "Menü",
