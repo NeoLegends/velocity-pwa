@@ -81,7 +81,7 @@ const RentControls: React.FC<RentControlsProps> = ({
       <Slider
         background={() => (
           <div className="slider-content column">
-            {selectedSlot && (
+            {selectedSlot && ( // Since we auto-select the fullest slot, this check exists just as formality
               <span>
                 {map.RENT.SLIDE_FOR_BIKE_NO1} {selectedSlot.stationSlotPosition}{' '}
                 {map.RENT.SLIDE_FOR_BIKE_NO2}
