@@ -22,7 +22,6 @@ export const useSelectedSlot = (
   useEffect(() => {
     // Deselect when station is closed
     if (!openedStationId || !stationDetail) {
-      setSelectedSlot(null);
       return;
     }
 
