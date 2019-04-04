@@ -83,7 +83,8 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
           <Marker
             alt={`Station ${station.name}`}
             icon={
-              station.numAllSlots > station.numFreeSlots
+              station.numAllSlots > station.numFreeSlots &&
+              station.state === 'OPERATIVE'
                 ? stationIcon
                 : noBikesStationIcon
             }

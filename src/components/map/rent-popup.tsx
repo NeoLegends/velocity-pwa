@@ -157,9 +157,13 @@ const RentPopup: React.FC<RentPopupProps> = ({
           {selectedStation && selectedStation.note && (
             <p className="station-note">{selectedStation.note}</p>
           )}
+
           <hr />
 
-          {!stationDetail ? null : !availableSlots.length ? (
+          {!stationDetail ? null : stationDetail.station.state ===
+            'INOPERATIVE' ? (
+            <p className="defect">{MAP.POPUP.STATES.MAINTENANCE}</p>
+          ) : !availableSlots.length ? (
             <p className="no-bikes">{map.NO_BIKES}</p>
           ) : (
             <>
