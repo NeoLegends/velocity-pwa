@@ -25,6 +25,11 @@ export const useSelectedSlot = (
       setSelectedSlot(null);
       return;
     }
+    
+    // Don't overwrite existing selection
+    if (selectedSlot) {
+      return;
+    }
 
     // Autoselect the booked slot if we have a booking, otherwise select
     // the fullest bike.
@@ -41,7 +46,7 @@ export const useSelectedSlot = (
       setSelectedSlot(slotToSelect);
       return () => setSelectedSlot(null);
     }
-  }, [booking, openedStationId, stationDetail]);
+  }, [booking, openedStationId, selectedSlot, stationDetail]);
 
   return { selectedSlot, setSelectedSlot };
 };
