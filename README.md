@@ -12,7 +12,13 @@ This project uses Create-React-App as its build process & yarn for package manag
 
 `yarn build`
 
-You will find the minified & bundled sources in the `build` folder. They can be served from any static web server. Due to CORS restrictions, the PWA also requires an API proxy to Velocity's backend. It already contains the necessary configuration for a [Netlify](https://netlify.com/) deployment.
+You will find the minified & bundled sources in the `build` folder. They can be served from any static web server.
+
+## CORS Proxy
+
+Due to CORS restrictions (and for various other reasons), the PWA requires an API proxy to Velocity's backend. During development, the proxy is provided by Create-React-App. For production usage, the app is already configured for a [Netlify](https://netlify.com/) deployment.
+
+If you want to configure the proxy manually, take a look at the [`_redirects`](https://github.com/NeoLegends/velocity-pwa/blob/master/public/_redirects) file. It lists the required rewrite rules in Netlify syntax that should be quite easy to understand & to transfer to a more general proxy solution.
 
 ## Bundle Analysis
 
@@ -20,13 +26,9 @@ The build process will generate a bundle analysis of the compiled code at `build
 
 ## Development
 
-Running the webpack dev server with hot reloading is straightforward:
-
 `yarn start`
 
 The web app will by default be served on `localhost:3000`.
-
-A development proxy is in the `proxy` folder, it can be started by running `docker-compose up` in the repo's root directory.
 
 ## Screenshots
 
