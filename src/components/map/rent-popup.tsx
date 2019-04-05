@@ -135,7 +135,14 @@ const RentPopup: React.FC<RentPopupProps> = ({
           toast(message, { type: 'error' });
         });
     },
-    [onRequestClose, rentBike, selectedSlot, selectedStation, stationDetail, MAP],
+    [
+      onRequestClose,
+      rentBike,
+      selectedSlot,
+      selectedStation,
+      stationDetail,
+      MAP,
+    ],
   );
 
   return (
