@@ -29,7 +29,7 @@ export const useTransactions = () => {
         })
         .finally(() => setIsNextPageLoading(false));
     },
-    [BUCHUNGEN],
+    [getTransactions, BUCHUNGEN],
   );
 
   useEffect(() => {

@@ -8,9 +8,9 @@ export const useSavedPin = () => {
   const setPinInLsAndState = useCallback((pin: string | null) => {
     pin !== null ? setCardPin(pin) : eraseCardPin();
     setPin(pin);
-  }, []);
+  }, [eraseCardPin, setCardPin]);
 
-  useLayoutEffect(() => setPin(getSavedCardPin()), []);
+  useLayoutEffect(() => setPin(getSavedCardPin()), [getSavedCardPin]);
 
   return [pin, setPinInLsAndState] as [
     string | null,

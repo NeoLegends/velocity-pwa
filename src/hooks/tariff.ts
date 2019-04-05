@@ -36,7 +36,7 @@ export const useUserTariff = () => {
           console.error('Error while loading user tariff:', err);
           toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
         }),
-    [TARIFF],
+    [getCurrentTariff, TARIFF],
   );
 
   useInterval(fetchTariff);
