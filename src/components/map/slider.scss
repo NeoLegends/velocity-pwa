@@ -33,6 +33,9 @@
     &.dragging {
       transition: none;
     }
+    &.disabled {
+      background-color: darken($menu-background, 10%);
+    }
 
     span {
       color: white;
