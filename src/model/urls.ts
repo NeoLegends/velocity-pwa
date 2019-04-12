@@ -27,6 +27,8 @@ export const APP_INVOICES_URL = `${APP_CUSTOMER_URL}/invoices?view=SUMMARY`;
 export const APP_SUPPORT_URL = `${APP_URL}/support`;
 export const APP_TOGGLE_TARIFF_RENEWAL_URL = `${APP_CURRENT_TARIFF_URL}/auto-renewal`;
 export const APP_SEPA_MANDATE_URL = `${APP_CUSTOMER_URL}/bankaccount/sepa`;
+export const APP_TRANSACTIONS_URL = `${APP_URL}/transactions`;
+export const APP_CURRENT_TRANSACTION_URL = `${APP_TRANSACTIONS_URL}/open`;
 
 export const singleStationUrl = (statId: number) =>
   `${APP_ALL_STATIONS_URL}/${statId}`;
@@ -41,4 +43,4 @@ export const slotInfoUrl = (statId: number) =>
 export const tariffsUrl = (lang: LanguageIdentifier) =>
   `${APP_URL}/tariffs?lang=${lang}`;
 export const transactionsUrl = (page: number) =>
-  `${APP_URL}/transactions?page=${page}`;
+  `${APP_TRANSACTIONS_URL}?page=${page}`;

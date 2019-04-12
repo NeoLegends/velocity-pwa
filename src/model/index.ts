@@ -99,16 +99,19 @@ export interface Tariff {
   term: number;
 }
 
-export interface Transaction {
-  distance: number;
-  endDateTime: string;
-  fees: number;
+export interface RunningTransaction {
   fromStation: StationSimple;
   lockAvailable: boolean;
   pedelecName: string;
   startDateTime: string;
-  toStation: StationSimple;
   transactionId: number;
+}
+
+export interface Transaction extends RunningTransaction {
+  distance: number;
+  endDateTime: string;
+  fees: number;
+  toStation: StationSimple;
 }
 
 export interface UserTariff {

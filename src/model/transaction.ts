@@ -1,6 +1,12 @@
-import { Transaction } from '.';
+import { RunningTransaction, Transaction } from '.';
 import { fetch204ToNull } from './fetch';
-import { transactionsUrl } from './urls';
+import { transactionsUrl, APP_CURRENT_TRANSACTION_URL } from './urls';
+
+/**
+ * Gets the currently running transaction, if one exists.
+ */
+export const getCurrentTransaction = (): Promise<RunningTransaction | null> =>
+  fetch204ToNull(APP_CURRENT_TRANSACTION_URL);
 
 /**
  * Gets the transactions of the currently signed in user.
