@@ -30,10 +30,14 @@ export const APP_SEPA_MANDATE_URL = `${APP_CUSTOMER_URL}/bankaccount/sepa`;
 export const APP_TRANSACTIONS_URL = `${APP_URL}/transactions`;
 export const APP_CURRENT_TRANSACTION_URL = `${APP_TRANSACTIONS_URL}/open`;
 
-export const singleStationUrl = (statId: number) =>
-  `${APP_ALL_STATIONS_URL}/${statId}`;
+// For better minification
+const encode = encodeURIComponent;
 
-export const feedbackUrl = (type: SupportType) => `${APP_SUPPORT_URL}/${type}`;
+export const singleStationUrl = (statId: number) =>
+  `${APP_ALL_STATIONS_URL}/${encode(String(statId))}`;
+
+export const feedbackUrl = (type: SupportType) =>
+  `${APP_SUPPORT_URL}/${encode(type)}`;
 export const rentBikeUrl = (statId: number) =>
   `${singleStationUrl(statId)}/rent`;
 export const reserveBikeUrl = (statId: number) =>
@@ -41,6 +45,6 @@ export const reserveBikeUrl = (statId: number) =>
 export const slotInfoUrl = (statId: number) =>
   `${singleStationUrl(statId)}/slots/full`;
 export const tariffsUrl = (lang: LanguageIdentifier) =>
-  `${APP_URL}/tariffs?lang=${lang}`;
+  `${APP_URL}/tariffs?lang=${encode(lang)}`;
 export const transactionsUrl = (page: number) =>
-  `${APP_TRANSACTIONS_URL}?page=${page}`;
+  `${APP_TRANSACTIONS_URL}?page=${encode(String(page))}`;
