@@ -16,7 +16,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-leaflet": "^2.1.2",
-    "react-toastify": "^4.4.3",
+    "react-toastify": "^5.0.0",
     "react-virtualized": "^9.21.0"
   },
   "scripts": {
