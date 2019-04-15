@@ -20,7 +20,6 @@ export const useSelectedSlot = (
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
   useEffect(() => {
-    // Deselect when station is closed
     if (!openedStationId || !stationDetail) {
       return;
     }
@@ -47,6 +46,8 @@ export const useSelectedSlot = (
 
     if (slotToSelect) {
       setSelectedSlot(slotToSelect);
+
+      // Deselect when station is closed
       return () => setSelectedSlot(null);
     }
   }, [booking, openedStationId, stationDetail]);
