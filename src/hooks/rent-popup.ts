@@ -25,16 +25,22 @@ export const useSelectedSlot = (
       return;
     }
 
-    // Autoselect the booked slot if we have a booking, otherwise select
-    // the fullest bike.
+    // Autoselect the recommended slot, if it is at the given station, otherwise
+    // select the fullest bike.
     const slotToSelect =
-      booking && openedStationId === booking.stationId
-        ? stationDetail.slots.stationSlots.find(
-            slot => slot.stationSlotPosition === booking.stationSlotPosition,
-          )
-        : stationDetail.slots.stationSlots.find(
-            slot => slot.stationSlotId === stationDetail.slots.recommendedSlot,
-          );
+      stationDetail.slots.stationSlots.find(
+        slot => slot.stationSlotId === stationDetail.slots.recommendedSlot,
+      ) ||
+      stationDetail.slots.stationSlots
+        .filter(
+          slot =>
+            slot.pedelecInfo && slot.pedelecInfo.availability === 'AVAILABLE',
+        )
+        .reduce((acc, item) =>
+          item.pedelecInfo!.stateOfCharge > acc.pedelecInfo!.stateOfCharge
+            ? item
+            : acc,
+        );
 
     if (slotToSelect) {
       setSelectedSlot(slotToSelect);
