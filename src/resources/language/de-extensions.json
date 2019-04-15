@@ -45,7 +45,8 @@
     "UPDATE_AVAILABLE": "Es ist ein Update verfügbar. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut, um das Update anzuwenden.",
     "LOAD_FAILED": {
       "TITLE": "Fehler beim Seitenaufbau",
-      "BODY": "Es ist ein Fehler beim Aufbauen der Seite aufgetreten. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut."
+      "BODY": "Es ist ein Fehler beim Aufbauen der Seite aufgetreten. Bitte schließen Sie alle geöffneten Velocity-Tabs und öffnen Sie die Seite erneut.",
+      "RELOAD": "Seite neu laden"
     }
   },
   "tariff": {

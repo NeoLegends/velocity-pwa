@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { LanguageContext } from '../../resources/language';
 
@@ -12,6 +12,7 @@ interface LazyLoadFailedProps {
 
 const LazyLoadFailed: React.FC<LazyLoadFailedProps> = ({ className }) => {
   const { sw } = useContext(LanguageContext);
+  const reload = useCallback(() => window.location.reload(), []);
 
   return (
     <Overlay isOpen>
@@ -19,6 +20,10 @@ const LazyLoadFailed: React.FC<LazyLoadFailedProps> = ({ className }) => {
         <div className={classNames('lazy-load-failed', className)}>
           <h1 ref={focusRef}>{sw.LOAD_FAILED.TITLE}</h1>
           <p>{sw.LOAD_FAILED.BODY}</p>
+
+          <button className="btn outline" onClick={reload}>
+            {sw.LOAD_FAILED.RELOAD}
+          </button>
         </div>
       )}
     </Overlay>
