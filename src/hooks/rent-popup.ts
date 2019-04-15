@@ -36,10 +36,13 @@ export const useSelectedSlot = (
           slot =>
             slot.pedelecInfo && slot.pedelecInfo.availability === 'AVAILABLE',
         )
-        .reduce((acc, item) =>
-          item.pedelecInfo!.stateOfCharge > acc.pedelecInfo!.stateOfCharge
-            ? item
-            : acc,
+        .reduce(
+          (acc: Slot | null, item) =>
+            !acc ||
+            item.pedelecInfo!.stateOfCharge > acc.pedelecInfo!.stateOfCharge
+              ? item
+              : acc,
+          null,
         );
 
     if (slotToSelect) {
