@@ -26,7 +26,7 @@ export const useBooking = () => {
           console.error('Error while booking bike:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
-    [doBook, BUCHUNGEN],
+    [BUCHUNGEN],
   );
   const cancelBooking = useCallback(
     () =>
@@ -36,7 +36,7 @@ export const useBooking = () => {
           console.error('Failed to cancel current booking:', err);
           toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
         }),
-    [cancelCurrentBooking, PARTICULARS],
+    [PARTICULARS],
   );
   const fetchBooking = useCallback(
     () =>
@@ -46,7 +46,7 @@ export const useBooking = () => {
           console.error('Failed loading current booking:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
-    [getCurrentBooking, BUCHUNGEN],
+    [BUCHUNGEN],
   );
   const refreshBooking = useCallback(async () => {
     try {
@@ -69,7 +69,7 @@ export const useBooking = () => {
       console.error('Failed refreshing current booking:', err);
       toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
     }
-  }, [booking, cancelCurrentBooking, doBook, getCurrentBooking, BUCHUNGEN]);
+  }, [booking, BUCHUNGEN]);
 
   useInterval(fetchBooking);
 
@@ -94,7 +94,7 @@ export const useStations = () => {
           console.error('Error while loading stations:', err);
           toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
         }),
-    [getAllStations, MAP],
+    [MAP],
   );
 
   useEffect(() => {

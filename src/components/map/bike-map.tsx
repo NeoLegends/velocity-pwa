@@ -52,16 +52,16 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   }, []);
 
   const closePopup = useCallback(() => {
-    history.pushState(null, '', '#');
+    window.history.pushState(null, '', '#');
     handleHashChange();
-  }, []);
+  }, [handleHashChange]);
 
   useEffect(() => {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
 
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [handleHashChange]);
 
   return (
     <>
@@ -91,7 +91,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
             key={station.stationId}
             position={[station.locationLatitude, station.locationLongitude]}
             onClick={() => {
-              history.pushState(null, '', `#${station.stationId}`);
+              window.history.pushState(null, '', `#${station.stationId}`);
               handleHashChange();
             }}
           />

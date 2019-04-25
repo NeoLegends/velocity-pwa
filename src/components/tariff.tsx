@@ -10,6 +10,7 @@ import {
   deactivateAutoRenewal,
 } from '../model/tariff';
 import { LanguageContext } from '../resources/language';
+import { toEuro } from '../util/to-euro';
 
 import './tariff.scss';
 
@@ -114,7 +115,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
                 {TARIFF.ALL.DURATION}: {tariff.term} {TARIFF.ALL.TAGE}
               </li>
               <li>
-                {TARIFF.ALL.PREIS}: {tariff.periodicRate.toEuro()}
+                {TARIFF.ALL.PREIS}: {toEuro(tariff.periodicRate)}
               </li>
             </ul>
           </div>

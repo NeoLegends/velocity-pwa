@@ -27,7 +27,7 @@ const calculateClassNames = ({
 }: LinkGetProps) => ({
   className: classNames('menu-entry', {
     // Don't show root route as always active
-    ['active']: href === '/' ? isCurrent : isPartiallyCurrent,
+    active: href === '/' ? isCurrent : isPartiallyCurrent,
   }),
 });
 

@@ -53,11 +53,11 @@ const RentPopup: React.FC<RentPopupProps> = ({
     if (openedStationId) {
       fetchBooking();
     }
-  }, [openedStationId]);
+  }, [fetchBooking, openedStationId]);
 
   const selectedStation = useMemo(
     () => stations.find(stat => stat.stationId === openedStationId),
-    [openedStationId],
+    [openedStationId, stations],
   );
   const handleClickOnPopup = useCallback(
     (ev: React.MouseEvent) => ev.stopPropagation(),
@@ -135,14 +135,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
           toast(message, { type: 'error' });
         });
     },
-    [
-      onRequestClose,
-      rentBike,
-      selectedSlot,
-      selectedStation,
-      stationDetail,
-      MAP,
-    ],
+    [onRequestClose, selectedSlot, selectedStation, stationDetail, MAP],
   );
 
   return (

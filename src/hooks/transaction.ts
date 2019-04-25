@@ -29,12 +29,12 @@ export const useTransactions = () => {
         })
         .finally(() => setIsNextPageLoading(false));
     },
-    [getTransactions, BUCHUNGEN],
+    [BUCHUNGEN],
   );
 
   useEffect(() => {
     loadNextPage({ startIndex: 0 });
-  }, []);
+  }, [loadNextPage]);
 
   return {
     hasNextPage,

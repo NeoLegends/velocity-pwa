@@ -16,7 +16,7 @@ export const useInvoices = () => {
         console.error('Error while loading the invoices:', err);
         toast(BILL.ALERT.FETCH_INVOICE_FAILURE, { type: 'error' });
       });
-  }, []);
+  }, [BILL]);
 
   return invoices;
 };

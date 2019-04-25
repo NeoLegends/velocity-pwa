@@ -93,7 +93,7 @@ export const useStationDetail = (stationId: number | null) => {
         console.error('Error while opening station popup:', err);
         toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
       });
-  }, [getSingleStation, getSlotInfo, stationId, MAP]);
+  }, [stationId, MAP]);
 
   useInterval(fetchStationDetail);
 

@@ -48,7 +48,7 @@ const RentControls: React.FC<RentControlsProps> = ({
       ev.preventDefault();
       setPin(pinInput);
     },
-    [pinInput],
+    [pinInput, setPin],
   );
 
   const { map, BUCHUNGEN } = useContext(LanguageContext);

@@ -41,5 +41,5 @@ export const useServiceWorker = () => {
     process.env.NODE_ENV === 'production' && !isIos
       ? serviceWorker.register(swConfig)
       : serviceWorker.unregister();
-  }, []);
+  }, [sw]);
 };

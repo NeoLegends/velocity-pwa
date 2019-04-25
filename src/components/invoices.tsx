@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { useInvoices } from '../hooks/invoices';
 import { invoiceUrl } from '../model/urls';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
+import { toEuro } from '../util/to-euro';
 
 import './invoices.scss';
 
@@ -48,7 +49,7 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
                   <tr key={inv.url}>
                     <td>{inv.year}</td>
                     <td>{monthName}</td>
-                    <td>{inv.sum.toEuro()}</td>
+                    <td>{toEuro(inv.sum)}</td>
                     <td>
                       <a
                         href={invoiceUrl(invName)}

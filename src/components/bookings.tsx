@@ -56,7 +56,7 @@ const Trans: React.SFC<TransactionProps> = ({
         </p>
         <p className="oneline">
           {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}{' '}
-          {transaction.pedelecName.replace(/\_[nN]/g, '')}
+          {transaction.pedelecName.replace(/_[nN]/g, '')}
           {', '}
           {moment(endDate, undefined, language).from(startDate, true)}
         </p>

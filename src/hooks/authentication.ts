@@ -27,7 +27,7 @@ export const useLogin = () => {
           console.error('Error while checking for login state:', err);
           toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
         }),
-    [checkIsLoggedIn, LOGIN],
+    [LOGIN],
   );
 
   const login = useCallback(
@@ -47,7 +47,7 @@ export const useLogin = () => {
           toast(message, { type: 'error' });
           return false;
         }),
-    [doLogin, LOGIN],
+    [LOGIN],
   );
 
   const logout = useCallback(
@@ -61,7 +61,7 @@ export const useLogin = () => {
           console.error('Error while logging out:', err);
           toast(LOGIN.ALERT.LOGOUT_ERR, { type: 'error' });
         }),
-    [doLogout, LOGIN],
+    [LOGIN],
   );
 
   useInterval(fetchLoginState);

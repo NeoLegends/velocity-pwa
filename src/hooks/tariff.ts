@@ -19,7 +19,7 @@ export const useTariffs = () => {
         console.error('Error while loading all available tarrifs:', err);
         toast(TARIFF.ALERT.LOAD_TARIFFS_FAIL, { type: 'error' });
       });
-  }, [languageId]);
+  }, [languageId, TARIFF]);
 
   return tariffs;
 };
@@ -36,7 +36,7 @@ export const useUserTariff = () => {
           console.error('Error while loading user tariff:', err);
           toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
         }),
-    [getCurrentTariff, TARIFF],
+    [TARIFF],
   );
 
   useInterval(fetchTariff);

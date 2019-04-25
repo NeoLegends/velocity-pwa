@@ -28,7 +28,7 @@ export const useLanguage = () => {
       (supportsLanguage(navigatorLanguage) ? navigatorLanguage : 'de');
 
     handleChangeLanguage(lang as LanguageIdentifier);
-  }, []);
+  }, [handleChangeLanguage]);
 
   return [langId, language, handleChangeLanguage] as [
     LanguageIdentifier,

@@ -47,7 +47,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
     return null;
   }
 
-  const goToOverview = () => history.back();
+  const goToOverview = () => window.history.back();
 
   const handleCancel = (ev: React.MouseEvent) => {
     ev.preventDefault();
