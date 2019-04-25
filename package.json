@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tslint -p .",
@@ -40,12 +40,19 @@
       "yarn fix"
     ]
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie < 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "proxy": "https://velocity.ac",
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.0",
@@ -61,12 +68,11 @@
     "lint-staged": "^8.1.5",
     "node-sass": "^4.10.0",
     "prettier": "^1.16.4",
-    "react-scripts": "^2.1.1",
+    "react-scripts": "^3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.1.6",
-    "webpack-bundle-analyzer": "^3.1.0"
+    "typescript": "^3.1.6"
   }
 }
