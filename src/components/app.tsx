@@ -17,6 +17,7 @@ import MenuBar from './menu-bar';
 import Login from './util/lazy-login';
 import makeLazy from './util/make-lazy';
 import needsLogin from './util/needs-login';
+import { UnofficialPopup } from './util/unofficial-popup';
 
 interface AppBodyProps {
   onChangeLanguage: (lang: LanguageIdentifier) => void;
@@ -85,6 +86,8 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
         <Support path="/support" isLoggedIn={isLoggedIn} onLoginStart={login} />
         <Tariff path="/tariff" isLoggedIn={isLoggedIn} onLoginStart={login} />
       </Router>
+
+      <UnofficialPopup />
 
       <a
         className="unofficial"

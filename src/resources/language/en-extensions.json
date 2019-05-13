@@ -52,5 +52,9 @@
   "tariff": {
     "ACTIVATE_AUTOMATIC_RENEWAL": "Activate automatic renewal",
     "DEACTIVATE_AUTOMATIC_RENEWAL": "Deactivate automatic renewal"
+  },
+  "unofficial": {
+    "HEADER": "Unofficial App",
+    "BODY": "This website is an unofficial version of the Velocity-Booking-Website. Its purpose is solely to test out possible improvements to the official website. By no means we intend to infringe any copyright. We do not store any credentials or private information on our servers. All requests are directly routed through to Velocity's API. Use on your own risk."
   }
 }
