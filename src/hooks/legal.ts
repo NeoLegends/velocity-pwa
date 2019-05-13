@@ -8,7 +8,7 @@ export const useUnofficialPopup = () => {
   useEffect(() => {
     const hasDisplayed = localStorage.getItem(DISPLAY_POPUP_LS_KEY);
     setDisplayPopup(!hasDisplayed);
-  });
+  }, []);
 
   const hideUnofficialPopup = useCallback(() => {
     localStorage.setItem(DISPLAY_POPUP_LS_KEY, '1');
