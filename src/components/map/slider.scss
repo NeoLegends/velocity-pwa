@@ -35,6 +35,7 @@
     }
     &.disabled {
       background-color: darken($menu-background, 10%);
+      cursor: default;
     }
 
     span {
