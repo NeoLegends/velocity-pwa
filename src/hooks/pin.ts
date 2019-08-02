@@ -14,6 +14,6 @@ export const useSavedPin = () => {
 
   return [pin, setPinInLsAndState] as [
     string | null,
-    (pin: string | null) => void
+    (pin: string | null) => void,
   ];
 };

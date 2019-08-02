@@ -20,7 +20,7 @@ const MakeLazy = function<P>(
   const LazyWrapper = React.forwardRef(
     (props: P & RouteComponentProps, ref) => (
       <Suspense fallback={<LazySpinner />}>
-        <Lazy ref={ref} {...props as any} />
+        <Lazy ref={ref} {...(props as any)} />
       </Suspense>
     ),
   );

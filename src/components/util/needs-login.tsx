@@ -13,7 +13,7 @@ type AdditionalProps = { isLoggedIn: boolean } & LoginProps &
 const NeedsLogin = function<P>(Comp: React.ComponentType<P>) {
   const LoginWrapper = React.forwardRef((props: P & AdditionalProps, ref) =>
     props.isLoggedIn ? (
-      <Comp ref={ref} {...props as any} />
+      <Comp ref={ref} {...(props as any)} />
     ) : (
       <Login {...props} />
     ),

@@ -12,7 +12,7 @@ export const useCheckboxField = <T extends HTMLInputElement>(
   return [value, formHandler, setValue] as [
     boolean,
     React.FormEventHandler<T>,
-    (v: boolean) => void
+    (v: boolean) => void,
   ];
 };
 
@@ -28,6 +28,6 @@ export const useFormField = <T extends { value: string }>(
   return [value, formHandler, setValue] as [
     string,
     React.FormEventHandler<T>,
-    (v: string) => void
+    (v: string) => void,
   ];
 };

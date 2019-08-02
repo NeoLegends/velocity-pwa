@@ -33,6 +33,6 @@ export const useLanguage = () => {
   return [langId, language, handleChangeLanguage] as [
     LanguageIdentifier,
     LanguageType,
-    (id: LanguageIdentifier) => void
+    (id: LanguageIdentifier) => void,
   ];
 };
