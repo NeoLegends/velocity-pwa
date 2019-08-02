@@ -1,9 +1,5 @@
 // tslint:disable:ordered-imports
 
-// Import this first to avoid excessive deoptimization because of a
-// prototype change in `number`.
-import './util/to-euro';
-
 import 'modern-normalize/modern-normalize.css';
 import './index.scss';
 
