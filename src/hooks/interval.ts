@@ -4,8 +4,7 @@ const DEFAULT_INTERVAL = 1000 * 60; // 1min
 
 export const useInterval = (
   callback: () => void,
-  intervalMs: number = DEFAULT_INTERVAL,
-  executeImmediately: boolean = true,
+  { intervalMs = DEFAULT_INTERVAL, executeImmediately = true } = {},
 ) => {
   useEffect(() => {
     if (executeImmediately) {
