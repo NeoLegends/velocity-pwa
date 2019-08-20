@@ -1,4 +1,4 @@
-import { icon } from 'leaflet';
+import { icon, IconOptions } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
@@ -22,13 +22,17 @@ interface BikeMapProps {
 const ATTRIBUTION =
   '&copy; <a href="http://osm.org/copyright" rel="noreferrer noopener">OpenStreetMap</a> contributors';
 
-const stationIcon = icon({
-  iconUrl: logo,
+const baseIcon: Partial<IconOptions> = {
   iconSize: [30, 30],
+  iconAnchor: [15, 30],
+};
+const stationIcon = icon({
+  ...baseIcon,
+  iconUrl: logo,
 });
 const noBikesStationIcon = icon({
+  ...baseIcon,
   iconUrl: logoGreyscale,
-  iconSize: [30, 30],
 });
 
 const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
