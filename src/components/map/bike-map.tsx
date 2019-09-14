@@ -69,38 +69,40 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
 
   return (
     <>
-      <Map
-        className={className}
-        center={viewport.center || undefined}
-        zoom={viewport.zoom || 14}
-        maxZoom={17}
-        onViewportChanged={handleViewportChange}
-      >
-        <TileLayer
-          attribution={ATTRIBUTION}
-          detectRetina={true}
-          maxZoom={18}
-          url={TILE_URL}
-        />
-
-        {stations.map(station => (
-          <Marker
-            alt={`Station ${station.name}`}
-            icon={
-              station.numAllSlots > station.numFreeSlots &&
-              station.state === 'OPERATIVE'
-                ? stationIcon
-                : noBikesStationIcon
-            }
-            key={station.stationId}
-            position={[station.locationLatitude, station.locationLongitude]}
-            onClick={() => {
-              window.history.pushState(null, '', `#${station.stationId}`);
-              handleHashChange();
-            }}
+      {viewport && (
+        <Map
+          className={className}
+          center={viewport.center || undefined}
+          zoom={viewport.zoom || 14}
+          maxZoom={17}
+          onViewportChanged={handleViewportChange}
+        >
+          <TileLayer
+            attribution={ATTRIBUTION}
+            detectRetina={true}
+            maxZoom={18}
+            url={TILE_URL}
           />
-        ))}
-      </Map>
+
+          {stations.map(station => (
+            <Marker
+              alt={`Station ${station.name}`}
+              icon={
+                station.numAllSlots > station.numFreeSlots &&
+                station.state === 'OPERATIVE'
+                  ? stationIcon
+                  : noBikesStationIcon
+              }
+              key={station.stationId}
+              position={[station.locationLatitude, station.locationLongitude]}
+              onClick={() => {
+                window.history.pushState(null, '', `#${station.stationId}`);
+                handleHashChange();
+              }}
+            />
+          ))}
+        </Map>
+      )}
 
       <RentPopup
         isLoggedIn={isLoggedIn}

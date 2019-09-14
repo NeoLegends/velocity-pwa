@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Viewport } from 'react-leaflet';
 
 import { isIos } from '../util/is-ios';
@@ -14,18 +14,17 @@ const setLsViewport = (v: Viewport) =>
   viewportStorage.setItem(STORAGE_VIEWPORT_KEY, JSON.stringify(v));
 
 export const useCachedViewport = () => {
-  const [viewport, setViewport] = useState<Viewport>(defaultViewport);
+  const [viewport, setViewport] = useState<Viewport | null>(null);
 
   useEffect(() => {
-    const viewport = viewportStorage.getItem(STORAGE_VIEWPORT_KEY);
-    if (!viewport) {
-      return;
-    }
-
     try {
-      const parsedViewport = JSON.parse(viewport);
-      if (parsedViewport) {
-        setViewport(parsedViewport);
+      const viewport = viewportStorage.getItem(STORAGE_VIEWPORT_KEY);
+      if (viewport) {
+        const parsedViewport = JSON.parse(viewport);
+        if (parsedViewport) {
+          setViewport(parsedViewport);
+          return;
+        }
       }
     } catch (err) {
       console.warn(
@@ -34,7 +33,14 @@ export const useCachedViewport = () => {
       );
       viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);
     }
+
+    setViewport(defaultViewport);
   }, []);
 
-  return [viewport, setLsViewport] as [Viewport, (v: Viewport) => void];
+  const setVp = useCallback((v: Viewport) => {
+    setViewport(v);
+    setLsViewport(v);
+  }, []);
+
+  return [viewport, setVp] as [Viewport | null, (v: Viewport) => void];
 };
