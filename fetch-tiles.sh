@@ -3,7 +3,7 @@
 set -e
 
 curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain none
-source $HOME/.cargo/env
+. $HOME/.cargo/env
 
 git clone https://github.com/NeoLegends/osm-tile-downloader
 
