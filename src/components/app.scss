@@ -42,6 +42,15 @@
       background: white;
     }
   }
+
+  &.Toastify__toast--success {
+    color: $velocity-green;
+    background-color: $menu-background;
+
+    .Toastify__close-button {
+      color: $text-color;
+    }
+  }
 }
 
 .Toastify__toast-container {
