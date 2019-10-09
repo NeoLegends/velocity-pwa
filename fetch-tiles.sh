@@ -2,7 +2,7 @@
 
 set -e
 
-curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain none
+curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
 source $HOME/.cargo/env
 
 cargo install --force osm-tile-downloader
