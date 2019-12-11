@@ -14,3 +14,4 @@ osm-tile-downloader \
   --west 6.031 \
   --url https://a.tile.openstreetmap.se/hydda/full/\{z\}/\{x\}/\{y\}.png \
   --output ../public/tile
+  --rate 10
