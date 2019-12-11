@@ -3,7 +3,7 @@
   "name": "Velocity",
   "icons": [
     {
-      "src": "/velocity-logo-512x512.png",
+      "src": "/velocity-logo-transparent-512x512.png",
       "sizes": "512x512 256x256 128x128 64x64 32x32 24x24 16x16",
       "type": "image/png"
     }
