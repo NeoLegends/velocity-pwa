@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Invoice } from '../model';
 import { getAllInvoices } from '../model/invoices';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 export const useInvoices = () => {
   const { BILL } = useContext(LanguageContext);

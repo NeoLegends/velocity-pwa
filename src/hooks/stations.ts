@@ -1,5 +1,4 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Booking, Station } from '../model';
 import {
@@ -9,6 +8,7 @@ import {
   getCurrentBooking,
 } from '../model/stations';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 import { useInterval } from './interval';
 

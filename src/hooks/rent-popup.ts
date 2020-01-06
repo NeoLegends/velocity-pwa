@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Booking, Slot, Slots, StationWithAddress } from '../model';
 import { getSingleStation, getSlotInfo } from '../model/stations';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 import { useInterval } from './interval';
 

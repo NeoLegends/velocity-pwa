@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { useFormField } from '../hooks/form';
 import { useStations } from '../hooks/stations';
@@ -11,6 +10,7 @@ import {
   submitStationError,
 } from '../model/support';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 import './support.scss';
 
