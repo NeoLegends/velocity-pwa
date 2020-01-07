@@ -1,5 +1,4 @@
 import { useCallback, useContext, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import {
   isLoggedIn as checkIsLoggedIn,
@@ -7,6 +6,7 @@ import {
   logout as doLogout,
 } from '../model/authentication';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 import { useInterval } from './interval';
 

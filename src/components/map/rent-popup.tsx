@@ -1,13 +1,13 @@
 import { Link } from '@reach/router';
 import classNames from 'classnames';
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
 
 import { useSelectedSlot, useStationDetail } from '../../hooks/rent-popup';
 import { useBooking } from '../../hooks/stations';
 import { InvalidStatusCodeError, Station } from '../../model';
 import { rentBike } from '../../model/stations';
 import { LanguageContext } from '../../resources/language';
+import { toast } from '../../util/toast';
 import Overlay from '../util/overlay';
 
 import RentControls from './rent-controls';

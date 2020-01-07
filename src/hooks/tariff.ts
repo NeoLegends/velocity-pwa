@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Tariff, UserTariff } from '../model';
 import { getCurrentTariff, getTariffs } from '../model/tariff';
 import { LanguageContext, LanguageIdContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 import { useInterval } from './interval';
 

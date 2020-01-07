@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { LanguageContext } from '../resources/language';
 import * as serviceWorker from '../serviceWorker';
 import { isIos } from '../util/is-ios';
+import { toast } from '../util/toast';
 
 export const useDesktopInstallation = () => {
   const [event, setEvent] = useState<BeforeInstallProptEvent | null>(null);

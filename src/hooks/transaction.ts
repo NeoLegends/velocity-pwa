@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Transaction } from '../model';
 import { getTransactions } from '../model/transaction';
 import { LanguageContext } from '../resources/language';
+import { toast } from '../util/toast';
 
 const TRANSACTIONS_PER_PAGE = 20;
 

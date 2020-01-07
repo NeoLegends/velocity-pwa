@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { useTariffs, useUserTariff } from '../hooks/tariff';
 import { Tariff, UserTariff } from '../model';
@@ -11,6 +10,7 @@ import {
 } from '../model/tariff';
 import { LanguageContext } from '../resources/language';
 import { toEuro } from '../util/to-euro';
+import { toast } from '../util/toast';
 
 import './tariff.scss';
 

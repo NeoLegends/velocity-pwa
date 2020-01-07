@@ -57,6 +57,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
         progressClassName="toast-progress"
         toastClassName="toast outline"
         transition={Slide}
+        pauseOnFocusLoss={false}
       />
 
       <MenuBar
