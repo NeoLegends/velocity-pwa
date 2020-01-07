@@ -6,6 +6,6 @@ import { toast as toastifyToast, ToastOptions } from 'react-toastify';
  */
 export const toast = (content: string, options: ToastOptions = {}) => {
   if (!toastifyToast.isActive(content)) {
-    return toastifyToast(content, { ...options, ...{ toastId: content } });
+    return toastifyToast(content, { toastId: content, ...options });
   }
 };
