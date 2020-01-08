@@ -112,6 +112,7 @@ export interface Transaction extends RunningTransaction {
   endDateTime: string;
   fees: number;
   toStation: StationSimple;
+  credited: boolean;
 }
 
 export interface UserTariff {

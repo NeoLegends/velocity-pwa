@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
-import { AutoSizer } from 'react-virtualized/dist/es/AutoSizer';
-import { InfiniteLoader } from 'react-virtualized/dist/es/InfiniteLoader';
-import { List } from 'react-virtualized/dist/es/List';
-import { WindowScroller } from 'react-virtualized/dist/es/WindowScroller';
+import {
+  List,
+  WindowScroller,
+  InfiniteLoader,
+  AutoSizer,
+} from 'react-virtualized';
 
 import { useTransactions } from '../hooks/transaction';
 import { Transaction } from '../model';
@@ -59,6 +61,8 @@ const Trans: React.SFC<TransactionProps> = ({
           {transaction.pedelecName.replace(/_[nN]/g, '')}
           {', '}
           {moment(endDate, undefined, language).from(startDate, true)}
+          {transaction.credited &&
+            `, ${BUCHUNGEN.HISTORIE.STATION_PANEL.REFUNDED}`}
         </p>
       </div>
     </div>
