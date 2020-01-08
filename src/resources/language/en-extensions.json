@@ -40,7 +40,7 @@
   },
   "menu": {
     "MENU": "Menu",
-    "REFUNDED": "erstattet"
+    "REFUNDED": "refunded"
   },
   "sw": {
     "INSTALL_TO_DEVICE": "Install on device",
