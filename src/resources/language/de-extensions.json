@@ -38,7 +38,10 @@
       "SLIDE_FOR_BIKE_NO2": "ausleihen"
     }
   },
-  "menu": "Menü",
+  "menu": {
+    "MENU": "Menü",
+    "REFUNDED": "erstattet"
+  },
   "sw": {
     "INSTALL_TO_DEVICE": "Auf Gerät installieren",
     "NOW_AVAILABLE_OFFLINE": "Velocity ist jetzt auch offline verfügbar.",

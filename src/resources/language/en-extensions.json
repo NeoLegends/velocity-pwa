@@ -38,7 +38,10 @@
       "SLIDE_FOR_BIKE_NO2": ""
     }
   },
-  "menu": "Menu",
+  "menu": {
+    "MENU": "Menu",
+    "REFUNDED": "erstattet"
+  },
   "sw": {
     "INSTALL_TO_DEVICE": "Install on device",
     "NOW_AVAILABLE_OFFLINE": "Velocity now available offline.",

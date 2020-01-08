@@ -69,7 +69,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           : '...'}
       </button>
       <button className="btn outline btn-menu" onClick={openMenu}>
-        {menu}
+        {menu.MENU}
       </button>
 
       <Overlay isOpen={isMenuOpen} onRequestClose={closeMenu}>

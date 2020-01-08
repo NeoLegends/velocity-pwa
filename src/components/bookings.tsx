@@ -35,7 +35,7 @@ const Trans: React.SFC<TransactionProps> = ({
   transaction,
 }) => {
   const language = useContext(LanguageIdContext);
-  const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
+  const { BUCHUNGEN, SUPPORT, menu } = useContext(LanguageContext);
 
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
@@ -59,6 +59,7 @@ const Trans: React.SFC<TransactionProps> = ({
           {transaction.pedelecName.replace(/_[nN]/g, '')}
           {', '}
           {moment(endDate, undefined, language).from(startDate, true)}
+          {transaction.credited && `, ${menu.REFUNDED}`}
         </p>
       </div>
     </div>
