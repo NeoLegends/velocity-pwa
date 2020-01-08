@@ -174,8 +174,7 @@
           "UNIT": " Uhr"
         },
         "PRICE": "Fahrtkosten",
-        "NO_TRANS_AVAILABLE": "Keine (weiteren) Fahrten vorhanden",
-        "REFUNDED": "erstattet"
+        "NO_TRANS_AVAILABLE": "Keine (weiteren) Fahrten vorhanden"
       }
     }
   },

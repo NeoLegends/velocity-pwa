@@ -173,8 +173,7 @@
           "UNIT": "h"
         },
         "PRICE": "Travel costs",
-        "NO_TRANS_AVAILABLE": "No further transactions available",
-        "REFUNDED": "refunded"
+        "NO_TRANS_AVAILABLE": "No further transactions available"
       }
     }
   },
