@@ -44,7 +44,7 @@ const Trans: React.SFC<TransactionProps> = ({
     <div className={classNames('gap', className)} style={style}>
       <div className="transaction outline">
         <p className="oneline">
-          {startDate.toLocaleDateString(undefined, startDateFormattingOptions)}
+          {startDate.toLocaleDateString(language, startDateFormattingOptions)}
         </p>
         <p className="oneline">
           {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}{' '}
