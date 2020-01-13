@@ -16,7 +16,7 @@ You will find the minified & bundled sources in the `build` folder. They can be 
 
 ## CORS Proxy
 
-Due to CORS restrictions (and for various other reasons), the PWA requires an API proxy to Velocity's backend. During development, the proxy is provided by Create-React-App. For production usage, the app is already configured for a [Netlify](https://netlify.com/) deployment.
+Due to CORS restrictions (and for various other reasons), the PWA requires an API proxy to Velocity's backend and to the OpenStreetMap tile servers. During development, the proxy is provided by Create-React-App. For production usage, the app is already configured for a [Netlify](https://netlify.com/) deployment.
 
 If you want to configure the proxy manually, take a look at the [`_redirects`](https://github.com/NeoLegends/velocity-pwa/blob/master/public/_redirects) file. It lists the required rewrite rules in Netlify syntax that should be quite easy to understand & to transfer to a more general proxy solution.
 
