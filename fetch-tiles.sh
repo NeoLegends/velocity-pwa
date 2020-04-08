@@ -13,5 +13,5 @@ osm-tile-downloader \
   --south 50.7492 \
   --west 6.031 \
   --url https://a.tile.openstreetmap.se/hydda/full/\{z\}/\{x\}/\{y\}.png \
-  --output ../public/tile \
+  --output ./public/tile \
   --rate 10
