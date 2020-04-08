@@ -1,0 +1,3 @@
+[build]
+publish = "build/"
+command = "./fetch-tiles.sh && yarn build"
