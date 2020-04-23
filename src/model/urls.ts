@@ -4,7 +4,7 @@ import { SupportType } from '.';
 
 const BACKEND_URL = '/backend';
 const INVOICES_URL = '/invoices';
-export const TILE_URL = '/tile/{z}/{x}/{y}';
+export const TILE_URL = 'https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png';
 
 export const invoiceUrl = (fileName: string) => `${INVOICES_URL}/${fileName}`;
 
