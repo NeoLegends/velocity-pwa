@@ -12,6 +12,6 @@ osm-tile-downloader \
   --east 6.1649 \
   --south 50.7492 \
   --west 6.031 \
-  --url https://a.tile.openstreetmap.de/\{z\}/\{x\}/\{y\}.png \
+  --url https://{s}.tile.openstreetmap.de/\{z\}/\{x\}/\{y\}.png \
   --output ./public/tile \
   --rate 10
