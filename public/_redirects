@@ -1,6 +1,5 @@
 # Redirect aliases
 https://velocity-pwa.netlify.com/* https://velocity.ac/:splat 301!
-https://velocity.bike/* https://velocity.ac/:splat 301!
 
 /backend/*    https://cms.velocity-aachen.de/backend/:splat                       200
 /invoices/*   https://cms.velocity-aachen.de/backend/app/customer/invoices/:splat 200
