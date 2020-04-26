@@ -1,6 +1,5 @@
 // tslint:disable:ordered-imports
 
-import 'modern-normalize/modern-normalize.css';
 import './index.scss';
 
 import React from 'react';
