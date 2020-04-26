@@ -14,7 +14,7 @@ interface ChangeAddressProps {
   onChangeAddress: (newAddress: Address) => void;
 }
 
-const countryListEnglish = countries.map(c => (
+const countryListEnglish = countries.map((c) => (
   <option key={c.alpha3Code} value={c.alpha3Code}>
     {c.name}
   </option>
@@ -26,7 +26,7 @@ const countryListGerman = countries
     const bName = b.translations.de || b.name;
     return aName.localeCompare(bName);
   })
-  .map(c => (
+  .map((c) => (
     <option key={c.alpha3Code} value={c.alpha3Code}>
       {c.translations.de || c.name}
     </option>

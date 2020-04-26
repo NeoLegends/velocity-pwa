@@ -54,7 +54,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
 
     // Disable scrolling on the body
     disableBodyScroll(element, {
-      allowTouchMove: el => element.contains(el),
+      allowTouchMove: (el) => element.contains(el),
       reserveScrollBarGap: true,
     });
 

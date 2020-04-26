@@ -56,7 +56,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   }, [fetchBooking, openedStationId]);
 
   const selectedStation = useMemo(
-    () => stations.find(stat => stat.stationId === openedStationId),
+    () => stations.find((stat) => stat.stationId === openedStationId),
     [openedStationId, stations],
   );
   const handleClickOnPopup = useCallback(
@@ -73,7 +73,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
     return bookBike(selectedStation.stationId)
       .then(fetchStationDetail)
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while reserving bike:', err);
         toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
       });
@@ -86,7 +86,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
     return cancelBooking()
       .then(fetchStationDetail)
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while canceling a booking:', err);
         toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
       });
@@ -96,7 +96,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
     () =>
       refreshBooking()
         .then(fetchStationDetail)
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while refreshing a booking:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
@@ -122,7 +122,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
             type: 'success',
           }),
         )
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while renting out bike:', err);
           const code = (err as InvalidStatusCodeError).statusCode;
           const message =

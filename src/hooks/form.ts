@@ -5,7 +5,7 @@ export const useCheckboxField = <T extends HTMLInputElement>(
 ) => {
   const [value, setValue] = useState(initialState);
   const formHandler = useCallback<React.ChangeEventHandler<T>>(
-    ev => setValue(ev.target.checked),
+    (ev) => setValue(ev.target.checked),
     [],
   );
 
@@ -21,7 +21,7 @@ export const useFormField = <T extends { value: string }>(
 ) => {
   const [value, setValue] = useState(initialState);
   const formHandler = useCallback<React.ChangeEventHandler<T>>(
-    ev => setValue(ev.target.value),
+    (ev) => setValue(ev.target.value),
     [],
   );
 

@@ -1,6 +1,6 @@
 import { InvalidStatusCodeError } from '.';
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 /**
  * Performs a fetch request and retries it in case of a network error.
@@ -108,7 +108,7 @@ export const fetchJsonEnsureOk = (
   url: string,
   init?: RequestInit,
   maxRetry: number = 5,
-) => fetchEnsureOk(url, init, maxRetry).then(resp => resp.json());
+) => fetchEnsureOk(url, init, maxRetry).then((resp) => resp.json());
 
 /**
  * POSTs JSOn data to the given URL.

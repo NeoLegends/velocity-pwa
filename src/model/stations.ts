@@ -28,7 +28,7 @@ import {
  * @param stationId the ID of the station to book a bike at.
  */
 export const bookBike = (stationId: number): Promise<Booking> =>
-  postJsonEnsureOk(reserveBikeUrl(stationId)).then(resp => resp.json());
+  postJsonEnsureOk(reserveBikeUrl(stationId)).then((resp) => resp.json());
 
 /** Cancels the current booking, if it exists. */
 export const cancelCurrentBooking = (): Promise<void> =>
@@ -36,7 +36,7 @@ export const cancelCurrentBooking = (): Promise<void> =>
 
 /** Fetches all existing bike stations. */
 export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(APP_ALL_STATIONS_URL).then(stations =>
+  fetchJsonEnsureOk(APP_ALL_STATIONS_URL).then((stations) =>
     stations.sort((a, b) => a.name.localeCompare(b.name)),
   );
 
@@ -74,7 +74,7 @@ export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
 
 /** Determines if the current user has a bike booked. */
 export const hasCurrentBooking = () =>
-  getCurrentBooking().then(booking => Boolean(booking));
+  getCurrentBooking().then((booking) => Boolean(booking));
 
 /**
  * Rents out a bike from the given station.
@@ -91,4 +91,4 @@ export const rentBike = async (
   postJsonEnsureOk(rentBikeUrl(stationId), {
     cardPin,
     stationSlotId,
-  }).then(resp => resp.json());
+  }).then((resp) => resp.json());

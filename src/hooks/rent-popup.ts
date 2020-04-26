@@ -28,11 +28,11 @@ export const useSelectedSlot = (
     // select the fullest bike.
     const slotToSelect =
       stationDetail.slots.stationSlots.find(
-        slot => slot.stationSlotId === stationDetail.slots.recommendedSlot,
+        (slot) => slot.stationSlotId === stationDetail.slots.recommendedSlot,
       ) ||
       stationDetail.slots.stationSlots
         .filter(
-          slot =>
+          (slot) =>
             slot.pedelecInfo && slot.pedelecInfo.availability === 'AVAILABLE',
         )
         .reduce(
@@ -67,7 +67,7 @@ export const useStationDetail = (stationId: number | null) => {
     }
 
     return stationDetail.slots.stationSlots.filter(
-      slot =>
+      (slot) =>
         slot.isOccupied &&
         slot.state === 'OPERATIVE' &&
         (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
@@ -89,7 +89,7 @@ export const useStationDetail = (stationId: number | null) => {
 
         setStationDetail({ slots: slotInfo, station: detailedStation });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while opening station popup:', err);
         toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
       });

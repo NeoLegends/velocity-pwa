@@ -22,7 +22,7 @@ export const useBooking = () => {
     (stationId: number) =>
       doBook(stationId)
         .then(setBooking)
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while booking bike:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
@@ -32,7 +32,7 @@ export const useBooking = () => {
     () =>
       cancelCurrentBooking()
         .then(() => setBooking(null))
-        .catch(err => {
+        .catch((err) => {
           console.error('Failed to cancel current booking:', err);
           toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
         }),
@@ -42,7 +42,7 @@ export const useBooking = () => {
     () =>
       getCurrentBooking()
         .then(setBooking)
-        .catch(err => {
+        .catch((err) => {
           console.error('Failed loading current booking:', err);
           toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
         }),
@@ -83,14 +83,14 @@ export const useStations = () => {
   const fetchStations = useCallback(
     () =>
       getAllStations()
-        .then(stations => {
+        .then((stations) => {
           localStorage.setItem(
             LOCALSTORAGE_STATIONS_KEY,
             JSON.stringify(stations),
           );
           setStations(stations);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while loading stations:', err);
           toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
         }),

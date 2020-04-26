@@ -84,7 +84,7 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
             url={TILE_URL}
           />
 
-          {stations.map(station => (
+          {stations.map((station) => (
             <Marker
               alt={`Station ${station.name}`}
               icon={

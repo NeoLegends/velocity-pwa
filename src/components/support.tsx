@@ -184,7 +184,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
               <option value="" disabled hidden>
                 {SUPPORT.ERROR_REPORT.STATION.STATION_NAME}...
               </option>
-              {stations.map(stat => (
+              {stations.map((stat) => (
                 <option key={stat.stationId} value={stat.stationId}>
                   {stat.name}
                 </option>
@@ -201,13 +201,15 @@ const Support: React.FC<SupportProps> = ({ className }) => {
               {SUPPORT.ERROR_REPORT.STATION.DEFECT}...
             </option>
             {defectType === 'pedelec'
-              ? Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(k => (
-                  <option key={`bike-${k}`} value={k}>
-                    {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
-                  </option>
-                ))
+              ? Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(
+                  (k) => (
+                    <option key={`bike-${k}`} value={k}>
+                      {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE[k]}
+                    </option>
+                  ),
+                )
               : Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION).map(
-                  k => (
+                  (k) => (
                     <option key={`station-${k}`} value={k}>
                       {SUPPORT.ERROR_REPORT.ERROR_MESSAGES.STATION[k]}
                     </option>

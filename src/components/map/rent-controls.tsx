@@ -56,13 +56,13 @@ const RentControls: React.FC<RentControlsProps> = ({
 
   const bookedStation =
     booking &&
-    stations.find(station => station.stationId === booking.stationId);
+    stations.find((station) => station.stationId === booking.stationId);
   const isOpenedStationBooked = Boolean(
     booking && booking.stationId === openedStation.station.stationId,
   );
   const canRentBike =
     openedStation.station.state === 'OPERATIVE' &&
-    openedStation.slots.stationSlots.some(s =>
+    openedStation.slots.stationSlots.some((s) =>
       Boolean(
         s.isOccupied &&
           s.state === 'OPERATIVE' &&

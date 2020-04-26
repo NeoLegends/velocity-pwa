@@ -14,4 +14,4 @@ export const getCurrentTransaction = (): Promise<RunningTransaction | null> =>
  * @param page the transaction page to fetch (a page contains 20 transactions).
  */
 export const getTransactions = (page: number): Promise<Transaction[]> =>
-  fetch204ToNull(transactionsUrl(page)).then(maybeTrans => maybeTrans || []);
+  fetch204ToNull(transactionsUrl(page)).then((maybeTrans) => maybeTrans || []);

@@ -15,7 +15,7 @@ export const useTariffs = () => {
   useEffect(() => {
     getTariffs(languageId)
       .then(setTariffs)
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while loading all available tarrifs:', err);
         toast(TARIFF.ALERT.LOAD_TARIFFS_FAIL, { type: 'error' });
       });
@@ -32,7 +32,7 @@ export const useUserTariff = () => {
     () =>
       getCurrentTariff()
         .then(setUserTariff)
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while loading user tariff:', err);
           toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
         }),

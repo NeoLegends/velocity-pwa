@@ -79,7 +79,7 @@ const Slider: React.FC<SliderProps> = ({
       }
 
       const movementX = ev.movementX;
-      setDx(prev => clamp(prev + movementX, 0, maxSlideDistance));
+      setDx((prev) => clamp(prev + movementX, 0, maxSlideDistance));
     },
     [disabled, isDragging, maxSlideDistance],
   );

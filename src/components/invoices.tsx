@@ -37,7 +37,7 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
               </tr>
             </thead>
             <tbody>
-              {invoices.map(inv => {
+              {invoices.map((inv) => {
                 const urlParts = inv.url.split('/');
                 const invName = urlParts[urlParts.length - 1];
                 const monthName = new Date(

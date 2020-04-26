@@ -12,7 +12,7 @@ export const useInvoices = () => {
   useEffect(() => {
     getAllInvoices()
       .then(setInvoices)
-      .catch(err => {
+      .catch((err) => {
         console.error('Error while loading the invoices:', err);
         toast(BILL.ALERT.FETCH_INVOICE_FAILURE, { type: 'error' });
       });

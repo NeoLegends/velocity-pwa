@@ -53,7 +53,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
     userTariff.expiryDateTime &&
     new Date(userTariff.expiryDateTime).toLocaleDateString();
   const tariffInfo =
-    userTariff && tariffs.find(t => t.tariffId === userTariff.tariffId);
+    userTariff && tariffs.find((t) => t.tariffId === userTariff.tariffId);
 
   return (
     <div className={classNames('tariff box-list', className)}>
@@ -102,7 +102,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
         <div className="note info">{TARIFF.ALERT.NOTE_NOT_CHANGEABLE}</div>
       )}
 
-      {tariffs.map(tariff => (
+      {tariffs.map((tariff) => (
         <div key={tariff.tariffId} className="box">
           <h2>{tariff.name}</h2>
 
@@ -170,7 +170,7 @@ const TariffBookingConfirmation: React.FC<TariffConfirmationProps> = ({
   );
 };
 
-const TariffView: React.FC<TariffProps> = props => {
+const TariffView: React.FC<TariffProps> = (props) => {
   const tariffs = useTariffs();
   const { userTariff, fetchTariff } = useUserTariff();
   const [tariffToBook, setTariffToBok] = useState<Tariff | null>(null);
@@ -178,7 +178,7 @@ const TariffView: React.FC<TariffProps> = props => {
   const { TARIFF } = useContext(LanguageContext);
 
   const handleBookTariff = (tariffId: number) => {
-    const tariff = tariffs.find(t => t.tariffId === tariffId);
+    const tariff = tariffs.find((t) => t.tariffId === tariffId);
     setTariffToBok(tariff!);
   };
 

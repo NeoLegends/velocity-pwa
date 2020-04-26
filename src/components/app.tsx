@@ -38,7 +38,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
 
   const loginWithRedirect = useCallback(
     (email: string, pw: string) =>
-      login(email, pw).then(redirect => {
+      login(email, pw).then((redirect) => {
         if (redirect) {
           navigate('/');
         }

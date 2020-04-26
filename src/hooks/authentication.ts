@@ -19,11 +19,11 @@ export const useLogin = () => {
   const fetchLoginState = useCallback(
     () =>
       checkIsLoggedIn()
-        .then(isIn => {
+        .then((isIn) => {
           setIsLoggedIn(isIn);
           setStatusKnown(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while checking for login state:', err);
           toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
         }),
@@ -38,7 +38,7 @@ export const useLogin = () => {
           setStatusKnown(true);
           return true;
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while logging in:', err);
           const message =
             err.status === 401
@@ -57,7 +57,7 @@ export const useLogin = () => {
           setIsLoggedIn(false);
           setStatusKnown(true);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Error while logging out:', err);
           toast(LOGIN.ALERT.LOGOUT_ERR, { type: 'error' });
         }),

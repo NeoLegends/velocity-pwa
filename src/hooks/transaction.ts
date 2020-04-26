@@ -19,11 +19,11 @@ export const useTransactions = () => {
       const page = Math.floor(startIndex / TRANSACTIONS_PER_PAGE);
 
       return getTransactions(page)
-        .then(trans => {
-          setTransactions(existingTrans => [...existingTrans, ...trans]);
+        .then((trans) => {
+          setTransactions((existingTrans) => [...existingTrans, ...trans]);
           setHasNextPage(trans.length >= TRANSACTIONS_PER_PAGE);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error('Failed loading transactions:', err);
           toast(BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY, { type: 'error' });
         })

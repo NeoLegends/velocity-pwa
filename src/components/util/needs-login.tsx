@@ -10,7 +10,7 @@ type AdditionalProps = { isLoggedIn: boolean } & LoginProps &
 
 // Needs to be `function` because of ambiguity with JSX
 // tslint:disable-next-line
-const NeedsLogin = function<P>(Comp: React.ComponentType<P>) {
+const NeedsLogin = function <P>(Comp: React.ComponentType<P>) {
   const LoginWrapper = React.forwardRef((props: P & AdditionalProps, ref) =>
     props.isLoggedIn ? (
       <Comp ref={ref} {...(props as any)} />
