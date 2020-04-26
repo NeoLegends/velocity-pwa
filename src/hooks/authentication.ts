@@ -1,14 +1,14 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useState } from "react";
 
 import {
   isLoggedIn as checkIsLoggedIn,
   login as doLogin,
   logout as doLogout,
-} from '../model/authentication';
-import { LanguageContext } from '../resources/language';
-import { toast } from '../util/toast';
+} from "../model/authentication";
+import { LanguageContext } from "../resources/language";
+import { toast } from "../util/toast";
 
-import { useInterval } from './interval';
+import { useInterval } from "./interval";
 
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
@@ -24,8 +24,8 @@ export const useLogin = () => {
           setStatusKnown(true);
         })
         .catch((err) => {
-          console.error('Error while checking for login state:', err);
-          toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: 'error' });
+          console.error("Error while checking for login state:", err);
+          toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: "error" });
         }),
     [LOGIN],
   );
@@ -39,12 +39,12 @@ export const useLogin = () => {
           return true;
         })
         .catch((err) => {
-          console.error('Error while logging in:', err);
+          console.error("Error while logging in:", err);
           const message =
             err.status === 401
               ? LOGIN.ALERT.WRONG_USERDATA
               : LOGIN.ALERT.NO_SERVER_RESPONSE;
-          toast(message, { type: 'error' });
+          toast(message, { type: "error" });
           return false;
         }),
     [LOGIN],
@@ -58,8 +58,8 @@ export const useLogin = () => {
           setStatusKnown(true);
         })
         .catch((err) => {
-          console.error('Error while logging out:', err);
-          toast(LOGIN.ALERT.LOGOUT_ERR, { type: 'error' });
+          console.error("Error while logging out:", err);
+          toast(LOGIN.ALERT.LOGOUT_ERR, { type: "error" });
         }),
     [LOGIN],
   );

@@ -1,8 +1,8 @@
-import { RouteComponentProps } from '@reach/router';
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import { RouteComponentProps } from "@reach/router";
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { LanguageContext } from '../../resources/language';
+import { LanguageContext } from "../../resources/language";
 
 interface ChangePasswordProps {
   className?: string;
@@ -20,7 +20,7 @@ const ChangePassword: React.FC<ChangePasswordProps & RouteComponentProps> = ({
   const { PARTICULARS } = useContext(LanguageContext);
 
   return (
-    <div className={classNames('change-pw box', className)}>
+    <div className={classNames("change-pw box", className)}>
       <h2>{PARTICULARS.MODAL.PW.TITLE}</h2>
 
       <div className="wrapper">{PARTICULARS.MODAL.PW.TEXT}</div>

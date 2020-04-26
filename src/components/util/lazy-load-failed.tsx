@@ -1,10 +1,10 @@
-import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import classNames from "classnames";
+import React, { useCallback, useContext } from "react";
 
-import { LanguageContext } from '../../resources/language';
+import { LanguageContext } from "../../resources/language";
 
-import './lazy-load-failed.scss';
-import Overlay from './overlay';
+import "./lazy-load-failed.scss";
+import Overlay from "./overlay";
 
 interface LazyLoadFailedProps {
   className?: string;
@@ -17,7 +17,7 @@ const LazyLoadFailed: React.FC<LazyLoadFailedProps> = ({ className }) => {
   return (
     <Overlay isOpen>
       {({ focusRef }) => (
-        <div className={classNames('lazy-load-failed', className)}>
+        <div className={classNames("lazy-load-failed", className)}>
           <h1 ref={focusRef}>{sw.LOAD_FAILED.TITLE}</h1>
           <p>{sw.LOAD_FAILED.BODY}</p>
 

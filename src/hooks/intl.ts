@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from "react";
 
 import {
   de,
@@ -6,26 +6,26 @@ import {
   supportsLanguage,
   LanguageIdentifier,
   LanguageType,
-} from '../resources/language';
+} from "../resources/language";
 
-const LOCALSTORAGE_LANGUAGE_KEY = 'velocity/lang';
+const LOCALSTORAGE_LANGUAGE_KEY = "velocity/lang";
 
 export const useLanguage = () => {
-  const [langId, setLangId] = useState<LanguageIdentifier>('de');
+  const [langId, setLangId] = useState<LanguageIdentifier>("de");
   const [language, setLanguage] = useState<LanguageType>(de);
 
   const handleChangeLanguage = useCallback((langId: LanguageIdentifier) => {
     localStorage.setItem(LOCALSTORAGE_LANGUAGE_KEY, langId);
 
     setLangId(langId);
-    setLanguage((langId === 'en' ? en : de) as LanguageType);
+    setLanguage((langId === "en" ? en : de) as LanguageType);
   }, []);
 
   useLayoutEffect(() => {
-    const navigatorLanguage = navigator.language.split('-')[0].trim();
+    const navigatorLanguage = navigator.language.split("-")[0].trim();
     const lang =
       localStorage.getItem(LOCALSTORAGE_LANGUAGE_KEY) ||
-      (supportsLanguage(navigatorLanguage) ? navigatorLanguage : 'de');
+      (supportsLanguage(navigatorLanguage) ? navigatorLanguage : "de");
 
     handleChangeLanguage(lang as LanguageIdentifier);
   }, [handleChangeLanguage]);

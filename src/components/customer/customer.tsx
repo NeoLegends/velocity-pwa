@@ -1,8 +1,8 @@
-import { Router } from '@reach/router';
-import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import { Router } from "@reach/router";
+import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 
-import { Address, Customer, SepaMandate } from '../../model';
+import { Address, Customer, SepaMandate } from "../../model";
 import {
   changeAddress,
   changePin,
@@ -10,22 +10,22 @@ import {
   getCustomer,
   getSepaInfo,
   requestPasswordResetEmail,
-} from '../../model/customer';
-import makeLazy from '../util/make-lazy';
+} from "../../model/customer";
+import makeLazy from "../util/make-lazy";
 
-import './customer.scss';
-import Overview from './overview';
+import "./customer.scss";
+import Overview from "./overview";
 
 interface CustomerViewProps {
   className?: string;
 }
 
-const ChangeAddress = makeLazy(() => import('./change-address'));
-const ChangeBankDetails = makeLazy(() => import('./change-bank-details'));
-const ChangePassword = makeLazy(() => import('./change-pw'));
-const ChangePin = makeLazy(() => import('./change-pin'));
-const ChangeTel = makeLazy(() => import('./change-tel'));
-const SepaMandateView = makeLazy(() => import('./sepa-mandate'));
+const ChangeAddress = makeLazy(() => import("./change-address"));
+const ChangeBankDetails = makeLazy(() => import("./change-bank-details"));
+const ChangePassword = makeLazy(() => import("./change-pw"));
+const ChangePin = makeLazy(() => import("./change-pin"));
+const ChangeTel = makeLazy(() => import("./change-tel"));
+const SepaMandateView = makeLazy(() => import("./sepa-mandate"));
 
 const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
   const [customer, setCustomer] = useState<Customer | null>(null);
@@ -78,7 +78,7 @@ const CustomerView: React.FC<CustomerViewProps> = ({ className }) => {
   };
 
   return (
-    <Router className={classNames('customer-info box-list', className)}>
+    <Router className={classNames("customer-info box-list", className)}>
       <Overview path="/" customer={customer} sepaMandate={sepaMandate} />
       <ChangeAddress
         currentAddress={customer.address}

@@ -1,9 +1,9 @@
-import { RouteComponentProps } from '@reach/router';
-import React from 'react';
+import { RouteComponentProps } from "@reach/router";
+import React from "react";
 
-import { LoginProps } from '../login';
+import { LoginProps } from "../login";
 
-import Login from './lazy-login';
+import Login from "./lazy-login";
 
 type AdditionalProps = { isLoggedIn: boolean } & LoginProps &
   RouteComponentProps;

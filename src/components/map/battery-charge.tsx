@@ -1,7 +1,7 @@
-import classNames from 'classnames';
-import React from 'react';
+import classNames from "classnames";
+import React from "react";
 
-import './battery-charge.scss';
+import "./battery-charge.scss";
 
 interface BatteryChargeProps {
   chargePercentage: number;
@@ -14,8 +14,8 @@ const BatteryCharge: React.FC<BatteryChargeProps> = ({
 }) => (
   <svg
     className={classNames(
-      'zap-icon',
-      chargePercentage >= 40 ? 'full-battery' : 'low-battery',
+      "zap-icon",
+      chargePercentage >= 40 ? "full-battery" : "low-battery",
       className,
     )}
     width="500"

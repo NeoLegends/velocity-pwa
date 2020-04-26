@@ -1,10 +1,10 @@
-import { LanguageIdentifier } from '../resources/language';
+import { LanguageIdentifier } from "../resources/language";
 
-import { SupportType } from '.';
+import { SupportType } from ".";
 
-const BACKEND_URL = '/backend';
-const INVOICES_URL = '/invoices';
-export const TILE_URL = '/tile/{z}/{x}/{y}';
+const BACKEND_URL = "/backend";
+const INVOICES_URL = "/invoices";
+export const TILE_URL = "/tile/{z}/{x}/{y}";
 
 export const invoiceUrl = (fileName: string) => `${INVOICES_URL}/${fileName}`;
 

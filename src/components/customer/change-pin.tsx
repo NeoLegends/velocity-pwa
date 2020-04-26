@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { useFormField } from '../../hooks/form';
-import { useSavedPin } from '../../hooks/pin';
-import { LanguageContext } from '../../resources/language';
+import { useFormField } from "../../hooks/form";
+import { useSavedPin } from "../../hooks/pin";
+import { LanguageContext } from "../../resources/language";
 
 interface ChangePinProps {
   className?: string;
@@ -21,8 +21,8 @@ const ChangePin: React.FC<ChangePinProps> = ({
   const { customer, PARTICULARS } = useContext(LanguageContext);
 
   const [savedPin, setPin] = useSavedPin();
-  const [password, handlePasswordChange] = useFormField('');
-  const [pin, handlePinChange] = useFormField('');
+  const [password, handlePasswordChange] = useFormField("");
+  const [pin, handlePinChange] = useFormField("");
 
   const handleSubmitChangePin = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -38,7 +38,7 @@ const ChangePin: React.FC<ChangePinProps> = ({
   return (
     <>
       <form
-        className={classNames('change-pin box', className)}
+        className={classNames("change-pin box", className)}
         onSubmit={handleSubmitChangePin}
       >
         <h2>{PARTICULARS.MODAL.PIN.TITLE}</h2>

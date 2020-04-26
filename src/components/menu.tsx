@@ -1,10 +1,10 @@
-import { Link, LinkGetProps } from '@reach/router';
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import { Link, LinkGetProps } from "@reach/router";
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { LanguageContext } from '../resources/language';
+import { LanguageContext } from "../resources/language";
 
-import './menu.scss';
+import "./menu.scss";
 
 export interface MenuEntriesProps {
   canInstall?: boolean;
@@ -25,9 +25,9 @@ const calculateClassNames = ({
   isCurrent,
   isPartiallyCurrent,
 }: LinkGetProps) => ({
-  className: classNames('menu-entry', {
+  className: classNames("menu-entry", {
     // Don't show root route as always active
-    active: href === '/' ? isCurrent : isPartiallyCurrent,
+    active: href === "/" ? isCurrent : isPartiallyCurrent,
   }),
 });
 
@@ -70,7 +70,7 @@ export const MenuEntries: React.FC<MenuEntriesProps> = ({
 };
 
 const Menu: React.FC<MenuProps> = ({ className, ...rest }) => (
-  <nav className={classNames('menu', className)} role="dialog">
+  <nav className={classNames("menu", className)} role="dialog">
     <MenuEntries {...rest} />
   </nav>
 );

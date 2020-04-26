@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { Transaction } from '../model';
-import { getTransactions } from '../model/transaction';
-import { LanguageContext } from '../resources/language';
-import { toast } from '../util/toast';
+import { Transaction } from "../model";
+import { getTransactions } from "../model/transaction";
+import { LanguageContext } from "../resources/language";
+import { toast } from "../util/toast";
 
 const TRANSACTIONS_PER_PAGE = 20;
 
@@ -24,8 +24,8 @@ export const useTransactions = () => {
           setHasNextPage(trans.length >= TRANSACTIONS_PER_PAGE);
         })
         .catch((err) => {
-          console.error('Failed loading transactions:', err);
-          toast(BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY, { type: 'error' });
+          console.error("Failed loading transactions:", err);
+          toast(BUCHUNGEN.ALERT.REFRESH_TRANSACTION_HISTORY, { type: "error" });
         })
         .finally(() => setIsNextPageLoading(false));
     },

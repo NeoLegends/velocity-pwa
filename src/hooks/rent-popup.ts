@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { Booking, Slot, Slots, StationWithAddress } from '../model';
-import { getSingleStation, getSlotInfo } from '../model/stations';
-import { LanguageContext } from '../resources/language';
-import { toast } from '../util/toast';
+import { Booking, Slot, Slots, StationWithAddress } from "../model";
+import { getSingleStation, getSlotInfo } from "../model/stations";
+import { LanguageContext } from "../resources/language";
+import { toast } from "../util/toast";
 
-import { useInterval } from './interval';
+import { useInterval } from "./interval";
 
 export interface StationDetail {
   slots: Slots;
@@ -33,7 +33,7 @@ export const useSelectedSlot = (
       stationDetail.slots.stationSlots
         .filter(
           (slot) =>
-            slot.pedelecInfo && slot.pedelecInfo.availability === 'AVAILABLE',
+            slot.pedelecInfo && slot.pedelecInfo.availability === "AVAILABLE",
         )
         .reduce(
           (acc: Slot | null, item) =>
@@ -69,8 +69,8 @@ export const useStationDetail = (stationId: number | null) => {
     return stationDetail.slots.stationSlots.filter(
       (slot) =>
         slot.isOccupied &&
-        slot.state === 'OPERATIVE' &&
-        (!slot.pedelecInfo || slot.pedelecInfo.availability !== 'INOPERATIVE'),
+        slot.state === "OPERATIVE" &&
+        (!slot.pedelecInfo || slot.pedelecInfo.availability !== "INOPERATIVE"),
     );
   }, [stationDetail]);
 
@@ -90,8 +90,8 @@ export const useStationDetail = (stationId: number | null) => {
         setStationDetail({ slots: slotInfo, station: detailedStation });
       })
       .catch((err) => {
-        console.error('Error while opening station popup:', err);
-        toast(MAP.ALERT.STATION_DETAILS, { type: 'error' });
+        console.error("Error while opening station popup:", err);
+        toast(MAP.ALERT.STATION_DETAILS, { type: "error" });
       });
   }, [stationId, MAP]);
 

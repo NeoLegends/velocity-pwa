@@ -1,16 +1,16 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import classNames from 'classnames';
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import classNames from "classnames";
 import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
   useState,
-} from 'react';
-import ReactDOM from 'react-dom';
+} from "react";
+import ReactDOM from "react-dom";
 
-import { useBodyDiv } from '../../hooks/portal';
+import { useBodyDiv } from "../../hooks/portal";
 
-import './overlay.scss';
+import "./overlay.scss";
 
 export interface OverlayContentProps {
   focusRef: React.Ref<any>;
@@ -24,7 +24,7 @@ export interface OverlayMenuProps {
   onRequestClose?: () => void;
 }
 
-const OVERLAY_OPEN_CLASS = 'overlay-open';
+const OVERLAY_OPEN_CLASS = "overlay-open";
 
 const Overlay: React.FC<OverlayMenuProps> = ({
   children,
@@ -38,7 +38,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
 
   const handleKeyPressed = useCallback(
     (ev: KeyboardEvent) =>
-      onRequestClose && ev.key === 'Escape' && onRequestClose(),
+      onRequestClose && ev.key === "Escape" && onRequestClose(),
     [onRequestClose],
   );
 
@@ -47,7 +47,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
       return;
     }
 
-    const app = document.getElementById('root')!;
+    const app = document.getElementById("root")!;
 
     // Disable touch events on the background
     app.classList.add(OVERLAY_OPEN_CLASS);
@@ -59,12 +59,12 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     });
 
     // Catch escape key
-    document.body.addEventListener('keyup', handleKeyPressed);
+    document.body.addEventListener("keyup", handleKeyPressed);
 
     return () => {
       app.classList.remove(OVERLAY_OPEN_CLASS);
       enableBodyScroll(element);
-      document.body.removeEventListener('keyup', handleKeyPressed);
+      document.body.removeEventListener("keyup", handleKeyPressed);
     };
   }, [element, handleKeyPressed, isOpen]);
 
@@ -73,7 +73,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
     if (
       isOpen &&
       focusRef &&
-      typeof (focusRef as HTMLOrSVGElement).focus === 'function'
+      typeof (focusRef as HTMLOrSVGElement).focus === "function"
     ) {
       (focusRef as HTMLOrSVGElement).focus();
     }
@@ -85,7 +85,7 @@ const Overlay: React.FC<OverlayMenuProps> = ({
 
   const dom = (
     <div
-      className={classNames('backdrop', isOpen && 'visible', className)}
+      className={classNames("backdrop", isOpen && "visible", className)}
       onClick={onRequestClose}
     >
       {children({ focusRef: setFocusRef })}

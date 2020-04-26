@@ -1,12 +1,12 @@
-import useComponentSize from '@rehooks/component-size';
-import classNames from 'classnames';
-import React, { useCallback, useContext, useRef } from 'react';
+import useComponentSize from "@rehooks/component-size";
+import classNames from "classnames";
+import React, { useCallback, useContext, useRef } from "react";
 
-import { Booking, Slot } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { Booking, Slot } from "../../model";
+import { LanguageContext } from "../../resources/language";
 
-import BatteryCharge from './battery-charge';
-import './slot-list.scss';
+import BatteryCharge from "./battery-charge";
+import "./slot-list.scss";
 
 interface SlotViewProps {
   booking: Booking | null;
@@ -30,7 +30,7 @@ const SlotView: React.FC<SlotViewProps> = ({
   onClick,
 }) => {
   const isReserved =
-    slot.pedelecInfo && slot.pedelecInfo.availability === 'RESERVED';
+    slot.pedelecInfo && slot.pedelecInfo.availability === "RESERVED";
   const isReservedByMe =
     booking &&
     booking.stationId === stationId &&
@@ -45,17 +45,17 @@ const SlotView: React.FC<SlotViewProps> = ({
 
   return (
     <li
-      className={classNames('slot-list-item column', className)}
+      className={classNames("slot-list-item column", className)}
       key={slot.stationSlotId}
     >
       <button
         className={classNames(
-          'slot-icon slot-button outline column',
-          isReserved && 'reserved',
-          isReservedByMe && 'me',
+          "slot-icon slot-button outline column",
+          isReserved && "reserved",
+          isReservedByMe && "me",
           selectedSlot &&
             selectedSlot.stationSlotId === slot.stationSlotId &&
-            'selected',
+            "selected",
         )}
         onClick={handleClick}
         ref={focusRef}
@@ -105,23 +105,23 @@ const SlotList: React.FC<SlotListProps> = ({
 
   return (
     <ul
-      className={classNames('slot-list', requiredWidth < width && 'centered')}
+      className={classNames("slot-list", requiredWidth < width && "centered")}
       ref={measureRef}
     >
       <li className="slot-list-item column">
         <div
           className={classNames(
-            'slot-icon outline column',
-            freeSlots <= 0 && 'no-slots-free',
+            "slot-icon outline column",
+            freeSlots <= 0 && "no-slots-free",
           )}
         >
           <span
             className={classNames(
-              'slots-free-icon',
-              freeSlots <= 0 && 'adjust-margin',
+              "slots-free-icon",
+              freeSlots <= 0 && "adjust-margin",
             )}
           >
-            {freeSlots > 0 ? '⏎' : '❗'}
+            {freeSlots > 0 ? "⏎" : "❗"}
           </span>
           <span>{freeSlots}</span>
         </div>

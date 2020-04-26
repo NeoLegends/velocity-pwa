@@ -1,4 +1,4 @@
-const PIN_LS_KEY = 'velocity/card-pin';
+const PIN_LS_KEY = "velocity/card-pin";
 
 /** Erases the stored card PIN from local storage. */
 export const eraseCardPin = () => localStorage.removeItem(PIN_LS_KEY);

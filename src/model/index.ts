@@ -36,10 +36,10 @@ export interface Invoice {
   year: number;
 }
 
-export type OperationState = 'OPERATIVE' | 'INOPERATIVE';
+export type OperationState = "OPERATIVE" | "INOPERATIVE";
 
 export interface PedelecInfo {
-  availability: 'AVAILABLE' | 'INOPERATIVE' | 'RESERVED';
+  availability: "AVAILABLE" | "INOPERATIVE" | "RESERVED";
   stateOfCharge: number;
 }
 
@@ -88,8 +88,8 @@ export interface StationWithAddress extends Station {
   address: Address;
 }
 
-export type DeviceSupportType = 'station' | 'pedelec';
-export type SupportType = DeviceSupportType | 'feedback';
+export type DeviceSupportType = "station" | "pedelec";
+export type SupportType = DeviceSupportType | "feedback";
 
 export interface Tariff {
   description: string;

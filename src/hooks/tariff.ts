@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { Tariff, UserTariff } from '../model';
-import { getCurrentTariff, getTariffs } from '../model/tariff';
-import { LanguageContext, LanguageIdContext } from '../resources/language';
-import { toast } from '../util/toast';
+import { Tariff, UserTariff } from "../model";
+import { getCurrentTariff, getTariffs } from "../model/tariff";
+import { LanguageContext, LanguageIdContext } from "../resources/language";
+import { toast } from "../util/toast";
 
-import { useInterval } from './interval';
+import { useInterval } from "./interval";
 
 export const useTariffs = () => {
   const { TARIFF } = useContext(LanguageContext);
@@ -16,8 +16,8 @@ export const useTariffs = () => {
     getTariffs(languageId)
       .then(setTariffs)
       .catch((err) => {
-        console.error('Error while loading all available tarrifs:', err);
-        toast(TARIFF.ALERT.LOAD_TARIFFS_FAIL, { type: 'error' });
+        console.error("Error while loading all available tarrifs:", err);
+        toast(TARIFF.ALERT.LOAD_TARIFFS_FAIL, { type: "error" });
       });
   }, [languageId, TARIFF]);
 
@@ -33,8 +33,8 @@ export const useUserTariff = () => {
       getCurrentTariff()
         .then(setUserTariff)
         .catch((err) => {
-          console.error('Error while loading user tariff:', err);
-          toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: 'error' });
+          console.error("Error while loading user tariff:", err);
+          toast(TARIFF.ALERT.LOAD_TARIFF_FAIL, { type: "error" });
         }),
     [TARIFF],
   );

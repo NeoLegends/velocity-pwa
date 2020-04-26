@@ -1,4 +1,4 @@
-import { InvalidStatusCodeError } from '.';
+import { InvalidStatusCodeError } from ".";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -15,7 +15,7 @@ export const fetchWithRetry = async (
   maxRetry: number = 5,
 ) => {
   if (maxRetry < 1) {
-    throw new Error('maxRetry must be > 0');
+    throw new Error("maxRetry must be > 0");
   }
 
   let err;
@@ -46,7 +46,7 @@ const fetchStatusToNull = (nullStatus: number) => async (
     url,
     {
       ...init,
-      credentials: 'include',
+      credentials: "include",
     },
     maxRetry,
   );
@@ -84,7 +84,7 @@ export const fetchEnsureOk = async (
     url,
     {
       ...init,
-      credentials: 'include',
+      credentials: "include",
     },
     maxRetry,
   );
@@ -121,14 +121,14 @@ export const fetchJsonEnsureOk = (
 export const postJsonEnsureOk = (
   url: string,
   body?: unknown,
-  method: string = 'post',
+  method: string = "post",
   maxRetry: number = 5,
 ) =>
   fetchEnsureOk(
     url,
     {
       body: body ? JSON.stringify(body) : undefined,
-      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      headers: body ? { "Content-Type": "application/json" } : undefined,
       method,
     },
     maxRetry,

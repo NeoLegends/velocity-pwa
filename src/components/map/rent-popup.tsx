@@ -1,18 +1,18 @@
-import { Link } from '@reach/router';
-import classNames from 'classnames';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import { Link } from "@reach/router";
+import classNames from "classnames";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 
-import { useSelectedSlot, useStationDetail } from '../../hooks/rent-popup';
-import { useBooking } from '../../hooks/stations';
-import { InvalidStatusCodeError, Station } from '../../model';
-import { rentBike } from '../../model/stations';
-import { LanguageContext } from '../../resources/language';
-import { toast } from '../../util/toast';
-import Overlay from '../util/overlay';
+import { useSelectedSlot, useStationDetail } from "../../hooks/rent-popup";
+import { useBooking } from "../../hooks/stations";
+import { InvalidStatusCodeError, Station } from "../../model";
+import { rentBike } from "../../model/stations";
+import { LanguageContext } from "../../resources/language";
+import { toast } from "../../util/toast";
+import Overlay from "../util/overlay";
 
-import RentControls from './rent-controls';
-import './rent-popup.scss';
-import SlotList from './slot-list';
+import RentControls from "./rent-controls";
+import "./rent-popup.scss";
+import SlotList from "./slot-list";
 
 interface RentPopupProps {
   className?: string;
@@ -68,14 +68,14 @@ const RentPopup: React.FC<RentPopupProps> = ({
 
   const handleBook = useCallback(() => {
     if (!selectedStation) {
-      throw new Error('Trying to reserve a bike, but no station selected.');
+      throw new Error("Trying to reserve a bike, but no station selected.");
     }
 
     return bookBike(selectedStation.stationId)
       .then(fetchStationDetail)
       .catch((err) => {
-        console.error('Error while reserving bike:', err);
-        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: 'error' });
+        console.error("Error while reserving bike:", err);
+        toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR, { type: "error" });
       });
   }, [bookBike, fetchStationDetail, selectedStation, MAP]);
 
@@ -87,8 +87,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
     return cancelBooking()
       .then(fetchStationDetail)
       .catch((err) => {
-        console.error('Error while canceling a booking:', err);
-        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+        console.error("Error while canceling a booking:", err);
+        toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: "error" });
       });
   }, [booking, cancelBooking, fetchStationDetail, BUCHUNGEN]);
 
@@ -97,8 +97,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
       refreshBooking()
         .then(fetchStationDetail)
         .catch((err) => {
-          console.error('Error while refreshing a booking:', err);
-          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+          console.error("Error while refreshing a booking:", err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: "error" });
         }),
     [fetchStationDetail, refreshBooking, BUCHUNGEN],
   );
@@ -106,7 +106,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
   const handleRent = useCallback(
     (pin: string) => {
       if (!selectedStation || !stationDetail) {
-        throw new Error('Trying to rent a bike, but no station selected.');
+        throw new Error("Trying to rent a bike, but no station selected.");
       }
 
       const slotId = selectedSlot
@@ -119,11 +119,11 @@ const RentPopup: React.FC<RentPopupProps> = ({
       return rentBike(pin, stationId, slotId)
         .then(() =>
           toast(MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_SUCCESS, {
-            type: 'success',
+            type: "success",
           }),
         )
         .catch((err) => {
-          console.error('Error while renting out bike:', err);
+          console.error("Error while renting out bike:", err);
           const code = (err as InvalidStatusCodeError).statusCode;
           const message =
             code === 403
@@ -132,7 +132,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
               ? MAP.POPUP.RENT_DIALOG.ALERT.SLOT_LOCKED
               : MAP.POPUP.RENT_DIALOG.ALERT.DEFAULT_ERR;
 
-          toast(message, { type: 'error' });
+          toast(message, { type: "error" });
         });
     },
     [onRequestClose, selectedSlot, selectedStation, stationDetail, MAP],
@@ -144,8 +144,8 @@ const RentPopup: React.FC<RentPopupProps> = ({
         <div
           aria-labelledby="station-name"
           className={classNames(
-            'rent-popup',
-            stationDetail && 'open',
+            "rent-popup",
+            stationDetail && "open",
             className,
           )}
           onClick={handleClickOnPopup}
@@ -161,7 +161,7 @@ const RentPopup: React.FC<RentPopupProps> = ({
           <hr />
 
           {!stationDetail ? null : stationDetail.station.state ===
-            'INOPERATIVE' ? (
+            "INOPERATIVE" ? (
             <p className="defect">{MAP.POPUP.STATES.MAINTENANCE}</p>
           ) : !availableSlots.length ? (
             <p className="no-bikes">{map.NO_BIKES}</p>

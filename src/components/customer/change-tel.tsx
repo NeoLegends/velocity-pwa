@@ -1,8 +1,8 @@
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { useFormField } from '../../hooks/form';
-import { LanguageContext } from '../../resources/language';
+import { useFormField } from "../../hooks/form";
+import { LanguageContext } from "../../resources/language";
 
 interface ChangeTelProps {
   className?: string;
@@ -20,7 +20,7 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
   onChangeTel,
 }) => {
   const { PARTICULARS } = useContext(LanguageContext);
-  const [tel, handleTelChange] = useFormField(currentTel || '');
+  const [tel, handleTelChange] = useFormField(currentTel || "");
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -31,7 +31,7 @@ const ChangeTel: React.FC<ChangeTelProps> = ({
 
   return (
     <form
-      className={classNames('change-tel box', className)}
+      className={classNames("change-tel box", className)}
       onSubmit={handleSubmit}
     >
       <h2>{PARTICULARS.MODAL.PHONE.TITLE}</h2>

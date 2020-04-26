@@ -1,12 +1,12 @@
-import classNames from 'classnames';
-import { isValidIBAN } from 'ibantools';
-import React, { useContext } from 'react';
+import classNames from "classnames";
+import { isValidIBAN } from "ibantools";
+import React, { useContext } from "react";
 
-import { useCheckboxField, useFormField } from '../../hooks/form';
-import { BankDetails } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { useCheckboxField, useFormField } from "../../hooks/form";
+import { BankDetails } from "../../model";
+import { LanguageContext } from "../../resources/language";
 
-import './change-bank-details.scss';
+import "./change-bank-details.scss";
 
 interface ChangeBankDetailsProps {
   className?: string;
@@ -21,9 +21,9 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
   onCancel,
   onChangeBankDetails,
 }) => {
-  const [bankName, handleBankNameChange] = useFormField('');
-  const [bic, handleBicChange] = useFormField('');
-  const [iban, handleIbanChange] = useFormField('');
+  const [bankName, handleBankNameChange] = useFormField("");
+  const [bic, handleBicChange] = useFormField("");
+  const [iban, handleIbanChange] = useFormField("");
   const [mandateChecked, handleMandateCheckedChange] = useCheckboxField(false);
 
   const { customer, PARTICULARS } = useContext(LanguageContext);
@@ -40,15 +40,15 @@ const ChangeBankDetails: React.FC<ChangeBankDetailsProps> = ({
 
   return (
     <form
-      className={classNames('change-bank-details box', className)}
+      className={classNames("change-bank-details box", className)}
       onSubmit={handleSubmit}
     >
       <h2>{PARTICULARS.MODAL.BANK_ACC.TITLE}</h2>
 
       <div className="wrapper">
         <h3>
-          {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN},{' '}
-          {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{' '}
+          {PARTICULARS.MODAL.BANK_ACC.INPUT.IBAN},{" "}
+          {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{" "}
           {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
         </h3>
 

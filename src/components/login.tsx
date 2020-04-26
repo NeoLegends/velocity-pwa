@@ -1,11 +1,11 @@
-import { Link } from '@reach/router';
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import { Link } from "@reach/router";
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { useFormField } from '../hooks/form';
-import { LanguageContext } from '../resources/language';
+import { useFormField } from "../hooks/form";
+import { LanguageContext } from "../resources/language";
 
-import './login.scss';
+import "./login.scss";
 
 export interface LoginProps {
   className?: string;
@@ -15,8 +15,8 @@ export interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
   const { LOGIN, PASSWORD_REMEMBER } = useContext(LanguageContext);
-  const [email, handleEmailChange] = useFormField('');
-  const [password, handlePasswordChange] = useFormField('');
+  const [email, handleEmailChange] = useFormField("");
+  const [password, handlePasswordChange] = useFormField("");
 
   const canLogin = Boolean(email && password);
 
@@ -26,7 +26,7 @@ const Login: React.FC<LoginProps> = ({ className, onLoginStart }) => {
   };
 
   return (
-    <div className={classNames('login', className)}>
+    <div className={classNames("login", className)}>
       <form className="box outline" action="#" onSubmit={handleLogin}>
         <h2>Login</h2>
 

@@ -1,8 +1,8 @@
-import useComponentSize from '@rehooks/component-size';
-import classNames from 'classnames';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import useComponentSize from "@rehooks/component-size";
+import classNames from "classnames";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import './slider.scss';
+import "./slider.scss";
 
 interface BackgroundProps {
   completion: number;
@@ -32,7 +32,7 @@ const Slider: React.FC<SliderProps> = ({
   onCompleted,
 }) => {
   if (completionPercentage <= 0) {
-    throw new Error('completionPercentage must be > 0');
+    throw new Error("completionPercentage must be > 0");
   }
 
   const [isDragging, setIsDragging] = useState(false);
@@ -64,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({
       return;
     }
 
-    if (isCompleted && typeof onCompleted === 'function') {
+    if (isCompleted && typeof onCompleted === "function") {
       onCompleted();
     }
 
@@ -111,33 +111,33 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   useEffect(() => {
-    document.body.addEventListener('mousemove', handleMouseMove);
-    document.body.addEventListener('mouseup', handleUp);
-    document.body.addEventListener('touchend', handleUp);
-    document.body.addEventListener('touchmove', handleTouchMove);
+    document.body.addEventListener("mousemove", handleMouseMove);
+    document.body.addEventListener("mouseup", handleUp);
+    document.body.addEventListener("touchend", handleUp);
+    document.body.addEventListener("touchmove", handleTouchMove);
 
     return () => {
-      document.body.removeEventListener('mousemove', handleMouseMove);
-      document.body.removeEventListener('mouseup', handleUp);
-      document.body.removeEventListener('touchend', handleUp);
-      document.body.removeEventListener('touchmove', handleTouchMove);
+      document.body.removeEventListener("mousemove", handleMouseMove);
+      document.body.removeEventListener("mouseup", handleUp);
+      document.body.removeEventListener("touchend", handleUp);
+      document.body.removeEventListener("touchmove", handleTouchMove);
     };
   }, [handleMouseMove, handleTouchMove, handleUp]);
 
   return (
     <div
       className={classNames(
-        'slider outline',
+        "slider outline",
         className,
-        isCompleted && 'completed',
+        isCompleted && "completed",
       )}
       ref={measureRef}
     >
       <div
         className={classNames(
-          'knob',
-          isDragging && 'dragging',
-          disabled && 'disabled',
+          "knob",
+          isDragging && "dragging",
+          disabled && "disabled",
         )}
         onMouseDown={handleDown}
         onTouchStart={handleTouchStart}

@@ -1,18 +1,18 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { Booking, Station } from '../model';
+import { Booking, Station } from "../model";
 import {
   bookBike as doBook,
   cancelCurrentBooking,
   getAllStations,
   getCurrentBooking,
-} from '../model/stations';
-import { LanguageContext } from '../resources/language';
-import { toast } from '../util/toast';
+} from "../model/stations";
+import { LanguageContext } from "../resources/language";
+import { toast } from "../util/toast";
 
-import { useInterval } from './interval';
+import { useInterval } from "./interval";
 
-const LOCALSTORAGE_STATIONS_KEY = 'velocity/stations';
+const LOCALSTORAGE_STATIONS_KEY = "velocity/stations";
 
 export const useBooking = () => {
   const { BUCHUNGEN, PARTICULARS } = useContext(LanguageContext);
@@ -23,8 +23,8 @@ export const useBooking = () => {
       doBook(stationId)
         .then(setBooking)
         .catch((err) => {
-          console.error('Error while booking bike:', err);
-          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+          console.error("Error while booking bike:", err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: "error" });
         }),
     [BUCHUNGEN],
   );
@@ -33,8 +33,8 @@ export const useBooking = () => {
       cancelCurrentBooking()
         .then(() => setBooking(null))
         .catch((err) => {
-          console.error('Failed to cancel current booking:', err);
-          toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: 'error' });
+          console.error("Failed to cancel current booking:", err);
+          toast(PARTICULARS.MODAL.PIN.ALERT.ERROR.GENERAL, { type: "error" });
         }),
     [PARTICULARS],
   );
@@ -43,8 +43,8 @@ export const useBooking = () => {
       getCurrentBooking()
         .then(setBooking)
         .catch((err) => {
-          console.error('Failed loading current booking:', err);
-          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+          console.error("Failed loading current booking:", err);
+          toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: "error" });
         }),
     [BUCHUNGEN],
   );
@@ -66,8 +66,8 @@ export const useBooking = () => {
         setBooking(null);
       }
     } catch (err) {
-      console.error('Failed refreshing current booking:', err);
-      toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: 'error' });
+      console.error("Failed refreshing current booking:", err);
+      toast(BUCHUNGEN.ALERT.LOAD_CURR_BOOKING_ERR, { type: "error" });
     }
   }, [booking, BUCHUNGEN]);
 
@@ -91,8 +91,8 @@ export const useStations = () => {
           setStations(stations);
         })
         .catch((err) => {
-          console.error('Error while loading stations:', err);
-          toast(MAP.ALERT.STATION_LOAD, { type: 'error' });
+          console.error("Error while loading stations:", err);
+          toast(MAP.ALERT.STATION_LOAD, { type: "error" });
         }),
     [MAP],
   );

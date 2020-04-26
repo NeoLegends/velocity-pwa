@@ -1,4 +1,4 @@
-import { toast as toastifyToast, ToastOptions } from 'react-toastify';
+import { toast as toastifyToast, ToastOptions } from "react-toastify";
 
 /**
  * Displays a toast which cannot be duplicated and

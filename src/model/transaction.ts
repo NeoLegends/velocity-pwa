@@ -1,6 +1,6 @@
-import { RunningTransaction, Transaction } from '.';
-import { fetch204ToNull } from './fetch';
-import { transactionsUrl, APP_CURRENT_TRANSACTION_URL } from './urls';
+import { RunningTransaction, Transaction } from ".";
+import { fetch204ToNull } from "./fetch";
+import { transactionsUrl, APP_CURRENT_TRANSACTION_URL } from "./urls";
 
 /**
  * Gets the currently running transaction, if one exists.

@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { LanguageContext } from '../resources/language';
-import * as serviceWorker from '../serviceWorker';
-import { isIos } from '../util/is-ios';
-import { toast } from '../util/toast';
+import { LanguageContext } from "../resources/language";
+import * as serviceWorker from "../serviceWorker";
+import { isIos } from "../util/is-ios";
+import { toast } from "../util/toast";
 
 export const useDesktopInstallation = () => {
   const [event, setEvent] = useState<BeforeInstallProptEvent | null>(null);
@@ -14,13 +14,13 @@ export const useDesktopInstallation = () => {
       setEvent(ev as BeforeInstallProptEvent);
     };
 
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
   const handleInstall = useCallback(() => {
     if (!event) {
-      throw new Error('Trying to install to desktop, but no event cached.');
+      throw new Error("Trying to install to desktop, but no event cached.");
     }
 
     event.prompt();
@@ -38,7 +38,7 @@ export const useServiceWorker = () => {
       onUpdate: () => toast(sw.UPDATE_AVAILABLE, { autoClose: false }),
     };
 
-    process.env.NODE_ENV === 'production' && !isIos
+    process.env.NODE_ENV === "production" && !isIos
       ? serviceWorker.register(swConfig)
       : serviceWorker.unregister();
   }, [sw]);

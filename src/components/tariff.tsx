@@ -1,18 +1,18 @@
-import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import classNames from "classnames";
+import React, { useContext, useState } from "react";
 
-import { useTariffs, useUserTariff } from '../hooks/tariff';
-import { Tariff, UserTariff } from '../model';
+import { useTariffs, useUserTariff } from "../hooks/tariff";
+import { Tariff, UserTariff } from "../model";
 import {
   activateAutoRenewal,
   bookTariff,
   deactivateAutoRenewal,
-} from '../model/tariff';
-import { LanguageContext } from '../resources/language';
-import { toEuro } from '../util/to-euro';
-import { toast } from '../util/toast';
+} from "../model/tariff";
+import { LanguageContext } from "../resources/language";
+import { toEuro } from "../util/to-euro";
+import { toast } from "../util/toast";
 
-import './tariff.scss';
+import "./tariff.scss";
 
 interface TariffProps {
   className?: string;
@@ -56,7 +56,7 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
     userTariff && tariffs.find((t) => t.tariffId === userTariff.tariffId);
 
   return (
-    <div className={classNames('tariff box-list', className)}>
+    <div className={classNames("tariff box-list", className)}>
       {userTariff && (
         <div className="box">
           <h2>{TARIFF.CURRENT.TITLE}</h2>
@@ -72,11 +72,11 @@ const TariffOverview: React.FC<TariffOverviewProps> = ({
                 </li>
               )}
               <li>
-                {TARIFF.ALL.INFO}: {tariffInfo ? tariffInfo.description : 'N/A'}
+                {TARIFF.ALL.INFO}: {tariffInfo ? tariffInfo.description : "N/A"}
               </li>
               {!hasDefaultTariff && (
                 <li>
-                  {TARIFF.CURRENT.RENEWAL}{' '}
+                  {TARIFF.CURRENT.RENEWAL}{" "}
                   {userTariff.automaticRenewal ? STATE.ACTIVE : STATE.IDLE}
                 </li>
               )}
@@ -148,7 +148,7 @@ const TariffBookingConfirmation: React.FC<TariffConfirmationProps> = ({
   const { TARIFF } = useContext(LanguageContext);
 
   return (
-    <div className={classNames('tariff box-list', className)}>
+    <div className={classNames("tariff box-list", className)}>
       <div className="box">
         <h2>{currentlyBookingTariff.name}</h2>
 
@@ -184,25 +184,25 @@ const TariffView: React.FC<TariffProps> = (props) => {
 
   const handleConfirmBooking = async () => {
     if (!tariffToBook) {
-      console.error('Missing tariff to book.');
+      console.error("Missing tariff to book.");
       return;
     }
 
     try {
       await bookTariff(tariffToBook.tariffId);
     } catch (err) {
-      console.error('Error while changing tariff:', err);
-      return toast(TARIFF.ALERT.CHANGE_TARIFF_FAIL, { type: 'error' });
+      console.error("Error while changing tariff:", err);
+      return toast(TARIFF.ALERT.CHANGE_TARIFF_FAIL, { type: "error" });
     }
 
     fetchTariff();
 
-    toast(TARIFF.ALERT.CHANGE_TARIFF_SUCCESS, { type: 'success' });
+    toast(TARIFF.ALERT.CHANGE_TARIFF_SUCCESS, { type: "success" });
   };
 
   const handleToggleAutoRenewal = async () => {
     if (!userTariff) {
-      console.error('Cannot toggle renewal without user tariff.');
+      console.error("Cannot toggle renewal without user tariff.");
       return;
     }
 
@@ -211,7 +211,7 @@ const TariffView: React.FC<TariffProps> = (props) => {
         ? deactivateAutoRenewal()
         : activateAutoRenewal());
     } catch (err) {
-      return toast(TARIFF.ALERT.ALTER_RENEWAL_FAIL, { type: 'error' });
+      return toast(TARIFF.ALERT.ALTER_RENEWAL_FAIL, { type: "error" });
     }
 
     fetchTariff();

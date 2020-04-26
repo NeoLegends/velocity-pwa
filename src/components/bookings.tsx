@@ -1,16 +1,16 @@
-import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
-import { AutoSizer } from 'react-virtualized/dist/es/AutoSizer';
-import { InfiniteLoader } from 'react-virtualized/dist/es/InfiniteLoader';
-import { List } from 'react-virtualized/dist/es/List';
-import { WindowScroller } from 'react-virtualized/dist/es/WindowScroller';
+import classNames from "classnames";
+import React, { useCallback, useContext } from "react";
+import { AutoSizer } from "react-virtualized/dist/es/AutoSizer";
+import { InfiniteLoader } from "react-virtualized/dist/es/InfiniteLoader";
+import { List } from "react-virtualized/dist/es/List";
+import { WindowScroller } from "react-virtualized/dist/es/WindowScroller";
 
-import { useTransactions } from '../hooks/transaction';
-import { Transaction } from '../model';
-import { LanguageContext, LanguageIdContext } from '../resources/language';
-import moment from '../util/moment';
+import { useTransactions } from "../hooks/transaction";
+import { Transaction } from "../model";
+import { LanguageContext, LanguageIdContext } from "../resources/language";
+import moment from "../util/moment";
 
-import './bookings.scss';
+import "./bookings.scss";
 
 interface BookingsProps {
   className?: string;
@@ -23,10 +23,10 @@ interface TransactionProps {
 }
 
 const startDateFormattingOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 };
 
 const Trans: React.SFC<TransactionProps> = ({
@@ -41,23 +41,23 @@ const Trans: React.SFC<TransactionProps> = ({
   const endDate = new Date(transaction.endDateTime);
 
   return (
-    <div className={classNames('gap', className)} style={style}>
+    <div className={classNames("gap", className)} style={style}>
       <div className="transaction outline">
         <p className="oneline">
           {startDate.toLocaleDateString(language, startDateFormattingOptions)}
         </p>
         <p className="oneline">
-          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}{' '}
-          {transaction.fromStation.name.replace(/\s/g, '\u00A0')}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.FROM}{" "}
+          {transaction.fromStation.name.replace(/\s/g, "\u00A0")}
         </p>
         <p className="oneline">
-          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}{' '}
-          {transaction.toStation.name.replace(/\s/g, '\u00A0')}
+          {BUCHUNGEN.HISTORIE.STATION_PANEL.STATION.TO}{" "}
+          {transaction.toStation.name.replace(/\s/g, "\u00A0")}
         </p>
         <p className="oneline">
-          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}{' '}
-          {transaction.pedelecName.replace(/_[nN]/g, '')}
-          {', '}
+          {SUPPORT.ERROR_REPORT.BIKE.BIKE_ID}{" "}
+          {transaction.pedelecName.replace(/_[nN]/g, "")}
+          {", "}
           {moment(endDate, undefined, language).from(startDate, true)}
           {transaction.credited && `, ${menu.REFUNDED}`}
         </p>
@@ -91,7 +91,7 @@ const Bookings: React.SFC<BookingsProps> = ({ className }) => {
   );
 
   return (
-    <div className={classNames('bookings box-list', className)}>
+    <div className={classNames("bookings box-list", className)}>
       <div className="box transactions">
         <h2>{BUCHUNGEN.HISTORIE.TITEL}</h2>
 

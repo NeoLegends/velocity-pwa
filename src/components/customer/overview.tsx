@@ -1,9 +1,9 @@
-import { Link, RouteComponentProps } from '@reach/router';
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import { Link, RouteComponentProps } from "@reach/router";
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { Customer, SepaMandate } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { Customer, SepaMandate } from "../../model";
+import { LanguageContext } from "../../resources/language";
 
 interface CustomerBodyProps {
   className?: string;
@@ -20,7 +20,7 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
 
   return (
     <>
-      <div className={classNames('box personal', className)}>
+      <div className={classNames("box personal", className)}>
         <h2>{PARTICULARS.HEADING}</h2>
 
         <div className="wrapper">
@@ -54,7 +54,7 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
               </tr>
               <tr>
                 <td>{PARTICULARS.TABLE.PHONE}</td>
-                <td>{customer.phonenumber || 'N/A'}</td>
+                <td>{customer.phonenumber || "N/A"}</td>
               </tr>
             </tbody>
           </table>
@@ -97,7 +97,7 @@ const Overview: React.FC<CustomerBodyProps & RouteComponentProps> = ({
               </tr>
               <tr>
                 <td>
-                  {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{' '}
+                  {PARTICULARS.MODAL.BANK_ACC.INPUT.BANK_NAME} &{" "}
                   {PARTICULARS.MODAL.BANK_ACC.INPUT.BIC}
                 </td>
                 <td>

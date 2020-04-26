@@ -1,15 +1,15 @@
-import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import classNames from "classnames";
+import React, { useCallback, useContext } from "react";
 
-import { useFormField } from '../../hooks/form';
-import { useSavedPin } from '../../hooks/pin';
-import { StationDetail } from '../../hooks/rent-popup';
-import { Booking, Slot, Station } from '../../model';
-import { LanguageContext, LanguageIdContext } from '../../resources/language';
-import moment from '../../util/moment';
+import { useFormField } from "../../hooks/form";
+import { useSavedPin } from "../../hooks/pin";
+import { StationDetail } from "../../hooks/rent-popup";
+import { Booking, Slot, Station } from "../../model";
+import { LanguageContext, LanguageIdContext } from "../../resources/language";
+import moment from "../../util/moment";
 
-import './rent-controls.scss';
-import Slider from './slider';
+import "./rent-controls.scss";
+import Slider from "./slider";
 
 interface RentControlsProps {
   booking: Booking | null;
@@ -37,7 +37,7 @@ const RentControls: React.FC<RentControlsProps> = ({
   onRentBike,
 }) => {
   const [pin, setPin] = useSavedPin();
-  const [pinInput, handlePinChange] = useFormField('');
+  const [pinInput, handlePinChange] = useFormField("");
 
   const handleSliderComplete = useCallback(() => onRentBike(pin!), [
     pin,
@@ -61,15 +61,15 @@ const RentControls: React.FC<RentControlsProps> = ({
     booking && booking.stationId === openedStation.station.stationId,
   );
   const canRentBike =
-    openedStation.station.state === 'OPERATIVE' &&
+    openedStation.station.state === "OPERATIVE" &&
     openedStation.slots.stationSlots.some((s) =>
       Boolean(
         s.isOccupied &&
-          s.state === 'OPERATIVE' &&
+          s.state === "OPERATIVE" &&
           s.pedelecInfo &&
           // Either the pedelec must be available or be rented by myself
-          (s.pedelecInfo.availability === 'AVAILABLE' ||
-            (s.pedelecInfo.availability === 'RESERVED' &&
+          (s.pedelecInfo.availability === "AVAILABLE" ||
+            (s.pedelecInfo.availability === "RESERVED" &&
               isOpenedStationBooked &&
               booking!.stationSlotPosition === s.stationSlotPosition)),
       ),
@@ -80,13 +80,13 @@ const RentControls: React.FC<RentControlsProps> = ({
     moment(new Date(booking.expiryDateTime), undefined, langId).fromNow(true);
 
   return pin ? (
-    <div className={classNames('rent-controls', className)}>
+    <div className={classNames("rent-controls", className)}>
       <Slider
         background={() => (
           <div className="slider-content column">
             {selectedSlot && ( // Since we auto-select the fullest slot, this check exists just as formality
               <span>
-                {map.RENT.SLIDE_FOR_BIKE_NO1} {selectedSlot.stationSlotPosition}{' '}
+                {map.RENT.SLIDE_FOR_BIKE_NO1} {selectedSlot.stationSlotPosition}{" "}
                 {map.RENT.SLIDE_FOR_BIKE_NO2}
               </span>
             )}
@@ -109,13 +109,13 @@ const RentControls: React.FC<RentControlsProps> = ({
         {!booking
           ? map.BOOKING.BOOK_BIKE
           : `${BUCHUNGEN.RESERVIERUNG.BUTTON} ${
-              !isOpenedStationBooked ? `(${bookedStation!.name})` : ''
+              !isOpenedStationBooked ? `(${bookedStation!.name})` : ""
             }`}
       </button>
     </div>
   ) : (
     <form
-      className={classNames('rent-controls', className)}
+      className={classNames("rent-controls", className)}
       onSubmit={handleSubmitPin}
     >
       <p>{map.PIN.CTA}</p>

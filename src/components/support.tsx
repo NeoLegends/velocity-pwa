@@ -1,18 +1,18 @@
-import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
+import classNames from "classnames";
+import React, { useContext, useState } from "react";
 
-import { useFormField } from '../hooks/form';
-import { useStations } from '../hooks/stations';
-import { DeviceSupportType } from '../model';
+import { useFormField } from "../hooks/form";
+import { useStations } from "../hooks/stations";
+import { DeviceSupportType } from "../model";
 import {
   submitFeedback,
   submitPedelecError,
   submitStationError,
-} from '../model/support';
-import { LanguageContext } from '../resources/language';
-import { toast } from '../util/toast';
+} from "../model/support";
+import { LanguageContext } from "../resources/language";
+import { toast } from "../util/toast";
 
-import './support.scss';
+import "./support.scss";
 
 interface SupportProps {
   className?: string;
@@ -25,41 +25,41 @@ const Support: React.FC<SupportProps> = ({ className }) => {
     feedbackHeading,
     handleFeedbackHeadingChange,
     setFeedbackHeading,
-  ] = useFormField('');
+  ] = useFormField("");
   const [
     feedbackMessage,
     handleFeedbackMessageChange,
     setFeedbackMessage,
-  ] = useFormField('');
+  ] = useFormField("");
 
   const [
     defectBikeNumber,
     handleDefectBikeNumberChange,
     setDefectBikeNumber,
-  ] = useFormField('');
+  ] = useFormField("");
   const [
     defectCategory,
     handleDefectCategoryChange,
     setDefectCategory,
-  ] = useFormField('');
+  ] = useFormField("");
   const [
     defectMessage,
     handleDefectMessageChange,
     setDefectMessage,
-  ] = useFormField('');
+  ] = useFormField("");
   const [
     defectStation,
     handleDefectStationChange,
     setDefectStation,
-  ] = useFormField('');
-  const [defectType, setDefectType] = useState<DeviceSupportType>('pedelec');
+  ] = useFormField("");
+  const [defectType, setDefectType] = useState<DeviceSupportType>("pedelec");
 
   const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
   const canSubmitFeedback = Boolean(feedbackHeading && feedbackMessage);
   const canSubmitProblemReport = Boolean(
     defectMessage &&
-      (defectType === 'pedelec'
+      (defectType === "pedelec"
         ? !isNaN((defectBikeNumber as unknown) as number)
         : !isNaN((defectStation as unknown) as number)),
   );
@@ -70,12 +70,12 @@ const Support: React.FC<SupportProps> = ({ className }) => {
     try {
       await submitFeedback(feedbackHeading, feedbackMessage);
 
-      setFeedbackHeading('');
-      setFeedbackMessage('');
+      setFeedbackHeading("");
+      setFeedbackMessage("");
 
-      toast(SUPPORT.FEEDBACK.ALERT.SUCCESS, { type: 'success' });
+      toast(SUPPORT.FEEDBACK.ALERT.SUCCESS, { type: "success" });
     } catch (err) {
-      toast(SUPPORT.FEEDBACK.ALERT.ERROR.DEFAULT, { type: 'error' });
+      toast(SUPPORT.FEEDBACK.ALERT.ERROR.DEFAULT, { type: "error" });
     }
   };
 
@@ -83,7 +83,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
     ev.preventDefault();
 
     try {
-      await (defectType === 'pedelec'
+      await (defectType === "pedelec"
         ? submitPedelecError(
             defectMessage,
             defectCategory,
@@ -95,19 +95,19 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             Number(defectStation),
           ));
 
-      setDefectBikeNumber('');
-      setDefectMessage('');
-      setDefectCategory('');
-      setDefectStation('');
+      setDefectBikeNumber("");
+      setDefectMessage("");
+      setDefectCategory("");
+      setDefectStation("");
 
-      toast(SUPPORT.ERROR_REPORT.ALERT.SUCCESS, { type: 'success' });
+      toast(SUPPORT.ERROR_REPORT.ALERT.SUCCESS, { type: "success" });
     } catch (err) {
-      toast(SUPPORT.ERROR_REPORT.ALERT.ERROR.DEFAULT, { type: 'error' });
+      toast(SUPPORT.ERROR_REPORT.ALERT.ERROR.DEFAULT, { type: "error" });
     }
   };
 
   return (
-    <div className={classNames('support box-list', className)}>
+    <div className={classNames("support box-list", className)}>
       <form className="box" onSubmit={handleSubmitFeedback}>
         <h2>{SUPPORT.FEEDBACK.TITLE}</h2>
 
@@ -148,8 +148,8 @@ const Support: React.FC<SupportProps> = ({ className }) => {
                 type="radio"
                 name="defect-type"
                 value="pedelec"
-                checked={defectType === 'pedelec'}
-                onChange={() => setDefectType('pedelec')}
+                checked={defectType === "pedelec"}
+                onChange={() => setDefectType("pedelec")}
               />
               <span>Pedelec</span>
             </label>
@@ -160,14 +160,14 @@ const Support: React.FC<SupportProps> = ({ className }) => {
                 type="radio"
                 name="defect-type"
                 value="station"
-                checked={defectType === 'station'}
-                onChange={() => setDefectType('station')}
+                checked={defectType === "station"}
+                onChange={() => setDefectType("station")}
               />
               <span>{BUCHUNGEN.RESERVIERUNG.STATION}</span>
             </label>
           </div>
 
-          {defectType === 'pedelec' ? (
+          {defectType === "pedelec" ? (
             <input
               className="input outline"
               type="number"
@@ -200,7 +200,7 @@ const Support: React.FC<SupportProps> = ({ className }) => {
             <option value="" disabled hidden>
               {SUPPORT.ERROR_REPORT.STATION.DEFECT}...
             </option>
-            {defectType === 'pedelec'
+            {defectType === "pedelec"
               ? Object.keys(SUPPORT.ERROR_REPORT.ERROR_MESSAGES.BIKE).map(
                   (k) => (
                     <option key={`bike-${k}`} value={k}>

@@ -5,14 +5,14 @@ import {
   Slots,
   Station,
   StationWithAddress,
-} from '.';
+} from ".";
 import {
   fetch204ToNull,
   fetch404ToNull,
   fetchEnsureOk,
   fetchJsonEnsureOk,
   postJsonEnsureOk,
-} from './fetch';
+} from "./fetch";
 import {
   rentBikeUrl,
   reserveBikeUrl,
@@ -20,7 +20,7 @@ import {
   slotInfoUrl,
   APP_ALL_STATIONS_URL,
   APP_CURRENT_BOOKING_URL,
-} from './urls';
+} from "./urls";
 
 /**
  * Books a bike at the station with the given ID.
@@ -32,7 +32,7 @@ export const bookBike = (stationId: number): Promise<Booking> =>
 
 /** Cancels the current booking, if it exists. */
 export const cancelCurrentBooking = (): Promise<void> =>
-  fetchEnsureOk(APP_CURRENT_BOOKING_URL, { method: 'delete' }).then(() => {});
+  fetchEnsureOk(APP_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
 /** Fetches all existing bike stations. */
 export const getAllStations = (): Promise<Station[]> =>

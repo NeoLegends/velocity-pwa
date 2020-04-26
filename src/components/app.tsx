@@ -1,34 +1,34 @@
-import { navigate, Router } from '@reach/router';
-import React, { useCallback, StrictMode } from 'react';
-import { Slide, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { navigate, Router } from "@reach/router";
+import React, { useCallback, StrictMode } from "react";
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { useLogin } from '../hooks/authentication';
-import { useLanguage } from '../hooks/intl';
-import { useDesktopInstallation, useServiceWorker } from '../hooks/pwa';
+import { useLogin } from "../hooks/authentication";
+import { useLanguage } from "../hooks/intl";
+import { useDesktopInstallation, useServiceWorker } from "../hooks/pwa";
 import {
   LanguageContext,
   LanguageIdentifier,
   LanguageIdContext,
-} from '../resources/language';
+} from "../resources/language";
 
-import './app.scss';
-import MenuBar from './menu-bar';
-import Login from './util/lazy-login';
-import makeLazy from './util/make-lazy';
-import needsLogin from './util/needs-login';
-import { UnofficialPopup } from './util/unofficial-popup';
+import "./app.scss";
+import MenuBar from "./menu-bar";
+import Login from "./util/lazy-login";
+import makeLazy from "./util/make-lazy";
+import needsLogin from "./util/needs-login";
+import { UnofficialPopup } from "./util/unofficial-popup";
 
 interface AppBodyProps {
   onChangeLanguage: (lang: LanguageIdentifier) => void;
 }
 
-const Bookings = needsLogin(makeLazy(() => import('./bookings')));
-const Customer = needsLogin(makeLazy(() => import('./customer/customer')));
-const Invoices = needsLogin(makeLazy(() => import('./invoices')));
-const Map = makeLazy(() => import('./map/bike-map'));
-const Support = needsLogin(makeLazy(() => import('./support')));
-const Tariff = needsLogin(makeLazy(() => import('./tariff')));
+const Bookings = needsLogin(makeLazy(() => import("./bookings")));
+const Customer = needsLogin(makeLazy(() => import("./customer/customer")));
+const Invoices = needsLogin(makeLazy(() => import("./invoices")));
+const Map = makeLazy(() => import("./map/bike-map"));
+const Support = needsLogin(makeLazy(() => import("./support")));
+const Tariff = needsLogin(makeLazy(() => import("./tariff")));
 
 const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
   const { canInstall, handleInstall } = useDesktopInstallation();
@@ -40,13 +40,13 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
     (email: string, pw: string) =>
       login(email, pw).then((redirect) => {
         if (redirect) {
-          navigate('/');
+          navigate("/");
         }
       }),
     [login],
   );
   const handleLoginLogoutButtonClick = useCallback(
-    () => (isLoggedIn ? logout() : navigate('/login')),
+    () => (isLoggedIn ? logout() : navigate("/login")),
     [isLoggedIn, logout],
   );
 

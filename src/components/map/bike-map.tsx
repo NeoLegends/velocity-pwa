@@ -1,18 +1,18 @@
-import { icon, IconOptions } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Map, Marker, TileLayer } from 'react-leaflet';
+import { icon, IconOptions } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import React, { useCallback, useEffect, useState } from "react";
+import { Map, Marker, TileLayer } from "react-leaflet";
 
-import { useCachedViewport } from '../../hooks/map';
-import { useStations } from '../../hooks/stations';
-import { TILE_URL } from '../../model/urls';
-import logoGreyscale from '../../resources/logo-greyscale.png';
-import logo from '../../resources/logo.png';
-import MakeLazy from '../util/make-lazy';
+import { useCachedViewport } from "../../hooks/map";
+import { useStations } from "../../hooks/stations";
+import { TILE_URL } from "../../model/urls";
+import logoGreyscale from "../../resources/logo-greyscale.png";
+import logo from "../../resources/logo.png";
+import MakeLazy from "../util/make-lazy";
 
-import './bike-map.scss';
+import "./bike-map.scss";
 
-const RentPopup = MakeLazy(() => import('./rent-popup'));
+const RentPopup = MakeLazy(() => import("./rent-popup"));
 
 interface BikeMapProps {
   className?: string;
@@ -56,15 +56,15 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
   }, []);
 
   const closePopup = useCallback(() => {
-    window.history.pushState(null, '', '#');
+    window.history.pushState(null, "", "#");
     handleHashChange();
   }, [handleHashChange]);
 
   useEffect(() => {
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener("hashchange", handleHashChange);
     handleHashChange();
 
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, [handleHashChange]);
 
   return (
@@ -89,14 +89,14 @@ const BikeMap: React.FC<BikeMapProps> = ({ className, isLoggedIn }) => {
               alt={`Station ${station.name}`}
               icon={
                 station.numAllSlots > station.numFreeSlots &&
-                station.state === 'OPERATIVE'
+                station.state === "OPERATIVE"
                   ? stationIcon
                   : noBikesStationIcon
               }
               key={station.stationId}
               position={[station.locationLatitude, station.locationLongitude]}
               onClick={() => {
-                window.history.pushState(null, '', `#${station.stationId}`);
+                window.history.pushState(null, "", `#${station.stationId}`);
                 handleHashChange();
               }}
             />

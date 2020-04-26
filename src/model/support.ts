@@ -1,5 +1,5 @@
-import { postJsonEnsureOk } from './fetch';
-import { feedbackUrl } from './urls';
+import { postJsonEnsureOk } from "./fetch";
+import { feedbackUrl } from "./urls";
 
 /**
  * Submits general feedback.
@@ -8,7 +8,7 @@ import { feedbackUrl } from './urls';
  * @param content the feedback message
  */
 export const submitFeedback = (subject: string, content: string) =>
-  postJsonEnsureOk(feedbackUrl('feedback'), { subject, content });
+  postJsonEnsureOk(feedbackUrl("feedback"), { subject, content });
 
 /**
  * Submits error feedback for a pedelec.
@@ -21,7 +21,7 @@ export const submitPedelecError = (
   content: string,
   error: string,
   pedelecId: number,
-) => postJsonEnsureOk(feedbackUrl('pedelec'), { content, error, pedelecId });
+) => postJsonEnsureOk(feedbackUrl("pedelec"), { content, error, pedelecId });
 
 /**
  * Submits error feedback for a station.
@@ -34,4 +34,4 @@ export const submitStationError = (
   content: string,
   error: string,
   stationId: number,
-) => postJsonEnsureOk(feedbackUrl('station'), { content, error, stationId });
+) => postJsonEnsureOk(feedbackUrl("station"), { content, error, stationId });

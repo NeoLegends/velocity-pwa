@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 export const useCheckboxField = <T extends HTMLInputElement>(
   initialState: boolean,

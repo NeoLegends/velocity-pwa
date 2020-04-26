@@ -1,9 +1,9 @@
-import { RouteComponentProps } from '@reach/router';
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import { RouteComponentProps } from "@reach/router";
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { SepaMandate } from '../../model';
-import { LanguageContext } from '../../resources/language';
+import { SepaMandate } from "../../model";
+import { LanguageContext } from "../../resources/language";
 
 interface SepaMandateProps {
   className?: string;
@@ -21,7 +21,7 @@ const SepaMandateBody: React.FC<SepaMandateProps & RouteComponentProps> = ({
   const { customer, SEPA } = useContext(LanguageContext);
 
   return (
-    <div className={classNames('change-pw box', className)}>
+    <div className={classNames("change-pw box", className)}>
       <h2>{SEPA.SUBTITLE}</h2>
 
       <div className="wrapper">

@@ -1,3 +1,3 @@
-import makeLazy from './make-lazy';
+import makeLazy from "./make-lazy";
 
-export default makeLazy(() => import('../login'));
+export default makeLazy(() => import("../login"));

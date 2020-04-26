@@ -1,10 +1,10 @@
-import classNames from 'classnames';
-import countries from 'country-info-list/countries.json';
-import React, { useContext } from 'react';
+import classNames from "classnames";
+import countries from "country-info-list/countries.json";
+import React, { useContext } from "react";
 
-import { useFormField } from '../../hooks/form';
-import { Address } from '../../model';
-import { LanguageContext, LanguageIdContext } from '../../resources/language';
+import { useFormField } from "../../hooks/form";
+import { Address } from "../../model";
+import { LanguageContext, LanguageIdContext } from "../../resources/language";
 
 interface ChangeAddressProps {
   className?: string;
@@ -59,7 +59,7 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
 }) => {
   const [city, handleCityChange] = useFormField(currentAddress.city);
   const [country, handleCountryChange] = useFormField(
-    countryNameToAlpha3[currentAddress.country] || '',
+    countryNameToAlpha3[currentAddress.country] || "",
   );
   const [
     streetAndHousenumber,
@@ -85,7 +85,7 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
 
   return (
     <form
-      className={classNames('change-address box', className)}
+      className={classNames("change-address box", className)}
       onSubmit={handleSubmit}
     >
       <h2>{PARTICULARS.MODAL.ADDRESS.TITLE}</h2>
@@ -120,9 +120,9 @@ const ChangeAddress: React.FC<ChangeAddressProps> = ({
         >
           <option value="">-</option>
           <option value="DEU">
-            {langId === 'de' ? 'Deutschland' : 'Germany'}
+            {langId === "de" ? "Deutschland" : "Germany"}
           </option>
-          {langId === 'de' ? countryListGerman : countryListEnglish}
+          {langId === "de" ? countryListGerman : countryListEnglish}
         </select>
       </div>
 

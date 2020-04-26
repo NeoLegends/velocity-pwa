@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Viewport } from 'react-leaflet';
+import { useCallback, useEffect, useState } from "react";
+import { Viewport } from "react-leaflet";
 
-import { isIos } from '../util/is-ios';
+import { isIos } from "../util/is-ios";
 
-const STORAGE_VIEWPORT_KEY = 'velocity/viewport';
+const STORAGE_VIEWPORT_KEY = "velocity/viewport";
 const viewportStorage = isIos ? localStorage : sessionStorage;
 const defaultViewport: Viewport = {
   center: [50.77403035497566, 6.084194183349609],
@@ -28,7 +28,7 @@ export const useCachedViewport = () => {
       }
     } catch (err) {
       console.warn(
-        'Failed to deserialize local storage viewport, removing incorrect entry.\n\n',
+        "Failed to deserialize local storage viewport, removing incorrect entry.\n\n",
         err,
       );
       viewportStorage.removeItem(STORAGE_VIEWPORT_KEY);

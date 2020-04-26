@@ -1,6 +1,6 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from "react";
 
-import { eraseCardPin, getSavedCardPin, setCardPin } from '../model/pin';
+import { eraseCardPin, getSavedCardPin, setCardPin } from "../model/pin";
 
 export const useSavedPin = () => {
   const [pin, setPin] = useState<string | null>(null);

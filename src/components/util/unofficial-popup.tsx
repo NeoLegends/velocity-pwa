@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import { useUnofficialPopup } from '../../hooks/legal';
-import { LanguageContext } from '../../resources/language';
+import { useUnofficialPopup } from "../../hooks/legal";
+import { LanguageContext } from "../../resources/language";
 
-import Overlay from './overlay';
-import './unofficial-popup.scss';
+import Overlay from "./overlay";
+import "./unofficial-popup.scss";
 
 export const UnofficialPopup: React.FC = () => {
   const { displayUnofficialPopup, hideUnofficialPopup } = useUnofficialPopup();

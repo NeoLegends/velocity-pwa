@@ -1,12 +1,12 @@
-import classNames from 'classnames';
-import React, { useContext } from 'react';
+import classNames from "classnames";
+import React, { useContext } from "react";
 
-import { useInvoices } from '../hooks/invoices';
-import { invoiceUrl } from '../model/urls';
-import { LanguageContext, LanguageIdContext } from '../resources/language';
-import { toEuro } from '../util/to-euro';
+import { useInvoices } from "../hooks/invoices";
+import { invoiceUrl } from "../model/urls";
+import { LanguageContext, LanguageIdContext } from "../resources/language";
+import { toEuro } from "../util/to-euro";
 
-import './invoices.scss';
+import "./invoices.scss";
 
 interface InvoicesProps {
   className?: string;
@@ -18,7 +18,7 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
   const invoices = useInvoices();
 
   return (
-    <div className={classNames('invoices box-list', className)}>
+    <div className={classNames("invoices box-list", className)}>
       {!invoices.length && (
         <div className="note info">{BILL.ALERT.NO_INVOICES}</div>
       )}
@@ -38,12 +38,12 @@ const Invoices: React.FC<InvoicesProps> = ({ className }) => {
             </thead>
             <tbody>
               {invoices.map((inv) => {
-                const urlParts = inv.url.split('/');
+                const urlParts = inv.url.split("/");
                 const invName = urlParts[urlParts.length - 1];
                 const monthName = new Date(
                   inv.year,
                   inv.month - 1,
-                ).toLocaleDateString(langId, { month: 'long' });
+                ).toLocaleDateString(langId, { month: "long" });
 
                 return (
                   <tr key={inv.url}>
