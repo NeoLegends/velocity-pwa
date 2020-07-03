@@ -9,6 +9,7 @@ import { useTransactions } from "../hooks/transaction";
 import { Transaction } from "../model";
 import { LanguageContext, LanguageIdContext } from "../resources/language";
 import moment from "../util/moment";
+import { toEuro } from "../util/to-euro";
 
 import "./bookings.scss";
 
@@ -40,10 +41,6 @@ const Trans: React.SFC<TransactionProps> = ({
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
 
-  const strikethorughStyle = {
-    textDecoration: "line-through",
-  };
-
   return (
     <div className={classNames("gap", className)} style={style}>
       <div className="transaction outline">
@@ -66,8 +63,10 @@ const Trans: React.SFC<TransactionProps> = ({
           {transaction.fees !== 0 && (
             <>
               {", "}
-              <span style={transaction.credited ? strikethorughStyle : {}}>
-                {transaction.fees}€
+              <span
+                className={classNames({ strikethrough: transaction.credited })}
+              >
+                {toEuro(transaction.fees)}
               </span>
             </>
           )}
