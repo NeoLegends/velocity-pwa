@@ -35,10 +35,14 @@ const Trans: React.SFC<TransactionProps> = ({
   transaction,
 }) => {
   const language = useContext(LanguageIdContext);
-  const { BUCHUNGEN, SUPPORT, menu } = useContext(LanguageContext);
+  const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
+
+  const strikethorughStyle = {
+    textDecoration: "line-through",
+  };
 
   return (
     <div className={classNames("gap", className)} style={style}>
@@ -59,7 +63,14 @@ const Trans: React.SFC<TransactionProps> = ({
           {transaction.pedelecName.replace(/_[nN]/g, "")}
           {", "}
           {moment(endDate, undefined, language).from(startDate, true)}
-          {transaction.credited && `, ${menu.REFUNDED}`}
+          {transaction.fees !== 0 && (
+            <>
+              {", "}
+              <span style={transaction.credited ? strikethorughStyle : {}}>
+                {transaction.fees}€
+              </span>
+            </>
+          )}
         </p>
       </div>
     </div>
