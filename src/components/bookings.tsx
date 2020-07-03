@@ -9,6 +9,7 @@ import { useTransactions } from "../hooks/transaction";
 import { Transaction } from "../model";
 import { LanguageContext, LanguageIdContext } from "../resources/language";
 import moment from "../util/moment";
+import { toEuro } from "../util/to-euro";
 
 import "./bookings.scss";
 
@@ -35,7 +36,7 @@ const Trans: React.SFC<TransactionProps> = ({
   transaction,
 }) => {
   const language = useContext(LanguageIdContext);
-  const { BUCHUNGEN, SUPPORT, menu } = useContext(LanguageContext);
+  const { BUCHUNGEN, SUPPORT } = useContext(LanguageContext);
 
   const startDate = new Date(transaction.startDateTime);
   const endDate = new Date(transaction.endDateTime);
@@ -59,7 +60,16 @@ const Trans: React.SFC<TransactionProps> = ({
           {transaction.pedelecName.replace(/_[nN]/g, "")}
           {", "}
           {moment(endDate, undefined, language).from(startDate, true)}
-          {transaction.credited && `, ${menu.REFUNDED}`}
+          {transaction.fees !== 0 && (
+            <>
+              {", "}
+              <span
+                className={classNames({ strikethrough: transaction.credited })}
+              >
+                {toEuro(transaction.fees)}
+              </span>
+            </>
+          )}
         </p>
       </div>
     </div>

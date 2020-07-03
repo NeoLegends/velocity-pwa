@@ -39,8 +39,7 @@
     }
   },
   "menu": {
-    "MENU": "Menü",
-    "REFUNDED": "erstattet"
+    "MENU": "Menü"
   },
   "sw": {
     "INSTALL_TO_DEVICE": "Auf Gerät installieren",
