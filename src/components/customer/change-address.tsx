@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "clsx";
 import countries from "country-info-list/countries.json";
 import React, { useContext } from "react";
 

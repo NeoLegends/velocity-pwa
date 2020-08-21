@@ -1,5 +1,5 @@
 import { Link } from "@reach/router";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useCallback, useContext, useEffect, useMemo } from "react";
 
 import { useSelectedSlot, useStationDetail } from "../../hooks/rent-popup";

@@ -1,5 +1,5 @@
 import { Link, LinkGetProps } from "@reach/router";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useContext } from "react";
 
 import { LanguageContext } from "../resources/language";

@@ -1,5 +1,5 @@
 import { Link } from "@reach/router";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useCallback, useContext, useState } from "react";
 
 import { LanguageContext, LanguageIdentifier } from "../resources/language";

@@ -1,5 +1,5 @@
 import useComponentSize from "@rehooks/component-size";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useCallback, useContext, useRef } from "react";
 
 import { Booking, Slot } from "../../model";

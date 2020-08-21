@@ -1,5 +1,5 @@
 import { Link, RouteComponentProps } from "@reach/router";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useContext } from "react";
 
 import { Customer, SepaMandate } from "../../model";

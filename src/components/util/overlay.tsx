@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, {
   useCallback,
   useEffect,

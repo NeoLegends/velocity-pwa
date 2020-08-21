@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useContext } from "react";
 
 import { useInvoices } from "../hooks/invoices";

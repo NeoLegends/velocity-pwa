@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useContext, useState } from "react";
 
 import { useTariffs, useUserTariff } from "../hooks/tariff";

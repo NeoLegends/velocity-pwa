@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useCallback, useContext } from "react";
 import { AutoSizer } from "react-virtualized/dist/es/AutoSizer";
 import { InfiniteLoader } from "react-virtualized/dist/es/InfiniteLoader";

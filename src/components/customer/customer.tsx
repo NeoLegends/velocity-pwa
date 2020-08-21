@@ -1,5 +1,5 @@
 import { Router } from "@reach/router";
-import classNames from "classnames";
+import classNames from "clsx";
 import React, { useEffect, useState } from "react";
 
 import { Address, Customer, SepaMandate } from "../../model";

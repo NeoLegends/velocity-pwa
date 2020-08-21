@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "clsx";
 import { isValidIBAN } from "ibantools";
 import React, { useContext } from "react";
 
