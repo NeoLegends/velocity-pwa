@@ -1,34 +1,18 @@
 import { useCallback, useContext, useState } from "react";
 
 import {
-  isLoggedIn as checkIsLoggedIn,
+  hasTokens,
   login as doLogin,
   logout as doLogout,
 } from "../model/authentication";
 import { LanguageContext } from "../resources/language";
 import { toast } from "../util/toast";
 
-import { useInterval } from "./interval";
-
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => hasTokens());
   const [loginStatusKnown, setStatusKnown] = useState(false);
-
-  const fetchLoginState = useCallback(
-    () =>
-      checkIsLoggedIn()
-        .then((isIn) => {
-          setIsLoggedIn(isIn);
-          setStatusKnown(true);
-        })
-        .catch((err) => {
-          console.error("Error while checking for login state:", err);
-          toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: "error" });
-        }),
-    [LOGIN],
-  );
 
   const login = useCallback(
     (email: string, pw: string) =>
@@ -50,21 +34,11 @@ export const useLogin = () => {
     [LOGIN],
   );
 
-  const logout = useCallback(
-    () =>
-      doLogout()
-        .then(() => {
-          setIsLoggedIn(false);
-          setStatusKnown(true);
-        })
-        .catch((err) => {
-          console.error("Error while logging out:", err);
-          toast(LOGIN.ALERT.LOGOUT_ERR, { type: "error" });
-        }),
-    [LOGIN],
-  );
-
-  useInterval(fetchLoginState);
+  const logout = () => {
+    setIsLoggedIn(false);
+    setStatusKnown(true);
+    doLogout().then(() => {});
+  };
 
   return {
     isLoggedIn,

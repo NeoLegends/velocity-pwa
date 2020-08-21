@@ -18,8 +18,8 @@ import {
   reserveBikeUrl,
   singleStationUrl,
   slotInfoUrl,
-  APP_ALL_STATIONS_URL,
-  APP_CURRENT_BOOKING_URL,
+  JWT_ALL_STATIONS_URL,
+  JWT_CURRENT_BOOKING_URL,
 } from "./urls";
 
 /**
@@ -32,18 +32,18 @@ export const bookBike = (stationId: number): Promise<Booking> =>
 
 /** Cancels the current booking, if it exists. */
 export const cancelCurrentBooking = (): Promise<void> =>
-  fetchEnsureOk(APP_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
+  fetchEnsureOk(JWT_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
 /** Fetches all existing bike stations. */
 export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(APP_ALL_STATIONS_URL).then((stations) =>
+  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then((stations) =>
     stations.sort((a, b) => a.name.localeCompare(b.name)),
   );
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
   try {
-    return await fetch204ToNull(APP_CURRENT_BOOKING_URL);
+    return await fetch204ToNull(JWT_CURRENT_BOOKING_URL);
   } catch (err) {
     // Not signed in
     if ((err as InvalidStatusCodeError).statusCode === 401) {

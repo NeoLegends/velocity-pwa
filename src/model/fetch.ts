@@ -1,4 +1,5 @@
 import { InvalidStatusCodeError } from ".";
+import { getBearerHeader } from "./authentication";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -47,6 +48,9 @@ const fetchStatusToNull = (nullStatus: number) => async (
     {
       ...init,
       credentials: "include",
+      headers: {
+        ...getBearerHeader(),
+      },
     },
     maxRetry,
   );
@@ -85,6 +89,9 @@ export const fetchEnsureOk = async (
     {
       ...init,
       credentials: "include",
+      headers: {
+        ...getBearerHeader(),
+      },
     },
     maxRetry,
   );
@@ -111,7 +118,7 @@ export const fetchJsonEnsureOk = (
 ) => fetchEnsureOk(url, init, maxRetry).then((resp) => resp.json());
 
 /**
- * POSTs JSOn data to the given URL.
+ * POSTs JSON data to the given URL.
  *
  * @param url the url to POST data to
  * @param body the data to POST
@@ -123,12 +130,15 @@ export const postJsonEnsureOk = (
   body?: unknown,
   method: string = "post",
   maxRetry: number = 5,
+  headers: { [key: string]: string } = {},
 ) =>
   fetchEnsureOk(
     url,
     {
       body: body ? JSON.stringify(body) : undefined,
-      headers: body ? { "Content-Type": "application/json" } : undefined,
+      headers: body
+        ? { "Content-Type": "application/json", ...headers }
+        : undefined,
       method,
     },
     maxRetry,

@@ -1,10 +1,6 @@
-import { fetchWithRetry } from "./fetch";
+import { fetchWithRetry, postJsonEnsureOk } from "./fetch";
 import { eraseCardPin } from "./pin";
-import {
-  API_IS_AUTHENTICATED_URL,
-  API_LOGIN_URL,
-  API_LOGOUT_URL,
-} from "./urls";
+import { JWT_LOGIN_REFRESH, JWT_LOGIN_URL, JWT_LOGOUT_URL } from "./urls";
 
 export interface ApiError {
   error: string;
@@ -14,15 +10,32 @@ export interface ApiError {
   timestamp: number;
 }
 
-/** Determines if the user is logged in. */
-export const isLoggedIn = async () => {
-  const resp = await fetchWithRetry(
-    API_IS_AUTHENTICATED_URL,
-    { credentials: "include" },
-    25,
-  );
-  return resp.ok ? !!(await resp.text()) : false;
+export interface AppJwtResponse {
+  jwt: string;
+  refreshToken: string;
+}
+
+export const LOCALSTORAGE_KEY_JWT = "login/jwt";
+export const LOCALSTORAGE_KEY_REFRESH = "login/refreshToken";
+
+export const hasTokens = () =>
+  localStorage.getItem(LOCALSTORAGE_KEY_JWT) !== null;
+
+/** Stores AppJwtResponse to localStorage */
+export const persistTokens = ({ jwt, refreshToken }: AppJwtResponse) => {
+  localStorage.setItem(LOCALSTORAGE_KEY_JWT, jwt);
+  localStorage.setItem(LOCALSTORAGE_KEY_REFRESH, refreshToken);
 };
+
+/** Determines if there's an active JWT token stored locally */
+export const removeTokens = () => {
+  localStorage.removeItem(LOCALSTORAGE_KEY_JWT);
+  localStorage.removeItem(LOCALSTORAGE_KEY_REFRESH);
+};
+
+export const getBearerHeader = () => ({
+  Authorization: `Bearer ${localStorage.getItem(LOCALSTORAGE_KEY_JWT)}`,
+});
 
 /**
  * Attempts to log in the user.
@@ -33,22 +46,39 @@ export const isLoggedIn = async () => {
  * @param password the user's password
  */
 export const login = async (email: string, password: string) => {
-  const data = new FormData();
-  data.append("j_username", email);
-  data.append("j_password", password);
-  data.append("_spring_security_remember_me", "true");
-  data.append("submit", "Login");
-
-  const resp = await fetchWithRetry(API_LOGIN_URL, {
-    body: data,
-    credentials: "include",
-    method: "POST",
+  const resp = await fetchWithRetry(JWT_LOGIN_URL, {
+    body: JSON.stringify({
+      username: email,
+      password,
+    }),
   });
 
+  const json = await resp.json();
+
   if (!resp.ok) {
-    throw await resp.json();
+    throw json;
   }
+
+  persistTokens(json);
 };
 
 /** Logs out the user. */
-export const logout = () => fetchWithRetry(API_LOGOUT_URL).then(eraseCardPin);
+export const logout = () =>
+  postJsonEnsureOk(
+    JWT_LOGOUT_URL,
+    {
+      refreshToken: localStorage.getItem(LOCALSTORAGE_KEY_REFRESH),
+    },
+    "post",
+    5,
+    getBearerHeader(),
+  )
+    .then(removeTokens)
+    .then(eraseCardPin);
+
+export const refreshJwt = () =>
+  postJsonEnsureOk(JWT_LOGIN_REFRESH, {
+    refreshToken: localStorage.getItem(LOCALSTORAGE_KEY_REFRESH),
+  })
+    .then((res) => res.json())
+    .then(persistTokens);
