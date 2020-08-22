@@ -1,5 +1,5 @@
 import { InvalidStatusCodeError } from ".";
-import { getBearerHeader, refreshJwt } from "./authentication";
+import { getBearerHeader, refreshJwt, removeTokens } from "./authentication";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -63,9 +63,14 @@ const fetchStatusToNull = (nullStatus: number) => async (
   }
 
   const json = await resp.json();
-  if (authenticateWithJWT && status === 403 && json.code === "JWT_EXPIRED") {
-    await refreshJwt();
-    return fetchStatusToNull(nullStatus)(url, init, maxRetry);
+  if (authenticateWithJWT && status === 403) {
+    if (json.code === "REFRESH_TOKEN_EXPIRED") {
+      removeTokens();
+    }
+    if (json.code === "JWT_EXPIRED") {
+      await refreshJwt();
+      return fetchStatusToNull(nullStatus)(url, init, maxRetry);
+    }
   }
   if (!ok) {
     throw new InvalidStatusCodeError(status, url);

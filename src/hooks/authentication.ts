@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import {
   hasTokens,
@@ -36,6 +36,12 @@ export const useLogin = () => {
     setIsLoggedIn(false);
     await doLogout();
   };
+
+  useEffect(() => {
+    const updateLoggedInStatus = () => setIsLoggedIn(hasTokens());
+    window.addEventListener("storage", updateLoggedInStatus);
+    return () => window.removeEventListener("storage", updateLoggedInStatus);
+  }, []);
 
   return {
     isLoggedIn,
