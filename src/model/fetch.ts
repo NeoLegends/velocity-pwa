@@ -1,5 +1,5 @@
 import { InvalidStatusCodeError } from ".";
-import { getBearerHeader } from "./authentication";
+import { getBearerHeader, refreshJwt } from "./authentication";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -42,6 +42,7 @@ const fetchStatusToNull = (nullStatus: number) => async (
   url: string,
   init?: RequestInit,
   maxRetry: number = 5,
+  authenticateWithJWT: boolean = true,
 ) => {
   const resp = await fetchWithRetry(
     url,
@@ -49,20 +50,28 @@ const fetchStatusToNull = (nullStatus: number) => async (
       ...init,
       credentials: "include",
       headers: {
-        ...getBearerHeader(),
+        ...(authenticateWithJWT ? getBearerHeader() : {}),
       },
     },
     maxRetry,
   );
 
-  if (resp.status === nullStatus) {
+  const { ok, status } = resp;
+
+  if (status === nullStatus) {
     return null;
   }
-  if (!resp.ok) {
-    throw new InvalidStatusCodeError(resp.status, url);
+
+  const json = await resp.json();
+  if (authenticateWithJWT && status === 403 && json.code === "JWT_EXPIRED") {
+    await refreshJwt();
+    return fetchStatusToNull(nullStatus)(url, init, maxRetry);
+  }
+  if (!ok) {
+    throw new InvalidStatusCodeError(status, url);
   }
 
-  return resp.json();
+  return json;
 };
 
 /** Performs a fetch request and returns 204-responses as `null`-value */
@@ -83,6 +92,7 @@ export const fetchEnsureOk = async (
   url: string,
   init?: RequestInit,
   maxRetry: number = 5,
+  authenticateWithJWT: boolean = true,
 ) => {
   const resp = await fetchWithRetry(
     url,
@@ -90,7 +100,8 @@ export const fetchEnsureOk = async (
       ...init,
       credentials: "include",
       headers: {
-        ...getBearerHeader(),
+        ...(authenticateWithJWT ? getBearerHeader() : {}),
+        ...init?.headers,
       },
     },
     maxRetry,
@@ -115,7 +126,11 @@ export const fetchJsonEnsureOk = (
   url: string,
   init?: RequestInit,
   maxRetry: number = 5,
-) => fetchEnsureOk(url, init, maxRetry).then((resp) => resp.json());
+  authenticateWithJWT: boolean = true,
+) =>
+  fetchEnsureOk(url, init, maxRetry, authenticateWithJWT).then((resp) =>
+    resp.json(),
+  );
 
 /**
  * POSTs JSON data to the given URL.
@@ -130,16 +145,15 @@ export const postJsonEnsureOk = (
   body?: unknown,
   method: string = "post",
   maxRetry: number = 5,
-  headers: { [key: string]: string } = {},
+  authenticateWithJWT: boolean = true,
 ) =>
   fetchEnsureOk(
     url,
     {
       body: body ? JSON.stringify(body) : undefined,
-      headers: body
-        ? { "Content-Type": "application/json", ...headers }
-        : undefined,
+      headers: body ? { "Content-Type": "application/json" } : undefined,
       method,
     },
     maxRetry,
+    authenticateWithJWT,
   );

@@ -34,7 +34,7 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
   const { canInstall, handleInstall } = useDesktopInstallation();
   useServiceWorker();
 
-  const { isLoggedIn, login, loginStatusKnown, logout } = useLogin();
+  const { isLoggedIn, login, logout } = useLogin();
 
   const loginWithRedirect = useCallback(
     (email: string, pw: string) =>
@@ -63,7 +63,6 @@ const AppBody: React.SFC<AppBodyProps> = ({ onChangeLanguage }) => {
       <MenuBar
         canInstall={canInstall}
         isLoggedIn={isLoggedIn}
-        loginStatusKnown={loginStatusKnown}
         onChangeLanguage={onChangeLanguage}
         onClickInstallOnDevice={handleInstall}
         onLoginButtonClick={handleLoginLogoutButtonClick}

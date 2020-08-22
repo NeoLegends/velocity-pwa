@@ -1,6 +1,6 @@
 import { fetchWithRetry, postJsonEnsureOk } from "./fetch";
 import { eraseCardPin } from "./pin";
-import { JWT_LOGIN_REFRESH, JWT_LOGIN_URL, JWT_LOGOUT_URL } from "./urls";
+import { JWT_AUTH_URL, JWT_LOGIN_REFRESH, JWT_LOGOUT_URL } from "./urls";
 
 export interface ApiError {
   error: string;
@@ -18,8 +18,10 @@ export interface AppJwtResponse {
 export const LOCALSTORAGE_KEY_JWT = "login/jwt";
 export const LOCALSTORAGE_KEY_REFRESH = "login/refreshToken";
 
+/** Returns true when the tokens locally exist */
 export const hasTokens = () =>
-  localStorage.getItem(LOCALSTORAGE_KEY_JWT) !== null;
+  localStorage.getItem(LOCALSTORAGE_KEY_JWT) !== null &&
+  localStorage.getItem(LOCALSTORAGE_KEY_REFRESH) !== null;
 
 /** Stores AppJwtResponse to localStorage */
 export const persistTokens = ({ jwt, refreshToken }: AppJwtResponse) => {
@@ -33,6 +35,7 @@ export const removeTokens = () => {
   localStorage.removeItem(LOCALSTORAGE_KEY_REFRESH);
 };
 
+/** Returns the JWT header */
 export const getBearerHeader = () => ({
   Authorization: `Bearer ${localStorage.getItem(LOCALSTORAGE_KEY_JWT)}`,
 });
@@ -46,11 +49,15 @@ export const getBearerHeader = () => ({
  * @param password the user's password
  */
 export const login = async (email: string, password: string) => {
-  const resp = await fetchWithRetry(JWT_LOGIN_URL, {
+  const resp = await fetchWithRetry(JWT_AUTH_URL, {
     body: JSON.stringify({
       username: email,
       password,
     }),
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   const json = await resp.json();
@@ -60,6 +67,7 @@ export const login = async (email: string, password: string) => {
   }
 
   persistTokens(json);
+  return json;
 };
 
 /** Logs out the user. */
@@ -71,14 +79,21 @@ export const logout = () =>
     },
     "post",
     5,
-    getBearerHeader(),
+    false,
   )
     .then(removeTokens)
     .then(eraseCardPin);
 
+/** Refreshes the JWT token */
 export const refreshJwt = () =>
-  postJsonEnsureOk(JWT_LOGIN_REFRESH, {
-    refreshToken: localStorage.getItem(LOCALSTORAGE_KEY_REFRESH),
-  })
+  postJsonEnsureOk(
+    JWT_LOGIN_REFRESH,
+    {
+      refreshToken: localStorage.getItem(LOCALSTORAGE_KEY_REFRESH),
+    },
+    "post",
+    2,
+    false,
+  )
     .then((res) => res.json())
     .then(persistTokens);

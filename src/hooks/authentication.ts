@@ -12,14 +12,12 @@ export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => hasTokens());
-  const [loginStatusKnown, setStatusKnown] = useState(false);
 
   const login = useCallback(
     (email: string, pw: string) =>
       doLogin(email, pw)
         .then(() => {
           setIsLoggedIn(true);
-          setStatusKnown(true);
           return true;
         })
         .catch((err) => {
@@ -34,16 +32,14 @@ export const useLogin = () => {
     [LOGIN],
   );
 
-  const logout = () => {
+  const logout = async () => {
     setIsLoggedIn(false);
-    setStatusKnown(true);
-    doLogout().then(() => {});
+    await doLogout();
   };
 
   return {
     isLoggedIn,
     login,
-    loginStatusKnown,
     logout,
   };
 };

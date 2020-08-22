@@ -1,11 +1,5 @@
-import {
-  Booking,
-  InvalidStatusCodeError,
-  Rent,
-  Slots,
-  Station,
-  StationWithAddress,
-} from ".";
+import { Booking, Rent, Slots, Station, StationWithAddress } from ".";
+import { hasTokens } from "./authentication";
 import {
   fetch204ToNull,
   fetch404ToNull,
@@ -17,7 +11,10 @@ import {
   rentBikeUrl,
   reserveBikeUrl,
   singleStationUrl,
+  singleStationUrlUnauthed,
   slotInfoUrl,
+  slotInfoUrlUnauthed,
+  APP_ALL_STATIONS_URL,
   JWT_ALL_STATIONS_URL,
   JWT_CURRENT_BOOKING_URL,
 } from "./urls";
@@ -35,23 +32,19 @@ export const cancelCurrentBooking = (): Promise<void> =>
   fetchEnsureOk(JWT_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
 /** Fetches all existing bike stations. */
-export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then((stations) =>
+export const getAllStations = (): Promise<Station[]> => {
+  const url = hasTokens() ? JWT_ALL_STATIONS_URL : APP_ALL_STATIONS_URL;
+  return fetchJsonEnsureOk(url, undefined, 5, hasTokens()).then((stations) =>
     stations.sort((a, b) => a.name.localeCompare(b.name)),
   );
+};
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
-  try {
-    return await fetch204ToNull(JWT_CURRENT_BOOKING_URL);
-  } catch (err) {
-    // Not signed in
-    if ((err as InvalidStatusCodeError).statusCode === 401) {
-      return null;
-    }
-
-    throw err;
+  if (hasTokens()) {
+    return fetch204ToNull(JWT_CURRENT_BOOKING_URL);
   }
+  return null;
 };
 
 /**
@@ -61,16 +54,24 @@ export const getCurrentBooking = async (): Promise<Booking | null> => {
  */
 export const getSingleStation = (
   stationId: number,
-): Promise<StationWithAddress | null> =>
-  fetch404ToNull(singleStationUrl(stationId));
+): Promise<StationWithAddress | null> => {
+  const url = hasTokens()
+    ? singleStationUrl(stationId)
+    : singleStationUrlUnauthed(stationId);
+  return fetch404ToNull(url);
+};
 
 /**
  * Gets slot info for the station with the given ID.
  *
  * @param stationId the ID of the station to get the slot info for.
  */
-export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
-  fetch404ToNull(slotInfoUrl(stationId));
+export const getSlotInfo = (stationId: number): Promise<Slots | null> => {
+  const url = hasTokens()
+    ? slotInfoUrl(stationId)
+    : slotInfoUrlUnauthed(stationId);
+  return fetch404ToNull(url);
+};
 
 /** Determines if the current user has a bike booked. */
 export const hasCurrentBooking = () =>
