@@ -31,13 +31,20 @@ export const bookBike = (stationId: number): Promise<Booking> =>
 export const cancelCurrentBooking = (): Promise<void> =>
   fetchEnsureOk(JWT_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
-/** Fetches all existing bike stations. */
-export const getAllStations = (): Promise<Station[]> => {
-  const url = isLoggedIn() ? JWT_ALL_STATIONS_URL : APP_ALL_STATIONS_URL;
-  return fetchJsonEnsureOk(url, undefined, 5, isLoggedIn()).then((stations) =>
+/** Fetches all existing bike stations using the public API */
+export const getAllStations = (): Promise<Station[]> =>
+  fetchJsonEnsureOk(
+    APP_ALL_STATIONS_URL,
+    undefined,
+    5,
+    false,
+  ).then((stations) => stations.sort((a, b) => a.name.localeCompare(b.name)));
+
+/** Fetches all existing bike stations as the logged-in user. */
+export const getAllStationsAsUser = (): Promise<Station[]> =>
+  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then((stations) =>
     stations.sort((a, b) => a.name.localeCompare(b.name)),
   );
-};
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
@@ -48,30 +55,40 @@ export const getCurrentBooking = async (): Promise<Booking | null> => {
 };
 
 /**
- * Gets detailed information about a single station.
+ * Gets detailed information about a single station using the public API
  *
  * @param stationId the ID of the station to get the detail info for.
  */
 export const getSingleStation = (
   stationId: number,
-): Promise<StationWithAddress | null> => {
-  const url = isLoggedIn()
-    ? singleStationUrl(stationId)
-    : singleStationUrlUnauthed(stationId);
-  return fetch404ToNull(url);
-};
+): Promise<StationWithAddress | null> =>
+  fetch404ToNull(singleStationUrlUnauthed(stationId));
 
 /**
- * Gets slot info for the station with the given ID.
+ * Gets detailed information about a single station as as the logged-in user.
+ *
+ * @param stationId the ID of the station to get the detail info for.
+ */
+export const getSingleStationAsUser = (
+  stationId: number,
+): Promise<StationWithAddress | null> =>
+  fetch404ToNull(singleStationUrl(stationId));
+
+/**
+ * Gets slot info for the station with the given ID using the public API
  *
  * @param stationId the ID of the station to get the slot info for.
  */
-export const getSlotInfo = (stationId: number): Promise<Slots | null> => {
-  const url = isLoggedIn()
-    ? slotInfoUrl(stationId)
-    : slotInfoUrlUnauthed(stationId);
-  return fetch404ToNull(url);
-};
+export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
+  fetch404ToNull(slotInfoUrlUnauthed(stationId));
+
+/**
+ * Gets slot info for the station with the given ID as the logged-in user.
+ *
+ * @param stationId the ID of the station to get the slot info for.
+ */
+export const getSlotInfoAsUser = (stationId: number): Promise<Slots | null> =>
+  fetch404ToNull(slotInfoUrl(stationId));
 
 /** Determines if the current user has a bike booked. */
 export const hasCurrentBooking = () =>
