@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import {
-  hasTokens,
+  isLoggedIn,
   login as doLogin,
   logout as doLogout,
 } from "../model/authentication";
@@ -11,7 +11,7 @@ import { toast } from "../util/toast";
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(() => hasTokens());
+  const [isLoggedIn, setIsLoggedIn] = useState(() => isLoggedIn());
 
   const login = useCallback(
     (email: string, pw: string) =>
@@ -38,10 +38,10 @@ export const useLogin = () => {
   };
 
   useEffect(() => {
-    const updateLoggedInStatus = () => setIsLoggedIn(hasTokens());
+    const updateLoggedInStatus = () => setIsLoggedIn(isLoggedIn());
     window.addEventListener("storage", updateLoggedInStatus);
     return () => window.removeEventListener("storage", updateLoggedInStatus);
-  }, []);
+  }, [isLoggedIn]);
 
   return {
     isLoggedIn,

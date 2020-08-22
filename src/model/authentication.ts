@@ -19,7 +19,7 @@ export const LOCALSTORAGE_KEY_JWT = "login/jwt";
 export const LOCALSTORAGE_KEY_REFRESH = "login/refreshToken";
 
 /** Returns true when the tokens locally exist */
-export const hasTokens = () =>
+export const isLoggedIn = () =>
   localStorage.getItem(LOCALSTORAGE_KEY_JWT) !== null &&
   localStorage.getItem(LOCALSTORAGE_KEY_REFRESH) !== null;
 
@@ -29,7 +29,7 @@ export const persistTokens = ({ jwt, refreshToken }: AppJwtResponse) => {
   localStorage.setItem(LOCALSTORAGE_KEY_REFRESH, refreshToken);
 };
 
-/** Determines if there's an active JWT token stored locally */
+/** Removes AppJwtResponse from localStorage */
 export const removeTokens = () => {
   localStorage.removeItem(LOCALSTORAGE_KEY_JWT);
   localStorage.removeItem(LOCALSTORAGE_KEY_REFRESH);

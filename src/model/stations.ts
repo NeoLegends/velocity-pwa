@@ -1,5 +1,5 @@
 import { Booking, Rent, Slots, Station, StationWithAddress } from ".";
-import { hasTokens } from "./authentication";
+import { isLoggedIn } from "./authentication";
 import {
   fetch204ToNull,
   fetch404ToNull,
@@ -33,15 +33,15 @@ export const cancelCurrentBooking = (): Promise<void> =>
 
 /** Fetches all existing bike stations. */
 export const getAllStations = (): Promise<Station[]> => {
-  const url = hasTokens() ? JWT_ALL_STATIONS_URL : APP_ALL_STATIONS_URL;
-  return fetchJsonEnsureOk(url, undefined, 5, hasTokens()).then((stations) =>
+  const url = isLoggedIn() ? JWT_ALL_STATIONS_URL : APP_ALL_STATIONS_URL;
+  return fetchJsonEnsureOk(url, undefined, 5, isLoggedIn()).then((stations) =>
     stations.sort((a, b) => a.name.localeCompare(b.name)),
   );
 };
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
-  if (hasTokens()) {
+  if (isLoggedIn()) {
     return fetch204ToNull(JWT_CURRENT_BOOKING_URL);
   }
   return null;
@@ -55,7 +55,7 @@ export const getCurrentBooking = async (): Promise<Booking | null> => {
 export const getSingleStation = (
   stationId: number,
 ): Promise<StationWithAddress | null> => {
-  const url = hasTokens()
+  const url = isLoggedIn()
     ? singleStationUrl(stationId)
     : singleStationUrlUnauthed(stationId);
   return fetch404ToNull(url);
@@ -67,7 +67,7 @@ export const getSingleStation = (
  * @param stationId the ID of the station to get the slot info for.
  */
 export const getSlotInfo = (stationId: number): Promise<Slots | null> => {
-  const url = hasTokens()
+  const url = isLoggedIn()
     ? slotInfoUrl(stationId)
     : slotInfoUrlUnauthed(stationId);
   return fetch404ToNull(url);
