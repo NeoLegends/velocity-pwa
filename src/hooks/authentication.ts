@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import {
-  isLoggedIn,
+  isLoggedIn as isUserLoggedIn,
   login as doLogin,
   logout as doLogout,
 } from "../model/authentication";
@@ -38,7 +38,7 @@ export const useLogin = () => {
   };
 
   useEffect(() => {
-    const updateLoggedInStatus = () => setIsLoggedIn(isLoggedIn());
+    const updateLoggedInStatus = () => setIsLoggedIn(isUserLoggedIn());
     window.addEventListener("storage", updateLoggedInStatus);
     return () => window.removeEventListener("storage", updateLoggedInStatus);
   }, [isLoggedIn]);
