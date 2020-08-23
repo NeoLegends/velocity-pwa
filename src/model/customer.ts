@@ -1,12 +1,12 @@
 import { Address, Customer, SepaMandate } from ".";
 import { fetch204ToNull, postJsonEnsureOk } from "./fetch";
 import {
-  APP_CHANGE_ADDRESS_URL,
-  APP_CHANGE_PIN_URL,
-  APP_CHANGE_TEL_URL,
-  APP_CUSTOMER_URL,
-  APP_PASSWORD_RESET_REQUEST_URL,
-  APP_SEPA_MANDATE_URL,
+  JWT_CHANGE_ADDRESS_URL,
+  JWT_CHANGE_PIN_URL,
+  JWT_CHANGE_TEL_URL,
+  JWT_CUSTOMER_URL,
+  JWT_PASSWORD_RESET_REQUEST_URL,
+  JWT_SEPA_MANDATE_URL,
 } from "./urls";
 
 /**
@@ -15,7 +15,7 @@ import {
  * @param addr the new address.
  */
 export const changeAddress = (addr: Address) =>
-  postJsonEnsureOk(APP_CHANGE_ADDRESS_URL, addr, "put");
+  postJsonEnsureOk(JWT_CHANGE_ADDRESS_URL, addr, "put");
 
 /**
  * Changes the card PIN of the currently signed in customer.
@@ -24,7 +24,7 @@ export const changeAddress = (addr: Address) =>
  * @param password the current password of the user
  */
 export const changePin = (cardPin: string, password: string) =>
-  postJsonEnsureOk(APP_CHANGE_PIN_URL, { cardPin, password }, "put");
+  postJsonEnsureOk(JWT_CHANGE_PIN_URL, { cardPin, password }, "put");
 
 /**
  * Changes the phone number of the currently signed in user.
@@ -32,15 +32,15 @@ export const changePin = (cardPin: string, password: string) =>
  * @param phoneNumber the new phone number
  */
 export const changeTel = (phoneNumber: string) =>
-  postJsonEnsureOk(APP_CHANGE_TEL_URL, { phoneNumber }, "put");
+  postJsonEnsureOk(JWT_CHANGE_TEL_URL, { phoneNumber }, "put");
 
 /** Fetches the currently signed in customer. */
 export const getCustomer = (): Promise<Customer | null> =>
-  fetch204ToNull(APP_CUSTOMER_URL);
+  fetch204ToNull(JWT_CUSTOMER_URL);
 
 /** Fetches the sepa info of the currently signed in user. */
 export const getSepaInfo = (): Promise<SepaMandate | null> =>
-  fetch204ToNull(APP_SEPA_MANDATE_URL);
+  fetch204ToNull(JWT_SEPA_MANDATE_URL);
 
 /**
  * Requests a password-reset E-Mail for the currently signed in user.
@@ -48,4 +48,4 @@ export const getSepaInfo = (): Promise<SepaMandate | null> =>
  * @param login the email address of the user to request a reset email for.
  */
 export const requestPasswordResetEmail = (login: string) =>
-  postJsonEnsureOk(APP_PASSWORD_RESET_REQUEST_URL, { login });
+  postJsonEnsureOk(JWT_PASSWORD_RESET_REQUEST_URL, { login });

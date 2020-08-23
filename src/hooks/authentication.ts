@@ -1,41 +1,23 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import {
-  isLoggedIn as checkIsLoggedIn,
+  isLoggedIn as isUserLoggedIn,
   login as doLogin,
   logout as doLogout,
 } from "../model/authentication";
 import { LanguageContext } from "../resources/language";
 import { toast } from "../util/toast";
 
-import { useInterval } from "./interval";
-
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loginStatusKnown, setStatusKnown] = useState(false);
-
-  const fetchLoginState = useCallback(
-    () =>
-      checkIsLoggedIn()
-        .then((isIn) => {
-          setIsLoggedIn(isIn);
-          setStatusKnown(true);
-        })
-        .catch((err) => {
-          console.error("Error while checking for login state:", err);
-          toast(LOGIN.ALERT.NO_SERVER_RESPONSE, { type: "error" });
-        }),
-    [LOGIN],
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(() => isLoggedIn());
 
   const login = useCallback(
     (email: string, pw: string) =>
       doLogin(email, pw)
         .then(() => {
           setIsLoggedIn(true);
-          setStatusKnown(true);
           return true;
         })
         .catch((err) => {
@@ -50,26 +32,20 @@ export const useLogin = () => {
     [LOGIN],
   );
 
-  const logout = useCallback(
-    () =>
-      doLogout()
-        .then(() => {
-          setIsLoggedIn(false);
-          setStatusKnown(true);
-        })
-        .catch((err) => {
-          console.error("Error while logging out:", err);
-          toast(LOGIN.ALERT.LOGOUT_ERR, { type: "error" });
-        }),
-    [LOGIN],
-  );
+  const logout = async () => {
+    setIsLoggedIn(false);
+    await doLogout();
+  };
 
-  useInterval(fetchLoginState);
+  useEffect(() => {
+    const updateLoggedInStatus = () => setIsLoggedIn(isUserLoggedIn());
+    window.addEventListener("storage", updateLoggedInStatus);
+    return () => window.removeEventListener("storage", updateLoggedInStatus);
+  }, [isLoggedIn]);
 
   return {
     isLoggedIn,
     login,
-    loginStatusKnown,
     logout,
   };
 };

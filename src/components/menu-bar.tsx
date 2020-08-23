@@ -12,7 +12,6 @@ import Overlay from "./util/overlay";
 export interface MenuBarProps extends MenuEntriesProps {
   className?: string;
   isLoggedIn: boolean;
-  loginStatusKnown: boolean;
 
   onChangeLanguage: (lang: LanguageIdentifier) => void;
   onLoginButtonClick: React.MouseEventHandler;
@@ -22,7 +21,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
   canInstall,
   className,
   isLoggedIn,
-  loginStatusKnown,
 
   onChangeLanguage,
   onClickInstallOnDevice,
@@ -62,11 +60,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
       </button>
 
       <button className="btn outline" onClick={onLoginButtonClick}>
-        {loginStatusKnown
-          ? isLoggedIn
-            ? NAVIGATION.SIGN_OUT_BTN
-            : NAVIGATION.SIGN_IN_BTN
-          : "..."}
+        {isLoggedIn ? NAVIGATION.SIGN_OUT_BTN : NAVIGATION.SIGN_IN_BTN}
       </button>
       <button className="btn outline btn-menu" onClick={openMenu}>
         {menu.MENU}

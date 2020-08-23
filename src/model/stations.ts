@@ -1,11 +1,5 @@
-import {
-  Booking,
-  InvalidStatusCodeError,
-  Rent,
-  Slots,
-  Station,
-  StationWithAddress,
-} from ".";
+import { Booking, Rent, Slots, Station, StationWithAddress } from ".";
+import { isLoggedIn } from "./authentication";
 import {
   fetch204ToNull,
   fetch404ToNull,
@@ -17,9 +11,12 @@ import {
   rentBikeUrl,
   reserveBikeUrl,
   singleStationUrl,
+  singleStationUrlUnauthed,
   slotInfoUrl,
+  slotInfoUrlUnauthed,
   APP_ALL_STATIONS_URL,
-  APP_CURRENT_BOOKING_URL,
+  JWT_ALL_STATIONS_URL,
+  JWT_CURRENT_BOOKING_URL,
 } from "./urls";
 
 /**
@@ -32,44 +29,63 @@ export const bookBike = (stationId: number): Promise<Booking> =>
 
 /** Cancels the current booking, if it exists. */
 export const cancelCurrentBooking = (): Promise<void> =>
-  fetchEnsureOk(APP_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
+  fetchEnsureOk(JWT_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
-/** Fetches all existing bike stations. */
+const sortStations = (stations: any[]) =>
+  stations.sort((a: Station, b: Station) => a.name.localeCompare(b.name));
+
+/** Fetches all existing bike stations using the public API */
 export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(APP_ALL_STATIONS_URL).then((stations) =>
-    stations.sort((a, b) => a.name.localeCompare(b.name)),
+  fetchJsonEnsureOk(APP_ALL_STATIONS_URL, undefined, 5, false).then(
+    sortStations,
   );
+
+/** Fetches all existing bike stations as the logged-in user. */
+export const getAllStationsAsUser = (): Promise<Station[]> =>
+  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then(sortStations);
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
-  try {
-    return await fetch204ToNull(APP_CURRENT_BOOKING_URL);
-  } catch (err) {
-    // Not signed in
-    if ((err as InvalidStatusCodeError).statusCode === 401) {
-      return null;
-    }
-
-    throw err;
+  if (isLoggedIn()) {
+    return fetch204ToNull(JWT_CURRENT_BOOKING_URL);
   }
+  return null;
 };
 
 /**
- * Gets detailed information about a single station.
+ * Gets detailed information about a single station using the public API
  *
  * @param stationId the ID of the station to get the detail info for.
  */
 export const getSingleStation = (
   stationId: number,
 ): Promise<StationWithAddress | null> =>
+  fetch404ToNull(singleStationUrlUnauthed(stationId));
+
+/**
+ * Gets detailed information about a single station as as the logged-in user.
+ *
+ * @param stationId the ID of the station to get the detail info for.
+ */
+export const getSingleStationAsUser = (
+  stationId: number,
+): Promise<StationWithAddress | null> =>
   fetch404ToNull(singleStationUrl(stationId));
 
 /**
- * Gets slot info for the station with the given ID.
+ * Gets slot info for the station with the given ID using the public API
  *
  * @param stationId the ID of the station to get the slot info for.
  */
 export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
+  fetch404ToNull(slotInfoUrlUnauthed(stationId));
+
+/**
+ * Gets slot info for the station with the given ID as the logged-in user.
+ *
+ * @param stationId the ID of the station to get the slot info for.
+ */
+export const getSlotInfoAsUser = (stationId: number): Promise<Slots | null> =>
   fetch404ToNull(slotInfoUrl(stationId));
 
 /** Determines if the current user has a bike booked. */
