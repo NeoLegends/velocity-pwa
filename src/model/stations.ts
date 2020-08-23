@@ -31,20 +31,18 @@ export const bookBike = (stationId: number): Promise<Booking> =>
 export const cancelCurrentBooking = (): Promise<void> =>
   fetchEnsureOk(JWT_CURRENT_BOOKING_URL, { method: "delete" }).then(() => {});
 
+const sortStations = (stations: any[]) =>
+  stations.sort((a: Station, b: Station) => a.name.localeCompare(b.name));
+
 /** Fetches all existing bike stations using the public API */
 export const getAllStations = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(
-    APP_ALL_STATIONS_URL,
-    undefined,
-    5,
-    false,
-  ).then((stations) => stations.sort((a, b) => a.name.localeCompare(b.name)));
+  fetchJsonEnsureOk(APP_ALL_STATIONS_URL, undefined, 5, false).then(
+    sortStations,
+  );
 
 /** Fetches all existing bike stations as the logged-in user. */
 export const getAllStationsAsUser = (): Promise<Station[]> =>
-  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then((stations) =>
-    stations.sort((a, b) => a.name.localeCompare(b.name)),
-  );
+  fetchJsonEnsureOk(JWT_ALL_STATIONS_URL).then(sortStations);
 
 /** Gets the current booking. Returns `null` if there is no user signed in. */
 export const getCurrentBooking = async (): Promise<Booking | null> => {
