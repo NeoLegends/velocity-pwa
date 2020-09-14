@@ -9,7 +9,9 @@ export const TILE_URL = "/tile/{z}/{x}/{y}";
 export const invoiceUrl = (fileName: string) => `${INVOICES_URL}/${fileName}`;
 
 const APP_URL = `${BACKEND_URL}/app`;
+const APP_V2_URL = `${BACKEND_URL}/v2/app`;
 const JWT_URL = `${APP_URL}/jwt`;
+const JWT__V2_URL = `${APP_V2_URL}/jwt`;
 
 // PUBLICLY AVAILABLE ROUTES
 
@@ -27,7 +29,7 @@ export const JWT_LOGIN_REFRESH = `${JWT_AUTH_URL}/refresh`;
 export const JWT_LOGOUT_URL = `${JWT_AUTH_URL}/logout`;
 
 export const JWT_TRANSACTIONS_URL = `${JWT_URL}/transactions`;
-export const JWT_ALL_STATIONS_URL = `${JWT_URL}/stations`;
+export const JWT_ALL_STATIONS_URL = `${JWT__V2_URL}/stations`;
 export const JWT_CURRENT_BOOKING_URL = `${JWT_URL}/booking`;
 export const JWT_CUSTOMER_URL = `${JWT_URL}/customer`;
 

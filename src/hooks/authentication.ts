@@ -11,7 +11,7 @@ import { toast } from "../util/toast";
 export const useLogin = () => {
   const { LOGIN } = useContext(LanguageContext);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(() => isLoggedIn());
+  const [isLoggedIn, setIsLoggedIn] = useState(() => isUserLoggedIn());
 
   const login = useCallback(
     (email: string, pw: string) =>
