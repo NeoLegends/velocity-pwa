@@ -29,7 +29,8 @@ export const JWT_LOGIN_REFRESH = `${JWT_AUTH_URL}/refresh`;
 export const JWT_LOGOUT_URL = `${JWT_AUTH_URL}/logout`;
 
 export const JWT_TRANSACTIONS_URL = `${JWT_URL}/transactions`;
-export const JWT_ALL_STATIONS_URL = `${JWT_V2_URL}/stations`;
+export const JWT_V2_ALL_STATIONS_URL = `${JWT_V2_URL}/stations`;
+export const JWT_ALL_STATIONS_URL = `${JWT_URL}/stations`;
 export const JWT_CURRENT_BOOKING_URL = `${JWT_URL}/booking`;
 export const JWT_CUSTOMER_URL = `${JWT_URL}/customer`;
 
@@ -48,16 +49,18 @@ export const JWT_SUPPORT_URL = `${JWT_URL}/support`;
 // For better minification
 const encode = encodeURIComponent;
 
+export const singleStationUrlV2 = (statId: number) =>
+  `${JWT_V2_ALL_STATIONS_URL}/${encode(String(statId))}`;
 export const singleStationUrl = (statId: number) =>
   `${JWT_ALL_STATIONS_URL}/${encode(String(statId))}`;
 export const feedbackUrl = (type: SupportType) =>
   `${JWT_SUPPORT_URL}/${encode(type)}`;
 export const rentBikeUrl = (statId: number) =>
-  `${singleStationUrl(statId)}/rent`;
+  `${singleStationUrlV2(statId)}/rent`;
 export const reserveBikeUrl = (statId: number) =>
   `${singleStationUrl(statId)}/book`;
 export const slotInfoUrl = (statId: number) =>
-  `${singleStationUrl(statId)}/slots/full`;
+  `${singleStationUrlV2(statId)}/slots/full`;
 export const tariffsUrl = (lang: LanguageIdentifier) =>
   `${APP_URL}/tariffs?lang=${encode(lang)}`;
 export const transactionsUrl = (page: number) =>
