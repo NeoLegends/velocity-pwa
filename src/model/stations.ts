@@ -60,7 +60,7 @@ export const getCurrentBooking = async (): Promise<Booking | null> => {
 export const getSingleStation = (
   stationId: number,
 ): Promise<StationWithAddress | null> =>
-  fetch404ToNull(singleStationUrlUnauthed(stationId));
+  fetch404ToNull(singleStationUrlUnauthed(stationId), undefined, 5, false);
 
 /**
  * Gets detailed information about a single station as as the logged-in user.
@@ -78,7 +78,7 @@ export const getSingleStationAsUser = (
  * @param stationId the ID of the station to get the slot info for.
  */
 export const getSlotInfo = (stationId: number): Promise<Slots | null> =>
-  fetch404ToNull(slotInfoUrlUnauthed(stationId));
+  fetch404ToNull(slotInfoUrlUnauthed(stationId), undefined, 5, false);
 
 /**
  * Gets slot info for the station with the given ID as the logged-in user.
